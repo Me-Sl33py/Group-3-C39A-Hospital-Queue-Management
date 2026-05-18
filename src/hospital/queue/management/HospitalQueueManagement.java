@@ -4,6 +4,9 @@
  */
 package hospital.queue.management;
 
+import database.Db;
+import database.MySqlConnection;
+
 /**
  *
  * @author User
@@ -15,6 +18,8 @@ public class HospitalQueueManagement {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Db database = new MySqlConnection();
+        database.openConnection();
     }
     
 }
