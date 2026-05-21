@@ -29,6 +29,7 @@ public class UserLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton3 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -45,7 +46,6 @@ public class UserLogin extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
 
         jButton3.setBackground(new java.awt.Color(0, 0, 0));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -55,112 +55,154 @@ public class UserLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximizedBounds(new java.awt.Rectangle(0, 0, 0, 0));
-        getContentPane().setLayout(null);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/it-consulting-doctors.png"))); // NOI18N
         jLabel8.setText("jLabel8");
-        getContentPane().add(jLabel8);
-        jLabel8.setBounds(470, 130, 350, 370);
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, 350, 350));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Welcome Back !");
-        jPanel2.add(jLabel1);
-        jLabel1.setBounds(148, 6, 150, 36);
 
         jLabel2.setText("Please enter Login details belows");
-        jPanel2.add(jLabel2);
-        jLabel2.setBounds(127, 46, 176, 16);
 
         jButton2.setBackground(new java.awt.Color(0, 0, 0));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Forgot Password?");
         jButton2.addActionListener(this::jButton2ActionPerformed);
-        jPanel2.add(jButton2);
-        jButton2.setBounds(240, 240, 187, 41);
 
         jButton4.setBackground(new java.awt.Color(0, 0, 0));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Login");
         jButton4.addActionListener(this::jButton4ActionPerformed);
-        jPanel2.add(jButton4);
-        jButton4.setBounds(30, 240, 187, 41);
 
         jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jRadioButton1.setText("Remember me");
         jRadioButton1.addActionListener(this::jRadioButton1ActionPerformed);
-        jPanel2.add(jRadioButton1);
-        jRadioButton1.setBounds(80, 200, 130, 25);
 
         jLabel3.setFont(new java.awt.Font("Bookman Old Style", 0, 12)); // NOI18N
         jLabel3.setText("Don't have an Account?");
-        jPanel2.add(jLabel3);
-        jLabel3.setBounds(90, 290, 150, 16);
 
         jToggleButton1.setForeground(new java.awt.Color(51, 51, 255));
         jToggleButton1.setText("Sign Up");
         jToggleButton1.setBorder(null);
         jToggleButton1.addActionListener(this::jToggleButton1ActionPerformed);
-        jPanel2.add(jToggleButton1);
-        jToggleButton1.setBounds(230, 290, 60, 16);
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.addActionListener(this::jTextField1ActionPerformed);
-        jPanel2.add(jTextField1);
-        jTextField1.setBounds(102, 80, 94, 26);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("ID");
-        jPanel2.add(jLabel4);
-        jLabel4.setBounds(82, 83, 14, 20);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("OR");
-        jPanel2.add(jLabel5);
-        jLabel5.setBounds(214, 83, 96, 20);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Phone Number");
-        jPanel2.add(jLabel6);
-        jLabel6.setBounds(82, 121, 110, 20);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Password");
-        jPanel2.add(jLabel7);
-        jLabel7.setBounds(82, 159, 80, 20);
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField2.addActionListener(this::jTextField2ActionPerformed);
-        jPanel2.add(jTextField2);
-        jTextField2.setBounds(196, 156, 186, 26);
 
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField3.addActionListener(this::jTextField3ActionPerformed);
-        jPanel2.add(jTextField3);
-        jTextField3.setBounds(196, 118, 186, 26);
 
-        getContentPane().add(jPanel2);
-        jPanel2.setBounds(10, 130, 460, 370);
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 820, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(148, 148, 148)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jLabel4)
+                        .addGap(6, 6, 6)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jToggleButton1)))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel6))
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel7))
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jRadioButton1)
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleButton1)))
         );
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 820, 620);
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 460, 370));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
