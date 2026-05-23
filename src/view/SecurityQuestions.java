@@ -160,7 +160,7 @@ public class SecurityQuestions extends javax.swing.JFrame {
         jPanel9.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel15.setText("Your Favourite food ? ");
+        jLabel15.setText("Your Favourite Place to visit ? ");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel16.setText("Answer : ");
