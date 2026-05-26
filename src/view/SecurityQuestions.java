@@ -4,6 +4,8 @@
  */
 package view;
 
+import controller.SecurityQuestionsController;
+
 /**
  *
  * @author User
@@ -11,12 +13,22 @@ package view;
 public class SecurityQuestions extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SecurityQuestions.class.getName());
+    private int userId; // The userId this question set is linked to
 
     /**
      * Creates new form SecurityQuestions
      */
     public SecurityQuestions() {
         initComponents();
+    }
+
+    /**
+     * Overloaded constructor that links this screen to a specific user
+     */
+    public SecurityQuestions(int userId) {
+        this.userId = userId;
+        initComponents();
+        new SecurityQuestionsController(this, userId); // wire up controller
     }
 
     /**
@@ -492,4 +504,34 @@ public class SecurityQuestions extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     // End of variables declaration//GEN-END:variables
+
+    // ==================== Getter Methods (for Controller) ====================
+    public javax.swing.JTextField getQ1AnswerField() {
+        return Q1Answer;
+    }
+
+    public javax.swing.JTextField getQ2AnswerField() {
+        return Q2Answer;
+    }
+
+    public javax.swing.JTextField getQ3AnswerField() {
+        return Q3Answer;
+    }
+
+    public javax.swing.JTextField getQ4AnswerField() {
+        return Q4Answer;
+    }
+
+    public javax.swing.JTextField getQ5AnswerField() {
+        return Q5Answer; // note that in this view it's named Q5Answer
+    }
+
+    public javax.swing.JButton getSaveAnswersButton() {
+        return SaveAnswers; // Save Answers
+    }
+
+    public javax.swing.JButton getCancelAnswersButton() {
+        return CancelAnswers;
+    }
 }
+

@@ -37,17 +37,37 @@ public class MySqlConnection implements Db {
 
     @Override
     public void closeConnection(Connection conn) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // Close the database connection safely
+        try {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+                System.out.println("Connection Closed");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     @Override
     public ResultSet runQuery(Connection conn, String Query) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // Execute a SELECT query and return the ResultSet
+        try {
+            return conn.createStatement().executeQuery(Query);
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
     @Override
     public int executeUpdate(Connection conn, String Query) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // Execute INSERT, UPDATE, or DELETE query and return affected rows
+        try {
+            return conn.createStatement().executeUpdate(Query);
+        } catch (Exception e) {
+            System.out.println(e);
+            return 0;
+        }
     }
     
 }
