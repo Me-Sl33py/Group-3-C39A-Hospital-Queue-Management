@@ -4,6 +4,8 @@
  */
 package view;
 
+import controller.SignUpController;
+
 /**
  *
  * @author User
@@ -17,6 +19,8 @@ public class SignUp extends javax.swing.JFrame {
      */
     public SignUp() {
         initComponents();
+        addPlaceholders();          // add placeholder text to all fields
+        new SignUpController(this); // wire up controller
     }
 
     /**
@@ -282,6 +286,91 @@ public class SignUp extends javax.swing.JFrame {
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
+
+    // ==================== Placeholder Methods ====================
+
+    // Sets up placeholder text for all text fields
+    private void addPlaceholders() {
+        addPlaceholder(jTextField1, "Enter full name");
+        addPlaceholder(jTextField6, "YYYY-MM-DD");
+        addPlaceholder(jTextField3, "Enter phone number");
+        addPlaceholder(jTextField5, "Enter location");
+        addPlaceholder(jTextField9, "Create password");
+        addPlaceholder(jTextField8, "Confirm password");
+    }
+
+    // Helper: adds grey placeholder text that clears on focus
+    private void addPlaceholder(javax.swing.JTextField field, String placeholder) {
+        field.setText(placeholder);
+        field.setForeground(java.awt.Color.GRAY);
+
+        field.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                // When user clicks on field, clear placeholder
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                // When user clicks away, restore placeholder if empty
+                if (field.getText().isEmpty()) {
+                    field.setText(placeholder);
+                    field.setForeground(java.awt.Color.GRAY);
+                }
+            }
+        });
+    }
+
+    // ==================== Getter Methods (for Controller) ====================
+
+    // Expose Full Name text field
+    public javax.swing.JTextField getFullNameField() {
+        return jTextField1;
+    }
+
+    // Expose Date of Birth text field
+    public javax.swing.JTextField getDobField() {
+        return jTextField6;
+    }
+
+    // Expose Phone Number text field
+    public javax.swing.JTextField getPhoneField() {
+        return jTextField3;
+    }
+
+    // Expose Location text field
+    public javax.swing.JTextField getLocationField() {
+        return jTextField5;
+    }
+
+    // Expose Create Password text field
+    public javax.swing.JTextField getPasswordField() {
+        return jTextField9;
+    }
+
+    // Expose Confirm Password text field
+    public javax.swing.JTextField getConfirmPasswordField() {
+        return jTextField8;
+    }
+
+    // Expose Sign Up button
+    public javax.swing.JButton getSignUpButton() {
+        return jButton4;
+    }
+
+    // Expose Back button
+    public javax.swing.JButton getBackButton() {
+        return jButton2;
+    }
+
+    // Expose "Already have account? Sign Up" link button
+    public javax.swing.JButton getLoginLinkButton() {
+        return jButton3;
+    }
 
     /**
      * @param args the command line arguments

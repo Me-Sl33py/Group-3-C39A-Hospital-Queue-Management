@@ -4,6 +4,8 @@
  */
 package view;
 
+import controller.UserLoginController;
+
 /**
  *
  * @author User
@@ -11,12 +13,16 @@ package view;
 public class UserLogin extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UserLogin.class.getName());
+    private UserLoginController controller;
 
     /**
      * Creates new form UserLogi
      */
     public UserLogin() {
         initComponents();
+        addPlaceholders();           // add placeholder text to all fields
+        loadRememberedCredentials(); // load saved credentials if any
+        controller = new UserLoginController(this); // wire up controller
     }
 
     /**
@@ -115,7 +121,7 @@ public class UserLogin extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(102, 102, 255));
-        jButton1.setText("Sign Up");
+        jButton1.setText("Login");
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
         jButton1.setFocusPainted(false);
@@ -217,15 +223,19 @@ public class UserLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        if (controller != null) {
+            controller.handleForgotPassword();
+        }
+    }//GEN-END:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        if (controller != null) {
+            controller.handleLogin();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -241,8 +251,10 @@ public class UserLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        if (controller != null) {
+            controller.handleSignUp();
+        }
+    }//GEN-END:event_jButton1ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
@@ -251,6 +263,103 @@ public class UserLogin extends javax.swing.JFrame {
     private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1FocusGained
+
+    // ==================== Placeholder Methods ====================
+
+    // Sets up placeholder text for all text fields
+    private void addPlaceholders() {
+        addPlaceholder(jTextField1, "Enter your ID");
+        addPlaceholder(jTextField2, "Enter password");
+        addPlaceholder(jTextField3, "Enter phone number");
+    }
+
+    // Helper: adds grey placeholder text that clears on focus
+    private void addPlaceholder(javax.swing.JTextField field, String placeholder) {
+        field.setText(placeholder);
+        field.setForeground(java.awt.Color.GRAY);
+
+        field.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                // When user clicks on field, clear placeholder
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                // When user clicks away, restore placeholder if empty
+                if (field.getText().isEmpty()) {
+                    field.setText(placeholder);
+                    field.setForeground(java.awt.Color.GRAY);
+                }
+            }
+        });
+    }
+
+    // ==================== Remember Me Methods ====================
+
+    // Load saved credentials from file (if Remember Me was checked)
+    private void loadRememberedCredentials() {
+        java.io.File file = new java.io.File("remember_me.dat");
+        if (file.exists()) {
+            try (java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.FileReader(file))) {
+                String savedId = reader.readLine();
+                String savedPassword = reader.readLine();
+                if (savedId != null && !savedId.isEmpty()) {
+                    jTextField1.setText(savedId);
+                    jTextField1.setForeground(java.awt.Color.BLACK);
+                }
+                if (savedPassword != null && !savedPassword.isEmpty()) {
+                    jTextField2.setText(savedPassword);
+                    jTextField2.setForeground(java.awt.Color.BLACK);
+                }
+                jCheckBox1.setSelected(true);
+            } catch (Exception e) {
+                System.out.println("Error loading credentials: " + e);
+            }
+        }
+    }
+
+    // ==================== Getter Methods (for Controller) ====================
+
+    // Expose ID text field
+    public javax.swing.JTextField getIdField() {
+        return jTextField1;
+    }
+
+    // Expose Password text field
+    public javax.swing.JTextField getPasswordField() {
+        return jTextField2;
+    }
+
+    // Expose Phone Number text field
+    public javax.swing.JTextField getPhoneField() {
+        return jTextField3;
+    }
+
+    // Expose Login button
+    public javax.swing.JButton getLoginButton() {
+        return jButton4;
+    }
+
+    // Expose Forgot Password button
+    public javax.swing.JButton getForgotPasswordButton() {
+        return jButton2;
+    }
+
+    // Expose Sign Up button (link)
+    public javax.swing.JButton getSignUpButton() {
+        return jButton1;
+    }
+
+    // Expose Remember Me checkbox
+    public javax.swing.JCheckBox getRememberMeCheckBox() {
+        return jCheckBox1;
+    }
 
     /**
      * @param args the command line arguments

@@ -4,6 +4,8 @@
  */
 package view;
 
+import controller.ForgotPasswordController;
+
 /**
  *
  * @author User
@@ -17,6 +19,7 @@ public class ForgotPassword extends javax.swing.JFrame {
      */
     public ForgotPassword() {
         initComponents();
+        new ForgotPasswordController(this); // wire up controller
     }
 
     /**
@@ -662,4 +665,54 @@ public class ForgotPassword extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     // End of variables declaration//GEN-END:variables
+
+    // ==================== Getter Methods (for Controller) ====================
+    public javax.swing.JTextField getFullNameField() {
+        return FullNameBox;
+    }
+
+    public javax.swing.JTextField getPhoneField() {
+        return PhoneNumberBox;
+    }
+
+    public javax.swing.JTextField getDobField() {
+        return DOBbox;
+    }
+
+    public javax.swing.JTextField getLocationField() {
+        return LocationBox;
+    }
+
+    public javax.swing.JButton getSearchUserButton() {
+        return SearchUser;
+    }
+
+    public javax.swing.JTextField getQ1AnswerField() {
+        return Q1Answer;
+    }
+
+    public javax.swing.JTextField getQ2AnswerField() {
+        return Q2Answer;
+    }
+
+    public javax.swing.JTextField getQ3AnswerField() {
+        return Q3Answer;
+    }
+
+    public javax.swing.JTextField getQ4AnswerField() {
+        return Q4Answer;
+    }
+
+    public javax.swing.JTextField getQ5AnswerField() {
+        return Q5Answer10; // note that in GUI it's named Q5Answer10
+    }
+
+    public javax.swing.JButton getSaveAnswersButton() {
+        return SaveAnswers; // Verify and Reset
+    }
+
+    public javax.swing.JButton getCancelAnswersButton() {
+        return CancelAnswers;
+    }
 }
+
