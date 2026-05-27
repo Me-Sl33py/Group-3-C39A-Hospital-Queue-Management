@@ -115,7 +115,8 @@ public class SignUp extends javax.swing.JFrame {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show password.png"))); // NOI18N
         jLabel5.setText("jLabel5");
 
-        jButton3.setText("Sign Up");
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton3.setText("Login");
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
         jTextField8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
