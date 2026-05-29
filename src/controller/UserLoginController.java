@@ -38,6 +38,74 @@ public class UserLoginController {
     }
 
     /**
+     * Called directly from UserLogin.jButton4ActionPerformed (Login button).
+     * Delegates to the same logic as LoginButtonListener.
+     */
+    public void handleLogin() {
+        // Retrieve values from the view, clean up any placeholder text
+        String id       = getCleanInput(view.getIdField(),       "Enter your ID");
+        String phone    = getCleanInput(view.getPhoneField(),    "Enter phone number");
+        String password = getCleanInput(view.getPasswordField(), "Enter password");
+
+        // Validate: at least one identifier must be provided
+        if (id.isEmpty() && phone.isEmpty()) {
+            JOptionPane.showMessageDialog(view,
+                    "Please enter either your ID (Username) or Phone Number.",
+                    "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(view,
+                    "Please enter your password.",
+                    "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        User loggedInUser = null;
+
+        // Try login by ID first, then by phone number
+        if (!id.isEmpty()) {
+            loggedInUser = userDAO.loginById(id, password);
+        }
+        if (loggedInUser == null && !phone.isEmpty()) {
+            loggedInUser = userDAO.loginByPhone(phone, password);
+        }
+
+        if (loggedInUser != null) {
+            handleRememberMe(id, phone, password);
+            JOptionPane.showMessageDialog(view,
+                    "Login successful!\nWelcome back, " + loggedInUser.getUsername() +
+                    " (" + loggedInUser.getRole().toUpperCase() + ")",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            openDashboard(loggedInUser);
+        } else {
+            JOptionPane.showMessageDialog(view,
+                    "Invalid Username/Phone or Password. Please try again.",
+                    "Login Failed", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Called directly from UserLogin.jButton2ActionPerformed (Forgot Password button).
+     * Opens the ForgotPassword screen.
+     */
+    public void handleForgotPassword() {
+        view.dispose();
+        ForgotPassword forgotPassFrame = new ForgotPassword();
+        forgotPassFrame.setVisible(true);
+    }
+
+    /**
+     * Called directly from UserLogin.jButton1ActionPerformed (Sign Up link button).
+     * Opens the SignUp screen.
+     */
+    public void handleSignUp() {
+        view.dispose();
+        SignUp signUpFrame = new SignUp();
+        signUpFrame.setVisible(true);
+    }
+
+    /**
      * Helper method to get the value of a text field, filtering out the placeholder text
      * @param field the text field to read
      * @param placeholder the placeholder string to ignore

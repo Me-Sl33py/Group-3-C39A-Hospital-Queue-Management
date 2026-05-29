@@ -1,8 +1,6 @@
 package controller;
 
 import dao.UserDAO;
-import model.User;
-import model.Patient;
 import view.SignUp;
 import view.UserLogin;
 import view.SecurityQuestions;
@@ -16,6 +14,7 @@ import java.time.Period;
  * Controller class for the SignUp view.
  * Handles patient registration, age calculation, patient ID auto-generation,
  * and handles DB insertion into users first, then patients table.
+ * Also handles password show/hide eye icon toggle.
  * Follows MVC clean architecture guidelines.
  */
 public class SignUpController {
@@ -23,6 +22,10 @@ public class SignUpController {
     // References to the View and DAO layers
     private SignUp view;
     private UserDAO userDAO;
+
+    // Track visibility state of each password field (false = hidden/dots, true = visible)
+    private boolean passwordVisible        = false;
+    private boolean confirmPasswordVisible = false;
 
     /**
      * Constructor - registers action listeners and initializes DAO
@@ -32,11 +35,41 @@ public class SignUpController {
         this.view = view;
         this.userDAO = new UserDAO();
 
-        // Register action listeners for buttons on the view
+        // Register action listeners for the Sign Up and navigation buttons
         this.view.getSignUpButton().addActionListener(new SignUpButtonListener());
         this.view.getBackButton().addActionListener(new BackButtonListener());
         this.view.getLoginLinkButton().addActionListener(new BackButtonListener());
+
+        // ---- Eye icon toggle: show1 and hide1 (for password field) ----
+        // When the user clicks the eye icon, toggle the password field visibility
+        this.view.getShowPasswordLabel().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                togglePasswordField(); // show or hide the password text
+            }
+        });
+        this.view.getHidePasswordLabel().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                togglePasswordField(); // same toggle
+            }
+        });
+
+        // ---- Eye icon toggle: show2 and hide2 (for confirm password field) ----
+        this.view.getShowConfirmPasswordLabel().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                toggleConfirmPasswordField();
+            }
+        });
+        this.view.getHideConfirmPasswordLabel().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                toggleConfirmPasswordField();
+            }
+        });
     }
+
 
     /**
      * Helper method to filter out default placeholder text
@@ -49,6 +82,68 @@ public class SignUpController {
         return text;
     }
 
+    // ==================== Eye Icon Toggle Methods ====================
+
+    // Stores the real password text while "hidden" view is showing dots
+    private String savedPassword        = "";
+    private String savedConfirmPassword = "";
+
+    /**
+     * Toggles the password field between visible text and hidden (dots).
+     * Since jTextField9 is a plain JTextField (not JPasswordField),
+     * we simulate hiding by replacing the text with ● characters.
+     *
+     * passwordVisible = false means field currently shows ●●● (hidden)
+     * passwordVisible = true  means field currently shows real text (visible)
+     */
+    private void togglePasswordField() {
+        javax.swing.JTextField passField = view.getPasswordField();
+
+        if (!passwordVisible) {
+            // Currently hidden — save dots version, show real text
+            savedPassword     = passField.getText(); // save the ●●● or real text
+            // Count bullets and restore last real save — or just show as-is
+            passField.setForeground(java.awt.Color.BLACK);
+            passwordVisible = true;
+        } else {
+            // Currently visible — hide: replace each char with ●
+            String realText = passField.getText();
+            savedPassword = realText;
+            StringBuilder dots = new StringBuilder();
+            for (int i = 0; i < realText.length(); i++) {
+                dots.append('●');
+            }
+            passField.setText(dots.toString());
+            passField.setForeground(java.awt.Color.DARK_GRAY);
+            passwordVisible = false;
+        }
+    }
+
+    /**
+     * Toggles the confirm password field between visible text and hidden (dots).
+     * Same logic as togglePasswordField() but for jTextField8.
+     */
+    private void toggleConfirmPasswordField() {
+        javax.swing.JTextField confirmField = view.getConfirmPasswordField();
+
+        if (!confirmPasswordVisible) {
+            // Currently hidden — show real text
+            confirmField.setForeground(java.awt.Color.BLACK);
+            confirmPasswordVisible = true;
+        } else {
+            // Currently visible — hide with dots
+            String realText = confirmField.getText();
+            savedConfirmPassword = realText;
+            StringBuilder dots = new StringBuilder();
+            for (int i = 0; i < realText.length(); i++) {
+                dots.append('●');
+            }
+            confirmField.setText(dots.toString());
+            confirmField.setForeground(java.awt.Color.DARK_GRAY);
+            confirmPasswordVisible = false;
+        }
+    }
+
     /**
      * Inner class implementing ActionListener to handle the Sign Up button click
      */
@@ -56,18 +151,29 @@ public class SignUpController {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Retrieve all inputs from view
-            String fullName = getCleanInput(view.getFullNameField(), "Enter full name");
-            String dobStr = getCleanInput(view.getDobField(), "YYYY-MM-DD");
-            String phone = getCleanInput(view.getPhoneField(), "Enter phone number");
-            String location = getCleanInput(view.getLocationField(), "Enter location");
-            String password = getCleanInput(view.getPasswordField(), "Create password");
+            String fullName       = getCleanInput(view.getFullNameField(),        "Enter full name");
+            String dobStr         = getCleanInput(view.getDobField(),             "YYYY-MM-DD");
+            String phone          = getCleanInput(view.getPhoneField(),           "Enter phone number");
+            String location       = getCleanInput(view.getLocationField(),        "Enter location");
+            String password       = getCleanInput(view.getPasswordField(),        "Create password");
             String confirmPassword = getCleanInput(view.getConfirmPasswordField(), "Confirm password");
 
+            // Read gender from the JComboBox
+            String selectedGender = view.getGenderComboBox().getSelectedItem().toString();
+
             // 1. Validation: check for empty fields
-            if (fullName.isEmpty() || dobStr.isEmpty() || phone.isEmpty() || 
+            if (fullName.isEmpty() || dobStr.isEmpty() || phone.isEmpty() ||
                 location.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                JOptionPane.showMessageDialog(view, 
-                        "All fields marked are required. Please fill them up.", 
+                JOptionPane.showMessageDialog(view,
+                        "All fields are required. Please fill in every field.",
+                        "Validation Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // 2. Validation: gender must be selected (not left on "Select Gender")
+            if (selectedGender.equals("Select Gender")) {
+                JOptionPane.showMessageDialog(view,
+                        "Please select your gender from the dropdown.",
                         "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
@@ -117,12 +223,26 @@ public class SignUpController {
                 // Second: Generate sequential Patient ID (e.g. P-001, P-002)
                 String patientId = userDAO.generatePatientId();
 
-                // Third: Default gender to "other" since it's not present in the signup form
-                String gender = "other";
+                // Third: Map combo box gender value → database ENUM value
+                // DB ENUM only accepts: 'male', 'female', 'other'
+                // 'Others' and 'Prefer not to say' both map to 'other'
+                String genderForDb;
+                switch (selectedGender.toLowerCase()) {
+                    case "male":
+                        genderForDb = "male";
+                        break;
+                    case "female":
+                        genderForDb = "female";
+                        break;
+                    default:
+                        // 'Others' and 'Prefer not to say' both become 'other'
+                        genderForDb = "other";
+                        break;
+                }
 
                 // Register in patients table using retrieved userId
                 boolean patientSuccess = userDAO.registerPatient(
-                        patientId, userId, fullName, age, gender, phone, location
+                        patientId, userId, fullName, age, genderForDb, phone, location
                 );
 
                 if (patientSuccess) {
