@@ -4,6 +4,18 @@ import dao.PatientDao;
 import view.SignUp;
 import view.UserLogin;
 import javax.swing.JOptionPane;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FlowLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -300,12 +312,8 @@ public class RegistrationController {
         );
 
         if (patientSaved) {
-            // ---- Step 10: Navigate to SecurityQuestions ----
-            view.dispose();
-            view.SecurityQuestions sqFrame = new view.SecurityQuestions(userId);
-            sqFrame.setUsername(username);
-            sqFrame.setVisible(true);
-
+            // ---- Step 10: Show custom success popup and navigate ----
+            showRegistrationSuccessPopup(fullName, username, userId);
         } else {
             // Patient insert failed — user was already inserted in users table
             JOptionPane.showMessageDialog(view,
@@ -316,6 +324,90 @@ public class RegistrationController {
     }
 
     // ==================== Helper Method ====================
+
+    private void showRegistrationSuccessPopup(String fullName, String username, int userId) {
+        JDialog dialog = new JDialog();
+        dialog.setTitle("Registration Successful");
+        dialog.setPreferredSize(new Dimension(420, 320));
+        dialog.setModal(true);
+        dialog.setLayout(new BorderLayout());
+        dialog.setResizable(false);
+        dialog.getContentPane().setBackground(Color.WHITE);
+
+        // top panel with green checkmark
+        JPanel topPanel = new JPanel();
+        topPanel.setBackground(Color.WHITE);
+        topPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 5, 0));
+        JLabel iconLabel = new JLabel("✓");
+        iconLabel.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        iconLabel.setForeground(new Color(40, 167, 69)); // green circle/checkmark color
+        topPanel.add(iconLabel);
+
+        // center panel with message
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(Color.WHITE);
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+
+        JLabel titleLabel = new JLabel("Registration Successful");
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel welcomeLabel = new JLabel("Welcome " + fullName + "! Your account has been created.");
+        welcomeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // username in highlighted box
+        JPanel userBox = new JPanel();
+        userBox.setBackground(new Color(230, 242, 255)); // light blue background
+        userBox.setBorder(BorderFactory.createLineBorder(new Color(180, 215, 255), 1));
+        userBox.setMaximumSize(new Dimension(320, 40));
+        JLabel userLabel = new JLabel("Your Username: " + username);
+        userLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        userLabel.setForeground(new Color(33, 97, 172));
+        userBox.add(javax.swing.Box.createVerticalStrut(5)); // small internal padding
+        userBox.add(userLabel);
+        userBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel noteLabel = new JLabel("Please save your username. You will need it to login.");
+        noteLabel.setFont(new Font("Segoe UI", Font.ITALIC, 11));
+        noteLabel.setForeground(Color.GRAY);
+        noteLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        centerPanel.add(titleLabel);
+        centerPanel.add(javax.swing.Box.createVerticalStrut(15));
+        centerPanel.add(welcomeLabel);
+        centerPanel.add(javax.swing.Box.createVerticalStrut(15));
+        centerPanel.add(userBox);
+        centerPanel.add(javax.swing.Box.createVerticalStrut(15));
+        centerPanel.add(noteLabel);
+
+        // bottom panel with ok button
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setBackground(Color.WHITE);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
+        JButton okButton = new JButton("OK");
+        okButton.setBackground(new Color(33, 97, 172));
+        okButton.setForeground(Color.WHITE);
+        okButton.setFocusPainted(false);
+        okButton.setPreferredSize(new Dimension(120, 35));
+        okButton.addActionListener(e -> {
+            dialog.dispose();
+            view.dispose();
+            view.SecurityQuestions sqFrame = new view.SecurityQuestions(userId);
+            sqFrame.setUsername(username);
+            sqFrame.setVisible(true);
+        });
+        bottomPanel.add(okButton);
+
+        dialog.add(topPanel, BorderLayout.NORTH);
+        dialog.add(centerPanel, BorderLayout.CENTER);
+        dialog.add(bottomPanel, BorderLayout.SOUTH);
+
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
 
     private String capitalizeWords(String text) {
         if (text == null || text.trim().isEmpty()) {
