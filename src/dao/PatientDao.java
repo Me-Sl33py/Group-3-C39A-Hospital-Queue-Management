@@ -197,7 +197,39 @@ public class PatientDao {
         return false; // Default: assume not exists if there was an error
     }
 
-    // ==================== METHOD 4: generatePatientId ====================
+    // ==================== METHOD 4: generateUsername ====================
+
+    public String generateUsername(String fullName) {
+        // get first word and make lowercase
+        String firstWord = fullName.trim().split("\\s+")[0].toLowerCase();
+        int count = 0;
+
+        Connection conn = null;
+        try {
+            conn = db.openConnection();
+            if (conn != null) {
+                // count how many usernames start with firstword
+                String countQuery = "SELECT count(*) FROM users WHERE username LIKE ?";
+                PreparedStatement ps = conn.prepareStatement(countQuery);
+                // pass firstWord + "%" as parameter
+                ps.setString(1, firstWord + "%");
+                
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    // count = result of query
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("[PatientDao] generateUsername error: " + e.getMessage());
+        } finally {
+            db.closeConnection(conn);
+        }
+
+        return firstWord + (count + 1);
+    }
+
+    // ==================== METHOD 5: generatePatientId ====================
 
     /**
      * Auto-generates the next patient ID by looking at the last ID in the table.

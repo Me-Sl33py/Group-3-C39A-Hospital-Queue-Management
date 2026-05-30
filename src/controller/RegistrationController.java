@@ -154,74 +154,123 @@ public class RegistrationController {
 
         // ---- Step 1: Get all values from the view ----
         // getCleanInput() removes placeholder text and trims whitespace
-        String fullName       = getCleanInput(view.getFullNameField(),        "Enter full name");
-        String username       = getCleanInput(view.getUsernameField(),        "Enter username");
-        String password       = getCleanInput(view.getPasswordField(),        "Create password");
+        String fullName       = capitalizeWords(getCleanInput(view.getFullNameField(), "Enter full name"));
+        String password       = getCleanInput(view.getPasswordField(), "Create password");
         String confirmPwd     = getCleanInput(view.getConfirmPasswordField(), "Confirm password");
-        String ageStr         = getCleanInput(view.getAgeField(),             "Enter age");
+        String dobStr         = getCleanInput(view.getDobField(), "YYYY-MM-DD");
         String gender         = view.getGenderComboBox().getSelectedItem().toString(); // from JComboBox
-        String contactNumber  = getCleanInput(view.getPhoneField(),           "Enter phone number");
-        String address        = getCleanInput(view.getLocationField(),        "Enter location");
+        String contactNumber  = getCleanInput(view.getPhoneField(), "Enter phone number");
+        String address        = capitalizeWords(getCleanInput(view.getLocationField(), "Enter location / address"));
 
-        // ---- Step 2: Validate — no empty fields ----
-        if (fullName.isEmpty() || username.isEmpty() || password.isEmpty() ||
-            confirmPwd.isEmpty() || ageStr.isEmpty() || contactNumber.isEmpty() ||
-            address.isEmpty()) {
-
+        // ---- Validations ----
+        // full name check
+        if (fullName.isEmpty()) {
             JOptionPane.showMessageDialog(view,
-                "All fields are required. Please fill in every field before submitting.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE);
-            return; // stop — don't proceed
+                "please enter your full name",
+                "missing field", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-        // ---- Step 3: Validate — password matches confirm password ----
+        // date of birth check
+        if (dobStr.isEmpty()) {
+            JOptionPane.showMessageDialog(view,
+                "please enter your date of birth",
+                "missing field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // gender check
+        if (gender.equals("Select Gender")) {
+            JOptionPane.showMessageDialog(view,
+                "please select your gender",
+                "missing field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // phone number check
+        if (contactNumber.isEmpty()) {
+            JOptionPane.showMessageDialog(view,
+                "please enter your phone number",
+                "missing field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // phone number length check
+        if (contactNumber.length() != 10) {
+            JOptionPane.showMessageDialog(view,
+                "phone number must be exactly 10 digits",
+                "invalid input", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // phone number digits only check
+        if (!contactNumber.matches("\\d+")) {
+            JOptionPane.showMessageDialog(view,
+                "phone number must contain numbers only",
+                "invalid input", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // location check
+        if (address.isEmpty()) {
+            JOptionPane.showMessageDialog(view,
+                "please enter your location",
+                "missing field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // password check
+        if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(view,
+                "please create a password",
+                "missing field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // password length check
+        if (password.length() < 6) {
+            JOptionPane.showMessageDialog(view,
+                "password must be at least 6 characters",
+                "invalid input", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // confirm password check
+        if (confirmPwd.isEmpty()) {
+            JOptionPane.showMessageDialog(view,
+                "please confirm your password",
+                "missing field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // password match check
         if (!password.equals(confirmPwd)) {
             JOptionPane.showMessageDialog(view,
-                "Passwords do not match. Please re-enter your password.",
-                "Password Mismatch",
-                JOptionPane.WARNING_MESSAGE);
+                "passwords do not match please try again",
+                "invalid input", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // ---- Step 4: Validate — contact number is exactly 10 digits ----
-        // matches() with regex "\\d{10}" means: exactly 10 digit characters (0-9)
-        if (!contactNumber.matches("\\d{10}")) {
-            JOptionPane.showMessageDialog(view,
-                "Contact number must be exactly 10 digits. Letters and spaces are not allowed.",
-                "Invalid Contact Number",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // ---- Step 5: Validate — age is a valid number ----
-        int age;
+        // ---- Step 5: Validate — date of birth and calculate age ----
+        int age = 0;
         try {
-            age = Integer.parseInt(ageStr); // try converting the string to int
-            if (age < 0 || age > 120) {
-                JOptionPane.showMessageDialog(view,
-                    "Age must be a number between 0 and 120.",
-                    "Invalid Age",
-                    JOptionPane.WARNING_MESSAGE);
-                return;
+            String[] parts = dobStr.split("-");
+            if (parts.length == 3) {
+                int birthYear = Integer.parseInt(parts[0]);
+                age = java.time.Year.now().getValue() - birthYear;
+            } else {
+                throw new Exception("Invalid format");
             }
-        } catch (NumberFormatException e) {
-            // parseInt throws this if the string isn't a valid number
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(view,
-                "Age must be a valid number (e.g., 25). Letters are not allowed.",
-                "Invalid Age",
+                "Please enter a valid Date of Birth in YYYY-MM-DD format.",
+                "Invalid Date",
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // ---- Step 6: Check — username not already taken ----
-        if (patientDao.checkUsernameExists(username)) {
-            JOptionPane.showMessageDialog(view,
-                "The username '" + username + "' is already taken. Please choose a different username.",
-                "Username Taken",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+        // ---- Step 6: Generate Username from Full Name ----
+        String username = patientDao.generateUsername(fullName);
 
         // ---- Step 7: Insert into 'users' table ----
         // insertUser() returns the auto-generated user_id, or -1 if it failed
@@ -251,35 +300,38 @@ public class RegistrationController {
         );
 
         if (patientSaved) {
-            // ---- Step 10: Show success message and navigate ----
-            JOptionPane.showMessageDialog(view,
-                "Registration Successful!\n\n" +
-                "Welcome, " + fullName + "!\n" +
-                "Your Patient ID: " + patientId + "\n" +
-                "Your Username: " + username + "\n\n" +
-                "You can now log in with your username and password.",
-                "Registration Complete",
-                JOptionPane.INFORMATION_MESSAGE);
-
-            // Close the SignUp window
+            // ---- Step 10: Navigate to SecurityQuestions ----
             view.dispose();
-
-            // Open the UserLogin window
-            UserLogin loginFrame = new UserLogin();
-            loginFrame.setVisible(true);
+            view.SecurityQuestions sqFrame = new view.SecurityQuestions(userId);
+            sqFrame.setUsername(username);
+            sqFrame.setVisible(true);
 
         } else {
             // Patient insert failed — user was already inserted in users table
-            // In a real app, you'd rollback the user insert (use DB transactions)
             JOptionPane.showMessageDialog(view,
-                "Your account was created but patient details could not be saved.\n" +
-                "Please contact support.",
-                "Partial Error",
+                "Database error: patient details could not be saved.",
+                "Database Error",
                 JOptionPane.ERROR_MESSAGE);
         }
     }
 
     // ==================== Helper Method ====================
+
+    private String capitalizeWords(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            return text;
+        }
+        String[] words = text.trim().split("\\s+");
+        StringBuilder result = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                result.append(Character.toUpperCase(word.charAt(0)))
+                      .append(word.substring(1).toLowerCase())
+                      .append(" ");
+            }
+        }
+        return result.toString().trim();
+    }
 
     /**
      * Reads text from a JTextField and cleans it up.

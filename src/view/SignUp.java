@@ -1,6 +1,6 @@
 package view;
 
-import controller.SignUpController;
+import controller.RegistrationController;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.FocusAdapter;
@@ -49,7 +49,46 @@ public class SignUp extends javax.swing.JFrame {
         initComponents();       // ← NetBeans manages this (Design tab)
         applyStyles();          // ← Your custom styling (borders, images, icons)
         addPlaceholders();      // ← Grey hint text in input fields
-        new SignUpController(this); // ← Wires all button click logic
+        addAutoCapitalizeListeners(); // ← Capitalize first letters on focus lost
+        new RegistrationController(this); // ← Wires all button click logic
+    }
+
+    private void addAutoCapitalizeListeners() {
+        fullNameField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                String text = fullNameField.getText();
+                if (!text.isEmpty() && !text.equals("Enter full name")) {
+                    fullNameField.setText(capitalizeFirstLetterOfEachWord(text));
+                }
+            }
+        });
+
+        locationField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                String text = locationField.getText();
+                if (!text.isEmpty() && !text.equals("Enter location / address")) {
+                    locationField.setText(capitalizeFirstLetterOfEachWord(text));
+                }
+            }
+        });
+    }
+
+    private String capitalizeFirstLetterOfEachWord(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            return text;
+        }
+        String[] words = text.trim().split("\\s+");
+        StringBuilder result = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                result.append(Character.toUpperCase(word.charAt(0)))
+                      .append(word.substring(1).toLowerCase())
+                      .append(" ");
+            }
+        }
+        return result.toString().trim();
     }
 
     // ====================================================================
