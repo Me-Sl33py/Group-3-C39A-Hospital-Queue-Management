@@ -13,22 +13,26 @@ import controller.SecurityQuestionsController;
 public class SecurityQuestions extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SecurityQuestions.class.getName());
-    private int userId; // The userId this question set is linked to
+    private int userId;
 
-    /**
-     * Creates new form SecurityQuestions
-     */
     public SecurityQuestions() {
         initComponents();
     }
 
-    /**
-     * Overloaded constructor that links this screen to a specific user
-     */
     public SecurityQuestions(int userId) {
-        this.userId = userId;
         initComponents();
-        new SecurityQuestionsController(this, userId); // wire up controller
+        this.userId = userId;
+        SecurityQuestionsController controller =
+            new SecurityQuestionsController(this, userId);
+        this.controller = controller;
+    }
+
+    private SecurityQuestionsController controller;
+    
+    public void setUsername(String username) {
+        if (controller != null) {
+            controller.setUsername(username);
+        }
     }
 
     /**
