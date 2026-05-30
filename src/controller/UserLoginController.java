@@ -22,6 +22,9 @@ public class UserLoginController {
     // References to the View and DAO layers
     private UserLogin view;
     private UserDAO userDAO;
+    
+    // Track visibility state of password field (false = hidden/dots, true = visible)
+    private boolean passwordVisible = false;
 
     /**
      * Constructor - initializes view and DAO, and registers action listeners
@@ -35,6 +38,16 @@ public class UserLoginController {
         this.view.getLoginButton().addActionListener(new LoginButtonListener());
         this.view.getForgotPasswordButton().addActionListener(new ForgotPasswordLinkListener());
         this.view.getSignUpButton().addActionListener(new SignUpLinkListener());
+
+        // Setup eye icon toggle: Show_password
+        this.view.getShowPasswordLabel().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                togglePasswordField();
+            }
+        });
+        // Set the cursor to hand for the eye icon
+        this.view.getShowPasswordLabel().setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }
 
     /**
@@ -117,6 +130,38 @@ public class UserLoginController {
             return "";
         }
         return text;
+    }
+
+    /**
+     * Helper method for password fields
+     */
+    private String getCleanInput(javax.swing.JPasswordField field, String placeholder) {
+        String text = new String(field.getPassword()).trim();
+        if (text.equalsIgnoreCase(placeholder)) {
+            return "";
+        }
+        return text;
+    }
+
+    /**
+     * Toggles the password field between visible text and hidden (dots).
+     */
+    private void togglePasswordField() {
+        javax.swing.JPasswordField passField = view.getPasswordField();
+        String currentText = new String(passField.getPassword());
+        if (currentText.equals("Enter password")) return; // Don't toggle if placeholder
+
+        if (!passwordVisible) {
+            // Currently hidden — show real text
+            passField.setEchoChar((char) 0);
+            view.getShowPasswordLabel().setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hide password.png")));
+            passwordVisible = true;
+        } else {
+            // Currently visible — hide with dots
+            passField.setEchoChar('●');
+            view.getShowPasswordLabel().setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show password.png")));
+            passwordVisible = false;
+        }
     }
 
     /**
