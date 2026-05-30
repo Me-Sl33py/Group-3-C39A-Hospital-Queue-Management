@@ -76,16 +76,18 @@ public class SignUp extends javax.swing.JFrame {
         locationField = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
         passwordField = new javax.swing.JTextField();
-        show1 = new javax.swing.JLabel();
+        conform_hide_password = new javax.swing.JLabel();
         hide1 = new javax.swing.JLabel();
         confirmPasswordLabel = new javax.swing.JLabel();
         confirmPasswordField = new javax.swing.JTextField();
-        show2 = new javax.swing.JLabel();
+        conform_show_password = new javax.swing.JLabel();
         hide2 = new javax.swing.JLabel();
         signUpButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         alreadyAccountLabel = new javax.swing.JLabel();
         loginLinkButton = new javax.swing.JButton();
+        create_hide_password = new javax.swing.JLabel();
+        create_show_password = new javax.swing.JLabel();
         leftPanel = new javax.swing.JPanel();
         hospitalNameLabel = new javax.swing.JLabel();
         taglineLabel = new javax.swing.JLabel();
@@ -94,6 +96,7 @@ public class SignUp extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hospital Queue Management — Sign Up");
+        setPreferredSize(new java.awt.Dimension(900, 900));
         getContentPane().setLayout(null);
 
         rightPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -168,8 +171,10 @@ public class SignUp extends javax.swing.JFrame {
         passwordField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         rightPanel.add(passwordField);
         passwordField.setBounds(165, 307, 340, 28);
-        rightPanel.add(show1);
-        show1.setBounds(511, 309, 24, 24);
+
+        conform_hide_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hide password.png"))); // NOI18N
+        rightPanel.add(conform_hide_password);
+        conform_hide_password.setBounds(90, 410, 24, 24);
 
         hide1.setVisible(false);
         rightPanel.add(hide1);
@@ -181,10 +186,17 @@ public class SignUp extends javax.swing.JFrame {
         confirmPasswordLabel.setBounds(28, 357, 132, 18);
 
         confirmPasswordField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        confirmPasswordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmPasswordFieldActionPerformed(evt);
+            }
+        });
         rightPanel.add(confirmPasswordField);
         confirmPasswordField.setBounds(165, 351, 340, 28);
-        rightPanel.add(show2);
-        show2.setBounds(511, 353, 24, 24);
+
+        conform_show_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show password.png"))); // NOI18N
+        rightPanel.add(conform_show_password);
+        conform_show_password.setBounds(511, 353, 24, 24);
 
         hide2.setVisible(false);
         rightPanel.add(hide2);
@@ -235,8 +247,21 @@ public class SignUp extends javax.swing.JFrame {
         rightPanel.add(loginLinkButton);
         loginLinkButton.setBounds(290, 450, 70, 20);
 
+        create_hide_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hide password.png"))); // NOI18N
+        create_hide_password.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                create_hide_passwordMousePressed(evt);
+            }
+        });
+        rightPanel.add(create_hide_password);
+        create_hide_password.setBounds(50, 410, 24, 24);
+
+        create_show_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show password.png"))); // NOI18N
+        rightPanel.add(create_show_password);
+        create_show_password.setBounds(510, 310, 24, 24);
+
         getContentPane().add(rightPanel);
-        rightPanel.setBounds(0, 0, 550, 555);
+        rightPanel.setBounds(10, 0, 540, 555);
 
         leftPanel.setBackground(new java.awt.Color(255, 255, 255));
         leftPanel.setLayout(null);
@@ -251,7 +276,7 @@ public class SignUp extends javax.swing.JFrame {
         taglineLabel.setForeground(new java.awt.Color(187, 222, 251));
         taglineLabel.setText("<html>Smart Hospital Queue Management</html>");
         leftPanel.add(taglineLabel);
-        taglineLabel.setBounds(70, 80, 225, 45);
+        taglineLabel.setBounds(90, 80, 225, 45);
 
         imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/it-consulting-doctors.png"))); // NOI18N
@@ -283,6 +308,15 @@ public class SignUp extends javax.swing.JFrame {
     private void loginLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginLinkButtonActionPerformed
         // Handled by SignUpController — do not add logic here
     }//GEN-LAST:event_loginLinkButtonActionPerformed
+
+    private void confirmPasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPasswordFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmPasswordFieldActionPerformed
+
+    private void create_hide_passwordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_hide_passwordMousePressed
+        // TODO add your handling code here
+        
+    }//GEN-LAST:event_create_hide_passwordMousePressed
 
     // ====================================================================
     //  applyStyles() — SAFE TO EDIT — not managed by the form designer
@@ -317,8 +351,8 @@ public class SignUp extends javax.swing.JFrame {
         signUpButton.setCursor(hand);
         backButton.setCursor(hand);
         loginLinkButton.setCursor(hand);
-        show1.setCursor(hand);  hide1.setCursor(hand);
-        show2.setCursor(hand);  hide2.setCursor(hand);
+        conform_hide_password.setCursor(hand);  hide1.setCursor(hand);
+        conform_show_password.setCursor(hand);  hide2.setCursor(hand);
 
         // Load and scale the doctor image for the left panel
         java.net.URL imgUrl = getClass().getResource("/images/it-consulting-doctors.png");
@@ -332,8 +366,8 @@ public class SignUp extends javax.swing.JFrame {
         // SignUpController attaches the actual click listeners to these labels
         ImageIcon showIcon = safeLoadIcon("/images/show password.png");
         ImageIcon hideIcon = safeLoadIcon("/images/hide password.png");
-        show1.setIcon(showIcon);  hide1.setIcon(hideIcon);
-        show2.setIcon(showIcon);  hide2.setIcon(hideIcon);
+        conform_hide_password.setIcon(showIcon);  hide1.setIcon(hideIcon);
+        conform_show_password.setIcon(showIcon);  hide2.setIcon(hideIcon);
     }
 
     // ====================================================================
@@ -418,13 +452,13 @@ public class SignUp extends javax.swing.JFrame {
     public javax.swing.JButton getLoginLinkButton()                  { return loginLinkButton; }
 
     /** @return Eye-open icon label for password field (controller attaches mouse listener) */
-    public JLabel getShowPasswordLabel()                             { return show1; }
+    public JLabel getShowPasswordLabel()                             { return conform_hide_password; }
 
     /** @return Eye-closed icon label for password field */
     public JLabel getHidePasswordLabel()                             { return hide1; }
 
     /** @return Eye-open icon label for confirm-password field */
-    public JLabel getShowConfirmPasswordLabel()                      { return show2; }
+    public JLabel getShowConfirmPasswordLabel()                      { return conform_show_password; }
 
     /** @return Eye-closed icon label for confirm-password field */
     public JLabel getHideConfirmPasswordLabel()                      { return hide2; }
@@ -457,6 +491,10 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JLabel bottomQuoteLabel;
     private javax.swing.JTextField confirmPasswordField;
     private javax.swing.JLabel confirmPasswordLabel;
+    private javax.swing.JLabel conform_hide_password;
+    private javax.swing.JLabel conform_show_password;
+    private javax.swing.JLabel create_hide_password;
+    private javax.swing.JLabel create_show_password;
     private javax.swing.JTextField dobField;
     private javax.swing.JLabel dobLabel;
     private javax.swing.JTextField fullNameField;
@@ -477,8 +515,6 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JLabel phoneLabel;
     private javax.swing.JPanel rightPanel;
     private javax.swing.JSeparator separator;
-    private javax.swing.JLabel show1;
-    private javax.swing.JLabel show2;
     private javax.swing.JButton signUpButton;
     private javax.swing.JLabel subtitleLabel;
     private javax.swing.JLabel taglineLabel;
