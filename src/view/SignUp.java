@@ -75,19 +75,17 @@ public class SignUp extends javax.swing.JFrame {
         locationLabel = new javax.swing.JLabel();
         locationField = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
-        passwordField = new javax.swing.JTextField();
-        conform_hide_password = new javax.swing.JLabel();
+        passwordField = new javax.swing.JPasswordField();
+        show1 = new javax.swing.JLabel();
         hide1 = new javax.swing.JLabel();
         confirmPasswordLabel = new javax.swing.JLabel();
-        confirmPasswordField = new javax.swing.JTextField();
-        conform_show_password = new javax.swing.JLabel();
+        confirmPasswordField = new javax.swing.JPasswordField();
+        show2 = new javax.swing.JLabel();
         hide2 = new javax.swing.JLabel();
         signUpButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         alreadyAccountLabel = new javax.swing.JLabel();
         loginLinkButton = new javax.swing.JButton();
-        create_hide_password = new javax.swing.JLabel();
-        create_show_password = new javax.swing.JLabel();
         leftPanel = new javax.swing.JPanel();
         hospitalNameLabel = new javax.swing.JLabel();
         taglineLabel = new javax.swing.JLabel();
@@ -96,7 +94,7 @@ public class SignUp extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hospital Queue Management — Sign Up");
-        setPreferredSize(new java.awt.Dimension(900, 900));
+        setPreferredSize(new java.awt.Dimension(916, 600));
         getContentPane().setLayout(null);
 
         rightPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -172,10 +170,11 @@ public class SignUp extends javax.swing.JFrame {
         rightPanel.add(passwordField);
         passwordField.setBounds(165, 307, 340, 28);
 
-        conform_hide_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hide password.png"))); // NOI18N
-        rightPanel.add(conform_hide_password);
-        conform_hide_password.setBounds(90, 410, 24, 24);
+        show1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show password.png"))); // NOI18N
+        rightPanel.add(show1);
+        show1.setBounds(511, 309, 24, 24);
 
+        hide1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hide password.png"))); // NOI18N
         hide1.setVisible(false);
         rightPanel.add(hide1);
         hide1.setBounds(511, 309, 24, 24);
@@ -194,10 +193,11 @@ public class SignUp extends javax.swing.JFrame {
         rightPanel.add(confirmPasswordField);
         confirmPasswordField.setBounds(165, 351, 340, 28);
 
-        conform_show_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show password.png"))); // NOI18N
-        rightPanel.add(conform_show_password);
-        conform_show_password.setBounds(511, 353, 24, 24);
+        show2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show password.png"))); // NOI18N
+        rightPanel.add(show2);
+        show2.setBounds(511, 353, 24, 24);
 
+        hide2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hide password.png"))); // NOI18N
         hide2.setVisible(false);
         rightPanel.add(hide2);
         hide2.setBounds(511, 353, 24, 24);
@@ -246,19 +246,6 @@ public class SignUp extends javax.swing.JFrame {
         });
         rightPanel.add(loginLinkButton);
         loginLinkButton.setBounds(290, 450, 70, 20);
-
-        create_hide_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hide password.png"))); // NOI18N
-        create_hide_password.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                create_hide_passwordMousePressed(evt);
-            }
-        });
-        rightPanel.add(create_hide_password);
-        create_hide_password.setBounds(50, 410, 24, 24);
-
-        create_show_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show password.png"))); // NOI18N
-        rightPanel.add(create_show_password);
-        create_show_password.setBounds(510, 310, 24, 24);
 
         getContentPane().add(rightPanel);
         rightPanel.setBounds(10, 0, 540, 555);
@@ -313,10 +300,6 @@ public class SignUp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_confirmPasswordFieldActionPerformed
 
-    private void create_hide_passwordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_hide_passwordMousePressed
-        // TODO add your handling code here
-        
-    }//GEN-LAST:event_create_hide_passwordMousePressed
 
     // ====================================================================
     //  applyStyles() — SAFE TO EDIT — not managed by the form designer
@@ -351,8 +334,8 @@ public class SignUp extends javax.swing.JFrame {
         signUpButton.setCursor(hand);
         backButton.setCursor(hand);
         loginLinkButton.setCursor(hand);
-        conform_hide_password.setCursor(hand);  hide1.setCursor(hand);
-        conform_show_password.setCursor(hand);  hide2.setCursor(hand);
+        show1.setCursor(hand);  hide1.setCursor(hand);
+        show2.setCursor(hand);  hide2.setCursor(hand);
 
         // Load and scale the doctor image for the left panel
         java.net.URL imgUrl = getClass().getResource("/images/it-consulting-doctors.png");
@@ -366,8 +349,8 @@ public class SignUp extends javax.swing.JFrame {
         // SignUpController attaches the actual click listeners to these labels
         ImageIcon showIcon = safeLoadIcon("/images/show password.png");
         ImageIcon hideIcon = safeLoadIcon("/images/hide password.png");
-        conform_hide_password.setIcon(showIcon);  hide1.setIcon(hideIcon);
-        conform_show_password.setIcon(showIcon);  hide2.setIcon(hideIcon);
+        show1.setIcon(showIcon);  hide1.setIcon(hideIcon);
+        show2.setIcon(showIcon);  hide2.setIcon(hideIcon);
     }
 
     // ====================================================================
@@ -388,17 +371,26 @@ public class SignUp extends javax.swing.JFrame {
     private void attachPlaceholder(JTextField field, String placeholder) {
         field.setText(placeholder);
         field.setForeground(GRAY_TEXT);
+        if (field instanceof javax.swing.JPasswordField) {
+            ((javax.swing.JPasswordField) field).setEchoChar((char) 0);
+        }
         field.addFocusListener(new FocusAdapter() {
             @Override public void focusGained(FocusEvent e) {
                 if (field.getText().equals(placeholder)) {
                     field.setText("");
                     field.setForeground(DARK_TEXT);
+                    if (field instanceof javax.swing.JPasswordField) {
+                        ((javax.swing.JPasswordField) field).setEchoChar('●');
+                    }
                 }
             }
             @Override public void focusLost(FocusEvent e) {
                 if (field.getText().isEmpty()) {
                     field.setText(placeholder);
                     field.setForeground(GRAY_TEXT);
+                    if (field instanceof javax.swing.JPasswordField) {
+                        ((javax.swing.JPasswordField) field).setEchoChar((char) 0);
+                    }
                 }
             }
         });
@@ -437,10 +429,10 @@ public class SignUp extends javax.swing.JFrame {
     public JTextField getLocationField()                             { return locationField; }
 
     /** @return Create Password text field */
-    public JTextField getPasswordField()                             { return passwordField; }
+    public javax.swing.JPasswordField getPasswordField()             { return passwordField; }
 
     /** @return Confirm Password text field */
-    public JTextField getConfirmPasswordField()                      { return confirmPasswordField; }
+    public javax.swing.JPasswordField getConfirmPasswordField()      { return confirmPasswordField; }
 
     /** @return Sign Up (Register) button */
     public javax.swing.JButton getSignUpButton()                     { return signUpButton; }
@@ -452,13 +444,13 @@ public class SignUp extends javax.swing.JFrame {
     public javax.swing.JButton getLoginLinkButton()                  { return loginLinkButton; }
 
     /** @return Eye-open icon label for password field (controller attaches mouse listener) */
-    public JLabel getShowPasswordLabel()                             { return conform_hide_password; }
+    public JLabel getShowPasswordLabel()                             { return show1; }
 
     /** @return Eye-closed icon label for password field */
     public JLabel getHidePasswordLabel()                             { return hide1; }
 
     /** @return Eye-open icon label for confirm-password field */
-    public JLabel getShowConfirmPasswordLabel()                      { return conform_show_password; }
+    public JLabel getShowConfirmPasswordLabel()                      { return show2; }
 
     /** @return Eye-closed icon label for confirm-password field */
     public JLabel getHideConfirmPasswordLabel()                      { return hide2; }
@@ -489,12 +481,8 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JLabel alreadyAccountLabel;
     private javax.swing.JButton backButton;
     private javax.swing.JLabel bottomQuoteLabel;
-    private javax.swing.JTextField confirmPasswordField;
+    private javax.swing.JPasswordField confirmPasswordField;
     private javax.swing.JLabel confirmPasswordLabel;
-    private javax.swing.JLabel conform_hide_password;
-    private javax.swing.JLabel conform_show_password;
-    private javax.swing.JLabel create_hide_password;
-    private javax.swing.JLabel create_show_password;
     private javax.swing.JTextField dobField;
     private javax.swing.JLabel dobLabel;
     private javax.swing.JTextField fullNameField;
@@ -509,12 +497,14 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JTextField locationField;
     private javax.swing.JLabel locationLabel;
     private javax.swing.JButton loginLinkButton;
-    private javax.swing.JTextField passwordField;
+    private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField phoneField;
     private javax.swing.JLabel phoneLabel;
     private javax.swing.JPanel rightPanel;
     private javax.swing.JSeparator separator;
+    private javax.swing.JLabel show1;
+    private javax.swing.JLabel show2;
     private javax.swing.JButton signUpButton;
     private javax.swing.JLabel subtitleLabel;
     private javax.swing.JLabel taglineLabel;

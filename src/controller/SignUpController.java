@@ -82,64 +82,63 @@ public class SignUpController {
         return text;
     }
 
-    // ==================== Eye Icon Toggle Methods ====================
+    /**
+     * Helper method for password fields
+     */
+    private String getCleanInput(javax.swing.JPasswordField field, String placeholder) {
+        String text = new String(field.getPassword()).trim();
+        if (text.equalsIgnoreCase(placeholder)) {
+            return "";
+        }
+        return text;
+    }
 
-    // Stores the real password text while "hidden" view is showing dots
-    private String savedPassword        = "";
-    private String savedConfirmPassword = "";
+    // ==================== Eye Icon Toggle Methods ====================
 
     /**
      * Toggles the password field between visible text and hidden (dots).
-     * Since jTextField9 is a plain JTextField (not JPasswordField),
-     * we simulate hiding by replacing the text with ● characters.
-     *
      * passwordVisible = false means field currently shows ●●● (hidden)
      * passwordVisible = true  means field currently shows real text (visible)
      */
     private void togglePasswordField() {
-        javax.swing.JTextField passField = view.getPasswordField();
+        javax.swing.JPasswordField passField = view.getPasswordField();
+        String currentText = new String(passField.getPassword());
+        if (currentText.equals("Create password")) return; // Don't toggle if placeholder
 
         if (!passwordVisible) {
-            // Currently hidden — save dots version, show real text
-            savedPassword     = passField.getText(); // save the ●●● or real text
-            // Count bullets and restore last real save — or just show as-is
-            passField.setForeground(java.awt.Color.BLACK);
+            // Currently hidden — show real text
+            passField.setEchoChar((char) 0);
+            view.getShowPasswordLabel().setVisible(false);
+            view.getHidePasswordLabel().setVisible(true);
             passwordVisible = true;
         } else {
-            // Currently visible — hide: replace each char with ●
-            String realText = passField.getText();
-            savedPassword = realText;
-            StringBuilder dots = new StringBuilder();
-            for (int i = 0; i < realText.length(); i++) {
-                dots.append('●');
-            }
-            passField.setText(dots.toString());
-            passField.setForeground(java.awt.Color.DARK_GRAY);
+            // Currently visible — hide with dots
+            passField.setEchoChar('●');
+            view.getShowPasswordLabel().setVisible(true);
+            view.getHidePasswordLabel().setVisible(false);
             passwordVisible = false;
         }
     }
 
     /**
      * Toggles the confirm password field between visible text and hidden (dots).
-     * Same logic as togglePasswordField() but for jTextField8.
      */
     private void toggleConfirmPasswordField() {
-        javax.swing.JTextField confirmField = view.getConfirmPasswordField();
+        javax.swing.JPasswordField confirmField = view.getConfirmPasswordField();
+        String currentText = new String(confirmField.getPassword());
+        if (currentText.equals("Confirm password")) return;
 
         if (!confirmPasswordVisible) {
             // Currently hidden — show real text
-            confirmField.setForeground(java.awt.Color.BLACK);
+            confirmField.setEchoChar((char) 0);
+            view.getShowConfirmPasswordLabel().setVisible(false);
+            view.getHideConfirmPasswordLabel().setVisible(true);
             confirmPasswordVisible = true;
         } else {
             // Currently visible — hide with dots
-            String realText = confirmField.getText();
-            savedConfirmPassword = realText;
-            StringBuilder dots = new StringBuilder();
-            for (int i = 0; i < realText.length(); i++) {
-                dots.append('●');
-            }
-            confirmField.setText(dots.toString());
-            confirmField.setForeground(java.awt.Color.DARK_GRAY);
+            confirmField.setEchoChar('●');
+            view.getShowConfirmPasswordLabel().setVisible(true);
+            view.getHideConfirmPasswordLabel().setVisible(false);
             confirmPasswordVisible = false;
         }
     }
