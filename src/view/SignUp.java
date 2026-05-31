@@ -133,7 +133,9 @@ public class SignUp extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hospital Queue Management — Sign Up");
+        setMinimumSize(new java.awt.Dimension(916, 600));
         setPreferredSize(new java.awt.Dimension(916, 600));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         rightPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -161,7 +163,7 @@ public class SignUp extends javax.swing.JFrame {
 
         fullNameField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         rightPanel.add(fullNameField);
-        fullNameField.setBounds(165, 87, 375, 28);
+        fullNameField.setBounds(165, 87, 340, 28);
 
         dobLabel.setForeground(new java.awt.Color(120, 120, 120));
         dobLabel.setText("Date of Birth");
@@ -170,7 +172,7 @@ public class SignUp extends javax.swing.JFrame {
 
         dobField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         rightPanel.add(dobField);
-        dobField.setBounds(165, 131, 375, 28);
+        dobField.setBounds(165, 131, 340, 28);
 
         genderLabel.setForeground(new java.awt.Color(120, 120, 120));
         genderLabel.setText("Gender");
@@ -180,7 +182,7 @@ public class SignUp extends javax.swing.JFrame {
         genderComboBox.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         genderComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select Gender", "Male", "Female", "Others", "Prefer not to say" }));
         rightPanel.add(genderComboBox);
-        genderComboBox.setBounds(165, 175, 375, 28);
+        genderComboBox.setBounds(165, 175, 340, 28);
 
         phoneLabel.setForeground(new java.awt.Color(120, 120, 120));
         phoneLabel.setText("Phone Number");
@@ -189,7 +191,7 @@ public class SignUp extends javax.swing.JFrame {
 
         phoneField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         rightPanel.add(phoneField);
-        phoneField.setBounds(165, 219, 375, 28);
+        phoneField.setBounds(165, 219, 340, 28);
 
         locationLabel.setForeground(new java.awt.Color(120, 120, 120));
         locationLabel.setText("Location");
@@ -198,7 +200,7 @@ public class SignUp extends javax.swing.JFrame {
 
         locationField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         rightPanel.add(locationField);
-        locationField.setBounds(165, 263, 375, 28);
+        locationField.setBounds(165, 263, 340, 28);
 
         passwordLabel.setForeground(new java.awt.Color(120, 120, 120));
         passwordLabel.setText("Create Password");
@@ -253,7 +255,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         rightPanel.add(signUpButton);
-        signUpButton.setBounds(165, 399, 182, 37);
+        signUpButton.setBounds(100, 400, 182, 37);
 
         backButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         backButton.setForeground(new java.awt.Color(21, 101, 192));
@@ -265,12 +267,12 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         rightPanel.add(backButton);
-        backButton.setBounds(357, 399, 182, 37);
+        backButton.setBounds(290, 400, 182, 37);
 
         alreadyAccountLabel.setForeground(new java.awt.Color(120, 120, 120));
         alreadyAccountLabel.setText("Already have an Account?");
         rightPanel.add(alreadyAccountLabel);
-        alreadyAccountLabel.setBounds(165, 451, 150, 20);
+        alreadyAccountLabel.setBounds(180, 450, 150, 20);
 
         loginLinkButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         loginLinkButton.setForeground(new java.awt.Color(21, 101, 192));
@@ -284,25 +286,26 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         rightPanel.add(loginLinkButton);
-        loginLinkButton.setBounds(290, 450, 70, 20);
+        loginLinkButton.setBounds(310, 450, 70, 20);
 
         getContentPane().add(rightPanel);
         rightPanel.setBounds(10, 0, 540, 555);
 
-        leftPanel.setBackground(new java.awt.Color(255, 255, 255));
+        leftPanel.setBackground(new java.awt.Color(255, 249, 236));
         leftPanel.setLayout(null);
 
+        hospitalNameLabel.setBackground(new java.awt.Color(255, 255, 255));
         hospitalNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
-        hospitalNameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        hospitalNameLabel.setForeground(new java.awt.Color(153, 153, 255));
         hospitalNameLabel.setText("MediQueue");
         leftPanel.add(hospitalNameLabel);
-        hospitalNameLabel.setBounds(90, 50, 225, 36);
+        hospitalNameLabel.setBounds(90, 40, 225, 36);
 
         taglineLabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        taglineLabel.setForeground(new java.awt.Color(187, 222, 251));
+        taglineLabel.setForeground(new java.awt.Color(153, 153, 255));
         taglineLabel.setText("<html>Smart Hospital Queue Management</html>");
         leftPanel.add(taglineLabel);
-        taglineLabel.setBounds(90, 80, 225, 45);
+        taglineLabel.setBounds(90, 70, 225, 45);
 
         imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/it-consulting-doctors.png"))); // NOI18N
@@ -310,7 +313,7 @@ public class SignUp extends javax.swing.JFrame {
         imageLabel.setBounds(10, 110, 350, 340);
 
         bottomQuoteLabel.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        bottomQuoteLabel.setForeground(new java.awt.Color(144, 202, 249));
+        bottomQuoteLabel.setForeground(new java.awt.Color(153, 153, 255));
         bottomQuoteLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bottomQuoteLabel.setText("<html><center><i>Your health is our priority</i></center></html>");
         leftPanel.add(bottomQuoteLabel);
