@@ -29,6 +29,36 @@ public class DoctorPanel extends javax.swing.JFrame {
             }
         });
     }
+    // =====================================================================
+// GETTERS — expose UI components to the controller
+// =====================================================================
+
+public javax.swing.JTable getQueueTable()            { return jTable2;          }
+public javax.swing.JButton getBtnCallNextDashboard() { return jButton6;         }
+public javax.swing.JLabel getLblActivePatientName()  { return lblPatientName1;  }
+public javax.swing.JLabel getLblActivePatientId()    { return lblPatientId1;    }
+public javax.swing.JButton getBtnCallNext()          { return btnCallNext;      }
+public javax.swing.JButton getBtnEndSession()        { return btnEndSession;    }
+public javax.swing.JButton getBtnViewFullQueue()     { return btnViewFullQueue; }
+public javax.swing.JTable getSessionHistoryTable()   { return jTableHistory1;   }
+public javax.swing.JLabel getLblRecordPatientId()    { return lblPatientId;     }
+public javax.swing.JLabel getLblRecordPatientName()  { return lblPatientName;   }
+public javax.swing.JTextArea getTaMessage()          { return taMessage1;       }
+public javax.swing.JButton getBtnSubmitRecord()      { return btnSubmit1;       }
+public javax.swing.JButton getBtnCancelRecord()      { return btnCancel1;       }
+public javax.swing.JTextField getTxtFullName()       { return txtFullName;      }
+public javax.swing.JTextField getTxtEmail()          { return txtEmail;         }
+public javax.swing.JTextField getTxtPhone()          { return txtPhone;         }
+public javax.swing.JTextField getTxtSpecialization() { return txtSpecialization;}
+public javax.swing.JTextField getTxtRoom()           { return txtRoom;          }
+public javax.swing.JLabel getLblShiftHoursVal()      { return lblShiftHoursVal; }
+public javax.swing.JLabel getLblDoctorIdVal()        { return lblDoctorIdVal;   }
+public javax.swing.JLabel getLblSecurityLevelVal()   { return lblSecurityLevelVal; }
+public javax.swing.JLabel getLblAccountStatusVal()   { return lblAccountStatusVal; }
+public javax.swing.JLabel getLblLastLoginVal()       { return lblLastLoginVal;  }
+public javax.swing.JButton getBtnSave()              { return btnSave;          }
+public javax.swing.JButton getBtnCancelAccount()     { return btnCancel2;       }
+public javax.swing.JButton getBtnLogout()            { return jButton5;         }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1123,7 +1153,11 @@ public class DoctorPanel extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DoctorPanel().setVisible(true));
+             java.awt.EventQueue.invokeLater(() -> {
+        DoctorPanel view = new DoctorPanel();
+        new controller.DoctorController(view);  // attach controller
+        view.setVisible(true);
+    });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
