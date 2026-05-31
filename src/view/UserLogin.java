@@ -20,6 +20,8 @@ public class UserLogin extends javax.swing.JFrame {
      */
     public UserLogin() {
         initComponents();
+        jButton2.setFocusPainted(false); // Removes the red dot/focus border
+        jButton2.setBorderPainted(false);
         addPlaceholders();           // add placeholder text to all fields
         loadRememberedCredentials(); // load saved credentials if any
         controller = new UserLoginController(this); // wire up controller
@@ -284,7 +286,7 @@ public class UserLogin extends javax.swing.JFrame {
 
     // Sets up placeholder text for all text fields
     private void addPlaceholders() {
-        addPlaceholder(jTextField1, "Enter your ID");
+        addPlaceholder(jTextField1, "Enter username");
         addPlaceholder(jTextField2, "Enter password");
         addPlaceholder(jTextField3, "Enter phone number");
     }
