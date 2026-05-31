@@ -7,6 +7,14 @@
             <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/database/MySqlConnection.java</file>
             <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/database/Db.java</file>
             <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/hospital/queue/management/HospitalQueueManagement.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/controller/DoctorController.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/dao/PatientDAO.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/dao/MedicalRecordDAO.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/dao/DoctorDAO.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/model/Patient.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/model/Doctor.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/model/MedicalRecord.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/dao/DatabaseConnection.java</file>
         </group>
     </open-files>
 </project-private>
