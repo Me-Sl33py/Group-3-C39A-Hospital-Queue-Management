@@ -5,7 +5,8 @@ import model.User;
 import view.UserLogin;
 import view.SignUp;
 import view.ForgotPassword;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -55,47 +56,109 @@ public class UserLoginController {
      * Delegates to the same logic as LoginButtonListener.
      */
     public void handleLogin() {
-        // Retrieve values from the view, clean up any placeholder text
-        String id       = getCleanInput(view.getIdField(),       "Enter your ID");
-        String phone    = getCleanInput(view.getPhoneField(),    "Enter phone number");
-        String password = getCleanInput(view.getPasswordField(), "Enter password");
+        // Retrieve values from the view
+        String username = view.getIdField().getText().trim();
+        String phone = view.getPhoneField().getText().trim();
+        String password = new String(view.getPasswordField().getPassword());
 
-        // Validate: at least one identifier must be provided
-        if (id.isEmpty() && phone.isEmpty()) {
-            JOptionPane.showMessageDialog(view,
-                    "Please enter either your ID (Username) or Phone Number.",
-                    "Validation Error", JOptionPane.WARNING_MESSAGE);
+        // Check if the fields contain the placeholder text, if so, treat them as empty
+        if (username.equals("Enter username")) {
+            username = "";
+        }
+        if (phone.equals("Enter phone number")) {
+            phone = "";
+        }
+
+        // If BOTH username and phone are empty, show a popup and stop
+        if (username.isEmpty() && phone.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "please enter your username or phone number");
             return;
         }
-        if (password.isEmpty()) {
-            JOptionPane.showMessageDialog(view,
-                    "Please enter your password.",
-                    "Validation Error", JOptionPane.WARNING_MESSAGE);
+
+        // If password is empty (or is the placeholder), show a popup and stop
+        if (password.isEmpty() || password.equals("Enter password")) {
+            JOptionPane.showMessageDialog(view, "please enter your password");
             return;
         }
 
-        User loggedInUser = null;
+        // Decide which identifier to use (if username is not empty, use it, else use phone)
+        String identifier = !username.isEmpty() ? username : phone;
 
-        // Try login by ID first, then by phone number
-        if (!id.isEmpty()) {
-            loggedInUser = userDAO.loginById(id, password);
-        }
-        if (loggedInUser == null && !phone.isEmpty()) {
-            loggedInUser = userDAO.loginByPhone(phone, password);
-        }
+        // Call the DAO checkLogin method using the identifier and password
+        String role = userDAO.checkLogin(identifier, password);
 
-        if (loggedInUser != null) {
-            handleRememberMe(id, phone, password);
-            JOptionPane.showMessageDialog(view,
-                    "Login successful!\nWelcome back, " + loggedInUser.getUsername() +
-                    " (" + loggedInUser.getRole().toUpperCase() + ")",
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
-            openDashboard(loggedInUser);
+        // If login is successful (role is found), show welcome popup. Else show error.
+        if (role != null) {
+            handleRememberMe(username, phone, password);
+            showWelcomePopup(role);
         } else {
-            JOptionPane.showMessageDialog(view,
-                    "Invalid Username/Phone or Password. Please try again.",
-                    "Login Failed", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "invalid credentials please try again");
         }
+    }
+
+    private void showWelcomePopup(String role) {
+        JDialog dialog = new JDialog();
+        dialog.setUndecorated(true);
+        dialog.setSize(350, 200);
+        dialog.setLocationRelativeTo(view);
+        dialog.getContentPane().setBackground(Color.WHITE);
+        dialog.setLayout(new BorderLayout());
+
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(Color.WHITE);
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+
+        JLabel checkmark = new JLabel("✓");
+        checkmark.setForeground(Color.GREEN);
+        checkmark.setFont(new Font("Arial", Font.BOLD, 50));
+        checkmark.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel title = new JLabel("Welcome Back!");
+        title.setFont(new Font("Arial", Font.BOLD, 20));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel text = new JLabel("You are logged in as " + role);
+        text.setFont(new Font("Arial", Font.PLAIN, 14));
+        text.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        centerPanel.add(Box.createVerticalStrut(20));
+        centerPanel.add(checkmark);
+        centerPanel.add(Box.createVerticalStrut(10));
+        centerPanel.add(title);
+        centerPanel.add(Box.createVerticalStrut(10));
+        centerPanel.add(text);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setBackground(Color.WHITE);
+
+        JButton continueButton = new JButton("Continue");
+        continueButton.setBackground(new Color(33, 97, 172));
+        continueButton.setForeground(Color.WHITE);
+        continueButton.setFocusPainted(false);
+        
+        continueButton.addActionListener(e -> {
+            dialog.dispose();
+            switch (role.toLowerCase()) {
+                case "patient":
+                    // new PatientDashboard().setVisible(true);
+                    break;
+                case "doctor":
+                    // new DoctorDashboard().setVisible(true);
+                    break;
+                case "receptionist":
+                    // new ReceptionistDashboard().setVisible(true);
+                    break;
+                case "admin":
+                    // new AdminDashboard().setVisible(true);
+                    break;
+            }
+        });
+
+        bottomPanel.add(continueButton);
+
+        dialog.add(centerPanel, BorderLayout.CENTER);
+        dialog.add(bottomPanel, BorderLayout.SOUTH);
+        dialog.setVisible(true);
     }
 
     /**
@@ -170,55 +233,7 @@ public class UserLoginController {
     private class LoginButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Retrieve values from the view, clean up any placeholder text
-            String id = getCleanInput(view.getIdField(), "Enter your ID");
-            String phone = getCleanInput(view.getPhoneField(), "Enter phone number");
-            String password = getCleanInput(view.getPasswordField(), "Enter password");
-
-            // Simple validation: check if ID/Phone and Password are empty
-            if (id.isEmpty() && phone.isEmpty()) {
-                JOptionPane.showMessageDialog(view, 
-                        "Please enter either your ID (Username) or Phone Number.", 
-                        "Validation Error", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if (password.isEmpty()) {
-                JOptionPane.showMessageDialog(view, 
-                        "Please enter your password.", 
-                        "Validation Error", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            User loggedInUser = null;
-
-            // Attempt login: if ID is entered, try to login by ID first
-            if (!id.isEmpty()) {
-                loggedInUser = userDAO.loginById(id, password);
-            } 
-            // If ID login failed or wasn't provided, and Phone number is provided, try that
-            if (loggedInUser == null && !phone.isEmpty()) {
-                loggedInUser = userDAO.loginByPhone(phone, password);
-            }
-
-            // Verify if a user was successfully found matching credentials
-            if (loggedInUser != null) {
-                // Check if Remember Me is checked, and save/clear credentials
-                handleRememberMe(id, phone, password);
-
-                // Show success popup with role detail
-                JOptionPane.showMessageDialog(view, 
-                        "Login successful!\nWelcome back, " + loggedInUser.getUsername() + 
-                        " (" + loggedInUser.getRole().toUpperCase() + ")", 
-                        "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                // Open the corresponding dashboard depending on the user's role
-                openDashboard(loggedInUser);
-            } else {
-                // If credentials did not match, show error message
-                JOptionPane.showMessageDialog(view, 
-                        "Invalid Username/Phone or Password. Please try again.", 
-                        "Login Failed", JOptionPane.ERROR_MESSAGE);
-            }
+            handleLogin();
         }
     }
 

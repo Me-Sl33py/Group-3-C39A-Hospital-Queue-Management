@@ -311,4 +311,63 @@ public class UserDAO {
         }
         return "p-001";
     }
+    public String checkLogin(String identifier, String password) {
+        String query = 
+            "select u.role, u.user_id from users u " +
+            "left join patients p " +
+            "on u.user_id = p.user_id " +
+            "where (u.username = ? " +
+            "or p.contact_number = ?) " +
+            "and u.password = ?";
+            
+        Connection conn = null;
+        try {
+            conn = db.openConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, identifier);
+            ps.setString(2, identifier);
+            ps.setString(3, password);
+            
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("role");
+            }
+        } catch (Exception e) {
+            System.out.println("checkLogin error: " + e);
+        } finally {
+            if (conn != null) {
+                db.closeConnection(conn);
+            }
+        }
+        return null;
+    }
+
+    public int getUserId(String identifier) {
+        String query = 
+            "select u.user_id from users u " +
+            "left join patients p " +
+            "on u.user_id = p.user_id " +
+            "where u.username = ? " +
+            "or p.contact_number = ?";
+            
+        Connection conn = null;
+        try {
+            conn = db.openConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, identifier);
+            ps.setString(2, identifier);
+            
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("user_id");
+            }
+        } catch (Exception e) {
+            System.out.println("getUserId error: " + e);
+        } finally {
+            if (conn != null) {
+                db.closeConnection(conn);
+            }
+        }
+        return -1;
+    }
 }
