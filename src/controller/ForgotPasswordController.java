@@ -37,6 +37,122 @@ public class ForgotPasswordController {
         this.view.getCancelAnswersButton().addActionListener(new CancelButtonListener());
     }
 
+    // ==================== Public Handler Methods ====================
+    // These are called by ForgotPassword view's action performed stubs.
+    // All logic stays in this controller, view just delegates.
+
+    /**
+     * Called when the Search button is clicked in the view.
+     * Verifies the patient's identity using their name, phone, DOB, and location.
+     */
+    public void handleSearchUser() {
+        // Retrieve verification inputs from view
+        String fullName = view.getFullNameField().getText().trim();
+        String phone    = view.getPhoneField().getText().trim();
+        String dob      = view.getDobField().getText().trim();
+        String location = view.getLocationField().getText().trim();
+
+        // Simple validation: check required fields
+        if (fullName.isEmpty() || phone.isEmpty() || dob.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(view,
+                    "Full Name, Phone Number, and DOB (Date of Birth) are required for identity verification.",
+                    "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Call DAO to search if user exists with matching patient details
+        int userId = userDAO.searchUserForReset(fullName, phone, dob, location);
+
+        if (userId != -1) {
+            // If verified, save user_id in the instance variable
+            verifiedUserId = userId;
+            javax.swing.JOptionPane.showMessageDialog(view,
+                    "Clinical Identity Verified successfully!\n" +
+                    "Please answer the security questions below to proceed with resetting your password.",
+                    "Identity Verified", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // If verification failed, reset verifiedUserId to -1
+            verifiedUserId = -1;
+            javax.swing.JOptionPane.showMessageDialog(view,
+                    "Identity verification failed. No patient record matches the provided details.",
+                    "Verification Failed", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Called when the Verify and Reset button is clicked in the view.
+     * Checks security answers and resets the password if they pass.
+     */
+    public void handleVerifyAndReset() {
+        // Check if identity has been verified first
+        if (verifiedUserId == -1) {
+            javax.swing.JOptionPane.showMessageDialog(view,
+                    "Please verify your identity by searching your patient details first.",
+                    "Verification Required", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Retrieve the answers entered by the user
+        String a1 = view.getQ1AnswerField().getText().trim();
+        String a2 = view.getQ2AnswerField().getText().trim();
+        String a3 = view.getQ3AnswerField().getText().trim();
+        String a4 = view.getQ4AnswerField().getText().trim();
+        String a5 = view.getQ5AnswerField().getText().trim();
+
+        String[] enteredAnswers = { a1, a2, a3, a4, a5 };
+
+        // Call SecurityQuestionDAO to verify at least 3 answers match
+        boolean answersPassed = securityDAO.verifySecurityAnswers(verifiedUserId, enteredAnswers);
+
+        if (answersPassed) {
+            // Prompt user to enter a new password
+            String newPassword = javax.swing.JOptionPane.showInputDialog(view,
+                    "Security verification passed!\nEnter your new password:",
+                    "Reset Password", javax.swing.JOptionPane.PLAIN_MESSAGE);
+
+            if (newPassword == null) {
+                return; // User canceled the input prompt
+            }
+            newPassword = newPassword.trim();
+            if (newPassword.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(view,
+                        "Password cannot be empty.",
+                        "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Update the user's password in the users table via UserDAO
+            boolean updateSuccess = userDAO.updatePassword(verifiedUserId, newPassword);
+
+            if (updateSuccess) {
+                javax.swing.JOptionPane.showMessageDialog(view,
+                        "Your password has been reset successfully!",
+                        "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+                // Redirect back to login screen
+                view.dispose();
+                new view.UserLogin().setVisible(true);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(view,
+                        "Failed to update password in database. Please try again.",
+                        "Database Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(view,
+                    "Security answers incorrect. Please check your answers and try again.",
+                    "Verification Failed", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Called when the Cancel button is clicked in the view.
+     * Closes the ForgotPassword window and returns to the login screen.
+     */
+    public void handleCancel() {
+        view.dispose(); // Close current Forgot Password window
+        new view.UserLogin().setVisible(true); // Return to login screen
+    }
+
     /**
      * Inner class implementing ActionListener to handle identity verification search
      */

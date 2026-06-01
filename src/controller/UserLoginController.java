@@ -35,6 +35,12 @@ public class UserLoginController {
         this.view = view;
         this.userDAO = new UserDAO();
 
+        // Set up placeholder text in the input fields (moved from view)
+        setupPlaceholders();
+
+        // Load saved credentials from file if Remember Me was used (moved from view)
+        loadRememberedCredentials();
+
         // Register action listeners for buttons on the view
         this.view.getLoginButton().addActionListener(new LoginButtonListener());
         this.view.getForgotPasswordButton().addActionListener(new ForgotPasswordLinkListener());
@@ -49,6 +55,96 @@ public class UserLoginController {
         });
         // Set the cursor to hand for the eye icon
         this.view.getShowPasswordLabel().setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }
+
+    // ==================== Placeholder & Credential Loading Methods ====================
+    // (These were moved here from UserLogin view to keep all logic in the controller)
+
+    /**
+     * Sets up grey placeholder text for all login text fields.
+     * When user clicks a field, the placeholder disappears.
+     * When user leaves the field empty, placeholder reappears.
+     */
+    private void setupPlaceholders() {
+        addPlaceholder(view.getIdField(),       "Enter username");
+        addPlaceholder(view.getPasswordField(), "Enter password");
+        addPlaceholder(view.getPhoneField(),    "Enter phone number");
+    }
+
+    /**
+     * Helper: attaches focus-driven placeholder text to one JTextField.
+     * Works for both plain JTextField and JPasswordField.
+     *
+     * @param field       the input field
+     * @param placeholder the hint text to show when field is empty
+     */
+    private void addPlaceholder(javax.swing.JTextField field, String placeholder) {
+        // Set initial placeholder text in grey
+        field.setText(placeholder);
+        field.setForeground(java.awt.Color.GRAY);
+        if (field instanceof javax.swing.JPasswordField) {
+            // Show placeholder as plain text (no masking)
+            ((javax.swing.JPasswordField) field).setEchoChar((char) 0);
+        }
+
+        field.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                // When user clicks the field, clear the placeholder text
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(java.awt.Color.BLACK);
+                    if (field instanceof javax.swing.JPasswordField) {
+                        // Restore password masking
+                        ((javax.swing.JPasswordField) field).setEchoChar('●');
+                    }
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                // When user clicks away and field is empty, restore placeholder
+                if (field.getText().isEmpty()) {
+                    field.setText(placeholder);
+                    field.setForeground(java.awt.Color.GRAY);
+                    if (field instanceof javax.swing.JPasswordField) {
+                        // Show placeholder without masking
+                        ((javax.swing.JPasswordField) field).setEchoChar((char) 0);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Reads saved credentials from remember_me.dat and pre-fills the login fields.
+     * If the file exists, it means the user checked "Remember Me" during their last login.
+     */
+    private void loadRememberedCredentials() {
+        java.io.File file = new java.io.File("remember_me.dat");
+        if (file.exists()) {
+            try (java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.FileReader(file))) {
+                String savedId       = reader.readLine(); // saved username or phone
+                String savedPassword = reader.readLine(); // saved password
+
+                // Fill username field if data is present
+                if (savedId != null && !savedId.isEmpty()) {
+                    view.getIdField().setText(savedId);
+                    view.getIdField().setForeground(java.awt.Color.BLACK);
+                }
+                // Fill password field if data is present
+                if (savedPassword != null && !savedPassword.isEmpty()) {
+                    view.getPasswordField().setText(savedPassword);
+                    view.getPasswordField().setForeground(java.awt.Color.BLACK);
+                    view.getPasswordField().setEchoChar('●'); // show dots for security
+                }
+                // Check the Remember Me checkbox
+                view.getRememberMeCheckBox().setSelected(true);
+            } catch (Exception e) {
+                System.out.println("[UserLoginController] Error loading remembered credentials: " + e);
+            }
+        }
     }
 
     /**
