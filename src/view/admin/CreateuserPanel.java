@@ -38,10 +38,16 @@ public class CreateuserPanel extends javax.swing.JPanel {
         passwordField = new javax.swing.JPasswordField();
         saveButton = new javax.swing.JButton();
         clearButton = new javax.swing.JButton();
+        phone = new javax.swing.JLabel();
+        nameField1 = new javax.swing.JTextField();
+        roleLabel1 = new javax.swing.JLabel();
+        GenderCombobox = new javax.swing.JComboBox<>();
         topBarPanel = new javax.swing.JPanel();
         pageTitleLabel = new javax.swing.JLabel();
         adminCircleLabel = new javax.swing.JLabel();
         adminNameLabel = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(255, 255, 255));
 
         formCardPanel.setBackground(new java.awt.Color(255, 255, 255));
         formCardPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -90,54 +96,85 @@ public class CreateuserPanel extends javax.swing.JPanel {
         clearButton.setBorderPainted(false);
         clearButton.setPreferredSize(new java.awt.Dimension(140, 40));
 
+        phone.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        phone.setForeground(new java.awt.Color(100, 100, 100));
+        phone.setText("Phone");
+
+        nameField1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+
+        roleLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        roleLabel1.setForeground(new java.awt.Color(100, 100, 100));
+        roleLabel1.setText("Gender");
+
+        GenderCombobox.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        GenderCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Others", " " }));
+        GenderCombobox.addActionListener(this::GenderComboboxActionPerformed);
+
         javax.swing.GroupLayout formCardPanelLayout = new javax.swing.GroupLayout(formCardPanel);
         formCardPanel.setLayout(formCardPanelLayout);
         formCardPanelLayout.setHorizontalGroup(
             formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(formCardPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(formTitleLabel)
-                    .addComponent(nameLabel)
-                    .addComponent(nameField)
-                    .addComponent(emailLabel)
-                    .addComponent(emailField)
-                    .addComponent(roleLabel)
-                    .addComponent(roleComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(passwordLabel)
-                    .addComponent(passwordField)
+                .addGroup(formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(formCardPanelLayout.createSequentialGroup()
-                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(204, Short.MAX_VALUE))
+                        .addGap(156, 156, 156)
+                        .addGroup(formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(roleLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameLabel)
+                            .addGroup(formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(roleComboBox, 0, 378, Short.MAX_VALUE)
+                                .addComponent(roleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(emailField)
+                                .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(nameField)
+                                .addGroup(formCardPanelLayout.createSequentialGroup()
+                                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(GenderCombobox, 0, 378, Short.MAX_VALUE))
+                            .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameField1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(formCardPanelLayout.createSequentialGroup()
+                        .addGap(211, 211, 211)
+                        .addComponent(formTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(474, Short.MAX_VALUE))
         );
         formCardPanelLayout.setVerticalGroup(
             formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(formCardPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(formTitleLabel)
-                .addGap(24, 24, 24)
+                .addGap(15, 15, 15)
+                .addComponent(formTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(nameLabel)
-                .addGap(8, 8, 8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
-                .addComponent(emailLabel)
-                .addGap(8, 8, 8)
+                .addGap(18, 18, 18)
+                .addComponent(phone)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nameField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(roleLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(GenderCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
+                .addGap(18, 18, 18)
                 .addComponent(roleLabel)
-                .addGap(8, 8, 8)
-                .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
-                .addComponent(passwordLabel)
-                .addGap(8, 8, 8)
-                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addGroup(formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(58, Short.MAX_VALUE))
+                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54))
         );
 
         topBarPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -165,7 +202,7 @@ public class CreateuserPanel extends javax.swing.JPanel {
             .addGroup(topBarPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(pageTitleLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 799, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 902, Short.MAX_VALUE)
                 .addComponent(adminCircleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(adminNameLabel)
@@ -188,7 +225,7 @@ public class CreateuserPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(topBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(268, 268, 268)
+                .addGap(51, 51, 51)
                 .addComponent(formCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -197,9 +234,9 @@ public class CreateuserPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(topBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63)
+                .addGap(40, 40, 40)
                 .addComponent(formCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -207,8 +244,13 @@ public class CreateuserPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_roleComboBoxActionPerformed
 
+    private void GenderComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenderComboboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GenderComboboxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> GenderCombobox;
     private javax.swing.JLabel adminCircleLabel;
     private javax.swing.JLabel adminNameLabel;
     private javax.swing.JButton clearButton;
@@ -217,12 +259,15 @@ public class CreateuserPanel extends javax.swing.JPanel {
     private javax.swing.JPanel formCardPanel;
     private javax.swing.JLabel formTitleLabel;
     private javax.swing.JTextField nameField;
+    private javax.swing.JTextField nameField1;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JLabel pageTitleLabel;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
+    private javax.swing.JLabel phone;
     private javax.swing.JComboBox<String> roleComboBox;
     private javax.swing.JLabel roleLabel;
+    private javax.swing.JLabel roleLabel1;
     private javax.swing.JButton saveButton;
     private javax.swing.JPanel topBarPanel;
     // End of variables declaration//GEN-END:variables

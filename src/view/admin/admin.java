@@ -1,5 +1,6 @@
 package view.admin;
 import java.awt.CardLayout;
+import controller.AdminController;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -20,29 +21,12 @@ public class admin extends javax.swing.JFrame {
     /**
      * Creates new form admin
      */
-    public admin() {
-        initComponents();
-        
-        cardLayout = new CardLayout();
-
+public admin() {
+    initComponents();
+    cardLayout = new CardLayout();
     contentPanel.setLayout(cardLayout);
-
-    contentPanel.add(new HomePanel(), "home");
-    contentPanel.add(new DashboardPanel(), "dashboard");
-    contentPanel.add(new SchedulePanel(), "schedule");
-    contentPanel.add(new ReportPanel(), "report");
-    // Add missing panels
-
-    contentPanel.add(new CreateuserPanel(), "createuser");
-
-    contentPanel.add(new LogoutPanel(), "logout");
-    contentPanel.add(new NotificationPanel(), "notification");
-    // Default panel
-
-    cardLayout.show(contentPanel, "home");
-    }
-    
-    
+    new AdminController(this);
+}
     
 
     /**
@@ -184,34 +168,34 @@ public class admin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        cardLayout.show(contentPanel, "home");
+       
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        cardLayout.show(contentPanel, "report");// TODO add your handling code here:
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         cardLayout.show(contentPanel, "dashboard");
+        
  // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-      cardLayout.show(contentPanel, "createuser");  // TODO add your handling code here:
+      // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-       cardLayout.show(contentPanel, "logout"); // TODO add your handling code here:
+      // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-           cardLayout.show(contentPanel, "schedule");
+           
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-     cardLayout.show(contentPanel, "notification");        // TODO add your handling code here:
+            // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
@@ -251,4 +235,16 @@ public class admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel sidebar;
     // End of variables declaration//GEN-END:variables
+
+
+public javax.swing.JButton getBtnHome()         { return jButton1; }
+public javax.swing.JButton getBtnDashboard()    { return jButton2; }
+public javax.swing.JButton getBtnSchedule()     { return jButton3; }
+public javax.swing.JButton getBtnReport()       { return jButton4; }
+public javax.swing.JButton getBtnNotification() { return jButton5; }
+public javax.swing.JButton getBtnCreateUser()   { return jButton6; }
+public javax.swing.JButton getBtnLogout()       { return jButton7; }
+public javax.swing.JPanel  getContentPanel()    { return contentPanel; }
+public java.awt.CardLayout getCardLayout()      { return cardLayout; }
+
 }
