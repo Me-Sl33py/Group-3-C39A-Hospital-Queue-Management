@@ -22,9 +22,7 @@ public class UserLogin extends javax.swing.JFrame {
         initComponents();
         jButton2.setFocusPainted(false); // Removes the red dot/focus border
         jButton2.setBorderPainted(false);
-        addPlaceholders();           // add placeholder text to all fields
-        loadRememberedCredentials(); // load saved credentials if any
-        controller = new UserLoginController(this); // wire up controller
+        controller = new UserLoginController(this); // wire up controller (controller handles placeholders & remembered credentials)
     }
 
     /**
@@ -281,76 +279,6 @@ public class UserLogin extends javax.swing.JFrame {
     private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1FocusGained
-
-    // ==================== Placeholder Methods ====================
-
-    // Sets up placeholder text for all text fields
-    private void addPlaceholders() {
-        addPlaceholder(jTextField1, "Enter username");
-        addPlaceholder(jTextField2, "Enter password");
-        addPlaceholder(jTextField3, "Enter phone number");
-    }
-
-    // Helper: adds grey placeholder text that clears on focus
-    private void addPlaceholder(javax.swing.JTextField field, String placeholder) {
-        field.setText(placeholder);
-        field.setForeground(java.awt.Color.GRAY);
-        if (field instanceof javax.swing.JPasswordField) {
-            ((javax.swing.JPasswordField) field).setEchoChar((char) 0);
-        }
-
-        field.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent e) {
-                // When user clicks on field, clear placeholder
-                if (field.getText().equals(placeholder)) {
-                    field.setText("");
-                    field.setForeground(java.awt.Color.BLACK);
-                    if (field instanceof javax.swing.JPasswordField) {
-                        ((javax.swing.JPasswordField) field).setEchoChar('●');
-                    }
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent e) {
-                // When user clicks away, restore placeholder if empty
-                if (field.getText().isEmpty()) {
-                    field.setText(placeholder);
-                    field.setForeground(java.awt.Color.GRAY);
-                    if (field instanceof javax.swing.JPasswordField) {
-                        ((javax.swing.JPasswordField) field).setEchoChar((char) 0);
-                    }
-                }
-            }
-        });
-    }
-
-    // ==================== Remember Me Methods ====================
-
-    // Load saved credentials from file (if Remember Me was checked)
-    private void loadRememberedCredentials() {
-        java.io.File file = new java.io.File("remember_me.dat");
-        if (file.exists()) {
-            try (java.io.BufferedReader reader = new java.io.BufferedReader(
-                    new java.io.FileReader(file))) {
-                String savedId = reader.readLine();
-                String savedPassword = reader.readLine();
-                if (savedId != null && !savedId.isEmpty()) {
-                    jTextField1.setText(savedId);
-                    jTextField1.setForeground(java.awt.Color.BLACK);
-                }
-                if (savedPassword != null && !savedPassword.isEmpty()) {
-                    jTextField2.setText(savedPassword);
-                    jTextField2.setForeground(java.awt.Color.BLACK);
-                    jTextField2.setEchoChar('●');
-                }
-                jCheckBox1.setSelected(true);
-            } catch (Exception e) {
-                System.out.println("Error loading credentials: " + e);
-            }
-        }
-    }
 
     // ==================== Getter Methods (for Controller) ====================
 

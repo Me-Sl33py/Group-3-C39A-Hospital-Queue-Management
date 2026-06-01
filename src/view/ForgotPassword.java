@@ -14,12 +14,15 @@ public class ForgotPassword extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ForgotPassword.class.getName());
 
+    // Controller reference — all logic is handled by ForgotPasswordController
+    private ForgotPasswordController controller;
+
     /**
      * Creates new form ForgetPassword
      */
     public ForgotPassword() {
         initComponents();
-        new ForgotPasswordController(this); // wire up controller
+        this.controller = new ForgotPasswordController(this); // wire up controller
     }
 
     /**
@@ -557,7 +560,10 @@ public class ForgotPassword extends javax.swing.JFrame {
     }//GEN-LAST:event_FullNameBoxActionPerformed
 
     private void SearchUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchUserActionPerformed
-        // TODO add your handling code here:
+        // Delegate to controller — all logic lives there
+        if (controller != null) {
+            controller.handleSearchUser();
+        }
     }//GEN-LAST:event_SearchUserActionPerformed
 
     private void Q5Answer10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Q5Answer10ActionPerformed
@@ -581,11 +587,17 @@ public class ForgotPassword extends javax.swing.JFrame {
     }//GEN-LAST:event_Q1AnswerActionPerformed
 
     private void SaveAnswersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAnswersActionPerformed
-        // TODO add your handling code here:
+        // Delegate to controller — all logic lives there
+        if (controller != null) {
+            controller.handleVerifyAndReset();
+        }
     }//GEN-LAST:event_SaveAnswersActionPerformed
 
     private void CancelAnswersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelAnswersActionPerformed
-        // TODO add your handling code here:
+        // Delegate to controller — all logic lives there
+        if (controller != null) {
+            controller.handleCancel();
+        }
     }//GEN-LAST:event_CancelAnswersActionPerformed
 
     /**

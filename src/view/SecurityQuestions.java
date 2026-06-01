@@ -417,11 +417,17 @@ public class SecurityQuestions extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CancelAnswersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelAnswersActionPerformed
-        // TODO add your handling code here:
+        // Delegate to controller — all logic lives there
+        if (controller != null) {
+            controller.handleCancel();
+        }
     }//GEN-LAST:event_CancelAnswersActionPerformed
 
     private void SaveAnswersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAnswersActionPerformed
-        // TODO add your handling code here:
+        // Delegate to controller — all logic lives there
+        if (controller != null) {
+            controller.handleSaveAnswers();
+        }
     }//GEN-LAST:event_SaveAnswersActionPerformed
 
     private void Q2AnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Q2AnswerActionPerformed

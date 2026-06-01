@@ -10,14 +10,19 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.FlowLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  * RegistrationController — handles all button clicks and business logic
@@ -43,6 +48,14 @@ public class RegistrationController {
     // Reference to the PatientDao — used to perform all DB operations
     private PatientDao patientDao;
 
+    // ==================== Theme Colors ====================
+    // (Moved from SignUp view — all styling logic belongs in the controller)
+    private static final Color PRIMARY   = new Color(21, 101, 192);   // deep blue
+    private static final Color FIELD_BG  = new Color(248, 249, 250);  // light grey input bg
+    private static final Color DARK_TEXT = new Color(33, 33, 33);     // near-black
+    private static final Color GRAY_TEXT = new Color(120, 120, 120);  // muted label color
+    private static final Color BORDER    = new Color(205, 210, 218);  // input border color
+
     // ==================== Constructor ====================
 
     /**
@@ -53,6 +66,15 @@ public class RegistrationController {
     public RegistrationController(SignUp view) {
         this.view = view;
         this.patientDao = new PatientDao();
+
+        // Set up styles (borders, colours, images) — moved from SignUp view
+        setupStyles();
+
+        // Set up placeholder hint text in all fields — moved from SignUp view
+        setupPlaceholders();
+
+        // Set up auto-capitalize on full name and location fields — moved from SignUp view
+        setupAutoCapitalize();
 
         // Attach listeners to buttons on the view
         // Sign Up button → calls handleRegister()
@@ -92,6 +114,145 @@ public class RegistrationController {
                 toggleConfirmPasswordVisibility();  // Same toggle
             }
         });
+    }
+
+    // ==================== Style, Placeholder & AutoCapitalize Methods ====================
+    // (These were moved here from SignUp view to keep all logic in the controller)
+
+    /**
+     * Applies visual styles to the SignUp form fields and buttons.
+     * Sets borders, background colors, hand cursors, loads images and eye icons.
+     * Was originally applyStyles() in SignUp view.
+     */
+    private void setupStyles() {
+        // Thin border + inner padding for all text fields
+        javax.swing.border.Border fieldBorder = BorderFactory.createCompoundBorder(
+                new javax.swing.border.LineBorder(BORDER, 1),
+                BorderFactory.createEmptyBorder(2, 8, 2, 8)
+        );
+        view.getFullNameField().setBorder(fieldBorder);         view.getFullNameField().setBackground(FIELD_BG);
+        view.getDobField().setBorder(fieldBorder);              view.getDobField().setBackground(FIELD_BG);
+        view.getPhoneField().setBorder(fieldBorder);            view.getPhoneField().setBackground(FIELD_BG);
+        view.getLocationField().setBorder(fieldBorder);         view.getLocationField().setBackground(FIELD_BG);
+        view.getPasswordField().setBorder(fieldBorder);         view.getPasswordField().setBackground(FIELD_BG);
+        view.getConfirmPasswordField().setBorder(fieldBorder);  view.getConfirmPasswordField().setBackground(FIELD_BG);
+
+        // Back button — outlined style (blue border on white background)
+        view.getBackButton().setBorder(new javax.swing.border.LineBorder(PRIMARY, 1));
+
+        // Hand cursor for all clickable elements
+        Cursor hand = new Cursor(Cursor.HAND_CURSOR);
+        view.getSignUpButton().setCursor(hand);
+        view.getBackButton().setCursor(hand);
+        view.getLoginLinkButton().setCursor(hand);
+        view.getShowPasswordLabel().setCursor(hand);
+        view.getHidePasswordLabel().setCursor(hand);
+        view.getShowConfirmPasswordLabel().setCursor(hand);
+        view.getHideConfirmPasswordLabel().setCursor(hand);
+
+        // Load eye icons (show = open eye, hide = closed eye)
+        ImageIcon showIcon = safeLoadIcon("/images/show password.png");
+        ImageIcon hideIcon = safeLoadIcon("/images/hide password.png");
+        view.getShowPasswordLabel().setIcon(showIcon);
+        view.getHidePasswordLabel().setIcon(hideIcon);
+        view.getShowConfirmPasswordLabel().setIcon(showIcon);
+        view.getHideConfirmPasswordLabel().setIcon(hideIcon);
+    }
+
+    /**
+     * Sets grey placeholder hint text in all SignUp text fields.
+     * When user clicks a field the placeholder disappears.
+     * When user leaves the field empty the placeholder reappears.
+     * Was originally addPlaceholders() / attachPlaceholder() in SignUp view.
+     */
+    private void setupPlaceholders() {
+        attachPlaceholder(view.getFullNameField(),        "Enter full name");
+        attachPlaceholder(view.getDobField(),             "YYYY-MM-DD");
+        attachPlaceholder(view.getPhoneField(),           "Enter phone number");
+        attachPlaceholder(view.getLocationField(),        "Enter location / address");
+        attachPlaceholder(view.getPasswordField(),        "Create password");
+        attachPlaceholder(view.getConfirmPasswordField(), "Confirm password");
+    }
+
+    /**
+     * Helper: attaches focus-driven placeholder text to one JTextField.
+     * Works with both JTextField and JPasswordField.
+     */
+    private void attachPlaceholder(javax.swing.JTextField field, String placeholder) {
+        field.setText(placeholder);
+        field.setForeground(GRAY_TEXT);
+        if (field instanceof javax.swing.JPasswordField) {
+            ((javax.swing.JPasswordField) field).setEchoChar((char) 0); // show plain text for placeholder
+        }
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                // Clear placeholder when user clicks in
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(DARK_TEXT);
+                    if (field instanceof javax.swing.JPasswordField) {
+                        ((javax.swing.JPasswordField) field).setEchoChar('●'); // mask real input
+                    }
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                // Restore placeholder when user leaves field empty
+                if (field.getText().isEmpty()) {
+                    field.setText(placeholder);
+                    field.setForeground(GRAY_TEXT);
+                    if (field instanceof javax.swing.JPasswordField) {
+                        ((javax.swing.JPasswordField) field).setEchoChar((char) 0);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Adds focus listeners to fullName and location fields so that when the user
+     * clicks away, the text is automatically capitalized (e.g. "john doe" → "John Doe").
+     * Was originally addAutoCapitalizeListeners() in SignUp view.
+     */
+    private void setupAutoCapitalize() {
+        view.getFullNameField().addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                String text = view.getFullNameField().getText();
+                // Only capitalize if it is not empty and not the placeholder
+                if (!text.isEmpty() && !text.equals("Enter full name")) {
+                    view.getFullNameField().setText(capitalizeWords(text));
+                }
+            }
+        });
+
+        view.getLocationField().addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                String text = view.getLocationField().getText();
+                // Only capitalize if it is not empty and not the placeholder
+                if (!text.isEmpty() && !text.equals("Enter location / address")) {
+                    view.getLocationField().setText(capitalizeWords(text));
+                }
+            }
+        });
+    }
+
+    /**
+     * Safely loads an ImageIcon from a resource path.
+     * Returns null (no crash) if the image file is missing.
+     * Was originally safeLoadIcon() in SignUp view.
+     *
+     * @param path the resource path (e.g. "/images/show password.png")
+     * @return the ImageIcon, or null if not found
+     */
+    private ImageIcon safeLoadIcon(String path) {
+        try {
+            java.net.URL url = getClass().getResource(path);
+            if (url != null) return new ImageIcon(url);
+        } catch (Exception ignored) {}
+        return null;
     }
 
     // ==================== Eye Icon Toggle Methods ====================

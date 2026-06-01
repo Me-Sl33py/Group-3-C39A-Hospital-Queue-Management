@@ -1,94 +1,29 @@
 package view;
 
 import controller.RegistrationController;
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 
 /**
  * SignUp.java — Patient Registration screen.
  *
- * ╔══════════════════════════════════════════════════════════════════╗
- * ║  NETBEANS DESIGN TAB:                                           ║
- * ║  Right-click SignUp.java in Projects panel → Open → Design      ║
- * ║  You can drag-drop new labels, panels, and fields there.        ║
- * ║                                                                  ║
- * ║  EDITING RULES:                                                  ║
- * ║  ✔ Edit freely: constructor, applyStyles(), addPlaceholders(),  ║
- * ║    and all getter methods at the bottom of this file.           ║
- * ║  ✘ Do NOT manually edit between //GEN-BEGIN and //GEN-END       ║
- * ║    — use the visual Design tab for those changes instead.       ║
- * ║                                                                  ║
- * ║  THEME: Change PRIMARY color below to restyle the whole form.  ║
- * ╚══════════════════════════════════════════════════════════════════╝
+ * VIEW RULES (MVC):
+ *   ✔ Keep: constructor, initComponents(), getter methods, action performed stubs
+ *   ✘ NO logic here — all logic is in RegistrationController
+ *   ✘ Do NOT edit inside //GEN-BEGIN ... //GEN-END blocks
  *
  * @author Group 3 C39A
  */
 public class SignUp extends javax.swing.JFrame {
 
     // ====================================================================
-    //  THEME COLORS — change PRIMARY to restyle the whole screen at once
-    //  These are applied in applyStyles(), not inside the GEN block.
-    // ====================================================================
-    private static final Color PRIMARY   = new Color(21, 101, 192);   // deep blue
-    private static final Color FIELD_BG  = new Color(248, 249, 250);  // light grey input bg
-    private static final Color DARK_TEXT = new Color(33, 33, 33);     // near-black
-    private static final Color GRAY_TEXT = new Color(120, 120, 120);  // muted label color
-    private static final Color BORDER    = new Color(205, 210, 218);  // input border color
-
-    // ====================================================================
     //  CONSTRUCTOR — called when you open this screen
     // ====================================================================
     public SignUp() {
-        initComponents();       // ← NetBeans manages this (Design tab)
-        applyStyles();          // ← Your custom styling (borders, images, icons)
-        addPlaceholders();      // ← Grey hint text in input fields
-        addAutoCapitalizeListeners(); // ← Capitalize first letters on focus lost
-        new RegistrationController(this); // ← Wires all button click logic
-    }
-
-    private void addAutoCapitalizeListeners() {
-        fullNameField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                String text = fullNameField.getText();
-                if (!text.isEmpty() && !text.equals("Enter full name")) {
-                    fullNameField.setText(capitalizeFirstLetterOfEachWord(text));
-                }
-            }
-        });
-
-        locationField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                String text = locationField.getText();
-                if (!text.isEmpty() && !text.equals("Enter location / address")) {
-                    locationField.setText(capitalizeFirstLetterOfEachWord(text));
-                }
-            }
-        });
-    }
-
-    private String capitalizeFirstLetterOfEachWord(String text) {
-        if (text == null || text.trim().isEmpty()) {
-            return text;
-        }
-        String[] words = text.trim().split("\\s+");
-        StringBuilder result = new StringBuilder();
-        for (String word : words) {
-            if (!word.isEmpty()) {
-                result.append(Character.toUpperCase(word.charAt(0)))
-                      .append(word.substring(1).toLowerCase())
-                      .append(" ");
-            }
-        }
-        return result.toString().trim();
+        initComponents();             // ← NetBeans manages this (Design tab)
+        new RegistrationController(this); // ← Controller handles ALL logic:
+                                          //   styles, placeholders, capitalize,
+                                          //   eye-icon toggle, button clicks
     }
 
     // ====================================================================
@@ -342,113 +277,8 @@ public class SignUp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_confirmPasswordFieldActionPerformed
 
-
     // ====================================================================
-    //  applyStyles() — SAFE TO EDIT — not managed by the form designer
-    //  Runs after initComponents(). Use this for:
-    //    • Input field borders and background colours
-    //    • Button borders (e.g. Back button outline)
-    //    • Loading images and eye-icon images
-    //    • Mouse cursors for interactive elements
-    // ====================================================================
-    private void applyStyles() {
-        // Thin border + inner padding for all text fields
-        javax.swing.border.Border fieldBorder = BorderFactory.createCompoundBorder(
-                new LineBorder(BORDER, 1),
-                BorderFactory.createEmptyBorder(2, 8, 2, 8)
-        );
-        fullNameField.setBorder(fieldBorder);        fullNameField.setBackground(FIELD_BG);
-        dobField.setBorder(fieldBorder);             dobField.setBackground(FIELD_BG);
-        phoneField.setBorder(fieldBorder);           phoneField.setBackground(FIELD_BG);
-        locationField.setBorder(fieldBorder);        locationField.setBackground(FIELD_BG);
-        passwordField.setBorder(fieldBorder);        passwordField.setBackground(FIELD_BG);
-        confirmPasswordField.setBorder(fieldBorder); confirmPasswordField.setBackground(FIELD_BG);
-
-        // Gender combo box border + background
-        genderComboBox.setBackground(FIELD_BG);
-        genderComboBox.setBorder(new LineBorder(BORDER, 1));
-
-        // Back button — outlined style (blue border on white background)
-        backButton.setBorder(new LineBorder(PRIMARY, 1));
-
-        // Hand cursor for all clickable elements
-        java.awt.Cursor hand = new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR);
-        signUpButton.setCursor(hand);
-        backButton.setCursor(hand);
-        loginLinkButton.setCursor(hand);
-        show1.setCursor(hand);  hide1.setCursor(hand);
-        show2.setCursor(hand);  hide2.setCursor(hand);
-
-        // Load and scale the doctor image for the left panel
-        java.net.URL imgUrl = getClass().getResource("/images/it-consulting-doctors.png");
-        if (imgUrl != null) {
-            ImageIcon raw = new ImageIcon(imgUrl);
-            Image scaled = raw.getImage().getScaledInstance(260, 260, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(scaled));
-        }
-
-        // Load eye icons (show/hide password toggle)
-        // SignUpController attaches the actual click listeners to these labels
-        ImageIcon showIcon = safeLoadIcon("/images/show password.png");
-        ImageIcon hideIcon = safeLoadIcon("/images/hide password.png");
-        show1.setIcon(showIcon);  hide1.setIcon(hideIcon);
-        show2.setIcon(showIcon);  hide2.setIcon(hideIcon);
-    }
-
-    // ====================================================================
-    //  addPlaceholders() — SAFE TO EDIT
-    //  Grey hint text in each text field. Disappears on click,
-    //  reappears if the user leaves the field empty.
-    // ====================================================================
-    private void addPlaceholders() {
-        attachPlaceholder(fullNameField,        "Enter full name");
-        attachPlaceholder(dobField,             "YYYY-MM-DD");
-        attachPlaceholder(phoneField,           "Enter phone number");
-        attachPlaceholder(locationField,        "Enter location / address");
-        attachPlaceholder(passwordField,        "Create password");
-        attachPlaceholder(confirmPasswordField, "Confirm password");
-    }
-
-    /** Attaches focus-driven placeholder text to one JTextField. */
-    private void attachPlaceholder(JTextField field, String placeholder) {
-        field.setText(placeholder);
-        field.setForeground(GRAY_TEXT);
-        if (field instanceof javax.swing.JPasswordField) {
-            ((javax.swing.JPasswordField) field).setEchoChar((char) 0);
-        }
-        field.addFocusListener(new FocusAdapter() {
-            @Override public void focusGained(FocusEvent e) {
-                if (field.getText().equals(placeholder)) {
-                    field.setText("");
-                    field.setForeground(DARK_TEXT);
-                    if (field instanceof javax.swing.JPasswordField) {
-                        ((javax.swing.JPasswordField) field).setEchoChar('●');
-                    }
-                }
-            }
-            @Override public void focusLost(FocusEvent e) {
-                if (field.getText().isEmpty()) {
-                    field.setText(placeholder);
-                    field.setForeground(GRAY_TEXT);
-                    if (field instanceof javax.swing.JPasswordField) {
-                        ((javax.swing.JPasswordField) field).setEchoChar((char) 0);
-                    }
-                }
-            }
-        });
-    }
-
-    /** Safely loads an ImageIcon. Returns null (no crash) if image is missing. */
-    private ImageIcon safeLoadIcon(String path) {
-        try {
-            java.net.URL url = getClass().getResource(path);
-            if (url != null) return new ImageIcon(url);
-        } catch (Exception ignored) {}
-        return null;
-    }
-
-    // ====================================================================
-    //  GETTER METHODS — Used by SignUpController to read field values
+    //  GETTER METHODS — Used by RegistrationController to read field values
     //  Rule: NO logic here — only return the component reference.
     // ====================================================================
 

@@ -43,6 +43,27 @@ public class SecurityQuestionsController {
         this.username = username;
     }
 
+    // ==================== Public Handler Methods ====================
+    // These are called by SecurityQuestions view's action performed stubs.
+    // All logic stays in this controller, view just delegates.
+
+    /**
+     * Called when the Save Answers button is clicked in the view.
+     * Delegates to handleSubmit() which validates and saves the answers.
+     */
+    public void handleSaveAnswers() {
+        handleSubmit(); // All the save logic is already in handleSubmit()
+    }
+
+    /**
+     * Called when the Cancel button is clicked in the view.
+     * Closes the SecurityQuestions window and returns to the login screen.
+     */
+    public void handleCancel() {
+        view.dispose();           // Close the security questions window
+        new UserLogin().setVisible(true); // Return to login screen
+    }
+
     public void handleSubmit() {
         String a1 = view.getQ1AnswerField().getText().trim();
         String a2 = view.getQ2AnswerField().getText().trim();
