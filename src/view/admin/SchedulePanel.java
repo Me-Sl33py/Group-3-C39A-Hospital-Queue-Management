@@ -49,17 +49,17 @@ public class SchedulePanel extends javax.swing.JPanel {
         adminCircleLabel1 = new javax.swing.JLabel();
         adminNameLabel1 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(204, 204, 204));
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        mainContentPanel.setBackground(new java.awt.Color(235, 240, 251));
+        mainContentPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         scheduleCardPanel.setBackground(new java.awt.Color(255, 255, 255));
-        scheduleCardPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        scheduleTitleLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 15)); // NOI18N
+        scheduleTitleLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         scheduleTitleLabel.setForeground(new java.awt.Color(0, 102, 204));
         scheduleTitleLabel.setText("Today's schedule");
 
+        time1Label.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         time1Label.setForeground(new java.awt.Color(0, 102, 204));
         time1Label.setText("09:00 AM");
         time1Label.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -68,9 +68,11 @@ public class SchedulePanel extends javax.swing.JPanel {
         dot1Label.setForeground(new java.awt.Color(0, 102, 204));
         dot1Label.setText("●");
 
+        entry1Label.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         entry1Label.setForeground(new java.awt.Color(40, 40, 40));
         entry1Label.setText("Dr. Sharma — General checkup, Patient Anmol");
 
+        time2Label.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         time2Label.setForeground(new java.awt.Color(0, 102, 204));
         time2Label.setText("10:30 AM");
         time2Label.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -79,9 +81,11 @@ public class SchedulePanel extends javax.swing.JPanel {
         dot2Label.setForeground(new java.awt.Color(0, 102, 204));
         dot2Label.setText("●");
 
+        entry2Label.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         entry2Label.setForeground(new java.awt.Color(40, 40, 40));
         entry2Label.setText("Dr. Paudel — Follow-up, Patient Sita");
 
+        time3Label.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         time3Label.setForeground(new java.awt.Color(0, 102, 204));
         time3Label.setText("12:00 PM");
         time3Label.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -90,9 +94,11 @@ public class SchedulePanel extends javax.swing.JPanel {
         dot3Label.setForeground(new java.awt.Color(0, 102, 204));
         dot3Label.setText("●");
 
+        entry3Label.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         entry3Label.setForeground(new java.awt.Color(40, 40, 40));
         entry3Label.setText("Dr. Thapa — Consultation, Patient Ram");
 
+        time4Label.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         time4Label.setForeground(new java.awt.Color(0, 102, 204));
         time4Label.setText("02:00 PM");
         time4Label.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -101,9 +107,11 @@ public class SchedulePanel extends javax.swing.JPanel {
         dot4Label.setForeground(new java.awt.Color(0, 120, 204));
         dot4Label.setText("●");
 
+        entry4Label.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         entry4Label.setForeground(new java.awt.Color(40, 40, 40));
         entry4Label.setText("Dr. Shrestha — Lab review, Patient Priya");
 
+        time5Label.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         time5Label.setForeground(new java.awt.Color(0, 102, 204));
         time5Label.setText("04:00 PM");
         time5Label.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -112,6 +120,7 @@ public class SchedulePanel extends javax.swing.JPanel {
         dot5Label.setForeground(new java.awt.Color(140, 190, 255));
         dot5Label.setText("●");
 
+        entry5Label.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         entry5Label.setForeground(new java.awt.Color(40, 40, 40));
         entry5Label.setText("Dr. Karki — Emergency consult, Patient Bikash");
 
@@ -122,70 +131,79 @@ public class SchedulePanel extends javax.swing.JPanel {
             .addGroup(scheduleCardPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scheduleTitleLabel)
+                    .addComponent(scheduleTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(scheduleCardPanelLayout.createSequentialGroup()
-                        .addComponent(time1Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(scheduleCardPanelLayout.createSequentialGroup()
+                                .addComponent(time3Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(dot3Label))
+                            .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(scheduleCardPanelLayout.createSequentialGroup()
+                                    .addComponent(time5Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(dot5Label))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scheduleCardPanelLayout.createSequentialGroup()
+                                    .addComponent(time4Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(dot4Label))))
                         .addGap(18, 18, 18)
-                        .addComponent(dot1Label)
-                        .addGap(16, 16, 16)
-                        .addComponent(entry1Label))
+                        .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(entry4Label)
+                            .addComponent(entry5Label)
+                            .addComponent(entry3Label)))
                     .addGroup(scheduleCardPanelLayout.createSequentialGroup()
                         .addComponent(time2Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(dot2Label)
-                        .addGap(16, 16, 16)
-                        .addComponent(entry2Label))
-                    .addGroup(scheduleCardPanelLayout.createSequentialGroup()
-                        .addComponent(time3Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(dot3Label)
-                        .addGap(16, 16, 16)
-                        .addComponent(entry3Label))
+                        .addComponent(entry2Label, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(scheduleCardPanelLayout.createSequentialGroup()
-                        .addComponent(time4Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(time1Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(dot4Label)
-                        .addGap(16, 16, 16)
-                        .addComponent(entry4Label))
-                    .addGroup(scheduleCardPanelLayout.createSequentialGroup()
-                        .addComponent(time5Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dot1Label)
                         .addGap(18, 18, 18)
-                        .addComponent(dot5Label)
-                        .addGap(16, 16, 16)
-                        .addComponent(entry5Label)))
-                .addContainerGap(627, Short.MAX_VALUE))
+                        .addComponent(entry1Label)))
+                .addContainerGap(558, Short.MAX_VALUE))
         );
         scheduleCardPanelLayout.setVerticalGroup(
             scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(scheduleCardPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(scheduleTitleLabel)
-                .addGap(22, 22, 22)
-                .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(time1Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dot1Label)
-                    .addComponent(entry1Label))
-                .addGap(18, 18, 18)
-                .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(time2Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dot2Label)
-                    .addComponent(entry2Label))
-                .addGap(18, 18, 18)
-                .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(time3Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dot3Label)
-                    .addComponent(entry3Label))
-                .addGap(18, 18, 18)
-                .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(scheduleCardPanelLayout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(time1Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dot1Label)
+                            .addComponent(entry1Label))
+                        .addGap(18, 18, 18)
+                        .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(time2Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dot2Label))
+                        .addGap(18, 18, 18)
+                        .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dot3Label)
+                            .addComponent(time3Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scheduleCardPanelLayout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(entry2Label)
+                        .addGap(18, 18, 18)
+                        .addComponent(entry3Label)
+                        .addGap(10, 10, 10)))
+                .addGap(7, 7, 7)
+                .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(time4Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dot4Label)
                     .addComponent(entry4Label))
-                .addGap(18, 18, 18)
-                .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(scheduleCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(time5Label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dot5Label)
                     .addComponent(entry5Label))
-                .addGap(24, 24, 24))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainContentPanelLayout = new javax.swing.GroupLayout(mainContentPanel);
@@ -193,16 +211,16 @@ public class SchedulePanel extends javax.swing.JPanel {
         mainContentPanelLayout.setHorizontalGroup(
             mainContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainContentPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addComponent(scheduleCardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
+                .addGap(22, 22, 22))
         );
         mainContentPanelLayout.setVerticalGroup(
             mainContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainContentPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainContentPanelLayout.createSequentialGroup()
+                .addContainerGap(52, Short.MAX_VALUE)
                 .addComponent(scheduleCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         topBarPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -230,7 +248,7 @@ public class SchedulePanel extends javax.swing.JPanel {
             .addGroup(topBarPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(pageTitleLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 866, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 905, Short.MAX_VALUE)
                 .addComponent(adminCircleLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(adminNameLabel1)
@@ -262,9 +280,9 @@ public class SchedulePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(topBarPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(95, 95, 95)
+                .addGap(42, 42, 42)
                 .addComponent(mainContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(307, Short.MAX_VALUE))
+                .addContainerGap(379, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

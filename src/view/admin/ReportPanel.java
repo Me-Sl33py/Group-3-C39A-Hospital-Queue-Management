@@ -249,13 +249,13 @@ public class ReportPanel extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"     Dr.sharma", "        18", "        12 min", "  4.8"},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"abc", "       cardiology", "active", "  12 may", "Dr.xyz", null},
+                {"gggx", "ndddxb", "bxbx", "bxbx", "xbx", "bxbx"},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Doctor", "Patient Seen", "Avg Wait", "Rating"
+                "Patient Name", "Department", "Status", "Visit_Date", "Doctor Assigned", "Actions"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -267,11 +267,11 @@ public class ReportPanel extends javax.swing.JPanel {
             .addGroup(summaryCardPanelLayout.createSequentialGroup()
                 .addGroup(summaryCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(summaryCardPanelLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
+                        .addGap(31, 31, 31)
                         .addComponent(summaryTitleLabel))
                     .addGroup(summaryCardPanelLayout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(21, 21, 21)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 928, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         summaryCardPanelLayout.setVerticalGroup(
@@ -279,9 +279,9 @@ public class ReportPanel extends javax.swing.JPanel {
             .addGroup(summaryCardPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(summaryTitleLabel)
-                .addGap(41, 41, 41)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(285, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainContentPanelLayout = new javax.swing.GroupLayout(mainContentPanel);
@@ -300,9 +300,9 @@ public class ReportPanel extends javax.swing.JPanel {
             .addGroup(mainContentPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(cardsRowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(summaryCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -335,17 +335,8 @@ public class ReportPanel extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel mainContentPanel;
     private javax.swing.JLabel pageTitleLabel;
-    private javax.swing.JLabel rcard1NumberLabel;
-    private javax.swing.JLabel rcard1NumberLabel1;
-    private javax.swing.JLabel rcard1NumberLabel2;
     private javax.swing.JLabel rcard1NumberLabel4;
-    private javax.swing.JPanel rcard1Panel;
-    private javax.swing.JPanel rcard1Panel1;
-    private javax.swing.JPanel rcard1Panel2;
     private javax.swing.JPanel rcard1Panel4;
-    private javax.swing.JLabel rcard1TextLabel;
-    private javax.swing.JLabel rcard1TextLabel1;
-    private javax.swing.JLabel rcard1TextLabel2;
     private javax.swing.JLabel rcard1TextLabel4;
     private javax.swing.JLabel rcard2NumberLabel;
     private javax.swing.JPanel rcard2Panel;

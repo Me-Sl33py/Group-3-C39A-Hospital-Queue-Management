@@ -27,29 +27,26 @@ public class LogoutPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         logoutCardPanel = new javax.swing.JPanel();
-        logoutIconLabel = new javax.swing.JLabel();
         logoutQuestionLabel = new javax.swing.JLabel();
         logoutSubLabel = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        logoutIconLabel = new javax.swing.JLabel();
         topBarPanel = new javax.swing.JPanel();
         pageTitleLabel = new javax.swing.JLabel();
         adminCircleLabel = new javax.swing.JLabel();
         adminNameLabel = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
         logoutCardPanel.setBackground(new java.awt.Color(255, 255, 255));
-        logoutCardPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        logoutIconLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 60)); // NOI18N
-        logoutIconLabel.setForeground(new java.awt.Color(0, 102, 204));
-        logoutIconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        logoutIconLabel.setText("⚪");
-
-        logoutQuestionLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        logoutQuestionLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         logoutQuestionLabel.setForeground(new java.awt.Color(22, 54, 120));
         logoutQuestionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logoutQuestionLabel.setText("Are you sure you want to logout?");
 
+        logoutSubLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         logoutSubLabel.setForeground(new java.awt.Color(100, 100, 100));
         logoutSubLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logoutSubLabel.setText("You will be returned to the login screen.");
@@ -70,34 +67,47 @@ public class LogoutPanel extends javax.swing.JPanel {
         cancelButton.setPreferredSize(new java.awt.Dimension(140, 40));
         cancelButton.addActionListener(this::cancelButtonActionPerformed);
 
+        logoutIconLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 60)); // NOI18N
+        logoutIconLabel.setForeground(new java.awt.Color(0, 102, 204));
+        logoutIconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoutIconLabel.setText("⚪");
+
         javax.swing.GroupLayout logoutCardPanelLayout = new javax.swing.GroupLayout(logoutCardPanel);
         logoutCardPanel.setLayout(logoutCardPanelLayout);
         logoutCardPanelLayout.setHorizontalGroup(
             logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logoutIconLabel, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(logoutQuestionLabel, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(logoutSubLabel, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, logoutCardPanelLayout.createSequentialGroup()
-                .addContainerGap(224, Short.MAX_VALUE)
-                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(225, Short.MAX_VALUE))
+            .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                .addGroup(logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(logoutQuestionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                            .addGap(287, 287, 287)
+                            .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(31, 31, 31)
+                            .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(37, 37, 37)))
+                    .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                        .addGap(307, 307, 307)
+                        .addComponent(logoutSubLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                        .addGap(341, 341, 341)
+                        .addComponent(logoutIconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(308, Short.MAX_VALUE))
         );
         logoutCardPanelLayout.setVerticalGroup(
             logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logoutCardPanelLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(logoutIconLabel)
-                .addGap(24, 24, 24)
+                .addGap(189, 189, 189)
+                .addComponent(logoutIconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(logoutQuestionLabel)
-                .addGap(10, 10, 10)
-                .addComponent(logoutSubLabel)
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(logoutSubLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(150, Short.MAX_VALUE))
+                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
 
         topBarPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -125,7 +135,7 @@ public class LogoutPanel extends javax.swing.JPanel {
             .addGroup(topBarPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(pageTitleLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 782, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1001, Short.MAX_VALUE)
                 .addComponent(adminCircleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(adminNameLabel)
@@ -146,12 +156,9 @@ public class LogoutPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(topBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(topBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(114, 114, 114)
+                .addGap(60, 60, 60)
                 .addComponent(logoutCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -160,9 +167,9 @@ public class LogoutPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(topBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91)
+                .addGap(33, 33, 33)
                 .addComponent(logoutCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(305, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
