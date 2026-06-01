@@ -54,18 +54,18 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblTitle3" min="-2" max="-2" attributes="0"/>
+                              <Component id="HospitalManagement" min="-2" max="-2" attributes="0"/>
+                              <Component id="DoctorPanel" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButton1" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jButton2" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jButton3" alignment="1" pref="223" max="32767" attributes="0"/>
-                              <Component id="jButton4" max="32767" attributes="0"/>
+                              <Component id="MyQueue" alignment="1" max="32767" attributes="0"/>
+                              <Component id="CallNextPatient" alignment="1" max="32767" attributes="0"/>
+                              <Component id="AddMedicalRecords" alignment="1" pref="223" max="32767" attributes="0"/>
+                              <Component id="Account" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -82,17 +82,17 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblTitle3" min="-2" max="-2" attributes="0"/>
+                  <Component id="DoctorPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel27" min="-2" pref="13" max="-2" attributes="0"/>
+                  <Component id="HospitalManagement" min="-2" pref="13" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="54" max="-2" attributes="0"/>
+                  <Component id="MyQueue" min="-2" pref="54" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" pref="57" max="-2" attributes="0"/>
+                  <Component id="CallNextPatient" min="-2" pref="57" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                  <Component id="jButton3" min="-2" pref="61" max="-2" attributes="0"/>
+                  <Component id="AddMedicalRecords" min="-2" pref="61" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                  <Component id="jButton4" min="-2" pref="66" max="-2" attributes="0"/>
+                  <Component id="Account" min="-2" pref="66" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -125,7 +125,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel27">
+        <Component class="javax.swing.JLabel" name="HospitalManagement">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Helvetica Neue" size="10" style="0"/>
@@ -133,7 +133,7 @@
             <Property name="text" type="java.lang.String" value="Hospital Management"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="MyQueue">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="66" red="0" type="rgb"/>
@@ -147,10 +147,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MyQueueActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="CallNextPatient">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="66" red="0" type="rgb"/>
@@ -164,10 +164,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CallNextPatientActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="AddMedicalRecords">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="66" red="0" type="rgb"/>
@@ -181,10 +181,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddMedicalRecordsActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="Account">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="66" red="0" type="rgb"/>
@@ -198,10 +198,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AccountActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblTitle3">
+        <Component class="javax.swing.JLabel" name="DoctorPanel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="24" style="1"/>
@@ -685,7 +685,7 @@
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jPanelUpNext" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="lblTitle1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblCallNextPatient" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
                           </Group>
@@ -697,7 +697,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblTitle1" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblCallNextPatient" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
@@ -735,7 +735,7 @@
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lblActiveConsultationHeader" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblActiveConsultation" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jPanelLiveBadge" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -750,9 +750,9 @@
                                           <Component id="lblPatientId1" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="2" attributes="0">
-                                          <Component id="btnCallNext" min="-2" pref="150" max="-2" attributes="0"/>
+                                          <Component id="CallNext" min="-2" pref="150" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                          <Component id="btnEndSession" min="-2" pref="150" max="-2" attributes="0"/>
+                                          <Component id="EndSession" min="-2" pref="150" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace pref="65" max="32767" attributes="0"/>
@@ -766,7 +766,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="lblActiveConsultationHeader" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblActiveConsultation" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="jPanelLiveBadge" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
@@ -778,8 +778,8 @@
                           </Group>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnCallNext" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="btnEndSession" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="CallNext" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="EndSession" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -787,7 +787,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="lblActiveConsultationHeader">
+                <Component class="javax.swing.JLabel" name="lblActiveConsultation">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="ACTIVE CONSULTATION"/>
                   </Properties>
@@ -799,7 +799,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblLiveBadge" max="32767" attributes="0"/>
+                              <Component id="lblLiveSession" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -808,14 +808,14 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                              <Component id="lblLiveBadge" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblLiveSession" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="lblLiveBadge">
+                    <Component class="javax.swing.JLabel" name="lblLiveSession">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="&#x25cf; LIVE SESSION"/>
                       </Properties>
@@ -837,12 +837,12 @@
                     <Property name="text" type="java.lang.String" value="#HOSP-8829"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnCallNext">
+                <Component class="javax.swing.JButton" name="CallNext">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Call Next"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnEndSession">
+                <Component class="javax.swing.JButton" name="EndSession">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="End Session"/>
                   </Properties>
@@ -862,10 +862,10 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanelQueueItem1" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jPanelQueueItem2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jPatientQueue" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jPatientQueue1" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lblUpNextHeader" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblUpNextINQueue" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -873,7 +873,7 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btnViewFullQueue" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="ViewFullQueue" min="-2" pref="150" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -882,25 +882,25 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                          <Component id="lblUpNextHeader" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblUpNextINQueue" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="jPanelQueueItem1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPatientQueue" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanelQueueItem2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPatientQueue1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Component id="btnViewFullQueue" min="-2" max="-2" attributes="0"/>
+                          <Component id="ViewFullQueue" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="20" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="lblUpNextHeader">
+                <Component class="javax.swing.JLabel" name="lblUpNextINQueue">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="UP NEXT IN QUEUE"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JPanel" name="jPanelQueueItem1">
+                <Container class="javax.swing.JPanel" name="jPatientQueue">
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -940,17 +940,17 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblQueueNum1" alignment="0" pref="32" max="32767" attributes="0"/>
+                              <Component id="lblPatientQueueNum1" alignment="0" pref="32" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblQueueNum1" alignment="0" pref="32" max="32767" attributes="0"/>
+                              <Component id="lblPatientQueueNum1" alignment="0" pref="32" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="lblQueueNum1">
+                        <Component class="javax.swing.JLabel" name="lblPatientQueueNum1">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="2"/>
                           </Properties>
@@ -969,7 +969,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="jPanelQueueItem2">
+                <Container class="javax.swing.JPanel" name="jPatientQueue1">
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -1009,17 +1009,17 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblQueueNum2" alignment="0" pref="32" max="32767" attributes="0"/>
+                              <Component id="lblPatientQueueNum2" alignment="0" pref="32" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblQueueNum2" alignment="0" pref="32" max="32767" attributes="0"/>
+                              <Component id="lblPatientQueueNum2" alignment="0" pref="32" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="lblQueueNum2">
+                        <Component class="javax.swing.JLabel" name="lblPatientQueueNum2">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="3"/>
                           </Properties>
@@ -1038,7 +1038,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="btnViewFullQueue">
+                <Component class="javax.swing.JButton" name="ViewFullQueue">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="View Full Queue"/>
                   </Properties>
@@ -1093,7 +1093,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="jTableHistory1">
+                    <Component class="javax.swing.JTable" name="jTableSessionHistory">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="4" rowCount="2">
@@ -1121,7 +1121,7 @@
                 </Container>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="lblTitle1">
+            <Component class="javax.swing.JLabel" name="lblCallNextPatient">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="24" style="1"/>
@@ -1170,7 +1170,7 @@
                       <Component id="lblTitle" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblSubtitle" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="62" max="32767" attributes="0"/>
+                      <EmptySpace pref="58" max="32767" attributes="0"/>
                       <Component id="panelPatientInfo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       <Component id="panelDoc1" min="-2" max="-2" attributes="0"/>
@@ -1222,8 +1222,12 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Component id="lblPatientId" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="172" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jTextField1" min="-2" pref="154" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="lblPatientName" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jTextField2" min="-2" pref="315" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -1231,10 +1235,12 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblPatientId" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblPatientName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="24" max="32767" attributes="0"/>
                       </Group>
@@ -1263,6 +1269,10 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Patient Name:"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jTextField1">
+                </Component>
+                <Component class="javax.swing.JTextField" name="jTextField2">
                 </Component>
               </SubComponents>
             </Container>
