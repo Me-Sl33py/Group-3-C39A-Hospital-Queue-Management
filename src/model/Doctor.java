@@ -3,70 +3,43 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
- 
+
 public class Doctor {
- 
-    private int    doctorId;
+    private String doctorId;
+    private int    userId;
     private String fullName;
-    private String email;
-    private String phone;
     private String specialization;
-    private String assignedRoom;
-    private String shiftHours;
-    private String securityLevel;
-    private String accountStatus;
-    private String lastLogin;
- 
-    // ── Constructors ──────────────────────────────────────────────────────────
- 
+    private int    departmentId;
+    private String contactNumber;
+    private String availability;
+
     public Doctor() {}
- 
-    public Doctor(int doctorId, String fullName, String email, String phone,
-                  String specialization, String assignedRoom, String shiftHours,
-                  String securityLevel, String accountStatus, String lastLogin) {
+
+    public Doctor(String doctorId, int userId, String fullName,
+                  String specialization, int departmentId,
+                  String contactNumber, String availability) {
         this.doctorId       = doctorId;
+        this.userId         = userId;
         this.fullName       = fullName;
-        this.email          = email;
-        this.phone          = phone;
         this.specialization = specialization;
-        this.assignedRoom   = assignedRoom;
-        this.shiftHours     = shiftHours;
-        this.securityLevel  = securityLevel;
-        this.accountStatus  = accountStatus;
-        this.lastLogin      = lastLogin;
+        this.departmentId   = departmentId;
+        this.contactNumber  = contactNumber;
+        this.availability   = availability;
     }
- 
-    // ── Getters ───────────────────────────────────────────────────────────────
- 
-    public int    getDoctorId()       { return doctorId;       }
+
+    public String getDoctorId()       { return doctorId;       }
+    public int    getUserId()         { return userId;         }
     public String getFullName()       { return fullName;       }
-    public String getEmail()          { return email;          }
-    public String getPhone()          { return phone;          }
     public String getSpecialization() { return specialization; }
-    public String getAssignedRoom()   { return assignedRoom;   }
-    public String getShiftHours()     { return shiftHours;     }
-    public String getSecurityLevel()  { return securityLevel;  }
-    public String getAccountStatus()  { return accountStatus;  }
-    public String getLastLogin()      { return lastLogin;      }
- 
-    // ── Setters ───────────────────────────────────────────────────────────────
- 
-    public void setDoctorId(int doctorId)              { this.doctorId       = doctorId;       }
-    public void setFullName(String fullName)           { this.fullName       = fullName;       }
-    public void setEmail(String email)                 { this.email          = email;          }
-    public void setPhone(String phone)                 { this.phone          = phone;          }
-    public void setSpecialization(String specialization){ this.specialization = specialization;}
-    public void setAssignedRoom(String assignedRoom)   { this.assignedRoom   = assignedRoom;   }
-    public void setShiftHours(String shiftHours)       { this.shiftHours     = shiftHours;     }
-    public void setSecurityLevel(String securityLevel) { this.securityLevel  = securityLevel;  }
-    public void setAccountStatus(String accountStatus) { this.accountStatus  = accountStatus;  }
-    public void setLastLogin(String lastLogin)         { this.lastLogin      = lastLogin;      }
- 
-    @Override
-    public String toString() {
-        return "Doctor{doctorId=" + doctorId +
-               ", fullName='"       + fullName       + '\'' +
-               ", specialization='" + specialization + '\'' +
-               ", accountStatus='"  + accountStatus  + '\'' + '}';
-    }
+    public int    getDepartmentId()   { return departmentId;   }
+    public String getContactNumber()  { return contactNumber;  }
+    public String getAvailability()   { return availability;   }
+
+    public void setDoctorId(String doctorId)             { this.doctorId       = doctorId;       }
+    public void setUserId(int userId)                    { this.userId         = userId;         }
+    public void setFullName(String fullName)             { this.fullName       = fullName;       }
+    public void setSpecialization(String specialization) { this.specialization = specialization; }
+    public void setDepartmentId(int departmentId)        { this.departmentId   = departmentId;   }
+    public void setContactNumber(String contactNumber)   { this.contactNumber  = contactNumber;  }
+    public void setAvailability(String availability)     { this.availability   = availability;   }
 }

@@ -17,11 +17,14 @@ public class DoctorPanel extends javax.swing.JFrame {
      */
     public DoctorPanel() {
         initComponents();
+        addPlaceholder(txtFullName, "Dr. João");
+        addPlaceholder(txtEmail, "joao@hospicare.com");
+        addPlaceholder(txtPhone, "+1 (234) 567-8900");
+        addPlaceholder(txtSpecialization, "Senior Cardiologist");
+        addPlaceholder(txtRoom, "Consultation Room 102");
         
-        jButton1.addActionListener(e -> jTabbedPane1.setSelectedIndex(0));
-        jButton2.addActionListener(e -> jTabbedPane1.setSelectedIndex(1));
-        jButton3.addActionListener(e -> jTabbedPane1.setSelectedIndex(2));
-        jButton4.addActionListener(e -> jTabbedPane1.setSelectedIndex(3));
+        addTextAreaPlaceholder(taMessage1, "Enter detailed clinical notes, patient history update, and recommended next steps...");
+        
         jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
             @Override
             protected int calculateTabAreaHeight(int tabPlacement, int runCount, int maxTabHeight) {
@@ -32,15 +35,21 @@ public class DoctorPanel extends javax.swing.JFrame {
     // =====================================================================
 // GETTERS — expose UI components to the controller
 // =====================================================================
-
-public javax.swing.JTable getQueueTable()            { return jTable2;          }
-public javax.swing.JButton getBtnCallNextDashboard() { return jButton6;         }
-public javax.swing.JLabel getLblActivePatientName()  { return lblPatientName1;  }
-public javax.swing.JLabel getLblActivePatientId()    { return lblPatientId1;    }
-public javax.swing.JButton getBtnCallNext()          { return btnCallNext;      }
-public javax.swing.JButton getBtnEndSession()        { return btnEndSession;    }
-public javax.swing.JButton getBtnViewFullQueue()     { return btnViewFullQueue; }
-public javax.swing.JTable getSessionHistoryTable()   { return jTableHistory1;   }
+public javax.swing.JTextField getTxtPatientIdField()   { return jTextField1; }
+public javax.swing.JTextField getTxtPatientNameField() { return jTextField2; }
+public javax.swing.JButton getBtnMyQueue()        { return MyQueue;          }
+public javax.swing.JButton getBtnCallNextPatient(){ return CallNextPatient;  }
+public javax.swing.JButton getBtnAddRecords()     { return AddMedicalRecords;}
+public javax.swing.JButton getBtnAccount()        { return Account;          }
+public javax.swing.JTabbedPane getTabbedPane() { return jTabbedPane1; }
+public javax.swing.JTable getQueueTable()            { return jTable2;}
+public javax.swing.JButton getBtnCallNextDashboard() { return jButton6;}
+public javax.swing.JLabel getLblActivePatientName()  { return lblPatientName1;}
+public javax.swing.JLabel getLblActivePatientId()    { return lblPatientId1;}
+public javax.swing.JButton getBtnCallNext()          { return CallNext;      }
+public javax.swing.JButton getBtnEndSession()        { return EndSession;    }
+public javax.swing.JButton getBtnViewFullQueue()     { return ViewFullQueue; }
+public javax.swing.JTable getSessionHistoryTable()   { return jTableSessionHistory;}
 public javax.swing.JLabel getLblRecordPatientId()    { return lblPatientId;     }
 public javax.swing.JLabel getLblRecordPatientName()  { return lblPatientName;   }
 public javax.swing.JTextArea getTaMessage()          { return taMessage1;       }
@@ -60,6 +69,45 @@ public javax.swing.JButton getBtnSave()              { return btnSave;          
 public javax.swing.JButton getBtnCancelAccount()     { return btnCancel2;       }
 public javax.swing.JButton getBtnLogout()            { return jButton5;         }
 
+private void addPlaceholder(javax.swing.JTextField field, String placeholder) {
+    field.setForeground(java.awt.Color.GRAY);
+    field.addFocusListener(new java.awt.event.FocusAdapter() {
+        @Override
+        public void focusGained(java.awt.event.FocusEvent e) {
+            if (field.getText().equals(placeholder)) {
+                field.setText("");
+                field.setForeground(java.awt.Color.BLACK);
+            }
+        }
+        @Override
+        public void focusLost(java.awt.event.FocusEvent e) {
+            if (field.getText().trim().isEmpty()) {
+                field.setText(placeholder);
+                field.setForeground(java.awt.Color.GRAY);
+            }
+        }
+    });
+}
+private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placeholder) {
+    area.setForeground(java.awt.Color.GRAY);
+    area.addFocusListener(new java.awt.event.FocusAdapter() {
+        @Override
+        public void focusGained(java.awt.event.FocusEvent e) {
+            if (area.getText().equals(placeholder)) {
+                area.setText("");
+                area.setForeground(java.awt.Color.BLACK);
+            }
+        }
+        @Override
+        public void focusLost(java.awt.event.FocusEvent e) {
+            if (area.getText().trim().isEmpty()) {
+                area.setText(placeholder);
+                area.setForeground(java.awt.Color.GRAY);
+            }
+        }
+    });
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,12 +119,12 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
 
         jPanel1 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
-        jLabel27 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        lblTitle3 = new javax.swing.JLabel();
+        HospitalManagement = new javax.swing.JLabel();
+        MyQueue = new javax.swing.JButton();
+        CallNextPatient = new javax.swing.JButton();
+        AddMedicalRecords = new javax.swing.JButton();
+        Account = new javax.swing.JButton();
+        DoctorPanel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
@@ -101,38 +149,40 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
         jPanel3 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanelActiveConsultation = new javax.swing.JPanel();
-        lblActiveConsultationHeader = new javax.swing.JLabel();
+        lblActiveConsultation = new javax.swing.JLabel();
         jPanelLiveBadge = new javax.swing.JPanel();
-        lblLiveBadge = new javax.swing.JLabel();
+        lblLiveSession = new javax.swing.JLabel();
         lblPatientName1 = new javax.swing.JLabel();
         lblPatientIdLabel = new javax.swing.JLabel();
         lblPatientId1 = new javax.swing.JLabel();
-        btnCallNext = new javax.swing.JButton();
-        btnEndSession = new javax.swing.JButton();
+        CallNext = new javax.swing.JButton();
+        EndSession = new javax.swing.JButton();
         jPanelUpNext = new javax.swing.JPanel();
-        lblUpNextHeader = new javax.swing.JLabel();
-        jPanelQueueItem1 = new javax.swing.JPanel();
+        lblUpNextINQueue = new javax.swing.JLabel();
+        jPatientQueue = new javax.swing.JPanel();
         jPanelNumContainer1 = new javax.swing.JPanel();
-        lblQueueNum1 = new javax.swing.JLabel();
+        lblPatientQueueNum1 = new javax.swing.JLabel();
         lblQueueName1 = new javax.swing.JLabel();
         lblQueueDesc1 = new javax.swing.JLabel();
-        jPanelQueueItem2 = new javax.swing.JPanel();
+        jPatientQueue1 = new javax.swing.JPanel();
         jPanelNumContainer2 = new javax.swing.JPanel();
-        lblQueueNum2 = new javax.swing.JLabel();
+        lblPatientQueueNum2 = new javax.swing.JLabel();
         lblQueueName2 = new javax.swing.JLabel();
         lblQueueDesc2 = new javax.swing.JLabel();
-        btnViewFullQueue = new javax.swing.JButton();
+        ViewFullQueue = new javax.swing.JButton();
         jPanelSessionHistory1 = new javax.swing.JPanel();
         lblHistoryHeader1 = new javax.swing.JLabel();
         jScrollPaneHistory1 = new javax.swing.JScrollPane();
-        jTableHistory1 = new javax.swing.JTable();
-        lblTitle1 = new javax.swing.JLabel();
+        jTableSessionHistory = new javax.swing.JTable();
+        lblCallNextPatient = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
         lblSubtitle = new javax.swing.JLabel();
         panelPatientInfo = new javax.swing.JPanel();
         lblPatientId = new javax.swing.JLabel();
         lblPatientName = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
         panelDoc1 = new javax.swing.JPanel();
         lblDocTitle1 = new javax.swing.JLabel();
         lblMessage1 = new javax.swing.JLabel();
@@ -181,35 +231,35 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
         jButton5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jButton5.addActionListener(this::jButton5ActionPerformed);
 
-        jLabel27.setFont(new java.awt.Font("Helvetica Neue", 0, 10)); // NOI18N
-        jLabel27.setText("Hospital Management");
+        HospitalManagement.setFont(new java.awt.Font("Helvetica Neue", 0, 10)); // NOI18N
+        HospitalManagement.setText("Hospital Management");
 
-        jButton1.setBackground(new java.awt.Color(0, 102, 255));
-        jButton1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jButton1.setText("My Queue");
-        jButton1.setBorder(null);
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        MyQueue.setBackground(new java.awt.Color(0, 102, 255));
+        MyQueue.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        MyQueue.setText("My Queue");
+        MyQueue.setBorder(null);
+        MyQueue.addActionListener(this::MyQueueActionPerformed);
 
-        jButton2.setBackground(new java.awt.Color(0, 102, 255));
-        jButton2.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jButton2.setText("Call Next Patient");
-        jButton2.setBorder(null);
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        CallNextPatient.setBackground(new java.awt.Color(0, 102, 255));
+        CallNextPatient.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        CallNextPatient.setText("Call Next Patient");
+        CallNextPatient.setBorder(null);
+        CallNextPatient.addActionListener(this::CallNextPatientActionPerformed);
 
-        jButton3.setBackground(new java.awt.Color(0, 102, 255));
-        jButton3.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jButton3.setText("Add Medical Records");
-        jButton3.setBorder(null);
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        AddMedicalRecords.setBackground(new java.awt.Color(0, 102, 255));
+        AddMedicalRecords.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        AddMedicalRecords.setText("Add Medical Records");
+        AddMedicalRecords.setBorder(null);
+        AddMedicalRecords.addActionListener(this::AddMedicalRecordsActionPerformed);
 
-        jButton4.setBackground(new java.awt.Color(0, 102, 255));
-        jButton4.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jButton4.setText("Account");
-        jButton4.setBorder(null);
-        jButton4.addActionListener(this::jButton4ActionPerformed);
+        Account.setBackground(new java.awt.Color(0, 102, 255));
+        Account.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        Account.setText("Account");
+        Account.setBorder(null);
+        Account.addActionListener(this::AccountActionPerformed);
 
-        lblTitle3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblTitle3.setText("Doctor Panel");
+        DoctorPanel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        DoctorPanel.setText("Doctor Panel");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -221,16 +271,16 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel27)
-                            .addComponent(lblTitle3))
+                            .addComponent(HospitalManagement)
+                            .addComponent(DoctorPanel))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(MyQueue, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CallNextPatient, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(AddMedicalRecords, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                            .addComponent(Account, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -241,17 +291,17 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTitle3)
+                .addComponent(DoctorPanel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(HospitalManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MyQueue, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CallNextPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(AddMedicalRecords, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Account, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -478,9 +528,9 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
 
         jPanelActiveConsultation.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblActiveConsultationHeader.setText("ACTIVE CONSULTATION");
+        lblActiveConsultation.setText("ACTIVE CONSULTATION");
 
-        lblLiveBadge.setText("● LIVE SESSION");
+        lblLiveSession.setText("● LIVE SESSION");
 
         javax.swing.GroupLayout jPanelLiveBadgeLayout = new javax.swing.GroupLayout(jPanelLiveBadge);
         jPanelLiveBadge.setLayout(jPanelLiveBadgeLayout);
@@ -488,14 +538,14 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
             jPanelLiveBadgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLiveBadgeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblLiveBadge, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblLiveSession, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelLiveBadgeLayout.setVerticalGroup(
             jPanelLiveBadgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLiveBadgeLayout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(lblLiveBadge)
+                .addComponent(lblLiveSession)
                 .addGap(2, 2, 2))
         );
 
@@ -505,9 +555,9 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
 
         lblPatientId1.setText("#HOSP-8829");
 
-        btnCallNext.setText("Call Next");
+        CallNext.setText("Call Next");
 
-        btnEndSession.setText("End Session");
+        EndSession.setText("End Session");
 
         javax.swing.GroupLayout jPanelActiveConsultationLayout = new javax.swing.GroupLayout(jPanelActiveConsultation);
         jPanelActiveConsultation.setLayout(jPanelActiveConsultationLayout);
@@ -517,7 +567,7 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
                 .addGap(24, 24, 24)
                 .addGroup(jPanelActiveConsultationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelActiveConsultationLayout.createSequentialGroup()
-                        .addComponent(lblActiveConsultationHeader)
+                        .addComponent(lblActiveConsultation)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanelLiveBadge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24))
@@ -530,9 +580,9 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblPatientId1))
                             .addGroup(jPanelActiveConsultationLayout.createSequentialGroup()
-                                .addComponent(btnCallNext, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CallNext, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnEndSession, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(EndSession, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(65, Short.MAX_VALUE))))
         );
         jPanelActiveConsultationLayout.setVerticalGroup(
@@ -540,7 +590,7 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
             .addGroup(jPanelActiveConsultationLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanelActiveConsultationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblActiveConsultationHeader)
+                    .addComponent(lblActiveConsultation)
                     .addComponent(jPanelLiveBadge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addComponent(lblPatientName1)
@@ -550,102 +600,102 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
                     .addComponent(lblPatientId1))
                 .addGap(28, 28, 28)
                 .addGroup(jPanelActiveConsultationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCallNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEndSession, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CallNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EndSession, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelUpNext.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblUpNextHeader.setText("UP NEXT IN QUEUE");
+        lblUpNextINQueue.setText("UP NEXT IN QUEUE");
 
-        lblQueueNum1.setText("2");
+        lblPatientQueueNum1.setText("2");
 
         javax.swing.GroupLayout jPanelNumContainer1Layout = new javax.swing.GroupLayout(jPanelNumContainer1);
         jPanelNumContainer1.setLayout(jPanelNumContainer1Layout);
         jPanelNumContainer1Layout.setHorizontalGroup(
             jPanelNumContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblQueueNum1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+            .addComponent(lblPatientQueueNum1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
         );
         jPanelNumContainer1Layout.setVerticalGroup(
             jPanelNumContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblQueueNum1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+            .addComponent(lblPatientQueueNum1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
         );
 
         lblQueueName1.setText("Ms. Anita Sharma");
 
         lblQueueDesc1.setText("Follow-up • 10:45 AM");
 
-        javax.swing.GroupLayout jPanelQueueItem1Layout = new javax.swing.GroupLayout(jPanelQueueItem1);
-        jPanelQueueItem1.setLayout(jPanelQueueItem1Layout);
-        jPanelQueueItem1Layout.setHorizontalGroup(
-            jPanelQueueItem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelQueueItem1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPatientQueueLayout = new javax.swing.GroupLayout(jPatientQueue);
+        jPatientQueue.setLayout(jPatientQueueLayout);
+        jPatientQueueLayout.setHorizontalGroup(
+            jPatientQueueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPatientQueueLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNumContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelQueueItem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPatientQueueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblQueueName1)
                     .addComponent(lblQueueDesc1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanelQueueItem1Layout.setVerticalGroup(
-            jPanelQueueItem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelQueueItem1Layout.createSequentialGroup()
+        jPatientQueueLayout.setVerticalGroup(
+            jPatientQueueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPatientQueueLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelQueueItem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPatientQueueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelNumContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelQueueItem1Layout.createSequentialGroup()
+                    .addGroup(jPatientQueueLayout.createSequentialGroup()
                         .addComponent(lblQueueName1)
                         .addGap(2, 2, 2)
                         .addComponent(lblQueueDesc1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblQueueNum2.setText("3");
+        lblPatientQueueNum2.setText("3");
 
         javax.swing.GroupLayout jPanelNumContainer2Layout = new javax.swing.GroupLayout(jPanelNumContainer2);
         jPanelNumContainer2.setLayout(jPanelNumContainer2Layout);
         jPanelNumContainer2Layout.setHorizontalGroup(
             jPanelNumContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblQueueNum2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+            .addComponent(lblPatientQueueNum2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
         );
         jPanelNumContainer2Layout.setVerticalGroup(
             jPanelNumContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblQueueNum2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+            .addComponent(lblPatientQueueNum2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
         );
 
         lblQueueName2.setText("David Chen");
 
         lblQueueDesc2.setText("General Checkup • 11:00 AM");
 
-        javax.swing.GroupLayout jPanelQueueItem2Layout = new javax.swing.GroupLayout(jPanelQueueItem2);
-        jPanelQueueItem2.setLayout(jPanelQueueItem2Layout);
-        jPanelQueueItem2Layout.setHorizontalGroup(
-            jPanelQueueItem2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelQueueItem2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPatientQueue1Layout = new javax.swing.GroupLayout(jPatientQueue1);
+        jPatientQueue1.setLayout(jPatientQueue1Layout);
+        jPatientQueue1Layout.setHorizontalGroup(
+            jPatientQueue1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPatientQueue1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNumContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelQueueItem2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPatientQueue1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblQueueName2)
                     .addComponent(lblQueueDesc2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanelQueueItem2Layout.setVerticalGroup(
-            jPanelQueueItem2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelQueueItem2Layout.createSequentialGroup()
+        jPatientQueue1Layout.setVerticalGroup(
+            jPatientQueue1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPatientQueue1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelQueueItem2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPatientQueue1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelNumContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelQueueItem2Layout.createSequentialGroup()
+                    .addGroup(jPatientQueue1Layout.createSequentialGroup()
                         .addComponent(lblQueueName2)
                         .addGap(2, 2, 2)
                         .addComponent(lblQueueDesc2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnViewFullQueue.setText("View Full Queue");
+        ViewFullQueue.setText("View Full Queue");
 
         javax.swing.GroupLayout jPanelUpNextLayout = new javax.swing.GroupLayout(jPanelUpNext);
         jPanelUpNext.setLayout(jPanelUpNextLayout);
@@ -654,28 +704,28 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
             .addGroup(jPanelUpNextLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanelUpNextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelQueueItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelQueueItem2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPatientQueue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPatientQueue1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelUpNextLayout.createSequentialGroup()
-                        .addComponent(lblUpNextHeader)
+                        .addComponent(lblUpNextINQueue)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(20, 20, 20))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUpNextLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnViewFullQueue, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ViewFullQueue, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
         );
         jPanelUpNextLayout.setVerticalGroup(
             jPanelUpNextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUpNextLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(lblUpNextHeader)
+                .addComponent(lblUpNextINQueue)
                 .addGap(18, 18, 18)
-                .addComponent(jPanelQueueItem1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPatientQueue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelQueueItem2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPatientQueue1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(btnViewFullQueue)
+                .addComponent(ViewFullQueue)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -683,7 +733,7 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
 
         lblHistoryHeader1.setText("Session History (Today)");
 
-        jTableHistory1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableSessionHistory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"09:15 AM", "John Doe", "COMPLETED", "View File"},
                 {"09:40 AM", "Sarah Williams", "COMPLETED", "View File"}
@@ -700,7 +750,7 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
                 return canEdit [columnIndex];
             }
         });
-        jScrollPaneHistory1.setViewportView(jTableHistory1);
+        jScrollPaneHistory1.setViewportView(jTableSessionHistory);
 
         javax.swing.GroupLayout jPanelSessionHistory1Layout = new javax.swing.GroupLayout(jPanelSessionHistory1);
         jPanelSessionHistory1.setLayout(jPanelSessionHistory1Layout);
@@ -725,9 +775,9 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
                 .addGap(20, 20, 20))
         );
 
-        lblTitle1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblTitle1.setForeground(new java.awt.Color(30, 41, 59));
-        lblTitle1.setText("Call Next Patient");
+        lblCallNextPatient.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblCallNextPatient.setForeground(new java.awt.Color(30, 41, 59));
+        lblCallNextPatient.setText("Call Next Patient");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -744,14 +794,14 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
                                 .addComponent(jPanelActiveConsultation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jPanelUpNext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblTitle1))
+                            .addComponent(lblCallNextPatient))
                         .addGap(0, 10, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(lblTitle1)
+                .addComponent(lblCallNextPatient)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addGap(70, 70, 70)
@@ -791,17 +841,23 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
             .addGroup(panelPatientInfoLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(lblPatientId)
-                .addGap(172, 172, 172)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblPatientName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelPatientInfoLayout.setVerticalGroup(
             panelPatientInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPatientInfoLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(20, 20, 20)
                 .addGroup(panelPatientInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPatientId)
-                    .addComponent(lblPatientName))
+                    .addComponent(lblPatientName)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -890,7 +946,7 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
                 .addComponent(lblTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSubtitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(panelPatientInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addComponent(panelDoc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1111,25 +1167,25 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void AccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccountActionPerformed
         // TODO add your handling code here:
          
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_AccountActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void MyQueueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyQueueActionPerformed
        
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_MyQueueActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void CallNextPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CallNextPatientActionPerformed
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_CallNextPatientActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void AddMedicalRecordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMedicalRecordsActionPerformed
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_AddMedicalRecordsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1161,17 +1217,19 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCallNext;
+    private javax.swing.JButton Account;
+    private javax.swing.JButton AddMedicalRecords;
+    private javax.swing.JButton CallNext;
+    private javax.swing.JButton CallNextPatient;
+    private javax.swing.JLabel DoctorPanel;
+    private javax.swing.JButton EndSession;
+    private javax.swing.JLabel HospitalManagement;
+    private javax.swing.JButton MyQueue;
+    private javax.swing.JButton ViewFullQueue;
     private javax.swing.JButton btnCancel1;
     private javax.swing.JButton btnCancel2;
-    private javax.swing.JButton btnEndSession;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSubmit1;
-    private javax.swing.JButton btnViewFullQueue;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel12;
@@ -1181,7 +1239,6 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1200,11 +1257,11 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
     private javax.swing.JPanel jPanelNumContainer1;
     private javax.swing.JPanel jPanelNumContainer2;
     private javax.swing.JPanel jPanelProfileCard;
-    private javax.swing.JPanel jPanelQueueItem1;
-    private javax.swing.JPanel jPanelQueueItem2;
     private javax.swing.JPanel jPanelSessionHistory1;
     private javax.swing.JPanel jPanelStatusCard;
     private javax.swing.JPanel jPanelUpNext;
+    private javax.swing.JPanel jPatientQueue;
+    private javax.swing.JPanel jPatientQueue1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneHistory1;
     private javax.swing.JSeparator jSeparator1;
@@ -1212,11 +1269,14 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTableHistory1;
+    private javax.swing.JTable jTableSessionHistory;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblAccountStatus;
     private javax.swing.JLabel lblAccountStatusVal;
-    private javax.swing.JLabel lblActiveConsultationHeader;
+    private javax.swing.JLabel lblActiveConsultation;
     private javax.swing.JLabel lblAssignedRoom;
+    private javax.swing.JLabel lblCallNextPatient;
     private javax.swing.JLabel lblContactNumber;
     private javax.swing.JLabel lblDocTitle1;
     private javax.swing.JLabel lblDoctorId;
@@ -1226,19 +1286,19 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
     private javax.swing.JLabel lblHistoryHeader1;
     private javax.swing.JLabel lblLastLogin;
     private javax.swing.JLabel lblLastLoginVal;
-    private javax.swing.JLabel lblLiveBadge;
+    private javax.swing.JLabel lblLiveSession;
     private javax.swing.JLabel lblMessage1;
     private javax.swing.JLabel lblPatientId;
     private javax.swing.JLabel lblPatientId1;
     private javax.swing.JLabel lblPatientIdLabel;
     private javax.swing.JLabel lblPatientName;
     private javax.swing.JLabel lblPatientName1;
+    private javax.swing.JLabel lblPatientQueueNum1;
+    private javax.swing.JLabel lblPatientQueueNum2;
     private javax.swing.JLabel lblQueueDesc1;
     private javax.swing.JLabel lblQueueDesc2;
     private javax.swing.JLabel lblQueueName1;
     private javax.swing.JLabel lblQueueName2;
-    private javax.swing.JLabel lblQueueNum1;
-    private javax.swing.JLabel lblQueueNum2;
     private javax.swing.JLabel lblSecurityLevel;
     private javax.swing.JLabel lblSecurityLevelVal;
     private javax.swing.JLabel lblShiftHours;
@@ -1247,11 +1307,9 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
     private javax.swing.JLabel lblSubtitle;
     private javax.swing.JLabel lblSubtitle1;
     private javax.swing.JLabel lblTitle;
-    private javax.swing.JLabel lblTitle1;
     private javax.swing.JLabel lblTitle2;
-    private javax.swing.JLabel lblTitle3;
     private javax.swing.JLabel lblTitle4;
-    private javax.swing.JLabel lblUpNextHeader;
+    private javax.swing.JLabel lblUpNextINQueue;
     private javax.swing.JPanel panelDoc1;
     private javax.swing.JPanel panelPatientInfo;
     private javax.swing.JScrollPane scrollPane1;
@@ -1262,4 +1320,5 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
     private javax.swing.JTextField txtRoom;
     private javax.swing.JTextField txtSpecialization;
     // End of variables declaration//GEN-END:variables
+
 }

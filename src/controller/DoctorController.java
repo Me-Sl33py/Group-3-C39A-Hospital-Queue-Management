@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller;
- 
+
 import dao.DoctorDAO;
 import dao.MedicalRecordDAO;
 import dao.PatientDAO;
@@ -11,35 +11,23 @@ import model.Doctor;
 import model.MedicalRecord;
 import model.Patient;
 import view.DoctorPanel;
- 
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
- 
-/**
- * DoctorController — ALL action logic lives here.
- * The view has zero business logic; the controller reads/writes it via getters.
- *
- * How to use:
- *   DoctorPanel view = new DoctorPanel();
- *   new DoctorController(view);   // wires everything
- *   view.setVisible(true);
- */
+
 public class DoctorController {
- 
+
     // ── Dependencies ──────────────────────────────────────────────────────────
-    private final DoctorPanel       view;
-    private final PatientDAO        patientDAO;
-    private final MedicalRecordDAO  recordDAO;
-    private final DoctorDAO         doctorDAO;
- 
+    private final DoctorPanel      view;
+    private final PatientDAO       patientDAO;
+    private final MedicalRecordDAO recordDAO;
+    private final DoctorDAO        doctorDAO;
+
     // ── Session state ─────────────────────────────────────────────────────────
-    /** The logged-in doctor. Set this after login before opening the panel. */
-    private Doctor currentDoctor;
- 
-    /** The patient currently in consultation. */
+    private Doctor  currentDoctor;
     private Patient activePatient;
- 
+
     // =========================================================================
     // Constructor — wires all buttons
     // =========================================================================
@@ -48,75 +36,70 @@ public class DoctorController {
         this.patientDAO = new PatientDAO();
         this.recordDAO  = new MedicalRecordDAO();
         this.doctorDAO  = new DoctorDAO();
- 
-        // Ensure tables exist
+
         patientDAO.createTableIfNotExists();
         recordDAO.createTableIfNotExists();
         doctorDAO.createTableIfNotExists();
- 
+
         attachListeners();
-        loadQueueTable();       // populate Tab 1 on startup
+        loadQueueTable();
     }
- 
+
     // =========================================================================
     // Wire buttons to action methods
     // =========================================================================
     private void attachListeners() {
- 
+
+        // ── Sidebar navigation ────────────────────────────────────────────────
+        view.getBtnMyQueue().addActionListener(e -> view.getTabbedPane().setSelectedIndex(0));
+        view.getBtnCallNextPatient().addActionListener(e -> view.getTabbedPane().setSelectedIndex(1));
+        view.getBtnAddRecords().addActionListener(e -> view.getTabbedPane().setSelectedIndex(2));
+        view.getBtnAccount().addActionListener(e -> view.getTabbedPane().setSelectedIndex(3));
+
         // ── Tab 1 : dashboard "Call Next Patient" card button ─────────────────
         view.getBtnCallNextDashboard().addActionListener(e -> callNextPatient());
- 
+
         // ── Tab 2 : active consultation ───────────────────────────────────────
         view.getBtnCallNext().addActionListener(e -> callNextPatient());
         view.getBtnEndSession().addActionListener(e -> endSession());
-        view.getBtnViewFullQueue().addActionListener(e -> loadQueueTable());
- 
+        view.getBtnViewFullQueue().addActionListener(e -> {
+            loadQueueTable();
+            view.getTabbedPane().setSelectedIndex(0);
+        });
+
         // ── Tab 3 : medical record form ───────────────────────────────────────
         view.getBtnSubmitRecord().addActionListener(e -> submitMedicalRecord());
         view.getBtnCancelRecord().addActionListener(e -> clearRecordForm());
- 
+
         // ── Tab 4 : account settings ──────────────────────────────────────────
         view.getBtnSave().addActionListener(e -> saveAccountChanges());
         view.getBtnCancelAccount().addActionListener(e -> loadAccountData());
- 
+
         // ── Sidebar : logout ──────────────────────────────────────────────────
         view.getBtnLogout().addActionListener(e -> logout());
     }
- 
+
     // =========================================================================
     // Tab 1 — My Queue
     // =========================================================================
- 
-    /**
-     * Fetches all patients from the database and populates jTable2 (queue table).
-     */
     public void loadQueueTable() {
-        List<Patient> patients = patientDAO.getAllPatients();
- 
+        if (currentDoctor == null) return;
+
+        List<Object[]> rows = patientDAO.getQueueByDoctor(currentDoctor.getDoctorId());
         DefaultTableModel model = (DefaultTableModel) view.getQueueTable().getModel();
-        model.setRowCount(0); // clear existing rows
- 
-        for (Patient p : patients) {
-            model.addRow(new Object[]{
-                p.getPatientId(),
-                p.getName(),
-                p.getStatus(),
-                "View File"
-            });
+        model.setRowCount(0);
+
+        for (Object[] row : rows) {
+            model.addRow(row);
         }
     }
- 
+
     // =========================================================================
     // Tab 2 — Call Next Patient
     // =========================================================================
- 
-    /**
-     * Pulls the next waiting patient from DB, marks them as active,
-     * and updates the Active Consultation panel.
-     */
     public void callNextPatient() {
         Patient next = patientDAO.getNextWaitingPatient();
- 
+
         if (next == null) {
             JOptionPane.showMessageDialog(view,
                     "No more patients in the queue.",
@@ -124,32 +107,29 @@ public class DoctorController {
                     JOptionPane.INFORMATION_MESSAGE);
             return;
         }
- 
-        // Mark the old active patient as Completed (if any)
+
+        // Mark the old active patient as completed (if any)
         if (activePatient != null) {
-            patientDAO.updatePatientStatus(activePatient.getPatientId(), "Completed");
+            patientDAO.updateQueueStatus(activePatient.getPatientId(), "completed");
             addRowToHistory(activePatient);
         }
- 
-        // Update status in DB to "In Progress" (so it no longer shows as Waiting)
-        patientDAO.updatePatientStatus(next.getPatientId(), "In Progress");
+
+        // Update status in DB
+        patientDAO.updateQueueStatus(next.getPatientId(), "in consultation");
         activePatient = next;
- 
+
         // Update the UI labels
-        view.getLblActivePatientName().setText(next.getName());
-        view.getLblActivePatientId().setText("#HOSP-" + next.getPatientId());
- 
-        // Also update Tab 3 patient info
-        view.getLblRecordPatientId().setText("Patient ID:  #HOSP-" + next.getPatientId());
-        view.getLblRecordPatientName().setText("Patient Name:  " + next.getName());
- 
+        view.getLblActivePatientName().setText(next.getFullName());
+        view.getLblActivePatientId().setText(next.getPatientId());
+
+        // Update Tab 3 patient info fields
+        view.getTxtPatientIdField().setText(next.getPatientId());
+        view.getTxtPatientNameField().setText(next.getFullName());
+
         // Refresh the queue table
         loadQueueTable();
     }
- 
-    /**
-     * Ends the current session without calling the next patient.
-     */
+
     public void endSession() {
         if (activePatient == null) {
             JOptionPane.showMessageDialog(view,
@@ -158,40 +138,34 @@ public class DoctorController {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
- 
-        patientDAO.updatePatientStatus(activePatient.getPatientId(), "Completed");
+
+        patientDAO.updateQueueStatus(activePatient.getPatientId(), "completed");
         addRowToHistory(activePatient);
         activePatient = null;
- 
+
         view.getLblActivePatientName().setText("—");
         view.getLblActivePatientId().setText("—");
         loadQueueTable();
     }
- 
-    /** Adds a completed patient row to the session history table. */
+
     private void addRowToHistory(Patient patient) {
         DefaultTableModel historyModel =
                 (DefaultTableModel) view.getSessionHistoryTable().getModel();
- 
+
         String time = java.time.LocalTime.now()
                 .format(java.time.format.DateTimeFormatter.ofPattern("hh:mm a"));
- 
+
         historyModel.addRow(new Object[]{
             time,
-            patient.getName(),
+            patient.getFullName(),
             "COMPLETED",
             "View File"
         });
     }
- 
+
     // =========================================================================
     // Tab 3 — Add Medical Records
     // =========================================================================
- 
-    /**
-     * Reads the clinical notes from the text area, builds a MedicalRecord,
-     * and inserts it into the database.
-     */
     public void submitMedicalRecord() {
         if (activePatient == null) {
             JOptionPane.showMessageDialog(view,
@@ -200,7 +174,7 @@ public class DoctorController {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
- 
+
         String notes = view.getTaMessage().getText().trim();
         if (notes.isEmpty() ||
             notes.equals("Enter detailed clinical notes, patient history update, " +
@@ -211,17 +185,19 @@ public class DoctorController {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
- 
-        int doctorId = (currentDoctor != null) ? currentDoctor.getDoctorId() : 0;
- 
+
+        String doctorId = (currentDoctor != null) ? currentDoctor.getDoctorId() : "";
+
         MedicalRecord record = new MedicalRecord();
         record.setPatientId(activePatient.getPatientId());
-        record.setPatientName(activePatient.getName());
         record.setDoctorId(doctorId);
-        record.setClinicalNotes(notes);
- 
+        record.setNotes(notes);
+        record.setDiagnosis("");
+        record.setPrescription("");
+        record.setAppointmentId(0);
+
         boolean saved = recordDAO.insertRecord(record);
- 
+
         if (saved) {
             JOptionPane.showMessageDialog(view,
                     "Medical record saved successfully.",
@@ -235,45 +211,31 @@ public class DoctorController {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
- 
-    /** Clears the clinical notes text area. */
+
     public void clearRecordForm() {
         view.getTaMessage().setText(
             "Enter detailed clinical notes, patient history update, " +
             "and recommended next steps...");
     }
- 
+
     // =========================================================================
     // Tab 4 — Account Settings
     // =========================================================================
- 
-    /**
-     * Loads the current doctor's data from the DB and populates the form fields.
-     * Call this after setting currentDoctor.
-     */
     public void loadAccountData() {
         if (currentDoctor == null) return;
- 
+
         Doctor d = doctorDAO.getDoctorById(currentDoctor.getDoctorId());
         if (d == null) return;
- 
-        currentDoctor = d; // refresh
- 
+
+        currentDoctor = d;
+
         view.getTxtFullName().setText(d.getFullName());
-        view.getTxtEmail().setText(d.getEmail());
-        view.getTxtPhone().setText(d.getPhone());
+        view.getTxtPhone().setText(d.getContactNumber());
         view.getTxtSpecialization().setText(d.getSpecialization());
-        view.getTxtRoom().setText(d.getAssignedRoom());
-        view.getLblShiftHoursVal().setText(d.getShiftHours());
-        view.getLblDoctorIdVal().setText("#DOC-" + d.getDoctorId());
-        view.getLblSecurityLevelVal().setText(d.getSecurityLevel());
-        view.getLblAccountStatusVal().setText(d.getAccountStatus());
-        view.getLblLastLoginVal().setText(d.getLastLogin());
+        view.getLblDoctorIdVal().setText(d.getDoctorId());
+        view.getLblAccountStatusVal().setText(d.getAvailability());
     }
- 
-    /**
-     * Reads form fields and persists changes to the database.
-     */
+
     public void saveAccountChanges() {
         if (currentDoctor == null) {
             JOptionPane.showMessageDialog(view,
@@ -282,15 +244,13 @@ public class DoctorController {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
- 
+
         currentDoctor.setFullName(view.getTxtFullName().getText().trim());
-        currentDoctor.setEmail(view.getTxtEmail().getText().trim());
-        currentDoctor.setPhone(view.getTxtPhone().getText().trim());
+        currentDoctor.setContactNumber(view.getTxtPhone().getText().trim());
         currentDoctor.setSpecialization(view.getTxtSpecialization().getText().trim());
-        currentDoctor.setAssignedRoom(view.getTxtRoom().getText().trim());
- 
+
         boolean updated = doctorDAO.updateDoctorProfile(currentDoctor);
- 
+
         if (updated) {
             JOptionPane.showMessageDialog(view,
                     "Profile updated successfully.",
@@ -303,7 +263,7 @@ public class DoctorController {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
- 
+
     // =========================================================================
     // Logout
     // =========================================================================
@@ -312,24 +272,24 @@ public class DoctorController {
                 "Are you sure you want to logout?",
                 "Confirm Logout",
                 JOptionPane.YES_NO_OPTION);
- 
+
         if (confirm == JOptionPane.YES_OPTION) {
             view.dispose();
             // TODO: open your LoginFrame here, e.g.:
             // new LoginFrame().setVisible(true);
         }
     }
- 
+
     // =========================================================================
     // Setters (called by login controller after authentication)
     // =========================================================================
     public void setCurrentDoctor(Doctor doctor) {
         this.currentDoctor = doctor;
         loadAccountData();
+        loadQueueTable();
     }
- 
+
     public Doctor getCurrentDoctor() {
         return currentDoctor;
     }
 }
- 

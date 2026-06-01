@@ -3,57 +3,43 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
- 
-import java.time.LocalDateTime;
- 
+
 public class MedicalRecord {
- 
     private int    recordId;
-    private int    patientId;
-    private String patientName;
-    private int    doctorId;
-    private String clinicalNotes;
-    private LocalDateTime dateCreated;
- 
-    // ── Constructors ──────────────────────────────────────────────────────────
- 
+    private int    appointmentId;
+    private String patientId;
+    private String doctorId;
+    private String diagnosis;
+    private String prescription;
+    private String notes;
+
     public MedicalRecord() {}
- 
-    public MedicalRecord(int recordId, int patientId, String patientName,
-                         int doctorId, String clinicalNotes,
-                         LocalDateTime dateCreated) {
+
+    public MedicalRecord(int recordId, int appointmentId, String patientId,
+                         String doctorId, String diagnosis,
+                         String prescription, String notes) {
         this.recordId      = recordId;
+        this.appointmentId = appointmentId;
         this.patientId     = patientId;
-        this.patientName   = patientName;
         this.doctorId      = doctorId;
-        this.clinicalNotes = clinicalNotes;
-        this.dateCreated   = dateCreated;
+        this.diagnosis     = diagnosis;
+        this.prescription  = prescription;
+        this.notes         = notes;
     }
- 
-    // ── Getters ───────────────────────────────────────────────────────────────
- 
-    public int            getRecordId()      { return recordId;      }
-    public int            getPatientId()     { return patientId;     }
-    public String         getPatientName()   { return patientName;   }
-    public int            getDoctorId()      { return doctorId;      }
-    public String         getClinicalNotes() { return clinicalNotes; }
-    public LocalDateTime  getDateCreated()   { return dateCreated;   }
- 
-    // ── Setters ───────────────────────────────────────────────────────────────
- 
-    public void setRecordId(int recordId)              { this.recordId      = recordId;      }
-    public void setPatientId(int patientId)            { this.patientId     = patientId;     }
-    public void setPatientName(String patientName)     { this.patientName   = patientName;   }
-    public void setDoctorId(int doctorId)              { this.doctorId      = doctorId;      }
-    public void setClinicalNotes(String clinicalNotes) { this.clinicalNotes = clinicalNotes; }
-    public void setDateCreated(LocalDateTime dateCreated) { this.dateCreated = dateCreated;  }
- 
-    @Override
-    public String toString() {
-        return "MedicalRecord{recordId=" + recordId +
-               ", patientId="   + patientId     +
-               ", patientName='" + patientName  + '\'' +
-               ", doctorId="    + doctorId      +
-               ", dateCreated=" + dateCreated   + '}';
-    }
+
+    public int    getRecordId()      { return recordId;      }
+    public int    getAppointmentId() { return appointmentId; }
+    public String getPatientId()     { return patientId;     }
+    public String getDoctorId()      { return doctorId;      }
+    public String getDiagnosis()     { return diagnosis;     }
+    public String getPrescription()  { return prescription;  }
+    public String getNotes()         { return notes;         }
+
+    public void setRecordId(int recordId)           { this.recordId      = recordId;      }
+    public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }
+    public void setPatientId(String patientId)      { this.patientId     = patientId;     }
+    public void setDoctorId(String doctorId)        { this.doctorId      = doctorId;      }
+    public void setDiagnosis(String diagnosis)      { this.diagnosis     = diagnosis;     }
+    public void setPrescription(String prescription){ this.prescription  = prescription;  }
+    public void setNotes(String notes)              { this.notes         = notes;         }
 }
