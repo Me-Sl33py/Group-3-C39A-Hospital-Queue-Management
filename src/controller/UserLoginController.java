@@ -234,6 +234,7 @@ public class UserLoginController {
         
         continueButton.addActionListener(e -> {
             dialog.dispose();
+            view.dispose(); // close Login window
             switch (role.toLowerCase()) {
                 case "patient":
                     // new PatientDashboard().setVisible(true);

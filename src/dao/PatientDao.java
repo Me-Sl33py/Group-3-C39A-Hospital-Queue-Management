@@ -87,28 +87,28 @@ public class PatientDao {
         return -1; // Return -1 to signal that the insert failed
     }
 
-    // ==================== METHOD 2: insertPatient ====================
-
     /**
      * Inserts a new row into the 'patients' table.
      *
-     * SQL: INSERT INTO patients (patient_id, user_id, full_name, age, gender,
-     *                            contact_number, address) VALUES (?, ?, ?, ?, ?, ?, ?)
+     * SQL: INSERT INTO patients
+     *        (patient_id, user_id, full_name, dob, age, gender, contact_number, address)
+     *      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
      *
      * Call insertUser() FIRST to get the userId, then call this method.
      *
      * @param patientId     auto-generated ID like "P-001" (from generatePatientId())
      * @param userId        the user_id returned by insertUser()
      * @param fullName      patient's full name
-     * @param age           patient's age (integer)
+     * @param dob           patient's date of birth as java.sql.Date (from JDateChooser)
+     * @param age           patient's age in years (auto-calculated from dob)
      * @param gender        "male", "female", or "other"
      * @param contactNumber patient's 10-digit phone number
      * @param address       patient's home address
      * @return true if the insert was successful, false if it failed
      */
     public boolean insertPatient(String patientId, int userId, String fullName,
-                                 int age, String gender, String contactNumber,
-                                 String address) {
+                                 java.sql.Date dob, int age, String gender,
+                                 String contactNumber, String address) {
         Connection conn = null;
         try {
             // Step 1: Open the database connection
@@ -120,18 +120,22 @@ public class PatientDao {
             }
 
             // Step 2: Write the SQL INSERT statement
-            String sql = "INSERT INTO patients (patient_id, user_id, full_name, age, " +
-                         "gender, contact_number, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            // Column order: patient_id, user_id, full_name, dob, age, gender, contact_number, address
+            String sql = "INSERT INTO patients " +
+                         "(patient_id, user_id, full_name, dob, age, " +
+                         "gender, contact_number, address) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            // Step 3: Set the values (? placeholders replaced in order)
-            ps.setString(1, patientId);      // 1st ? = patient_id  (e.g., "P-001")
-            ps.setInt(2, userId);            // 2nd ? = user_id     (foreign key)
-            ps.setString(3, fullName);       // 3rd ? = full_name
-            ps.setInt(4, age);               // 4th ? = age
-            ps.setString(5, gender);         // 5th ? = gender
-            ps.setString(6, contactNumber);  // 6th ? = contact_number
-            ps.setString(7, address);        // 7th ? = address
+            // Step 3: Set the values (? placeholders in the same order as the columns above)
+            ps.setString(1, patientId);     // 1st ? = patient_id   (e.g., "P-001")
+            ps.setInt   (2, userId);        // 2nd ? = user_id      (foreign key)
+            ps.setString(3, fullName);      // 3rd ? = full_name
+            ps.setDate  (4, dob);           // 4th ? = dob          (java.sql.Date from JDateChooser)
+            ps.setInt   (5, age);           // 5th ? = age          (auto-calculated from dob)
+            ps.setString(6, gender);        // 6th ? = gender
+            ps.setString(7, contactNumber); // 7th ? = contact_number
+            ps.setString(8, address);       // 8th ? = address
 
             // Step 4: Execute the INSERT
             int rowsAffected = ps.executeUpdate();
