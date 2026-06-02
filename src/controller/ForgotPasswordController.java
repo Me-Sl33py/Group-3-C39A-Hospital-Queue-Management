@@ -49,16 +49,21 @@ public class ForgotPasswordController {
         // Retrieve verification inputs from view
         String fullName = view.getFullNameField().getText().trim();
         String phone    = view.getPhoneField().getText().trim();
-        String dob      = view.getDobField().getText().trim();
         String location = view.getLocationField().getText().trim();
 
+        // Retrieve date from JDateChooser
+        java.util.Date selectedDate = view.getDobField().getDate();
+
         // Simple validation: check required fields
-        if (fullName.isEmpty() || phone.isEmpty() || dob.isEmpty()) {
+        if (fullName.isEmpty() || phone.isEmpty() || selectedDate == null) {
             javax.swing.JOptionPane.showMessageDialog(view,
                     "Full Name, Phone Number, and DOB (Date of Birth) are required for identity verification.",
                     "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
+
+        // Convert java.util.Date to java.sql.Date
+        java.sql.Date dob = new java.sql.Date(selectedDate.getTime());
 
         // Call DAO to search if user exists with matching patient details
         int userId = userDAO.searchUserForReset(fullName, phone, dob, location);
@@ -162,16 +167,21 @@ public class ForgotPasswordController {
             // Retrieve verification inputs from view
             String fullName = view.getFullNameField().getText().trim();
             String phone = view.getPhoneField().getText().trim();
-            String dob = view.getDobField().getText().trim();
             String location = view.getLocationField().getText().trim();
 
+            // Retrieve date from JDateChooser
+            java.util.Date selectedDate = view.getDobField().getDate();
+
             // Simple validation: check required fields
-            if (fullName.isEmpty() || phone.isEmpty() || dob.isEmpty()) {
+            if (fullName.isEmpty() || phone.isEmpty() || selectedDate == null) {
                 JOptionPane.showMessageDialog(view, 
                         "Full Name, Phone Number, and DOB (Date of Birth) are required for identity verification.", 
                         "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+
+            // Convert java.util.Date to java.sql.Date
+            java.sql.Date dob = new java.sql.Date(selectedDate.getTime());
 
             // Call DAO to search if user exists with matching patient details
             int userId = userDAO.searchUserForReset(fullName, phone, dob, location);
