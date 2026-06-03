@@ -198,17 +198,16 @@ public class UserDAO {
      * Search for a user by patient details (for forgot password)
      * @param fullName patient's full name
      * @param phone patient's phone number
-     * @param dob patient's date of birth (not stored — will match by name+phone)
+     * @param dob patient's date of birth as java.sql.Date
      * @param location patient's address/location
      * @return the user_id if found, -1 if not found
      */
-    public int searchUserForReset(String fullName, String phone, String dob,
+    public int searchUserForReset(String fullName, String phone, java.sql.Date dob,
                                   String location) {
         Connection conn = null;
         try {
             conn = db.openConnection();
             // Search patients table by full name and phone number
-            // DOB is not stored in patients table, so we match by name + phone
             String sql = "SELECT p.user_id FROM patients p "
                        + "WHERE LOWER(p.full_name) = LOWER(?) "
                        + "AND p.contact_number = ?";

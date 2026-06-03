@@ -77,14 +77,7 @@ public class RegistrationController {
         setupAutoCapitalize();
 
         // Attach listeners to buttons on the view
-        // Sign Up button → calls handleRegister()
-        this.view.getSignUpButton().addActionListener(new SignUpButtonListener());
-
-        // Back button → goes back to UserLogin
-        this.view.getBackButton().addActionListener(new BackButtonListener());
-
-        // "Already have an account? Login" link button → also goes to login
-        this.view.getLoginLinkButton().addActionListener(new BackButtonListener());
+        // (Removed duplicate listeners: The View's auto-generated action stubs already call handleRegister(), handleBack(), and handleLoginLink())
 
         // Eye icon (show/hide) buttons for password fields
         this.view.getShowPasswordLabel().addMouseListener(new java.awt.event.MouseAdapter() {
@@ -166,8 +159,9 @@ public class RegistrationController {
      * Was originally addPlaceholders() / attachPlaceholder() in SignUp view.
      */
     private void setupPlaceholders() {
+        // NOTE: dobField is now a JDateChooser — it manages its own display.
+        //       We do NOT attach a placeholder to it.
         attachPlaceholder(view.getFullNameField(),        "Enter full name");
-        attachPlaceholder(view.getDobField(),             "YYYY-MM-DD");
         attachPlaceholder(view.getPhoneField(),           "Enter phone number");
         attachPlaceholder(view.getLocationField(),        "Enter location / address");
         attachPlaceholder(view.getPasswordField(),        "Create password");
@@ -323,31 +317,50 @@ public class RegistrationController {
      *   9. Insert into 'patients' table using the user_id
      *  10. Show success message and open UserLogin
      */
-    private void handleRegister() {
+    public void handleRegister() {
 
         // ---- Step 1: Get all values from the view ----
         // getCleanInput() removes placeholder text and trims whitespace
-        String fullName       = capitalizeWords(getCleanInput(view.getFullNameField(), "Enter full name"));
-        String password       = getCleanInput(view.getPasswordField(), "Create password");
-        String confirmPwd     = getCleanInput(view.getConfirmPasswordField(), "Confirm password");
-        String dobStr         = getCleanInput(view.getDobField(), "YYYY-MM-DD");
-        String gender         = view.getGenderComboBox().getSelectedItem().toString(); // from JComboBox
-        String contactNumber  = getCleanInput(view.getPhoneField(), "Enter phone number");
-        String address        = capitalizeWords(getCleanInput(view.getLocationField(), "Enter location / address"));
+        String fullName      = capitalizeWords(getCleanInput(view.getFullNameField(), "Enter full name"));
+        String password      = getCleanInput(view.getPasswordField(), "Create password");
+        String confirmPwd    = getCleanInput(view.getConfirmPasswordField(), "Confirm password");
+        String gender        = view.getGenderComboBox().getSelectedItem().toString(); // from JComboBox
+        String contactNumber = getCleanInput(view.getPhoneField(), "Enter phone number");
+        String address       = capitalizeWords(getCleanInput(view.getLocationField(), "Enter location / address"));
+
+        // ---- Step 1b: Get date from JDateChooser ----
+        // getDate() returns null if the user has not picked a date yet
+        java.util.Date selectedDate = view.getDobField().getDate();
+
+        if (selectedDate == null) {
+            // No date selected — show a warning and stop
+            JOptionPane.showMessageDialog(view,
+                "please select your date of birth",
+                "missing field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Convert java.util.Date  →  java.sql.Date  (needed for JDBC / database insert)
+        java.sql.Date dob = new java.sql.Date(selectedDate.getTime());
+
+        // Auto-calculate age from the selected date
+        java.time.LocalDate birthDate = dob.toLocalDate();
+        java.time.LocalDate today     = java.time.LocalDate.now();
+        int age = java.time.Period.between(birthDate, today).getYears();
+
+        // Validate age is a sensible value (0–120). Age 0 means infant (< 1 year old) or testing with today's date
+        if (age < 0 || age > 120) {
+            JOptionPane.showMessageDialog(view,
+                "please enter a valid date of birth",
+                "invalid date", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         // ---- Validations ----
         // full name check
         if (fullName.isEmpty()) {
             JOptionPane.showMessageDialog(view,
                 "please enter your full name",
-                "missing field", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // date of birth check
-        if (dobStr.isEmpty()) {
-            JOptionPane.showMessageDialog(view,
-                "please enter your date of birth",
                 "missing field", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -424,23 +437,8 @@ public class RegistrationController {
             return;
         }
 
-        // ---- Step 5: Validate — date of birth and calculate age ----
-        int age = 0;
-        try {
-            String[] parts = dobStr.split("-");
-            if (parts.length == 3) {
-                int birthYear = Integer.parseInt(parts[0]);
-                age = java.time.Year.now().getValue() - birthYear;
-            } else {
-                throw new Exception("Invalid format");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(view,
-                "Please enter a valid Date of Birth in YYYY-MM-DD format.",
-                "Invalid Date",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+        // NOTE: DOB validation and age calculation are now done in Step 1b above
+        //       (using JDateChooser). This block is no longer needed.
 
         // ---- Step 6: Generate Username from Full Name ----
         String username = patientDao.generateUsername(fullName);
@@ -462,11 +460,13 @@ public class RegistrationController {
         String patientId = patientDao.generatePatientId();
 
         // ---- Step 9: Insert into 'patients' table ----
+        // Pass BOTH dob (java.sql.Date) and age (int) — DAO stores both in DB
         boolean patientSaved = patientDao.insertPatient(
             patientId,      // auto-generated, e.g., "P-001"
             userId,         // returned from insertUser()
             fullName,
-            age,
+            dob,            // java.sql.Date from JDateChooser
+            age,            // auto-calculated from dob
             gender,
             contactNumber,
             address
@@ -617,14 +617,28 @@ public class RegistrationController {
     }
 
     /**
+     * Handles Back button click — returns to login screen.
+     */
+    public void handleBack() {
+        view.dispose();                         // close the SignUp window
+        new UserLogin().setVisible(true);       // open Login window
+    }
+
+    /**
+     * Handles Login link button click — same as Back.
+     */
+    public void handleLoginLink() {
+        view.dispose();
+        new UserLogin().setVisible(true);
+    }
+
+    /**
      * Handles Back and Login link button clicks — returns to login screen.
      */
     private class BackButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.dispose();                         // close the SignUp window
-            UserLogin loginFrame = new UserLogin(); // create login window
-            loginFrame.setVisible(true);            // show it
+            handleBack(); // delegate to public handleBack()
         }
     }
 }

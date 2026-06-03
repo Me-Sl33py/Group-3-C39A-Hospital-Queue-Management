@@ -17,13 +17,17 @@ import javax.swing.JTextField;
 public class SignUp extends javax.swing.JFrame {
 
     // ====================================================================
+    //  CONTROLLER REFERENCE
+    //  Stored here so the action stubs below can call controller methods.
+    // ====================================================================
+    private RegistrationController controller;
+
+    // ====================================================================
     //  CONSTRUCTOR — called when you open this screen
     // ====================================================================
     public SignUp() {
-        initComponents();             // ← NetBeans manages this (Design tab)
-        new RegistrationController(this); // ← Controller handles ALL logic:
-                                          //   styles, placeholders, capitalize,
-                                          //   eye-icon toggle, button clicks
+        initComponents();                          // ← NetBeans manages this (Design tab)
+        controller = new RegistrationController(this); // ← store reference so stubs can call it
     }
 
     // ====================================================================
@@ -41,7 +45,6 @@ public class SignUp extends javax.swing.JFrame {
         fullNameLabel = new javax.swing.JLabel();
         fullNameField = new javax.swing.JTextField();
         dobLabel = new javax.swing.JLabel();
-        dobField = new javax.swing.JTextField();
         genderLabel = new javax.swing.JLabel();
         genderComboBox = new javax.swing.JComboBox();
         phoneLabel = new javax.swing.JLabel();
@@ -60,6 +63,7 @@ public class SignUp extends javax.swing.JFrame {
         backButton = new javax.swing.JButton();
         alreadyAccountLabel = new javax.swing.JLabel();
         loginLinkButton = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         leftPanel = new javax.swing.JPanel();
         hospitalNameLabel = new javax.swing.JLabel();
         taglineLabel = new javax.swing.JLabel();
@@ -69,7 +73,6 @@ public class SignUp extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hospital Queue Management — Sign Up");
         setMinimumSize(new java.awt.Dimension(916, 600));
-        setPreferredSize(new java.awt.Dimension(916, 600));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -104,10 +107,6 @@ public class SignUp extends javax.swing.JFrame {
         dobLabel.setText("Date of Birth");
         rightPanel.add(dobLabel);
         dobLabel.setBounds(28, 137, 132, 18);
-
-        dobField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        rightPanel.add(dobField);
-        dobField.setBounds(165, 131, 340, 28);
 
         genderLabel.setForeground(new java.awt.Color(120, 120, 120));
         genderLabel.setText("Gender");
@@ -222,6 +221,8 @@ public class SignUp extends javax.swing.JFrame {
         });
         rightPanel.add(loginLinkButton);
         loginLinkButton.setBounds(310, 450, 70, 20);
+        rightPanel.add(jDateChooser1);
+        jDateChooser1.setBounds(165, 131, 340, 28);
 
         getContentPane().add(rightPanel);
         rightPanel.setBounds(10, 0, 540, 555);
@@ -260,17 +261,26 @@ public class SignUp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // ── Button event stubs (logic handled by SignUpController) ────────────
+    // ── Button event stubs — logic handled by RegistrationController ─────
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
-        // Handled by SignUpController — do not add logic here
+        // Delegate to controller — all logic lives there (MVC rule)
+        if (controller != null) {
+            controller.handleRegister();
+        }
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // Handled by SignUpController — do not add logic here
+        // Delegate to controller — all logic lives there (MVC rule)
+        if (controller != null) {
+            controller.handleBack();
+        }
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void loginLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginLinkButtonActionPerformed
-        // Handled by SignUpController — do not add logic here
+        // Delegate to controller — all logic lives there (MVC rule)
+        if (controller != null) {
+            controller.handleLoginLink();
+        }
     }//GEN-LAST:event_loginLinkButtonActionPerformed
 
     private void confirmPasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPasswordFieldActionPerformed
@@ -285,8 +295,12 @@ public class SignUp extends javax.swing.JFrame {
     /** @return Full Name text field */
     public JTextField getFullNameField()                             { return fullNameField; }
 
-    /** @return Date of Birth text field (expects YYYY-MM-DD format) */
-    public JTextField getDobField()                                  { return dobField; }
+    /**
+     * @return Date of Birth — JDateChooser component.
+     * Call .getDate() on this to get the selected java.util.Date.
+     * Returns null if the user has not selected a date yet.
+     */
+    public com.toedter.calendar.JDateChooser getDobField()           { return jDateChooser1; }
 
     /**
      * @return Gender JComboBox.
@@ -355,7 +369,6 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JLabel bottomQuoteLabel;
     private javax.swing.JPasswordField confirmPasswordField;
     private javax.swing.JLabel confirmPasswordLabel;
-    private javax.swing.JTextField dobField;
     private javax.swing.JLabel dobLabel;
     private javax.swing.JTextField fullNameField;
     private javax.swing.JLabel fullNameLabel;
@@ -365,6 +378,7 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JLabel hide2;
     private javax.swing.JLabel hospitalNameLabel;
     private javax.swing.JLabel imageLabel;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JTextField locationField;
     private javax.swing.JLabel locationLabel;

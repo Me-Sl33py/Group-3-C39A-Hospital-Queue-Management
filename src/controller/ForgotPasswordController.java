@@ -31,10 +31,11 @@ public class ForgotPasswordController {
         this.userDAO = new UserDAO();
         this.securityDAO = new SecurityQuestionDAO();
 
+        // Setup auto-capitalization for Full Name and Location
+        setupAutoCapitalize();
+
         // Register action listeners for buttons on the view
-        this.view.getSearchUserButton().addActionListener(new SearchUserButtonListener());
-        this.view.getSaveAnswersButton().addActionListener(new VerifyAndResetButtonListener());
-        this.view.getCancelAnswersButton().addActionListener(new CancelButtonListener());
+        // (Removed duplicate listeners: The View's auto-generated action stubs already call handleSearchUser(), handleVerifyAndReset(), and handleCancel())
     }
 
     // ==================== Public Handler Methods ====================
@@ -49,16 +50,21 @@ public class ForgotPasswordController {
         // Retrieve verification inputs from view
         String fullName = view.getFullNameField().getText().trim();
         String phone    = view.getPhoneField().getText().trim();
-        String dob      = view.getDobField().getText().trim();
         String location = view.getLocationField().getText().trim();
 
+        // Retrieve date from JDateChooser
+        java.util.Date selectedDate = view.getDobField().getDate();
+
         // Simple validation: check required fields
-        if (fullName.isEmpty() || phone.isEmpty() || dob.isEmpty()) {
+        if (fullName.isEmpty() || phone.isEmpty() || selectedDate == null) {
             javax.swing.JOptionPane.showMessageDialog(view,
                     "Full Name, Phone Number, and DOB (Date of Birth) are required for identity verification.",
                     "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
+
+        // Convert java.util.Date to java.sql.Date
+        java.sql.Date dob = new java.sql.Date(selectedDate.getTime());
 
         // Call DAO to search if user exists with matching patient details
         int userId = userDAO.searchUserForReset(fullName, phone, dob, location);
@@ -121,6 +127,13 @@ public class ForgotPasswordController {
                 return;
             }
 
+            if (newPassword.length() < 6) {
+                javax.swing.JOptionPane.showMessageDialog(view,
+                        "Password must be at least 6 characters long.",
+                        "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             // Update the user's password in the users table via UserDAO
             boolean updateSuccess = userDAO.updatePassword(verifiedUserId, newPassword);
 
@@ -153,124 +166,50 @@ public class ForgotPasswordController {
         new view.UserLogin().setVisible(true); // Return to login screen
     }
 
+    // ==================== Helper Methods ====================
+
     /**
-     * Inner class implementing ActionListener to handle identity verification search
+     * Adds focus listeners to fullName and location fields so that when the user
+     * clicks away, the text is automatically capitalized (e.g. "john doe" → "John Doe").
      */
-    private class SearchUserButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // Retrieve verification inputs from view
-            String fullName = view.getFullNameField().getText().trim();
-            String phone = view.getPhoneField().getText().trim();
-            String dob = view.getDobField().getText().trim();
-            String location = view.getLocationField().getText().trim();
-
-            // Simple validation: check required fields
-            if (fullName.isEmpty() || phone.isEmpty() || dob.isEmpty()) {
-                JOptionPane.showMessageDialog(view, 
-                        "Full Name, Phone Number, and DOB (Date of Birth) are required for identity verification.", 
-                        "Validation Error", JOptionPane.WARNING_MESSAGE);
-                return;
+    private void setupAutoCapitalize() {
+        view.getFullNameField().addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                String text = view.getFullNameField().getText();
+                if (!text.isEmpty()) {
+                    view.getFullNameField().setText(capitalizeWords(text));
+                }
             }
+        });
 
-            // Call DAO to search if user exists with matching patient details
-            int userId = userDAO.searchUserForReset(fullName, phone, dob, location);
-
-            if (userId != -1) {
-                // If verified, save user_id in the instance variable
-                verifiedUserId = userId;
-                JOptionPane.showMessageDialog(view, 
-                        "Clinical Identity Verified successfully!\n" +
-                        "Please answer the security questions below to proceed with resetting your password.", 
-                        "Identity Verified", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                // If verification failed, reset verifiedUserId to -1
-                verifiedUserId = -1;
-                JOptionPane.showMessageDialog(view, 
-                        "Identity verification failed. No patient record matches the provided details.", 
-                        "Verification Failed", JOptionPane.ERROR_MESSAGE);
+        view.getLocationField().addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                String text = view.getLocationField().getText();
+                if (!text.isEmpty()) {
+                    view.getLocationField().setText(capitalizeWords(text));
+                }
             }
-        }
+        });
     }
 
     /**
-     * Inner class implementing ActionListener to verify security questions and prompt for password reset
+     * Capitalizes the first letter of each word in the string.
      */
-    private class VerifyAndResetButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // Check if identity has been verified first
-            if (verifiedUserId == -1) {
-                JOptionPane.showMessageDialog(view, 
-                        "Please verify your identity by searching your patient details first.", 
-                        "Verification Required", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            // Retrieve the answers entered by the user
-            String a1 = view.getQ1AnswerField().getText().trim();
-            String a2 = view.getQ2AnswerField().getText().trim();
-            String a3 = view.getQ3AnswerField().getText().trim();
-            String a4 = view.getQ4AnswerField().getText().trim();
-            String a5 = view.getQ5AnswerField().getText().trim();
-
-            String[] enteredAnswers = { a1, a2, a3, a4, a5 };
-
-            // Call SecurityQuestionDAO to verify at least 3 answers match
-            boolean answersPassed = securityDAO.verifySecurityAnswers(verifiedUserId, enteredAnswers);
-
-            if (answersPassed) {
-                // Prompt user to enter a new password
-                String newPassword = JOptionPane.showInputDialog(view, 
-                        "Security verification passed!\nEnter your new password:", 
-                        "Reset Password", JOptionPane.PLAIN_MESSAGE);
-
-                // Simple validation on the new password
-                if (newPassword == null) {
-                    return; // User canceled the input prompt
-                }
-                newPassword = newPassword.trim();
-                if (newPassword.isEmpty()) {
-                    JOptionPane.showMessageDialog(view, 
-                            "Password cannot be empty.", 
-                            "Validation Error", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                // Update the user's password in the users table via UserDAO
-                boolean updateSuccess = userDAO.updatePassword(verifiedUserId, newPassword);
-
-                if (updateSuccess) {
-                    JOptionPane.showMessageDialog(view, 
-                            "Your password has been reset successfully!", 
-                            "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                    // Redirect back to login screen
-                    view.dispose();
-                    UserLogin loginFrame = new UserLogin();
-                    loginFrame.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(view, 
-                            "Failed to update password in database. Please try again.", 
-                            "Database Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(view, 
-                        "Security answers incorrect. Please check your answers and try again.", 
-                        "Verification Failed", JOptionPane.ERROR_MESSAGE);
+    private String capitalizeWords(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            return text;
+        }
+        String[] words = text.trim().split("\\s+");
+        StringBuilder result = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                result.append(Character.toUpperCase(word.charAt(0)))
+                      .append(word.substring(1).toLowerCase())
+                      .append(" ");
             }
         }
-    }
-
-    /**
-     * Inner class implementing ActionListener to handle cancel/return navigation
-     */
-    private class CancelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            view.dispose(); // Close current Forgot Password window
-            UserLogin loginFrame = new UserLogin();
-            loginFrame.setVisible(true); // Return to login screen
-        }
+        return result.toString().trim();
     }
 }

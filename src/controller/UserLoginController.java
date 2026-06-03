@@ -42,9 +42,7 @@ public class UserLoginController {
         loadRememberedCredentials();
 
         // Register action listeners for buttons on the view
-        this.view.getLoginButton().addActionListener(new LoginButtonListener());
-        this.view.getForgotPasswordButton().addActionListener(new ForgotPasswordLinkListener());
-        this.view.getSignUpButton().addActionListener(new SignUpLinkListener());
+        // (Removed duplicate listeners: The View's auto-generated action stubs already call handleLogin(), handleForgotPassword(), and handleSignUp())
 
         // Setup eye icon toggle: Show_password
         this.view.getShowPasswordLabel().addMouseListener(new java.awt.event.MouseAdapter() {
@@ -234,6 +232,7 @@ public class UserLoginController {
         
         continueButton.addActionListener(e -> {
             dialog.dispose();
+            view.dispose(); // close Login window
             switch (role.toLowerCase()) {
                 case "patient":
                     // new PatientDashboard().setVisible(true);
