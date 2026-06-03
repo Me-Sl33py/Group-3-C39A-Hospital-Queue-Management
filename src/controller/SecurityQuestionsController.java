@@ -31,12 +31,8 @@ public class SecurityQuestionsController {
         this.userId = userId;
         this.dao = new SecurityQuestionsDao();
 
-        this.view.getSaveAnswersButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleSubmit();
-            }
-        });
+        // Register action listeners for buttons on the view
+        // (Removed duplicate listeners: The View's auto-generated action stubs already call handleSaveAnswers())
     }
 
     public void setUsername(String username) {
@@ -99,19 +95,19 @@ public class SecurityQuestionsController {
     private void showSetupCompletePopup(String username) {
         JDialog dialog = new JDialog();
         dialog.setTitle("Setup Complete");
-        dialog.setPreferredSize(new Dimension(420, 320));
+        dialog.setPreferredSize(new Dimension(420, 340)); // Increased height slightly to prevent overflow
         dialog.setModal(true);
         dialog.setLayout(new BorderLayout());
         dialog.setResizable(false);
         dialog.getContentPane().setBackground(Color.WHITE);
 
-        // top panel with lock icon
+        // top panel with green checkmark
         JPanel topPanel = new JPanel();
         topPanel.setBackground(Color.WHITE);
         topPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 5, 0));
-        JLabel iconLabel = new JLabel("🔒");
-        iconLabel.setFont(new Font("Segoe UI", Font.PLAIN, 36));
-        iconLabel.setForeground(new Color(33, 97, 172));
+        JLabel iconLabel = new JLabel("✓");
+        iconLabel.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        iconLabel.setForeground(new Color(40, 167, 69)); // green circle/checkmark color
         topPanel.add(iconLabel);
 
         // center panel with message
@@ -124,7 +120,7 @@ public class SecurityQuestionsController {
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel msgLabel = new JLabel("Your security questions have been saved successfully.");
+        JLabel msgLabel = new JLabel("Your security questions have been saved.");
         msgLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         msgLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -137,7 +133,7 @@ public class SecurityQuestionsController {
         userBox.setBackground(new Color(230, 242, 255)); // light blue background
         userBox.setBorder(BorderFactory.createLineBorder(new Color(180, 215, 255), 1));
         userBox.setMaximumSize(new Dimension(320, 40));
-        JLabel userLabel = new JLabel("Username: " + username);
+        JLabel userLabel = new JLabel("Your Username: " + username);
         userLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
         userLabel.setForeground(new Color(33, 97, 172));
         userBox.add(javax.swing.Box.createVerticalStrut(5)); // small internal padding
@@ -173,6 +169,7 @@ public class SecurityQuestionsController {
         dialog.add(bottomPanel, BorderLayout.SOUTH);
 
         dialog.pack();
+        dialog.setSize(420, 340); // Force size to prevent pack() from shrinking it too much
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }

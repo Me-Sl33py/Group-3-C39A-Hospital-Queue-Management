@@ -77,14 +77,7 @@ public class RegistrationController {
         setupAutoCapitalize();
 
         // Attach listeners to buttons on the view
-        // Sign Up button → calls handleRegister()
-        this.view.getSignUpButton().addActionListener(new SignUpButtonListener());
-
-        // Back button → goes back to UserLogin
-        this.view.getBackButton().addActionListener(new BackButtonListener());
-
-        // "Already have an account? Login" link button → also goes to login
-        this.view.getLoginLinkButton().addActionListener(new BackButtonListener());
+        // (Removed duplicate listeners: The View's auto-generated action stubs already call handleRegister(), handleBack(), and handleLoginLink())
 
         // Eye icon (show/hide) buttons for password fields
         this.view.getShowPasswordLabel().addMouseListener(new java.awt.event.MouseAdapter() {
@@ -355,8 +348,8 @@ public class RegistrationController {
         java.time.LocalDate today     = java.time.LocalDate.now();
         int age = java.time.Period.between(birthDate, today).getYears();
 
-        // Validate age is a sensible value (1–120)
-        if (age < 1 || age > 120) {
+        // Validate age is a sensible value (0–120). Age 0 means infant (< 1 year old) or testing with today's date
+        if (age < 0 || age > 120) {
             JOptionPane.showMessageDialog(view,
                 "please enter a valid date of birth",
                 "invalid date", JOptionPane.WARNING_MESSAGE);

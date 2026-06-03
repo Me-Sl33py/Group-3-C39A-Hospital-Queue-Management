@@ -32,9 +32,7 @@ public class ForgotPasswordController {
         this.securityDAO = new SecurityQuestionDAO();
 
         // Register action listeners for buttons on the view
-        this.view.getSearchUserButton().addActionListener(new SearchUserButtonListener());
-        this.view.getSaveAnswersButton().addActionListener(new VerifyAndResetButtonListener());
-        this.view.getCancelAnswersButton().addActionListener(new CancelButtonListener());
+        // (Removed duplicate listeners: The View's auto-generated action stubs already call handleSearchUser(), handleVerifyAndReset(), and handleCancel())
     }
 
     // ==================== Public Handler Methods ====================
