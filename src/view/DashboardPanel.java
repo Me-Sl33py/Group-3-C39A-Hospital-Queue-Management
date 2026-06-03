@@ -2,20 +2,41 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package view.admin;
+package view;
+import dao.AdminDAO;
 
 /**
  *
  * @author aanishparajuli
  */
-public class HomePanel extends javax.swing.JPanel {
+public class DashboardPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form HomePanel
+     * Creates new form DashboardPanel
      */
-    public HomePanel() {
-        initComponents();
-    }
+ public DashboardPanel() {
+    initComponents();
+    loadData();
+}
+        
+        
+    
+private void loadData() {
+
+    AdminDAO dao = new AdminDAO();
+
+    card1NumberLabel.setText(
+            String.valueOf(dao.getPatientCount()));
+
+    card2NumberLabel.setText(
+            String.valueOf(dao.getDoctorCount()));
+
+    card3NumberLabel.setText(
+            String.valueOf(dao.getAppointmentCount()));
+
+    card4NumberLabel.setText(
+            String.valueOf(dao.getReceptionistCount()));
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,10 +47,11 @@ public class HomePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCheckBox1 = new javax.swing.JCheckBox();
         mainContentPanel = new javax.swing.JPanel();
         welcomeCardPanel = new javax.swing.JPanel();
         welcomeTitleLabel = new javax.swing.JLabel();
-        welcomeSubLabel = new javax.swing.JLabel();
+        welcomeDateLabel = new javax.swing.JLabel();
         weatherLabel = new javax.swing.JLabel();
         cardsRowPanel = new javax.swing.JPanel();
         card1Panel = new javax.swing.JPanel();
@@ -44,10 +66,12 @@ public class HomePanel extends javax.swing.JPanel {
         card4Panel = new javax.swing.JPanel();
         card4NumberLabel = new javax.swing.JLabel();
         card4TextLabel = new javax.swing.JLabel();
-        topBarPanel = new javax.swing.JPanel();
-        pageTitleLabel = new javax.swing.JLabel();
-        adminCircleLabel = new javax.swing.JLabel();
-        adminNameLabel = new javax.swing.JLabel();
+        tableCardPanel = new javax.swing.JPanel();
+        userMgmtLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        jCheckBox1.setText("jCheckBox1");
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -60,8 +84,8 @@ public class HomePanel extends javax.swing.JPanel {
         welcomeTitleLabel.setForeground(new java.awt.Color(22, 54, 120));
         welcomeTitleLabel.setText("Welcome Again");
 
-        welcomeSubLabel.setForeground(new java.awt.Color(0, 102, 204));
-        welcomeSubLabel.setText("Hospital Queue Management System");
+        welcomeDateLabel.setForeground(new java.awt.Color(0, 102, 204));
+        welcomeDateLabel.setText("Monday, May 25 2026");
 
         weatherLabel.setForeground(new java.awt.Color(60, 60, 60));
         weatherLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -75,7 +99,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addGroup(welcomeCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(welcomeTitleLabel)
-                    .addComponent(welcomeSubLabel))
+                    .addComponent(welcomeDateLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(weatherLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
@@ -88,7 +112,7 @@ public class HomePanel extends javax.swing.JPanel {
                     .addGroup(welcomeCardPanelLayout.createSequentialGroup()
                         .addComponent(welcomeTitleLabel)
                         .addGap(6, 6, 6)
-                        .addComponent(welcomeSubLabel))
+                        .addComponent(welcomeDateLabel))
                     .addComponent(weatherLabel))
                 .addGap(20, 20, 20))
         );
@@ -113,7 +137,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addGroup(card1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(card1NumberLabel)
                     .addComponent(card1TextLabel))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         card1PanelLayout.setVerticalGroup(
             card1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,7 +167,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addGroup(card2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(card2NumberLabel)
                     .addComponent(card2TextLabel))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         card2PanelLayout.setVerticalGroup(
             card2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +176,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addComponent(card2NumberLabel)
                 .addGap(8, 8, 8)
                 .addComponent(card2TextLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         card3Panel.setBackground(new java.awt.Color(51, 153, 255));
@@ -173,7 +197,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addGroup(card3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(card3NumberLabel)
                     .addComponent(card3TextLabel))
-                .addContainerGap(173, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         card3PanelLayout.setVerticalGroup(
             card3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,7 +206,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addComponent(card3NumberLabel)
                 .addGap(8, 8, 8)
                 .addComponent(card3TextLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         card4Panel.setBackground(new java.awt.Color(100, 180, 255));
@@ -203,7 +227,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addGroup(card4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(card4NumberLabel)
                     .addComponent(card4TextLabel))
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         card4PanelLayout.setVerticalGroup(
             card4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,7 +236,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addComponent(card4NumberLabel)
                 .addGap(8, 8, 8)
                 .addComponent(card4TextLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout cardsRowPanelLayout = new javax.swing.GroupLayout(cardsRowPanel);
@@ -220,9 +244,8 @@ public class HomePanel extends javax.swing.JPanel {
         cardsRowPanelLayout.setHorizontalGroup(
             cardsRowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cardsRowPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(card1Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addGap(16, 16, 16)
                 .addComponent(card2Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(16, 16, 16)
                 .addComponent(card3Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -231,15 +254,51 @@ public class HomePanel extends javax.swing.JPanel {
         );
         cardsRowPanelLayout.setVerticalGroup(
             cardsRowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cardsRowPanelLayout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addGroup(cardsRowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(card4Panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(card3Panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(card2Panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(cardsRowPanelLayout.createSequentialGroup()
-                        .addComponent(card1Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+            .addComponent(card1Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(card2Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(card3Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(card4Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        tableCardPanel.setBackground(new java.awt.Color(255, 255, 255));
+        tableCardPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        userMgmtLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 15)); // NOI18N
+        userMgmtLabel.setForeground(new java.awt.Color(0, 102, 204));
+        userMgmtLabel.setText("User management");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"abc", "Anmol", "1223", "active", "male", "24", "paid"},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "User", "Enrolled", "Status", "Gender", "Age", "Fees"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        javax.swing.GroupLayout tableCardPanelLayout = new javax.swing.GroupLayout(tableCardPanel);
+        tableCardPanel.setLayout(tableCardPanelLayout);
+        tableCardPanelLayout.setHorizontalGroup(
+            tableCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tableCardPanelLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(tableCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userMgmtLabel)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(298, Short.MAX_VALUE))
+        );
+        tableCardPanelLayout.setVerticalGroup(
+            tableCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tableCardPanelLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(userMgmtLabel)
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainContentPanelLayout = new javax.swing.GroupLayout(mainContentPanel);
@@ -250,7 +309,8 @@ public class HomePanel extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(mainContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(welcomeCardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cardsRowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cardsRowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tableCardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
         mainContentPanelLayout.setVerticalGroup(
@@ -258,79 +318,29 @@ public class HomePanel extends javax.swing.JPanel {
             .addGroup(mainContentPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(welcomeCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(16, 16, 16)
                 .addComponent(cardsRowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(243, Short.MAX_VALUE))
-        );
-
-        topBarPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        pageTitleLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 22)); // NOI18N
-        pageTitleLabel.setForeground(new java.awt.Color(0, 102, 204));
-        pageTitleLabel.setText("Home");
-
-        adminCircleLabel.setBackground(new java.awt.Color(0, 102, 204));
-        adminCircleLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        adminCircleLabel.setForeground(new java.awt.Color(255, 255, 255));
-        adminCircleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        adminCircleLabel.setText("Ad");
-        adminCircleLabel.setOpaque(true);
-        adminCircleLabel.setPreferredSize(new java.awt.Dimension(38, 38));
-
-        adminNameLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        adminNameLabel.setForeground(new java.awt.Color(51, 51, 51));
-        adminNameLabel.setText("Admin");
-
-        javax.swing.GroupLayout topBarPanelLayout = new javax.swing.GroupLayout(topBarPanel);
-        topBarPanel.setLayout(topBarPanelLayout);
-        topBarPanelLayout.setHorizontalGroup(
-            topBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(topBarPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(pageTitleLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(adminCircleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(adminNameLabel)
-                .addGap(24, 24, 24))
-        );
-        topBarPanelLayout.setVerticalGroup(
-            topBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(topBarPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(topBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pageTitleLabel)
-                    .addComponent(adminCircleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(adminNameLabel))
-                .addGap(14, 14, 14))
+                .addGap(83, 83, 83)
+                .addComponent(tableCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mainContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(topBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+            .addComponent(mainContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(topBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
                 .addComponent(mainContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addGap(0, 188, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel adminCircleLabel;
-    private javax.swing.JLabel adminNameLabel;
     private javax.swing.JLabel card1NumberLabel;
     private javax.swing.JPanel card1Panel;
     private javax.swing.JLabel card1TextLabel;
@@ -344,12 +354,15 @@ public class HomePanel extends javax.swing.JPanel {
     private javax.swing.JPanel card4Panel;
     private javax.swing.JLabel card4TextLabel;
     private javax.swing.JPanel cardsRowPanel;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel mainContentPanel;
-    private javax.swing.JLabel pageTitleLabel;
-    private javax.swing.JPanel topBarPanel;
+    private javax.swing.JPanel tableCardPanel;
+    private javax.swing.JLabel userMgmtLabel;
     private javax.swing.JLabel weatherLabel;
     private javax.swing.JPanel welcomeCardPanel;
-    private javax.swing.JLabel welcomeSubLabel;
+    private javax.swing.JLabel welcomeDateLabel;
     private javax.swing.JLabel welcomeTitleLabel;
     // End of variables declaration//GEN-END:variables
 }
