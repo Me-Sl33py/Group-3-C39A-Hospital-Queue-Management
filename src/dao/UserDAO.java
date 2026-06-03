@@ -207,17 +207,13 @@ public class UserDAO {
         Connection conn = null;
         try {
             conn = db.openConnection();
-            // Search patients table by full name, phone number, DOB, and address (location)
+            // Search patients table by full name and phone number
             String sql = "SELECT p.user_id FROM patients p "
                        + "WHERE LOWER(p.full_name) = LOWER(?) "
-                       + "AND p.contact_number = ? "
-                       + "AND p.dob = ? "
-                       + "AND LOWER(p.address) = LOWER(?)";
+                       + "AND p.contact_number = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, fullName.trim());
             ps.setString(2, phone.trim());
-            ps.setDate(3, dob);
-            ps.setString(4, location.trim());
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
