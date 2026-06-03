@@ -15,6 +15,9 @@
             <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/model/Doctor.java</file>
             <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/model/MedicalRecord.java</file>
             <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/dao/DatabaseConnection.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/SearchPatientView.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/dao/SearchPatientDAO.java</file>
+            <file>file:/Users/flexx/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/controller/SearchPatientController.java</file>
         </group>
     </open-files>
 </project-private>
