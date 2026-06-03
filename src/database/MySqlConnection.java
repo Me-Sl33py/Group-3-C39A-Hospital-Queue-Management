@@ -13,27 +13,38 @@ import java.sql.DriverManager;
  */
 public class MySqlConnection implements Db {
 
-    @Override
-    public Connection openConnection() {
-        try{
-            String username = "root";
-            String password = "Ahhklzzz@133";
-            String database = "hospital_queue_management_db";
-            Connection conn;
-            conn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/" + database, username, password
-            );
-            if(conn == null){
-                System.out.print("Connection not Sucessfull");
-            }else{
-                System.out.print("Connection Sucessfull");
-            }
-            return conn;
-        }catch(Exception e){
-            System.out.print(e);
-        }
-        return null;
+   @Override
+public Connection openConnection() {
+
+    try {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        String url =
+                "jdbc:mysql://localhost:3306/hospital_queue_management_db";
+
+        String username = "root";
+        String password = "Ahhklzzz@133";
+
+        Connection conn =
+                DriverManager.getConnection(
+                        url,
+                        username,
+                        password
+                );
+
+        System.out.println("Connection Successful");
+
+        return conn;
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+
     }
+
+    return null;
+}
 
     @Override
     public void closeConnection(Connection conn) {

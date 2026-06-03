@@ -40,7 +40,7 @@
               <Component id="topBarPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               <Component id="mainContentPanel" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="310" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="301" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
