@@ -4,22 +4,19 @@
  */
 package hospital.queue.management;
 
+import controller.DashboardController;
 import database.Db;
 import database.MySqlConnection;
 
-/**
- *
- * @author User
- */
 public class HospitalQueueManagement {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        // Open database connection
         Db database = new MySqlConnection();
         database.openConnection();
+
+        // Open Dashboard
+        DashboardController.startApplication();
     }
-    
 }

@@ -95,10 +95,12 @@ public class DashboardView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hospicare - Reception Dashboard");
 
+        sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
         sidebarPanel.setPreferredSize(new java.awt.Dimension(240, 700));
         sidebarPanel.setLayout(new java.awt.GridBagLayout());
 
         lblHospicare.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblHospicare.setForeground(new java.awt.Color(255, 255, 255));
         lblHospicare.setText("HOSPICARE");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -109,11 +111,17 @@ public class DashboardView extends javax.swing.JFrame {
         sidebarPanel.add(lblHospicare, gridBagConstraints);
 
         btnRegisterWalkin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnRegisterWalkin.setForeground(new java.awt.Color(255, 255, 255));
         btnRegisterWalkin.setText("Register Walk-in");
         btnRegisterWalkin.setBorderPainted(false);
         btnRegisterWalkin.setContentAreaFilled(false);
         btnRegisterWalkin.setFocusPainted(false);
         btnRegisterWalkin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnRegisterWalkin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterWalkinActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -125,6 +133,7 @@ public class DashboardView extends javax.swing.JFrame {
         sidebarPanel.add(btnRegisterWalkin, gridBagConstraints);
 
         btnGenerateToken.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGenerateToken.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerateToken.setText("Generate Token");
         btnGenerateToken.setBorderPainted(false);
         btnGenerateToken.setContentAreaFilled(false);
@@ -141,6 +150,7 @@ public class DashboardView extends javax.swing.JFrame {
         sidebarPanel.add(btnGenerateToken, gridBagConstraints);
 
         btnAssignDoctor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAssignDoctor.setForeground(new java.awt.Color(255, 255, 255));
         btnAssignDoctor.setText("Assign to Doctor");
         btnAssignDoctor.setBorderPainted(false);
         btnAssignDoctor.setContentAreaFilled(false);
@@ -156,7 +166,9 @@ public class DashboardView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
         sidebarPanel.add(btnAssignDoctor, gridBagConstraints);
 
+        btnManageWaitlist.setBackground(new java.awt.Color(18, 116, 210));
         btnManageWaitlist.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnManageWaitlist.setForeground(new java.awt.Color(255, 255, 255));
         btnManageWaitlist.setText("Manage Waitlist");
         btnManageWaitlist.setBorderPainted(false);
         btnManageWaitlist.setFocusPainted(false);
@@ -177,6 +189,7 @@ public class DashboardView extends javax.swing.JFrame {
         sidebarPanel.add(btnManageWaitlist, gridBagConstraints);
 
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLogout.setForeground(new java.awt.Color(255, 100, 100));
         btnLogout.setText("Logout");
         btnLogout.setBorderPainted(false);
         btnLogout.setContentAreaFilled(false);
@@ -191,7 +204,6 @@ public class DashboardView extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -640,6 +652,10 @@ public class DashboardView extends javax.swing.JFrame {
     private void btnManageWaitlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageWaitlistActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnManageWaitlistActionPerformed
+
+    private void btnRegisterWalkinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterWalkinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRegisterWalkinActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bannerPanel;
