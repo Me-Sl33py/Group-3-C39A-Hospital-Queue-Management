@@ -14,6 +14,8 @@ public class DashboardView extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+
     public JButton getBtnRegisterWalkin() { return btnRegisterWalkin; }
     public JButton getBtnGenerateToken() { return btnGenerateToken; }
     public JButton getBtnAssignDoctor() { return btnAssignDoctor; }
@@ -40,48 +42,110 @@ public class DashboardView extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         sidebarPanel = new javax.swing.JPanel();
+        sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
+        sidebarPanel.setOpaque(true);
         lblHospicare = new javax.swing.JLabel();
+        lblHospicare.setForeground(new java.awt.Color(255, 255, 255));
         btnRegisterWalkin = new javax.swing.JButton();
+        btnRegisterWalkin.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegisterWalkin.setBorderPainted(false);
+        btnRegisterWalkin.setContentAreaFilled(false);
         btnGenerateToken = new javax.swing.JButton();
+        btnGenerateToken.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerateToken.setBorderPainted(false);
+        btnGenerateToken.setContentAreaFilled(false);
         btnAssignDoctor = new javax.swing.JButton();
+        btnAssignDoctor.setForeground(new java.awt.Color(255, 255, 255));
+        btnAssignDoctor.setBorderPainted(false);
+        btnAssignDoctor.setContentAreaFilled(false);
         btnManageWaitlist = new javax.swing.JButton();
+        btnManageWaitlist.setForeground(new java.awt.Color(255, 255, 255));
+        btnManageWaitlist.setBackground(new java.awt.Color(18, 116, 210));
+        btnManageWaitlist.setBorderPainted(false);
+        btnManageWaitlist.setOpaque(true);
         btnLogout = new javax.swing.JButton();
+        btnLogout.setForeground(new java.awt.Color(255, 100, 100));
+        btnLogout.setBorderPainted(false);
+        btnLogout.setContentAreaFilled(false);
         mainPanel = new javax.swing.JPanel();
+        mainPanel.setBackground(new java.awt.Color(249, 250, 251));
+        mainPanel.setOpaque(true);
         headerPanel = new javax.swing.JPanel();
+        headerPanel.setBackground(new java.awt.Color(255, 255, 255));
+        headerPanel.setOpaque(true);
         lblHeaderTitle = new javax.swing.JLabel();
+        lblHeaderTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblHeaderSubtitle = new javax.swing.JLabel();
         lblDate = new javax.swing.JLabel();
         bodyScroll = new javax.swing.JScrollPane();
         bodyPanel = new javax.swing.JPanel();
+        bodyPanel.setBackground(new java.awt.Color(249, 250, 251));
+        bodyPanel.setOpaque(true);
         bannerPanel = new javax.swing.JPanel();
+        bannerPanel.setBackground(new java.awt.Color(5, 150, 105));
+        bannerPanel.setOpaque(true);
         lblGreeting = new javax.swing.JLabel();
+        lblGreeting.setForeground(new java.awt.Color(255, 255, 255));
         lblGreetingDesc = new javax.swing.JLabel();
+        lblGreetingDesc.setForeground(new java.awt.Color(230, 230, 230));
         statsPanel = new javax.swing.JPanel();
+        statsPanel.setOpaque(false);
         cardTotalPatients = new javax.swing.JPanel();
+        cardTotalPatients.setBackground(new java.awt.Color(255, 255, 255));
+        cardTotalPatients.setOpaque(true);
         lblTotalTitle = new javax.swing.JLabel();
         lblTotalVal = new javax.swing.JLabel();
+        lblTotalVal.setForeground(new java.awt.Color(80, 80, 80));
         cardTokensGen = new javax.swing.JPanel();
+        cardTokensGen.setBackground(new java.awt.Color(255, 255, 255));
+        cardTokensGen.setOpaque(true);
         lblTokensTitle = new javax.swing.JLabel();
         lblTokensVal = new javax.swing.JLabel();
+        lblTokensVal.setForeground(new java.awt.Color(80, 80, 80));
         cardWaiting = new javax.swing.JPanel();
+        cardWaiting.setBackground(new java.awt.Color(5, 150, 105));
+        cardWaiting.setOpaque(true);
         lblWaitingTitle = new javax.swing.JLabel();
+        lblWaitingTitle.setForeground(new java.awt.Color(230, 230, 230));
         lblWaitingVal = new javax.swing.JLabel();
+        lblWaitingVal.setForeground(new java.awt.Color(255, 255, 255));
         cardDoctors = new javax.swing.JPanel();
+        cardDoctors.setBackground(new java.awt.Color(255, 255, 255));
+        cardDoctors.setOpaque(true);
         lblDoctorsTitle = new javax.swing.JLabel();
         lblDoctorsVal = new javax.swing.JLabel();
+        lblDoctorsVal.setForeground(new java.awt.Color(80, 80, 80));
         bottomLeftPanel = new javax.swing.JPanel();
+        bottomLeftPanel.setBackground(new java.awt.Color(255, 255, 255));
+        bottomLeftPanel.setOpaque(true);
         tableHeaderArea = new javax.swing.JPanel();
+        tableHeaderArea.setBackground(new java.awt.Color(255, 255, 255));
+        tableHeaderArea.setOpaque(true);
         lblWaitlistTitle = new javax.swing.JLabel();
+        lblWaitlistTitle.setForeground(new java.awt.Color(80, 80, 80));
         tableScroll = new javax.swing.JScrollPane();
         tblWaitlist = new javax.swing.JTable();
         bottomRightPanel = new javax.swing.JPanel();
+        bottomRightPanel.setOpaque(false);
         quickActionsPanel = new javax.swing.JPanel();
+        quickActionsPanel.setBackground(new java.awt.Color(255, 255, 255));
+        quickActionsPanel.setOpaque(true);
         lblQuickActions = new javax.swing.JLabel();
+        lblQuickActions.setForeground(new java.awt.Color(80, 80, 80));
         btnNewPatientReg = new javax.swing.JButton();
+        btnNewPatientReg.setForeground(new java.awt.Color(255, 255, 255));
+        btnNewPatientReg.setBackground(new java.awt.Color(5, 150, 105));
+        btnNewPatientReg.setBorderPainted(false);
+        btnNewPatientReg.setOpaque(true);
         btnGenEmergency = new javax.swing.JButton();
+        btnGenEmergency.setForeground(new java.awt.Color(80, 80, 80));
         btnDailyReport = new javax.swing.JButton();
+        btnDailyReport.setForeground(new java.awt.Color(80, 80, 80));
         deptLoadPanel = new javax.swing.JPanel();
+        deptLoadPanel.setBackground(new java.awt.Color(255, 255, 255));
+        deptLoadPanel.setOpaque(true);
         lblDeptLoadTitle = new javax.swing.JLabel();
+        lblDeptLoadTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblCardio = new javax.swing.JLabel();
         lblCardioVal = new javax.swing.JLabel();
         pbCardio = new javax.swing.JProgressBar();
@@ -110,8 +174,6 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnRegisterWalkin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnRegisterWalkin.setText("Register Walk-in");
-        btnRegisterWalkin.setBorderPainted(false);
-        btnRegisterWalkin.setContentAreaFilled(false);
         btnRegisterWalkin.setFocusPainted(false);
         btnRegisterWalkin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnRegisterWalkin.addActionListener(new java.awt.event.ActionListener() {
@@ -131,8 +193,6 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnGenerateToken.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGenerateToken.setText("Generate Token");
-        btnGenerateToken.setBorderPainted(false);
-        btnGenerateToken.setContentAreaFilled(false);
         btnGenerateToken.setFocusPainted(false);
         btnGenerateToken.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -147,8 +207,6 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnAssignDoctor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAssignDoctor.setText("Assign to Doctor");
-        btnAssignDoctor.setBorderPainted(false);
-        btnAssignDoctor.setContentAreaFilled(false);
         btnAssignDoctor.setFocusPainted(false);
         btnAssignDoctor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -163,7 +221,6 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnManageWaitlist.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnManageWaitlist.setText("Manage Waitlist");
-        btnManageWaitlist.setBorderPainted(false);
         btnManageWaitlist.setFocusPainted(false);
         btnManageWaitlist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnManageWaitlist.addActionListener(new java.awt.event.ActionListener() {
@@ -183,8 +240,6 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogout.setText("Logout");
-        btnLogout.setBorderPainted(false);
-        btnLogout.setContentAreaFilled(false);
         btnLogout.setFocusPainted(false);
         btnLogout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -211,7 +266,6 @@ public class DashboardView extends javax.swing.JFrame {
         headerPanel.setLayout(new java.awt.GridBagLayout());
 
         lblHeaderTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblHeaderTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblHeaderTitle.setText("Reception Dashboard");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -274,10 +328,9 @@ public class DashboardView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         bodyPanel.add(bannerPanel, gridBagConstraints);
 
-        statsPanel.setOpaque(false);
         statsPanel.setLayout(new java.awt.GridLayout(1, 4, 15, 0));
 
-        cardTotalPatients.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        cardTotalPatients.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         cardTotalPatients.setLayout(new java.awt.GridBagLayout());
 
         lblTotalTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -291,7 +344,6 @@ public class DashboardView extends javax.swing.JFrame {
         cardTotalPatients.add(lblTotalTitle, gridBagConstraints);
 
         lblTotalVal.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblTotalVal.setForeground(new java.awt.Color(80, 80, 80));
         lblTotalVal.setText("1,284");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -303,7 +355,7 @@ public class DashboardView extends javax.swing.JFrame {
 
         statsPanel.add(cardTotalPatients);
 
-        cardTokensGen.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        cardTokensGen.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         cardTokensGen.setLayout(new java.awt.GridBagLayout());
 
         lblTokensTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -317,7 +369,6 @@ public class DashboardView extends javax.swing.JFrame {
         cardTokensGen.add(lblTokensTitle, gridBagConstraints);
 
         lblTokensVal.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblTokensVal.setForeground(new java.awt.Color(80, 80, 80));
         lblTokensVal.setText("156");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -329,7 +380,7 @@ public class DashboardView extends javax.swing.JFrame {
 
         statsPanel.add(cardTokensGen);
 
-        cardWaiting.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        cardWaiting.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(5, 150, 105), 1, true));
         cardWaiting.setLayout(new java.awt.GridBagLayout());
 
         lblWaitingTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -354,7 +405,7 @@ public class DashboardView extends javax.swing.JFrame {
 
         statsPanel.add(cardWaiting);
 
-        cardDoctors.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        cardDoctors.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         cardDoctors.setLayout(new java.awt.GridBagLayout());
 
         lblDoctorsTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -368,7 +419,6 @@ public class DashboardView extends javax.swing.JFrame {
         cardDoctors.add(lblDoctorsTitle, gridBagConstraints);
 
         lblDoctorsVal.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblDoctorsVal.setForeground(new java.awt.Color(80, 80, 80));
         lblDoctorsVal.setText("08/10");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -389,15 +439,13 @@ public class DashboardView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 15, 15);
         bodyPanel.add(statsPanel, gridBagConstraints);
 
-        bottomLeftPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        bottomLeftPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         bottomLeftPanel.setLayout(new java.awt.BorderLayout());
 
-        tableHeaderArea.setOpaque(false);
         tableHeaderArea.setPreferredSize(new java.awt.Dimension(400, 50));
         tableHeaderArea.setLayout(new java.awt.GridBagLayout());
 
         lblWaitlistTitle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblWaitlistTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblWaitlistTitle.setText("Active Waitlist");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -442,14 +490,12 @@ public class DashboardView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 15, 10);
         bodyPanel.add(bottomLeftPanel, gridBagConstraints);
 
-        bottomRightPanel.setOpaque(false);
         bottomRightPanel.setLayout(new java.awt.GridBagLayout());
 
-        quickActionsPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        quickActionsPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         quickActionsPanel.setLayout(new java.awt.GridBagLayout());
 
         lblQuickActions.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblQuickActions.setForeground(new java.awt.Color(80, 80, 80));
         lblQuickActions.setText("Quick Actions");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -472,7 +518,6 @@ public class DashboardView extends javax.swing.JFrame {
         quickActionsPanel.add(btnNewPatientReg, gridBagConstraints);
 
         btnGenEmergency.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        btnGenEmergency.setForeground(new java.awt.Color(80, 80, 80));
         btnGenEmergency.setText("Generate Emergency Token");
         btnGenEmergency.setFocusPainted(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -485,7 +530,6 @@ public class DashboardView extends javax.swing.JFrame {
         quickActionsPanel.add(btnGenEmergency, gridBagConstraints);
 
         btnDailyReport.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        btnDailyReport.setForeground(new java.awt.Color(80, 80, 80));
         btnDailyReport.setText("Daily Report");
         btnDailyReport.setFocusPainted(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -508,11 +552,10 @@ public class DashboardView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
         bottomRightPanel.add(quickActionsPanel, gridBagConstraints);
 
-        deptLoadPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        deptLoadPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         deptLoadPanel.setLayout(new java.awt.GridBagLayout());
 
         lblDeptLoadTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblDeptLoadTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblDeptLoadTitle.setText("Department Load");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -543,6 +586,7 @@ public class DashboardView extends javax.swing.JFrame {
         deptLoadPanel.add(lblCardioVal, gridBagConstraints);
 
         pbCardio.setValue(85);
+        pbCardio.setForeground(new java.awt.Color(16, 185, 129));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -572,6 +616,7 @@ public class DashboardView extends javax.swing.JFrame {
         deptLoadPanel.add(lblOrthoVal, gridBagConstraints);
 
         pbOrtho.setValue(40);
+        pbOrtho.setForeground(new java.awt.Color(16, 185, 129));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -600,6 +645,7 @@ public class DashboardView extends javax.swing.JFrame {
         deptLoadPanel.add(lblPediatricsVal, gridBagConstraints);
 
         pbPediatrics.setValue(62);
+        pbPediatrics.setForeground(new java.awt.Color(16, 185, 129));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
