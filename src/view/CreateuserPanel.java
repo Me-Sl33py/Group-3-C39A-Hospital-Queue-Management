@@ -271,4 +271,14 @@ public class CreateuserPanel extends javax.swing.JPanel {
     private javax.swing.JButton saveButton;
     private javax.swing.JPanel topBarPanel;
     // End of variables declaration//GEN-END:variables
+
+public javax.swing.JTextField getNameField()              { return nameField; }
+public javax.swing.JTextField getNameField1()             { return nameField1; }
+public javax.swing.JTextField getEmailField()             { return emailField; }
+public javax.swing.JPasswordField getPasswordField()      { return passwordField; }
+public javax.swing.JComboBox<String> getGenderCombobox()  { return GenderCombobox; }
+public javax.swing.JComboBox<String> getRoleComboBox()    { return roleComboBox; }
+public javax.swing.JButton getSaveButton()                { return saveButton; }
+public javax.swing.JButton getClearButton()               { return clearButton; }
+
 }
