@@ -13,6 +13,8 @@ public class GenerateTokenView extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+
     public JButton getBtnRegisterWalkin() { return btnRegisterWalkin; }
     public JButton getBtnGenerateToken() { return btnGenerateToken; } // Sidebar button
     public JButton getBtnAssignDoctor() { return btnAssignDoctor; }
@@ -40,59 +42,126 @@ public class GenerateTokenView extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         sidebarPanel = new javax.swing.JPanel();
+        sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
+        sidebarPanel.setOpaque(true);
         lblHospicare = new javax.swing.JLabel();
+        lblHospicare.setForeground(new java.awt.Color(255, 255, 255));
         btnRegisterWalkin = new javax.swing.JButton();
+        btnRegisterWalkin.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegisterWalkin.setBorderPainted(false);
+        btnRegisterWalkin.setContentAreaFilled(false);
         btnGenerateToken = new javax.swing.JButton();
+        btnGenerateToken.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerateToken.setBackground(new java.awt.Color(18, 116, 210));
+        btnGenerateToken.setBorderPainted(false);
+        btnGenerateToken.setOpaque(true);
         btnAssignDoctor = new javax.swing.JButton();
+        btnAssignDoctor.setForeground(new java.awt.Color(255, 255, 255));
+        btnAssignDoctor.setBorderPainted(false);
+        btnAssignDoctor.setContentAreaFilled(false);
         btnManageWaitlist = new javax.swing.JButton();
+        btnManageWaitlist.setForeground(new java.awt.Color(255, 255, 255));
+        btnManageWaitlist.setBorderPainted(false);
+        btnManageWaitlist.setContentAreaFilled(false);
         btnLogout = new javax.swing.JButton();
+        btnLogout.setForeground(new java.awt.Color(255, 100, 100));
+        btnLogout.setBorderPainted(false);
+        btnLogout.setContentAreaFilled(false);
         mainPanel = new javax.swing.JPanel();
+        mainPanel.setBackground(new java.awt.Color(249, 250, 251));
+        mainPanel.setOpaque(true);
         headerPanel = new javax.swing.JPanel();
+        headerPanel.setBackground(new java.awt.Color(255, 255, 255));
+        headerPanel.setOpaque(true);
         lblHeaderTitle = new javax.swing.JLabel();
+        lblHeaderTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblHeaderSubtitle = new javax.swing.JLabel();
         bodyScroll = new javax.swing.JScrollPane();
         bodyPanel = new javax.swing.JPanel();
+        bodyPanel.setBackground(new java.awt.Color(249, 250, 251));
+        bodyPanel.setOpaque(true);
         navTabsPanel = new javax.swing.JPanel();
+        navTabsPanel.setOpaque(false);
         lblTab1 = new javax.swing.JLabel();
         lblTab2 = new javax.swing.JLabel();
         lblTab3 = new javax.swing.JLabel();
         leftColumnPanel = new javax.swing.JPanel();
+        leftColumnPanel.setOpaque(false);
         patientInfoPanel = new javax.swing.JPanel();
+        patientInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
+        patientInfoPanel.setOpaque(true);
         lblPatientInfoTitle = new javax.swing.JLabel();
+        lblPatientInfoTitle.setForeground(new java.awt.Color(128, 128, 128));
         lblPreRegisteredBadge = new javax.swing.JLabel();
+        lblPreRegisteredBadge.setForeground(new java.awt.Color(6, 95, 70));
+        lblPreRegisteredBadge.setBackground(new java.awt.Color(209, 250, 233));
+        lblPreRegisteredBadge.setOpaque(true);
         lblPatientName = new javax.swing.JLabel();
+        lblPatientName.setForeground(new java.awt.Color(80, 80, 80));
         lblPatientID = new javax.swing.JLabel();
         lblAgeGenTitle = new javax.swing.JLabel();
         lblContactTitle = new javax.swing.JLabel();
         lblAgeGenVal = new javax.swing.JLabel();
+        lblAgeGenVal.setForeground(new java.awt.Color(80, 80, 80));
         lblContactVal = new javax.swing.JLabel();
+        lblContactVal.setForeground(new java.awt.Color(80, 80, 80));
         lblBloodTitle = new javax.swing.JLabel();
         lblRegDateTitle = new javax.swing.JLabel();
         lblBloodVal = new javax.swing.JLabel();
+        lblBloodVal.setForeground(new java.awt.Color(16, 185, 129));
         lblRegDateVal = new javax.swing.JLabel();
+        lblRegDateVal.setForeground(new java.awt.Color(80, 80, 80));
         vitalsPanel = new javax.swing.JPanel();
+        vitalsPanel.setBackground(new java.awt.Color(255, 255, 255));
+        vitalsPanel.setOpaque(true);
         lblVitalsTitle = new javax.swing.JLabel();
+        lblVitalsTitle.setForeground(new java.awt.Color(128, 128, 128));
         cardBP = new javax.swing.JPanel();
+        cardBP.setBackground(new java.awt.Color(255, 255, 255));
+        cardBP.setOpaque(true);
         lblBPTitle = new javax.swing.JLabel();
         lblBPVal = new javax.swing.JLabel();
+        lblBPVal.setForeground(new java.awt.Color(80, 80, 80));
         cardTemp = new javax.swing.JPanel();
+        cardTemp.setBackground(new java.awt.Color(255, 255, 255));
+        cardTemp.setOpaque(true);
         lblTempTitle = new javax.swing.JLabel();
         lblTempVal = new javax.swing.JLabel();
+        lblTempVal.setForeground(new java.awt.Color(80, 80, 80));
         cardSpo2 = new javax.swing.JPanel();
+        cardSpo2.setBackground(new java.awt.Color(255, 255, 255));
+        cardSpo2.setOpaque(true);
         lblSpo2Title = new javax.swing.JLabel();
         lblSpo2Val = new javax.swing.JLabel();
         rightColumnPanel = new javax.swing.JPanel();
+        rightColumnPanel.setOpaque(false);
         genTokenCard = new javax.swing.JPanel();
+        genTokenCard.setBackground(new java.awt.Color(255, 255, 255));
+        genTokenCard.setOpaque(true);
         lblGenTitle = new javax.swing.JLabel();
+        lblGenTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblGenSubtitle = new javax.swing.JLabel();
         lblDeptLabel = new javax.swing.JLabel();
+        lblDeptLabel.setForeground(new java.awt.Color(80, 80, 80));
         cbDepartment = new javax.swing.JComboBox();
         tipPanel = new javax.swing.JPanel();
+        tipPanel.setBackground(new java.awt.Color(236, 253, 245));
+        tipPanel.setOpaque(true);
         lblTipText = new javax.swing.JLabel();
+        lblTipText.setForeground(new java.awt.Color(6, 95, 70));
         btnGenerateTokenSubmit = new javax.swing.JButton();
+        btnGenerateTokenSubmit.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerateTokenSubmit.setBackground(new java.awt.Color(5, 150, 105));
+        btnGenerateTokenSubmit.setBorderPainted(false);
+        btnGenerateTokenSubmit.setOpaque(true);
         bottomPanel = new javax.swing.JPanel();
+        bottomPanel.setBackground(new java.awt.Color(255, 255, 255));
+        bottomPanel.setOpaque(true);
         tableHeaderArea = new javax.swing.JPanel();
+        tableHeaderArea.setBackground(new java.awt.Color(255, 255, 255));
+        tableHeaderArea.setOpaque(true);
         lblLiveQueueTitle = new javax.swing.JLabel();
+        lblLiveQueueTitle.setForeground(new java.awt.Color(80, 80, 80));
         tableScroll = new javax.swing.JScrollPane();
         tblLiveQueue = new javax.swing.JTable();
 
@@ -114,8 +183,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
 
         btnRegisterWalkin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnRegisterWalkin.setText("Register Walk-in");
-        btnRegisterWalkin.setBorderPainted(false);
-        btnRegisterWalkin.setContentAreaFilled(false);
         btnRegisterWalkin.setFocusPainted(false);
         btnRegisterWalkin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -130,7 +197,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
 
         btnGenerateToken.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnGenerateToken.setText("Generate Token");
-        btnGenerateToken.setBorderPainted(false);
         btnGenerateToken.setFocusPainted(false);
         btnGenerateToken.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -145,8 +211,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
 
         btnAssignDoctor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAssignDoctor.setText("Assign to Doctor");
-        btnAssignDoctor.setBorderPainted(false);
-        btnAssignDoctor.setContentAreaFilled(false);
         btnAssignDoctor.setFocusPainted(false);
         btnAssignDoctor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -161,8 +225,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
 
         btnManageWaitlist.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnManageWaitlist.setText("Manage Waitlist");
-        btnManageWaitlist.setBorderPainted(false);
-        btnManageWaitlist.setContentAreaFilled(false);
         btnManageWaitlist.setFocusPainted(false);
         btnManageWaitlist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -177,8 +239,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
 
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogout.setText("Logout");
-        btnLogout.setBorderPainted(false);
-        btnLogout.setContentAreaFilled(false);
         btnLogout.setFocusPainted(false);
         btnLogout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -200,7 +260,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
         headerPanel.setLayout(new java.awt.GridBagLayout());
 
         lblHeaderTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblHeaderTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblHeaderTitle.setText("Reception Dashboard");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -222,7 +281,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
 
         bodyPanel.setLayout(new java.awt.GridBagLayout());
 
-        navTabsPanel.setOpaque(false);
         navTabsPanel.setLayout(new java.awt.GridBagLayout());
 
         lblTab1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
@@ -235,6 +293,7 @@ public class GenerateTokenView extends javax.swing.JFrame {
         navTabsPanel.add(lblTab1, gridBagConstraints);
 
         lblTab2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lblTab2.setForeground(new java.awt.Color(16, 185, 129));
         lblTab2.setText("Generate Token   >");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -262,14 +321,12 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 10, 15);
         bodyPanel.add(navTabsPanel, gridBagConstraints);
 
-        leftColumnPanel.setOpaque(false);
         leftColumnPanel.setLayout(new java.awt.GridBagLayout());
 
-        patientInfoPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        patientInfoPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         patientInfoPanel.setLayout(new java.awt.GridBagLayout());
 
         lblPatientInfoTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPatientInfoTitle.setForeground(new java.awt.Color(128, 128, 128));
         lblPatientInfoTitle.setText("Patient Information");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -289,7 +346,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
         patientInfoPanel.add(lblPreRegisteredBadge, gridBagConstraints);
 
         lblPatientName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblPatientName.setForeground(new java.awt.Color(80, 80, 80));
         lblPatientName.setText("Mr. Alexander Thompson");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -331,7 +387,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
         patientInfoPanel.add(lblContactTitle, gridBagConstraints);
 
         lblAgeGenVal.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblAgeGenVal.setForeground(new java.awt.Color(80, 80, 80));
         lblAgeGenVal.setText("34 Years / Male");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -342,7 +397,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
         patientInfoPanel.add(lblAgeGenVal, gridBagConstraints);
 
         lblContactVal.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblContactVal.setForeground(new java.awt.Color(80, 80, 80));
         lblContactVal.setText("+1 (555) 012-3456");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -383,7 +437,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
         patientInfoPanel.add(lblBloodVal, gridBagConstraints);
 
         lblRegDateVal.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblRegDateVal.setForeground(new java.awt.Color(80, 80, 80));
         lblRegDateVal.setText("Oct 24, 2023 | 09:15 AM");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -401,11 +454,10 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
         leftColumnPanel.add(patientInfoPanel, gridBagConstraints);
 
-        vitalsPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        vitalsPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         vitalsPanel.setLayout(new java.awt.GridBagLayout());
 
         lblVitalsTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblVitalsTitle.setForeground(new java.awt.Color(128, 128, 128));
         lblVitalsTitle.setText("Patient Vitals");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -416,7 +468,7 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         vitalsPanel.add(lblVitalsTitle, gridBagConstraints);
 
-        cardBP.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        cardBP.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         cardBP.setPreferredSize(new java.awt.Dimension(120, 70));
         cardBP.setLayout(new java.awt.GridBagLayout());
 
@@ -431,7 +483,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
         cardBP.add(lblBPTitle, gridBagConstraints);
 
         lblBPVal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblBPVal.setForeground(new java.awt.Color(80, 80, 80));
         lblBPVal.setText("120/80");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -449,7 +500,7 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 20, 10);
         vitalsPanel.add(cardBP, gridBagConstraints);
 
-        cardTemp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        cardTemp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         cardTemp.setPreferredSize(new java.awt.Dimension(120, 70));
         cardTemp.setLayout(new java.awt.GridBagLayout());
 
@@ -464,7 +515,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
         cardTemp.add(lblTempTitle, gridBagConstraints);
 
         lblTempVal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTempVal.setForeground(new java.awt.Color(80, 80, 80));
         lblTempVal.setText("98.6°F");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -482,7 +532,7 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
         vitalsPanel.add(cardTemp, gridBagConstraints);
 
-        cardSpo2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        cardSpo2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         cardSpo2.setPreferredSize(new java.awt.Dimension(120, 70));
         cardSpo2.setLayout(new java.awt.GridBagLayout());
 
@@ -497,6 +547,7 @@ public class GenerateTokenView extends javax.swing.JFrame {
         cardSpo2.add(lblSpo2Title, gridBagConstraints);
 
         lblSpo2Val.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblSpo2Val.setForeground(new java.awt.Color(16, 185, 129));
         lblSpo2Val.setText("99%");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -529,14 +580,12 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 15, 10);
         bodyPanel.add(leftColumnPanel, gridBagConstraints);
 
-        rightColumnPanel.setOpaque(false);
         rightColumnPanel.setLayout(new java.awt.GridBagLayout());
 
-        genTokenCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        genTokenCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         genTokenCard.setLayout(new java.awt.GridBagLayout());
 
         lblGenTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblGenTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblGenTitle.setText("Generate Queue Token");
         lblGenTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -556,7 +605,6 @@ public class GenerateTokenView extends javax.swing.JFrame {
         genTokenCard.add(lblGenSubtitle, gridBagConstraints);
 
         lblDeptLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblDeptLabel.setForeground(new java.awt.Color(80, 80, 80));
         lblDeptLabel.setText("Department");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -566,7 +614,7 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 20);
         genTokenCard.add(lblDeptLabel, gridBagConstraints);
 
-        cbDepartment.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "", "", "", "" }));
+        cbDepartment.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Choose Department", "Cardiology", "Dermatology", "Pediatrics", "General Medicine" }));
         cbDepartment.setPreferredSize(new java.awt.Dimension(200, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -576,7 +624,7 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 20);
         genTokenCard.add(cbDepartment, gridBagConstraints);
 
-        tipPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        tipPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(167, 243, 208), 1, true));
         tipPanel.setLayout(new java.awt.GridBagLayout());
 
         lblTipText.setText("<html>Estimated waiting time for <b>General Medicine</b> is currently <b>12 minutes</b> with 4 patients ahead in queue.</html>");
@@ -627,15 +675,13 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 15, 15);
         bodyPanel.add(rightColumnPanel, gridBagConstraints);
 
-        bottomPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        bottomPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         bottomPanel.setLayout(new java.awt.BorderLayout());
 
-        tableHeaderArea.setOpaque(false);
         tableHeaderArea.setPreferredSize(new java.awt.Dimension(400, 50));
         tableHeaderArea.setLayout(new java.awt.GridBagLayout());
 
         lblLiveQueueTitle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblLiveQueueTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblLiveQueueTitle.setText("Live Queue Status");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

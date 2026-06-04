@@ -23,6 +23,9 @@ public class GenerateTokenController {
 
     public GenerateTokenController(GenerateTokenView view) {
         this.view = view;
+        if (view.getCbDepartment() != null) {
+            view.getCbDepartment().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Department", "Cardiology", "Dermatology", "Pediatrics", "General Medicine" }));
+        }
         initEventHandlers();
         loadInitialData();
     }
@@ -35,6 +38,9 @@ public class GenerateTokenController {
         this.contact = phone;
         this.bloodGroup = "O Positive (O+)";
         this.regDate = new java.text.SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+        if (view.getCbDepartment() != null) {
+            view.getCbDepartment().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Department", "Cardiology", "Dermatology", "Pediatrics", "General Medicine" }));
+        }
         initEventHandlers();
         loadInitialData();
     }
