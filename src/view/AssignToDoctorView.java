@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class AssignToDoctorView extends javax.swing.JFrame {
+public class AssignToDoctorView extends javax.swing.JPanel {
 
     public AssignToDoctorView() {
         initComponents();
@@ -20,6 +20,7 @@ public class AssignToDoctorView extends javax.swing.JFrame {
     public JButton getBtnRoom102() { return btnRoom102; }
     public JButton getBtnRoom105() { return btnRoom105; }
     public JButton getBtnRoom201() { return btnRoom201; }
+    public JPanel getMainPanel() { return mainPanel; }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,8 +102,8 @@ public class AssignToDoctorView extends javax.swing.JFrame {
         pbD4 = new javax.swing.JProgressBar();
         lblD4Stat = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Hospicare - Assign to Doctor");
+        // setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
         sidebarPanel.setPreferredSize(new java.awt.Dimension(240, 700));
@@ -206,7 +207,8 @@ public class AssignToDoctorView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 30, 15);
         sidebarPanel.add(btnLogout, gridBagConstraints);
 
-        getContentPane().add(sidebarPanel, java.awt.BorderLayout.WEST);
+        setLayout(new java.awt.BorderLayout());
+        // add(sidebarPanel, java.awt.BorderLayout.WEST); // Prevent double sidebar
 
         mainPanel.setBackground(new java.awt.Color(249, 250, 251));
         mainPanel.setLayout(new java.awt.BorderLayout());
@@ -740,10 +742,10 @@ public class AssignToDoctorView extends javax.swing.JFrame {
 
         mainPanel.add(bodyScroll, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+        add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        pack();
-        setLocationRelativeTo(null);
+        // pack();
+        // setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -821,5 +823,5 @@ public class AssignToDoctorView extends javax.swing.JFrame {
     private javax.swing.JPanel sidebarPanel;
     private javax.swing.JScrollPane spReason;
     private javax.swing.JTextArea taReason;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }

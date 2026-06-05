@@ -8,7 +8,7 @@ import java.awt.*;
  * This class is designed to be fully compatible with the NetBeans GUI Builder (Matisse).
  * Do NOT add business logic in this file; it is bound to the controller via getters.
  */
-public class DashboardView extends javax.swing.JFrame {
+public class DashboardView extends javax.swing.JPanel {
 
     public DashboardView() {
         initComponents();
@@ -36,16 +36,12 @@ public class DashboardView extends javax.swing.JFrame {
     public JLabel getLblCardioVal() { return lblCardioVal; }
     public JLabel getLblOrthoVal() { return lblOrthoVal; }
     public JLabel getLblPediatricsVal() { return lblPediatricsVal; }
+    public JPanel getMainPanel() { return mainPanel; }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        sidebarPanel = new javax.swing.JPanel();
-        sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
-        sidebarPanel.setOpaque(true);
-        lblHospicare = new javax.swing.JLabel();
-        lblHospicare.setForeground(new java.awt.Color(255, 255, 255));
         btnRegisterWalkin = new javax.swing.JButton();
         btnRegisterWalkin.setForeground(new java.awt.Color(255, 255, 255));
         btnRegisterWalkin.setBorderPainted(false);
@@ -156,109 +152,12 @@ public class DashboardView extends javax.swing.JFrame {
         lblPediatricsVal = new javax.swing.JLabel();
         pbPediatrics = new javax.swing.JProgressBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Hospicare - Reception Dashboard");
+        // setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
-        sidebarPanel.setPreferredSize(new java.awt.Dimension(240, 700));
-        sidebarPanel.setLayout(new java.awt.GridBagLayout());
-
-        lblHospicare.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblHospicare.setText("HOSPICARE");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(30, 20, 40, 20);
-        sidebarPanel.add(lblHospicare, gridBagConstraints);
-
-        btnRegisterWalkin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnRegisterWalkin.setText("Register Walk-in");
-        btnRegisterWalkin.setFocusPainted(false);
-        btnRegisterWalkin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnRegisterWalkin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegisterWalkinActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
-        sidebarPanel.add(btnRegisterWalkin, gridBagConstraints);
-
-        btnGenerateToken.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnGenerateToken.setText("Generate Token");
-        btnGenerateToken.setFocusPainted(false);
-        btnGenerateToken.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
-        sidebarPanel.add(btnGenerateToken, gridBagConstraints);
-
-        btnAssignDoctor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnAssignDoctor.setText("Assign to Doctor");
-        btnAssignDoctor.setFocusPainted(false);
-        btnAssignDoctor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
-        sidebarPanel.add(btnAssignDoctor, gridBagConstraints);
-
-        btnManageWaitlist.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnManageWaitlist.setText("Manage Waitlist");
-        btnManageWaitlist.setFocusPainted(false);
-        btnManageWaitlist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnManageWaitlist.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnManageWaitlistActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
-        sidebarPanel.add(btnManageWaitlist, gridBagConstraints);
-
-        btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnLogout.setText("Logout");
-        btnLogout.setFocusPainted(false);
-        btnLogout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnLogout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogoutActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 30, 15);
-        sidebarPanel.add(btnLogout, gridBagConstraints);
-
-        getContentPane().add(sidebarPanel, java.awt.BorderLayout.WEST);
+        // gridBagConstraints setup removed
+        setLayout(new java.awt.BorderLayout());
+        // sidebarPanel removed
 
         mainPanel.setLayout(new java.awt.BorderLayout());
 
@@ -678,10 +577,8 @@ public class DashboardView extends javax.swing.JFrame {
 
         mainPanel.add(bodyScroll, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+        add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -744,7 +641,7 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JProgressBar pbOrtho;
     private javax.swing.JProgressBar pbPediatrics;
     private javax.swing.JPanel quickActionsPanel;
-    private javax.swing.JPanel sidebarPanel;
+    // private javax.swing.JPanel sidebarPanel;
     private javax.swing.JPanel statsPanel;
     private javax.swing.JPanel tableHeaderArea;
     private javax.swing.JScrollPane tableScroll;

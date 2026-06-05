@@ -11,9 +11,11 @@ import javax.swing.*;
  */
 public class RegisterWalkinController {
     private final RegisterWalkinView view;
+    private final view.WithTabbedPane mainFrame;
 
-    public RegisterWalkinController(RegisterWalkinView view) {
+    public RegisterWalkinController(RegisterWalkinView view, view.WithTabbedPane mainFrame) {
         this.view = view;
+        this.mainFrame = mainFrame;
         if (view.getCbGender() != null) {
             view.getCbGender().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Gender", "Male", "Female", "Other" }));
         }
@@ -22,42 +24,6 @@ public class RegisterWalkinController {
     }
 
     private void initEventHandlers() {
-        // Navigation: Manage Waitlist (Dashboard)
-        view.getBtnManageWaitlist().addActionListener(e -> {
-            view.dispose();
-            DashboardView dashboard = new DashboardView();
-            new DashboardController(dashboard);
-            dashboard.setVisible(true);
-        });
-
-        // Navigation: Generate Token
-        view.getBtnGenerateToken().addActionListener(e -> {
-            view.dispose();
-            GenerateTokenView genView = new GenerateTokenView();
-            new GenerateTokenController(genView);
-            genView.setVisible(true);
-        });
-
-        // Navigation: Sidebar Register Walk-in (current screen, do nothing or dialog)
-        view.getBtnRegisterWalkin().addActionListener(e -> {
-            // Already on this screen
-        });
-
-        view.getBtnAssignDoctor().addActionListener(e -> {
-            view.dispose();
-            view.AssignToDoctorView assignView = new view.AssignToDoctorView();
-            new AssignToDoctorController(assignView);
-            assignView.setVisible(true);
-        });
-
-        // Navigation: Logout
-        view.getBtnLogout().addActionListener(e -> {
-            int option = JOptionPane.showConfirmDialog(view, "Are you sure you want to log out?", "Logout", JOptionPane.YES_NO_OPTION);
-            if (option == JOptionPane.YES_OPTION) {
-                view.dispose();
-                System.exit(0);
-            }
-        });
 
         // Form: Reset Button
         view.getBtnReset().addActionListener(e -> {
@@ -100,10 +66,8 @@ public class RegisterWalkinController {
         // Success message
         JOptionPane.showMessageDialog(view, "Patient registered successfully!\nProceeding to Token Generation...", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-        // Transition: Open GenerateTokenView with registered patient details
-        view.dispose();
-        GenerateTokenView genView = new GenerateTokenView();
-        new GenerateTokenController(genView, name, dob, gender, phone);
-        genView.setVisible(true);
+        // Transition: Switch to Generate Token tab and update patient details
+        mainFrame.getGenerateTokenController().updatePatientDetails(name, dob, gender, phone);
+        mainFrame.switchToTab(2);
     }
 }

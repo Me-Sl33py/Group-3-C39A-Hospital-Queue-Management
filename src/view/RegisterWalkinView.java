@@ -7,7 +7,7 @@ import java.awt.*;
  * Register Walk-in View class compatible with the NetBeans GUI Builder.
  * Exposes form elements via getters to follow strict MVC architecture.
  */
-public class RegisterWalkinView extends javax.swing.JFrame {
+public class RegisterWalkinView extends javax.swing.JPanel {
 
     public RegisterWalkinView() {
         initComponents();
@@ -31,6 +31,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
     public JButton getBtnReset() { return btnReset; }
     public JButton getBtnSaveContinue() { return btnSaveContinue; }
     public JLabel getLblLoadVal() { return lblLoadVal; }
+    public JPanel getMainPanel() { return mainPanel; }
 
     
 
@@ -82,8 +83,8 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         btnReset = new javax.swing.JButton();
         btnSaveContinue = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Hospicare - Register Walk-in");
+        // setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
         sidebarPanel.setPreferredSize(new java.awt.Dimension(240, 700));
@@ -187,7 +188,8 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 30, 15);
         sidebarPanel.add(btnLogout, gridBagConstraints);
 
-        getContentPane().add(sidebarPanel, java.awt.BorderLayout.WEST);
+        setLayout(new java.awt.BorderLayout());
+        // add(sidebarPanel, java.awt.BorderLayout.WEST); // Prevent double sidebar
 
         mainPanel.setBackground(new java.awt.Color(249, 250, 251));
         mainPanel.setLayout(new java.awt.BorderLayout());
@@ -278,7 +280,6 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(20, 10, 5, 20);
         formPanel.add(lblDobLabel, gridBagConstraints);
 
-        tfName.setText("njnioj");
         tfName.setPreferredSize(new java.awt.Dimension(150, 35));
         tfName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -485,7 +486,12 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         imageCard.setLayout(new java.awt.GridBagLayout());
 
         lblWaitingRoomImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblWaitingRoomImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/waiting_room.png"))); // NOI18N
+        java.net.URL imgUrl = getClass().getResource("/images/waiting_room.png");
+        if (imgUrl != null) {
+            lblWaitingRoomImage.setIcon(new javax.swing.ImageIcon(imgUrl));
+        } else {
+            lblWaitingRoomImage.setText("[Image Missing: /images/waiting_room.png]");
+        }
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -547,10 +553,10 @@ public class RegisterWalkinView extends javax.swing.JFrame {
 
         mainPanel.add(bodyScroll, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+        add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        pack();
-        setLocationRelativeTo(null);
+        // pack();
+        // setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tfNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNameActionPerformed
@@ -601,5 +607,5 @@ public class RegisterWalkinView extends javax.swing.JFrame {
     private javax.swing.JTextField tfName;
     private javax.swing.JTextField tfPhone;
     private javax.swing.JPanel tipsCard;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
