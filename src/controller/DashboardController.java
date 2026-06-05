@@ -12,64 +12,18 @@ import javax.swing.JOptionPane;
 public class DashboardController {
 
     private final DashboardView view;
+    private final view.WithTabbedPane mainFrame;
 
-    public DashboardController(DashboardView view) {
+    public DashboardController(DashboardView view, view.WithTabbedPane mainFrame) {
         this.view = view;
+        this.mainFrame = mainFrame;
         initEventHandlers();
         loadInitialData();
     }
 
-    // Method to start the dashboard
-    public static void startApplication() {
-        DashboardView view = new DashboardView();
-        new DashboardController(view);
-        view.setVisible(true);
-    }
+    // Main entry point logic should now be managed by WithTabbedPane, not here.
 
     private void initEventHandlers() {
-
-        view.getBtnRegisterWalkin().addActionListener(e -> {
-            view.dispose();
-            RegisterWalkinView walkinView = new RegisterWalkinView();
-            new RegisterWalkinController(walkinView);
-            walkinView.setVisible(true);
-        });
-
-        view.getBtnGenerateToken().addActionListener(e -> {
-            view.dispose();
-            GenerateTokenView genView = new GenerateTokenView();
-            new GenerateTokenController(genView);
-            genView.setVisible(true);
-        });
-
-        view.getBtnAssignDoctor().addActionListener(e -> {
-            view.dispose();
-            view.AssignToDoctorView assignView = new view.AssignToDoctorView();
-            new AssignToDoctorController(assignView);
-            assignView.setVisible(true);
-        });
-
-        view.getBtnManageWaitlist().addActionListener(e -> {
-            JOptionPane.showMessageDialog(view,
-                    "Manage Waitlist Selected",
-                    "Hospicare",
-                    JOptionPane.INFORMATION_MESSAGE);
-        });
-
-        view.getBtnLogout().addActionListener(e -> {
-
-            int option = JOptionPane.showConfirmDialog(
-                    view,
-                    "Are you sure you want to log out?",
-                    "Logout",
-                    JOptionPane.YES_NO_OPTION
-            );
-
-            if (option == JOptionPane.YES_OPTION) {
-                view.dispose();
-                System.exit(0);
-            }
-        });
 
         view.getBtnNewPatientReg().addActionListener(e -> {
             JOptionPane.showMessageDialog(view,

@@ -7,7 +7,7 @@ import java.awt.*;
  * Generate Token View class compatible with the NetBeans GUI Builder.
  * Exposes Swing controls through getters for the GenerateTokenController.
  */
-public class GenerateTokenView extends javax.swing.JFrame {
+public class GenerateTokenView extends javax.swing.JPanel {
 
     public GenerateTokenView() {
         initComponents();
@@ -36,6 +36,7 @@ public class GenerateTokenView extends javax.swing.JFrame {
     public JLabel getLblBPVal() { return lblBPVal; }
     public JLabel getLblTempVal() { return lblTempVal; }
     public JLabel getLblSpo2Val() { return lblSpo2Val; }
+    public JPanel getMainPanel() { return mainPanel; }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -165,8 +166,8 @@ public class GenerateTokenView extends javax.swing.JFrame {
         tableScroll = new javax.swing.JScrollPane();
         tblLiveQueue = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Hospicare - Generate Token");
+        // setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         sidebarPanel.setPreferredSize(new java.awt.Dimension(240, 700));
         sidebarPanel.setLayout(new java.awt.GridBagLayout());
@@ -252,7 +253,8 @@ public class GenerateTokenView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 30, 15);
         sidebarPanel.add(btnLogout, gridBagConstraints);
 
-        getContentPane().add(sidebarPanel, java.awt.BorderLayout.WEST);
+        setLayout(new java.awt.BorderLayout());
+        // add(sidebarPanel, java.awt.BorderLayout.WEST); // Prevent double sidebar
 
         mainPanel.setLayout(new java.awt.BorderLayout());
 
@@ -730,10 +732,10 @@ public class GenerateTokenView extends javax.swing.JFrame {
 
         mainPanel.add(bodyScroll, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+        add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        pack();
-        setLocationRelativeTo(null);
+        // pack();
+        // setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

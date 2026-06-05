@@ -17,6 +17,54 @@ public class WithTabbedPane extends javax.swing.JFrame {
      */
     public WithTabbedPane() {
         initComponents();
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH); // Make it full screen
+        setupTabs();
+    }
+
+    private controller.DashboardController dashboardController;
+    private controller.RegisterWalkinController registerWalkinController;
+    private controller.GenerateTokenController generateTokenController;
+    private controller.AssignToDoctorController assignToDoctorController;
+
+    public controller.DashboardController getDashboardController() { return dashboardController; }
+    public controller.RegisterWalkinController getRegisterWalkinController() { return registerWalkinController; }
+    public controller.GenerateTokenController getGenerateTokenController() { return generateTokenController; }
+    public controller.AssignToDoctorController getAssignToDoctorController() { return assignToDoctorController; }
+
+    public void switchToTab(int index) { jTabbedPane1.setSelectedIndex(index); }
+
+    private void setupTabs() {
+        // Change layout to BorderLayout to align full page at runtime
+        getContentPane().setLayout(new java.awt.BorderLayout());
+        getContentPane().add(sidebarPanel, java.awt.BorderLayout.WEST);
+        getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+
+        // The components are added via GUI Builder to jTabbedPane1 directly
+        
+        dashboardController = new controller.DashboardController(jPanel1, this);
+        registerWalkinController = new controller.RegisterWalkinController(jPanel2, this);
+        generateTokenController = new controller.GenerateTokenController(jPanel3, this);
+        assignToDoctorController = new controller.AssignToDoctorController(jPanel4, this);
+        
+        btnManageWaitlist1.setVisible(true);
+        btnManageWaitlist1.addActionListener(e -> jTabbedPane1.setSelectedIndex(0));
+        
+        btnRegisterWalkin.addActionListener(e -> jTabbedPane1.setSelectedIndex(1));
+        btnGenerateToken.addActionListener(e -> jTabbedPane1.setSelectedIndex(2));
+        btnAssignDoctor.addActionListener(e -> jTabbedPane1.setSelectedIndex(3));
+        
+        btnLogout.addActionListener(e -> {
+            int option = javax.swing.JOptionPane.showConfirmDialog(
+                    this,
+                    "Are you sure you want to log out?",
+                    "Logout",
+                    javax.swing.JOptionPane.YES_NO_OPTION
+            );
+            if (option == javax.swing.JOptionPane.YES_OPTION) {
+                this.dispose();
+                System.exit(0);
+            }
+        });
     }
 
     /**
@@ -33,18 +81,15 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnRegisterWalkin = new javax.swing.JButton();
         btnGenerateToken = new javax.swing.JButton();
         btnAssignDoctor = new javax.swing.JButton();
-        btnManageWaitlist = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         btnManageWaitlist1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
+        jPanel1 = new view.DashboardView();
+        jPanel2 = new view.RegisterWalkinView();
+        jPanel3 = new view.GenerateTokenView();
+        jPanel4 = new view.AssignToDoctorView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
         sidebarPanel.setPreferredSize(new java.awt.Dimension(240, 700));
@@ -83,15 +128,6 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnAssignDoctor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         sidebarPanel.add(btnAssignDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 201, 210, 37));
 
-        btnManageWaitlist.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnManageWaitlist.setForeground(new java.awt.Color(255, 255, 255));
-        btnManageWaitlist.setText("Account");
-        btnManageWaitlist.setBorderPainted(false);
-        btnManageWaitlist.setContentAreaFilled(false);
-        btnManageWaitlist.setFocusPainted(false);
-        btnManageWaitlist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        sidebarPanel.add(btnManageWaitlist, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 210, 37));
-
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(255, 100, 100));
         btnLogout.setText("Logout");
@@ -111,74 +147,14 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnManageWaitlist1.addActionListener(this::btnManageWaitlist1ActionPerformed);
         sidebarPanel.add(btnManageWaitlist1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 248, 210, 37));
 
-        getContentPane().add(sidebarPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 524));
+        getContentPane().add(sidebarPanel, java.awt.BorderLayout.WEST);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 580, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 465, Short.MAX_VALUE)
-        );
+        jTabbedPane1.addTab("Dashboard", jPanel1);
+        jTabbedPane1.addTab("Register Walk-in", jPanel2);
+        jTabbedPane1.addTab("Generate Token", jPanel3);
+        jTabbedPane1.addTab("Assign Doctor", jPanel4);
 
-        jTabbedPane1.addTab("Register Walk-in", jPanel1);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 580, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 465, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Generate Token", jPanel2);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 580, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 465, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Assign To Doctor", jPanel3);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 580, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 465, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Manage Waitlist", jPanel4);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 580, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 465, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Account", jPanel5);
-
-        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, 580, 500));
+        getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -216,14 +192,12 @@ public class WithTabbedPane extends javax.swing.JFrame {
     private javax.swing.JButton btnAssignDoctor;
     private javax.swing.JButton btnGenerateToken;
     private javax.swing.JButton btnLogout;
-    private javax.swing.JButton btnManageWaitlist;
     private javax.swing.JButton btnManageWaitlist1;
     private javax.swing.JButton btnRegisterWalkin;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private view.DashboardView jPanel1;
+    private view.RegisterWalkinView jPanel2;
+    private view.GenerateTokenView jPanel3;
+    private view.AssignToDoctorView jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblHospicare;
     private javax.swing.JPanel sidebarPanel;

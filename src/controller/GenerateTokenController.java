@@ -14,6 +14,7 @@ import java.util.Date;
  */
 public class GenerateTokenController {
     private final GenerateTokenView view;
+    private final view.WithTabbedPane mainFrame;
     private String patientName = "Mr. Alexander Thompson";
     private String patientID = "Patient ID: #HP-2024-8891";
     private String ageGen = "34 Years / Male";
@@ -21,8 +22,9 @@ public class GenerateTokenController {
     private String bloodGroup = "O Positive (O+)";
     private String regDate = "Oct 24, 2023 | 09:15 AM";
 
-    public GenerateTokenController(GenerateTokenView view) {
+    public GenerateTokenController(GenerateTokenView view, view.WithTabbedPane mainFrame) {
         this.view = view;
+        this.mainFrame = mainFrame;
         if (view.getCbDepartment() != null) {
             view.getCbDepartment().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Department", "Cardiology", "Dermatology", "Pediatrics", "General Medicine" }));
         }
@@ -30,53 +32,17 @@ public class GenerateTokenController {
         loadInitialData();
     }
 
-    public GenerateTokenController(GenerateTokenView view, String name, String dob, String gender, String phone) {
-        this.view = view;
+    public void updatePatientDetails(String name, String dob, String gender, String phone) {
         this.patientName = name;
         this.patientID = "Patient ID: #HP-2026-" + (1000 + (int)(Math.random() * 9000));
         this.ageGen = dob + " / " + gender;
         this.contact = phone;
         this.bloodGroup = "O Positive (O+)";
         this.regDate = new java.text.SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
-        if (view.getCbDepartment() != null) {
-            view.getCbDepartment().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Department", "Cardiology", "Dermatology", "Pediatrics", "General Medicine" }));
-        }
-        initEventHandlers();
         loadInitialData();
     }
 
     private void initEventHandlers() {
-        // Navigation: Go to Dashboard/Waitlist
-        view.getBtnManageWaitlist().addActionListener(e -> {
-            view.dispose();
-            DashboardView dashboard = new DashboardView();
-            new DashboardController(dashboard);
-            dashboard.setVisible(true);
-        });
-
-        // Navigation other sidebar items
-        view.getBtnRegisterWalkin().addActionListener(e -> {
-            view.dispose();
-            RegisterWalkinView walkinView = new RegisterWalkinView();
-            new RegisterWalkinController(walkinView);
-            walkinView.setVisible(true);
-        });
-
-        view.getBtnAssignDoctor().addActionListener(e -> {
-            view.dispose();
-            view.AssignToDoctorView assignView = new view.AssignToDoctorView();
-            new AssignToDoctorController(assignView);
-            assignView.setVisible(true);
-        });
-
-        view.getBtnLogout().addActionListener(e -> {
-            int option = JOptionPane.showConfirmDialog(view, "Are you sure you want to log out?", "Logout", JOptionPane.YES_NO_OPTION);
-            if (option == JOptionPane.YES_OPTION) {
-                view.dispose();
-                System.exit(0);
-            }
-        });
-
         // Dynamic combobox selection to update estimated wait times
         view.getCbDepartment().addActionListener(e -> {
             updateEstimatedWaitTime();
