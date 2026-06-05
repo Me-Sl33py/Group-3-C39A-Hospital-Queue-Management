@@ -43,6 +43,13 @@ public class RegisterWalkinController {
             // Already on this screen
         });
 
+        view.getBtnAssignDoctor().addActionListener(e -> {
+            view.dispose();
+            view.AssignToDoctorView assignView = new view.AssignToDoctorView();
+            new AssignToDoctorController(assignView);
+            assignView.setVisible(true);
+        });
+
         // Navigation: Logout
         view.getBtnLogout().addActionListener(e -> {
             int option = JOptionPane.showConfirmDialog(view, "Are you sure you want to log out?", "Logout", JOptionPane.YES_NO_OPTION);
