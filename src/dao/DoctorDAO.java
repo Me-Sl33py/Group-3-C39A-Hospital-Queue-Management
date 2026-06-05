@@ -1,23 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package dao;
-
 import model.Doctor;
 import java.sql.*;
 
 public class DoctorDAO {
 
-    public void createTableIfNotExists() {
-        // Table already exists in your team's schema — nothing to create
-    }
+    public void createTableIfNotExists() {}
 
     public Doctor getDoctorById(String doctorId) {
-        String sql = "SELECT doctor_id, user_id, full_name, specialization, " +
-                     "department_id, contact_number, availability " +
-                     "FROM doctors WHERE doctor_id = ?";
+        String sql = "SELECT d.doctor_id, d.user_id, d.full_name, d.specialization, " +
+                     "d.department_id, dep.department_name, d.contact_number, d.availability " +
+                     "FROM doctors d " +
+                     "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
+                     "WHERE d.doctor_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, doctorId);
@@ -47,7 +41,7 @@ public class DoctorDAO {
     }
 
     private Doctor mapRow(ResultSet rs) throws SQLException {
-        return new Doctor(
+        Doctor d = new Doctor(
             rs.getString("doctor_id"),
             rs.getInt("user_id"),
             rs.getString("full_name"),
@@ -56,5 +50,7 @@ public class DoctorDAO {
             rs.getString("contact_number"),
             rs.getString("availability")
         );
+        d.setDepartmentName(rs.getString("department_name")); // ADD THIS
+        return d;
     }
 }
