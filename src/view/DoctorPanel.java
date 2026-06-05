@@ -16,13 +16,7 @@ public class DoctorPanel extends javax.swing.JFrame {
      * Creates new form DoctorPanel
      */
     public DoctorPanel() {
-        initComponents();
-        addPlaceholder(txtFullName, "Dr. João");
-        addPlaceholder(txtEmail, "joao@hospicare.com");
-        addPlaceholder(txtPhone, "+1 (234) 567-8900");
-        addPlaceholder(txtSpecialization, "Senior Cardiologist");
-        addPlaceholder(txtRoom, "Consultation Room 102");
-        
+        initComponents();     
         addTextAreaPlaceholder(taMessage1, "Enter detailed clinical notes, patient history update, and recommended next steps...");
         
         jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
@@ -35,6 +29,10 @@ public class DoctorPanel extends javax.swing.JFrame {
     // =====================================================================
 // GETTERS — expose UI components to the controller
 // =====================================================================
+    public javax.swing.JLabel getLblQueueName1() { return lblQueueName1; }
+public javax.swing.JLabel getLblQueueName2() { return lblQueueName2; }
+public javax.swing.JLabel getLblQueueDesc1() { return lblQueueDesc1; }
+public javax.swing.JLabel getLblQueueDesc2() { return lblQueueDesc2; }
 public javax.swing.JTextField getTxtPatientIdField()   { return jTextField1; }
 public javax.swing.JTextField getTxtPatientNameField() { return jTextField2; }
 public javax.swing.JButton getBtnMyQueue()        { return MyQueue;          }
@@ -56,7 +54,6 @@ public javax.swing.JTextArea getTaMessage()          { return taMessage1;       
 public javax.swing.JButton getBtnSubmitRecord()      { return btnSubmit1;       }
 public javax.swing.JButton getBtnCancelRecord()      { return btnCancel1;       }
 public javax.swing.JTextField getTxtFullName()       { return txtFullName;      }
-public javax.swing.JTextField getTxtEmail()          { return txtEmail;         }
 public javax.swing.JTextField getTxtPhone()          { return txtPhone;         }
 public javax.swing.JTextField getTxtSpecialization() { return txtSpecialization;}
 public javax.swing.JTextField getTxtRoom()           { return txtRoom;          }
@@ -198,8 +195,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         jPanelProfileCard = new javax.swing.JPanel();
         lblFullName = new javax.swing.JLabel();
         txtFullName = new javax.swing.JTextField();
-        lblEmailAddress = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
         lblContactNumber = new javax.swing.JLabel();
         txtPhone = new javax.swing.JTextField();
         lblSpecialization = new javax.swing.JLabel();
@@ -726,7 +721,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addComponent(jPatientQueue1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(ViewFullQueue)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanelSessionHistory1.setBackground(new java.awt.Color(255, 255, 255));
@@ -804,7 +799,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addComponent(lblCallNextPatient)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
-                .addGap(70, 70, 70)
+                .addGap(76, 76, 76)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelUpNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelActiveConsultation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -965,23 +960,13 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
 
         lblFullName.setText("Full Name:");
 
-        txtFullName.setText("Dr. João");
-
-        lblEmailAddress.setText("Email Address:");
-
-        txtEmail.setText("joao@hospicare.com");
+        txtFullName.addActionListener(this::txtFullNameActionPerformed);
 
         lblContactNumber.setText("Contact Number:");
 
-        txtPhone.setText("+1 (234) 567-8900");
-
         lblSpecialization.setText("Specialization:");
 
-        txtSpecialization.setText("Senior Cardiologist");
-
-        lblAssignedRoom.setText("Assigned Room:");
-
-        txtRoom.setText("Consultation Room 102");
+        lblAssignedRoom.setText("Department Name");
 
         lblShiftHours.setText("Shift Hours:");
 
@@ -1007,10 +992,8 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                     .addComponent(lblAssignedRoom)
                     .addComponent(lblSpecialization)
                     .addComponent(lblContactNumber)
-                    .addComponent(lblEmailAddress)
                     .addComponent(lblFullName)
                     .addComponent(txtFullName, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addComponent(txtEmail)
                     .addComponent(txtPhone)
                     .addComponent(txtSpecialization)
                     .addComponent(txtRoom))
@@ -1023,27 +1006,23 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addComponent(lblFullName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblEmailAddress)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblContactNumber)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblSpecialization)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSpecialization, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblAssignedRoom)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblShiftHours)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblShiftHoursVal)
-                .addGap(28, 28, 28)
+                .addGap(129, 129, 129)
                 .addGroup(jPanelProfileCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1187,6 +1166,10 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
 
     }//GEN-LAST:event_AddMedicalRecordsActionPerformed
 
+    private void txtFullNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFullNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFullNameActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1281,7 +1264,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JLabel lblDocTitle1;
     private javax.swing.JLabel lblDoctorId;
     private javax.swing.JLabel lblDoctorIdVal;
-    private javax.swing.JLabel lblEmailAddress;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JLabel lblHistoryHeader1;
     private javax.swing.JLabel lblLastLogin;
@@ -1314,7 +1296,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JPanel panelPatientInfo;
     private javax.swing.JScrollPane scrollPane1;
     private javax.swing.JTextArea taMessage1;
-    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullName;
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtRoom;

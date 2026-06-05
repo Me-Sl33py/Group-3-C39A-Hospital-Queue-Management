@@ -128,6 +128,22 @@ public class DoctorController {
 
         // Refresh the queue table
         loadQueueTable();
+        List<Object[]> upcoming = patientDAO.getQueueByDoctor(currentDoctor != null ? currentDoctor.getDoctorId() : "");
+        if (upcoming.size() > 0) {
+                view.getLblQueueName1().setText(upcoming.get(0)[1].toString());
+                view.getLblQueueDesc1().setText("Token #" + upcoming.get(0)[0].toString());
+        }else {
+                 view.getLblQueueName1().setText("—");
+                 view.getLblQueueDesc1().setText("");
+            }
+        if (upcoming.size() > 1) {
+          view.getLblQueueName2().setText(upcoming.get(1)[1].toString());
+          view.getLblQueueDesc2().setText("Token #" + upcoming.get(1)[0].toString());
+        } else {
+            view.getLblQueueName2().setText("—");
+            view.getLblQueueDesc2().setText("");
+        }
+                  
     }
 
     public void endSession() {
@@ -222,19 +238,20 @@ public class DoctorController {
     // Tab 4 — Account Settings
     // =========================================================================
     public void loadAccountData() {
-        if (currentDoctor == null) return;
+    if (currentDoctor == null) return;
 
-        Doctor d = doctorDAO.getDoctorById(currentDoctor.getDoctorId());
-        if (d == null) return;
+    Doctor d = doctorDAO.getDoctorById(currentDoctor.getDoctorId());
+    if (d == null) return;
 
-        currentDoctor = d;
+    currentDoctor = d;
 
-        view.getTxtFullName().setText(d.getFullName());
-        view.getTxtPhone().setText(d.getContactNumber());
-        view.getTxtSpecialization().setText(d.getSpecialization());
-        view.getLblDoctorIdVal().setText(d.getDoctorId());
-        view.getLblAccountStatusVal().setText(d.getAvailability());
-    }
+    view.getTxtFullName().setText(d.getFullName());
+    view.getTxtPhone().setText(d.getContactNumber());
+    view.getTxtSpecialization().setText(d.getSpecialization());
+    view.getTxtRoom().setText(d.getDepartmentName() != null ? d.getDepartmentName() : ""); // ADD THIS
+    view.getLblDoctorIdVal().setText(d.getDoctorId());
+    view.getLblAccountStatusVal().setText(d.getAvailability());
+}
 
     public void saveAccountChanges() {
         if (currentDoctor == null) {
