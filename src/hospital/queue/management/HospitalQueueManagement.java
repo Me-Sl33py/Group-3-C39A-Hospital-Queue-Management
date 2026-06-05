@@ -4,9 +4,6 @@
  */
 package hospital.queue.management;
 
-import database.Db;
-import database.MySqlConnection;
-
 /**
  *
  * @author User
@@ -17,9 +14,12 @@ public class HospitalQueueManagement {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        Db database = new MySqlConnection();
-        database.openConnection();
+        // Launch the application frontend
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new view.Patients().setVisible(true);
+            }
+        });
     }
     
 }

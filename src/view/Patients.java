@@ -4,19 +4,22 @@
  */
 package view;
 
+import controller.PatientController;
+
 /**
  *
  * @author Aakash Das
  */
 public class Patients extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Patients.class.getName());
+
+    private PatientController controller;
 
     /**
      * Creates new form Patients
      */
     public Patients() {
         initComponents();
+        controller = new PatientController(this);
     }
 
     /**
@@ -30,12 +33,14 @@ public class Patients extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnHome = new javax.swing.JButton();
+        btnBookAppointment = new javax.swing.JButton();
+        btnQueue = new javax.swing.JButton();
+        btnMedicalRecord = new javax.swing.JButton();
+        btnRating = new javax.swing.JButton();
+        btnAccount = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 700));
@@ -43,64 +48,82 @@ public class Patients extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(30, 100, 180));
         jPanel1.setDoubleBuffered(false);
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("🏥 Patient Panel");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 21, -1, -1));
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(32, 21, 160, 22);
 
-        jButton1.setBackground(new java.awt.Color(40, 110, 190));
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("⚙️ Account");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 210, 40));
+        btnHome.setBackground(new java.awt.Color(40, 110, 190));
+        btnHome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnHome.setText("🏠 Home");
+        btnHome.setContentAreaFilled(false);
+        btnHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHomeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnHome);
+        btnHome.setBounds(20, 70, 210, 40);
 
-        jButton2.setBackground(new java.awt.Color(40, 110, 190));
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("📅 Book Appointment");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 79, 210, 40));
+        btnBookAppointment.setBackground(new java.awt.Color(40, 110, 190));
+        btnBookAppointment.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnBookAppointment.setText("📅 Book Appointment");
+        btnBookAppointment.setContentAreaFilled(false);
+        jPanel1.add(btnBookAppointment);
+        btnBookAppointment.setBounds(20, 120, 210, 40);
 
-        jButton3.setBackground(new java.awt.Color(40, 110, 190));
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("📍 My Queue Position");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 210, 40));
+        btnQueue.setBackground(new java.awt.Color(40, 110, 190));
+        btnQueue.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnQueue.setText("📍 My Queue Position");
+        btnQueue.setContentAreaFilled(false);
+        jPanel1.add(btnQueue);
+        btnQueue.setBounds(20, 170, 210, 40);
 
-        jButton4.setBackground(new java.awt.Color(40, 110, 190));
-        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("📁 Medical record");
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 210, 40));
+        btnMedicalRecord.setBackground(new java.awt.Color(40, 110, 190));
+        btnMedicalRecord.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnMedicalRecord.setText("📁 Medical record");
+        btnMedicalRecord.setContentAreaFilled(false);
+        jPanel1.add(btnMedicalRecord);
+        btnMedicalRecord.setBounds(20, 220, 210, 40);
 
-        jButton5.setBackground(new java.awt.Color(40, 110, 190));
-        jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("⭐ Give Rating");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 210, 40));
+        btnRating.setBackground(new java.awt.Color(40, 110, 190));
+        btnRating.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnRating.setText("⭐ Give Rating");
+        btnRating.setContentAreaFilled(false);
+        jPanel1.add(btnRating);
+        btnRating.setBounds(20, 270, 210, 40);
 
-        jButton6.setBackground(new java.awt.Color(200, 50, 50));
-        jButton6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Logout");
-        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 620, 210, 35));
+        btnAccount.setBackground(new java.awt.Color(40, 110, 190));
+        btnAccount.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAccount.setText("⚙️ Account");
+        btnAccount.setContentAreaFilled(false);
+        jPanel1.add(btnAccount);
+        btnAccount.setBounds(20, 320, 210, 40);
+
+        btnLogout.setBackground(new java.awt.Color(200, 50, 50));
+        btnLogout.setContentAreaFilled(false);
+        btnLogout.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnLogout.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogout.setText("Logout");
+        jPanel1.add(btnLogout);
+        btnLogout.setBounds(20, 620, 210, 35);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 250, 720);
 
+        contentPanel.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(contentPanel);
+        contentPanel.setBounds(250, 0, 750, 700);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnHomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -108,9 +131,6 @@ public class Patients extends javax.swing.JFrame {
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -119,22 +139,28 @@ public class Patients extends javax.swing.JFrame {
                 }
             }
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Patients.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Patients().setVisible(true));
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Patients().setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    public javax.swing.JButton btnAccount;
+    public javax.swing.JButton btnBookAppointment;
+    public javax.swing.JButton btnHome;
+    public javax.swing.JButton btnLogout;
+    public javax.swing.JButton btnMedicalRecord;
+    public javax.swing.JButton btnQueue;
+    public javax.swing.JButton btnRating;
+    public javax.swing.JPanel contentPanel;
+    public javax.swing.JLabel jLabel1;
+    public javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
