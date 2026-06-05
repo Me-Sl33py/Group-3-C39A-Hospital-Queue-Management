@@ -356,12 +356,19 @@ public class RegistrationController {
             return;
         }
 
-        // ---- Validations ----
         // full name check
         if (fullName.isEmpty()) {
             JOptionPane.showMessageDialog(view,
                 "please enter your full name",
                 "missing field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // full name must contain at least 2 words (first and last name)
+        if (fullName.split("\\s+").length < 2) {
+            JOptionPane.showMessageDialog(view,
+                "Please enter your complete full name (at least two words).",
+                "invalid input", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

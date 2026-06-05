@@ -26,4 +26,4 @@
 Thumbs.db
 
 #database ignore
-# src/database
+src/database
