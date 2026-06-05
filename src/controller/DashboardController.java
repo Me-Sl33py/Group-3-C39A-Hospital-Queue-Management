@@ -43,10 +43,10 @@ public class DashboardController {
         });
 
         view.getBtnAssignDoctor().addActionListener(e -> {
-            JOptionPane.showMessageDialog(view,
-                    "Assign to Doctor Action Triggered",
-                    "Hospicare",
-                    JOptionPane.INFORMATION_MESSAGE);
+            view.dispose();
+            view.AssignToDoctorView assignView = new view.AssignToDoctorView();
+            new AssignToDoctorController(assignView);
+            assignView.setVisible(true);
         });
 
         view.getBtnManageWaitlist().addActionListener(e -> {

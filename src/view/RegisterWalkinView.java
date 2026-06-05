@@ -39,51 +39,22 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         sidebarPanel = new javax.swing.JPanel();
-        sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
-        sidebarPanel.setOpaque(true);
         lblHospicare = new javax.swing.JLabel();
-        lblHospicare.setForeground(new java.awt.Color(255, 255, 255));
         btnRegisterWalkin = new javax.swing.JButton();
-        btnRegisterWalkin.setForeground(new java.awt.Color(255, 255, 255));
-        btnRegisterWalkin.setBackground(new java.awt.Color(18, 116, 210));
-        btnRegisterWalkin.setBorderPainted(false);
-        btnRegisterWalkin.setOpaque(true);
         btnGenerateToken = new javax.swing.JButton();
-        btnGenerateToken.setForeground(new java.awt.Color(255, 255, 255));
-        btnGenerateToken.setBorderPainted(false);
-        btnGenerateToken.setContentAreaFilled(false);
         btnAssignDoctor = new javax.swing.JButton();
-        btnAssignDoctor.setForeground(new java.awt.Color(255, 255, 255));
-        btnAssignDoctor.setBorderPainted(false);
-        btnAssignDoctor.setContentAreaFilled(false);
         btnManageWaitlist = new javax.swing.JButton();
-        btnManageWaitlist.setForeground(new java.awt.Color(255, 255, 255));
-        btnManageWaitlist.setBorderPainted(false);
-        btnManageWaitlist.setContentAreaFilled(false);
         btnLogout = new javax.swing.JButton();
-        btnLogout.setForeground(new java.awt.Color(255, 100, 100));
-        btnLogout.setBorderPainted(false);
-        btnLogout.setContentAreaFilled(false);
         mainPanel = new javax.swing.JPanel();
-        mainPanel.setBackground(new java.awt.Color(249, 250, 251));
-        mainPanel.setOpaque(true);
         headerPanel = new javax.swing.JPanel();
-        headerPanel.setBackground(new java.awt.Color(255, 255, 255));
-        headerPanel.setOpaque(true);
         lblHeaderTitle = new javax.swing.JLabel();
-        lblHeaderTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblHeaderSubtitle = new javax.swing.JLabel();
         bodyScroll = new javax.swing.JScrollPane();
         bodyPanel = new javax.swing.JPanel();
-        bodyPanel.setBackground(new java.awt.Color(249, 250, 251));
-        bodyPanel.setOpaque(true);
         lblIntakeSubtitle = new javax.swing.JLabel();
         lblWalkinTitle = new javax.swing.JLabel();
-        lblWalkinTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblWalkinDesc = new javax.swing.JLabel();
         formPanel = new javax.swing.JPanel();
-        formPanel.setBackground(new java.awt.Color(255, 255, 255));
-        formPanel.setOpaque(true);
         lblNameLabel = new javax.swing.JLabel();
         lblDobLabel = new javax.swing.JLabel();
         tfName = new javax.swing.JTextField();
@@ -96,50 +67,29 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         reasonScroll = new javax.swing.JScrollPane();
         taReason = new javax.swing.JTextArea();
         rightColumnPanel = new javax.swing.JPanel();
-        rightColumnPanel.setOpaque(false);
         loadCard = new javax.swing.JPanel();
-        loadCard.setBackground(new java.awt.Color(5, 150, 105));
-        loadCard.setOpaque(true);
-        loadCard.setOpaque(true);
         lblLoadTitle = new javax.swing.JLabel();
-        lblLoadTitle.setForeground(new java.awt.Color(240, 240, 240));
         lblLoadVal = new javax.swing.JLabel();
-        lblLoadVal.setForeground(new java.awt.Color(255, 255, 255));
         lblLoadSubtitle = new javax.swing.JLabel();
-        lblLoadSubtitle.setForeground(new java.awt.Color(230, 230, 230));
         tipsCard = new javax.swing.JPanel();
-        tipsCard.setBackground(new java.awt.Color(255, 255, 255));
-        tipsCard.setOpaque(true);
         lblTipsTitle = new javax.swing.JLabel();
-        lblTipsTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblTip1 = new javax.swing.JLabel();
-        lblTip1.setForeground(new java.awt.Color(128, 128, 128));
         lblTip2 = new javax.swing.JLabel();
-        lblTip2.setForeground(new java.awt.Color(128, 128, 128));
         lblTip3 = new javax.swing.JLabel();
-        lblTip3.setForeground(new java.awt.Color(128, 128, 128));
         imageCard = new javax.swing.JPanel();
-        imageCard.setBackground(new java.awt.Color(255, 255, 255));
-        imageCard.setOpaque(true);
         lblWaitingRoomImage = new javax.swing.JLabel();
         buttonsPanel = new javax.swing.JPanel();
-        buttonsPanel.setOpaque(false);
         btnReset = new javax.swing.JButton();
-        btnReset.setBackground(new java.awt.Color(255, 255, 255));
-        btnReset.setForeground(new java.awt.Color(80, 80, 80));
-        btnReset.setOpaque(true);
         btnSaveContinue = new javax.swing.JButton();
-        btnSaveContinue.setForeground(new java.awt.Color(255, 255, 255));
-        btnSaveContinue.setBackground(new java.awt.Color(5, 150, 105));
-        btnSaveContinue.setBorderPainted(false);
-        btnSaveContinue.setOpaque(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hospicare - Register Walk-in");
 
+        sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
         sidebarPanel.setPreferredSize(new java.awt.Dimension(240, 700));
         sidebarPanel.setLayout(new java.awt.GridBagLayout());
 
+        lblHospicare.setForeground(new java.awt.Color(255, 255, 255));
         lblHospicare.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblHospicare.setText("HOSPICARE");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -150,10 +100,14 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(30, 20, 40, 20);
         sidebarPanel.add(lblHospicare, gridBagConstraints);
 
+        btnRegisterWalkin.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegisterWalkin.setBackground(new java.awt.Color(18, 116, 210));
         btnRegisterWalkin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegisterWalkin.setText("Register Walk-in");
+        btnRegisterWalkin.setBorderPainted(false);
         btnRegisterWalkin.setFocusPainted(false);
         btnRegisterWalkin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnRegisterWalkin.setOpaque(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -165,7 +119,10 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         sidebarPanel.add(btnRegisterWalkin, gridBagConstraints);
 
         btnGenerateToken.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGenerateToken.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerateToken.setText("Generate Token");
+        btnGenerateToken.setBorderPainted(false);
+        btnGenerateToken.setContentAreaFilled(false);
         btnGenerateToken.setFocusPainted(false);
         btnGenerateToken.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -178,8 +135,11 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
         sidebarPanel.add(btnGenerateToken, gridBagConstraints);
 
+        btnAssignDoctor.setForeground(new java.awt.Color(255, 255, 255));
         btnAssignDoctor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAssignDoctor.setText("Assign to Doctor");
+        btnAssignDoctor.setBorderPainted(false);
+        btnAssignDoctor.setContentAreaFilled(false);
         btnAssignDoctor.setFocusPainted(false);
         btnAssignDoctor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -193,7 +153,10 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         sidebarPanel.add(btnAssignDoctor, gridBagConstraints);
 
         btnManageWaitlist.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnManageWaitlist.setForeground(new java.awt.Color(255, 255, 255));
         btnManageWaitlist.setText("Manage Waitlist");
+        btnManageWaitlist.setBorderPainted(false);
+        btnManageWaitlist.setContentAreaFilled(false);
         btnManageWaitlist.setFocusPainted(false);
         btnManageWaitlist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -207,13 +170,17 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         sidebarPanel.add(btnManageWaitlist, gridBagConstraints);
 
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLogout.setForeground(new java.awt.Color(255, 100, 100));
         btnLogout.setText("Logout");
+        btnLogout.setBorderPainted(false);
+        btnLogout.setContentAreaFilled(false);
         btnLogout.setFocusPainted(false);
         btnLogout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -222,12 +189,15 @@ public class RegisterWalkinView extends javax.swing.JFrame {
 
         getContentPane().add(sidebarPanel, java.awt.BorderLayout.WEST);
 
+        mainPanel.setBackground(new java.awt.Color(249, 250, 251));
         mainPanel.setLayout(new java.awt.BorderLayout());
 
+        headerPanel.setBackground(new java.awt.Color(255, 255, 255));
         headerPanel.setPreferredSize(new java.awt.Dimension(800, 70));
         headerPanel.setLayout(new java.awt.GridBagLayout());
 
         lblHeaderTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblHeaderTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblHeaderTitle.setText("Reception Dashboard");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -247,10 +217,10 @@ public class RegisterWalkinView extends javax.swing.JFrame {
 
         mainPanel.add(headerPanel, java.awt.BorderLayout.NORTH);
 
+        bodyPanel.setBackground(new java.awt.Color(249, 250, 251));
         bodyPanel.setLayout(new java.awt.GridBagLayout());
 
         lblIntakeSubtitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblIntakeSubtitle.setForeground(new java.awt.Color(16, 185, 129));
         lblIntakeSubtitle.setText("PATIENT INTAKE");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -262,6 +232,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         bodyPanel.add(lblIntakeSubtitle, gridBagConstraints);
 
         lblWalkinTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblWalkinTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblWalkinTitle.setText("Register Walk-in");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -283,6 +254,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 20);
         bodyPanel.add(lblWalkinDesc, gridBagConstraints);
 
+        formPanel.setBackground(new java.awt.Color(255, 255, 255));
         formPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         formPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -306,7 +278,13 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(20, 10, 5, 20);
         formPanel.add(lblDobLabel, gridBagConstraints);
 
+        tfName.setText("njnioj");
         tfName.setPreferredSize(new java.awt.Dimension(150, 35));
+        tfName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfNameActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -344,7 +322,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 20);
         formPanel.add(lblPhoneLabel, gridBagConstraints);
 
-        cbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Gender", "Male", "Female", "Other" }));
+        cbGender.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "", "", "" }));
         cbGender.setPreferredSize(new java.awt.Dimension(150, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -399,11 +377,14 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 10);
         bodyPanel.add(formPanel, gridBagConstraints);
 
+        rightColumnPanel.setOpaque(false);
         rightColumnPanel.setLayout(new java.awt.GridBagLayout());
 
+        loadCard.setBackground(new java.awt.Color(5, 150, 105));
         loadCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(5, 150, 105), 1, true));
         loadCard.setLayout(new java.awt.GridBagLayout());
 
+        lblLoadTitle.setForeground(new java.awt.Color(240, 240, 240));
         lblLoadTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblLoadTitle.setText("Today's Load");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -414,6 +395,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 15);
         loadCard.add(lblLoadTitle, gridBagConstraints);
 
+        lblLoadVal.setForeground(new java.awt.Color(255, 255, 255));
         lblLoadVal.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblLoadVal.setText("14");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -424,6 +406,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 2, 15);
         loadCard.add(lblLoadVal, gridBagConstraints);
 
+        lblLoadSubtitle.setForeground(new java.awt.Color(230, 230, 230));
         lblLoadSubtitle.setText("Patients Waiting");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -441,10 +424,12 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
         rightColumnPanel.add(loadCard, gridBagConstraints);
 
+        tipsCard.setBackground(new java.awt.Color(255, 255, 255));
         tipsCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         tipsCard.setLayout(new java.awt.GridBagLayout());
 
         lblTipsTitle.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lblTipsTitle.setForeground(new java.awt.Color(80, 80, 80));
         lblTipsTitle.setText("Quick Tips");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -454,6 +439,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 10, 15);
         tipsCard.add(lblTipsTitle, gridBagConstraints);
 
+        lblTip1.setForeground(new java.awt.Color(128, 128, 128));
         lblTip1.setText("<html><b>1</b> Verify patient identification documents before finalizing.</html>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -464,6 +450,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 8, 15);
         tipsCard.add(lblTip1, gridBagConstraints);
 
+        lblTip2.setForeground(new java.awt.Color(128, 128, 128));
         lblTip2.setText("<html><b>2</b> Assign priority tags for emergency walk-ins immediately.</html>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -474,6 +461,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 8, 15);
         tipsCard.add(lblTip2, gridBagConstraints);
 
+        lblTip3.setForeground(new java.awt.Color(128, 128, 128));
         lblTip3.setText("<html><b>3</b> Ensure the phone number is active for token SMS alerts.</html>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -492,6 +480,7 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
         rightColumnPanel.add(tipsCard, gridBagConstraints);
 
+        imageCard.setBackground(new java.awt.Color(255, 255, 255));
         imageCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
         imageCard.setLayout(new java.awt.GridBagLayout());
 
@@ -523,18 +512,25 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 15, 20);
         bodyPanel.add(rightColumnPanel, gridBagConstraints);
 
+        buttonsPanel.setOpaque(false);
         buttonsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 15, 5));
 
         btnReset.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnReset.setForeground(new java.awt.Color(80, 80, 80));
         btnReset.setText("Reset");
         btnReset.setPreferredSize(new java.awt.Dimension(120, 40));
         btnReset.setFocusPainted(false);
+        btnReset.setOpaque(true);
         buttonsPanel.add(btnReset);
 
+        btnSaveContinue.setForeground(new java.awt.Color(255, 255, 255));
+        btnSaveContinue.setBackground(new java.awt.Color(5, 150, 105));
         btnSaveContinue.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSaveContinue.setText("Save & Continue");
         btnSaveContinue.setPreferredSize(new java.awt.Dimension(160, 40));
+        btnSaveContinue.setBorderPainted(false);
         btnSaveContinue.setFocusPainted(false);
+        btnSaveContinue.setOpaque(true);
         buttonsPanel.add(btnSaveContinue);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -556,6 +552,10 @@ public class RegisterWalkinView extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tfNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfNameActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bodyPanel;
