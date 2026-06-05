@@ -35,7 +35,7 @@ public class SearchPatientView extends javax.swing.JFrame {
 
         btnSearch = new JButton("Search");
         btnSearch.setBackground(new Color(37, 99, 235));
-        btnSearch.setForeground(Color.WHITE);
+        btnSearch.setForeground(Color.BLACK);
         btnSearch.setFocusPainted(false);
 
         btnClear = new JButton("Clear");
