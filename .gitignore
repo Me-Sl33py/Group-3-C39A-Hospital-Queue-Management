@@ -22,7 +22,7 @@
 *.log
 
 # OS Specific
-.DS_Store
+# .DS_Store
 Thumbs.db
 
 #database ignore
