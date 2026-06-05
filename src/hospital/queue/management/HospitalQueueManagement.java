@@ -22,9 +22,11 @@ public class HospitalQueueManagement {
         Db database = new MySqlConnection();
         database.openConnection();
 
-        // Open WithTabbedPane instead of the old separate frames
+        // Open WithTabbedPane and hook it up to MainController
         java.awt.EventQueue.invokeLater(() -> {
-            new view.WithTabbedPane().setVisible(true);
+            view.WithTabbedPane mainFrame = new view.WithTabbedPane();
+            controller.MainController mainController = new controller.MainController(mainFrame);
+            mainFrame.setVisible(true);
         });
     }
 }

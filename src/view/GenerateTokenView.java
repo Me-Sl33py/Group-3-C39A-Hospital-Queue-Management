@@ -15,11 +15,6 @@ public class GenerateTokenView extends javax.swing.JPanel {
 
     
 
-    public JButton getBtnRegisterWalkin() { return btnRegisterWalkin; }
-    public JButton getBtnGenerateToken() { return btnGenerateToken; } // Sidebar button
-    public JButton getBtnAssignDoctor() { return btnAssignDoctor; }
-    public JButton getBtnManageWaitlist() { return btnManageWaitlist; } // Sidebar button
-    public JButton getBtnLogout() { return btnLogout; }
     
     public JComboBox<String> getCbDepartment() { return cbDepartment; }
     public JButton getBtnGenerateTokenSubmit() { return btnGenerateTokenSubmit; }
@@ -166,7 +161,6 @@ public class GenerateTokenView extends javax.swing.JPanel {
         tableScroll = new javax.swing.JScrollPane();
         tblLiveQueue = new javax.swing.JTable();
 
-        // setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1024, 768));
 
         sidebarPanel.setPreferredSize(new java.awt.Dimension(240, 700));
@@ -254,7 +248,6 @@ public class GenerateTokenView extends javax.swing.JPanel {
         sidebarPanel.add(btnLogout, gridBagConstraints);
 
         setLayout(new java.awt.BorderLayout());
-        // add(sidebarPanel, java.awt.BorderLayout.WEST); // Prevent double sidebar
 
         mainPanel.setLayout(new java.awt.BorderLayout());
 
@@ -734,8 +727,6 @@ public class GenerateTokenView extends javax.swing.JPanel {
 
         add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        // pack();
-        // setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
