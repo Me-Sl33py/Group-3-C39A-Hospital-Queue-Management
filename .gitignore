@@ -14,9 +14,9 @@
 *.class
 
 # Package Files
-*.jar
-*.war
-*.ear
+# *.jar (Commented out so project libraries sync correctly)
+# *.war
+# *.ear
 
 # Log files
 *.log
@@ -26,4 +26,4 @@
 Thumbs.db
 
 #database ignore
-src/database
+# src/database (Commented out so Db.java and MySqlConnection.java sync correctly)
