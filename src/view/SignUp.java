@@ -341,27 +341,7 @@ public class SignUp extends javax.swing.JFrame {
     /** @return Eye-closed icon label for confirm-password field */
     public JLabel getHideConfirmPasswordLabel()                      { return hide2; }
 
-    // ====================================================================
-    //  main() — Run this class directly to preview just this screen
-    // ====================================================================
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(SignUp.class.getName())
-                    .log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SignUp().setVisible(true);
-            }
-        });
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel alreadyAccountLabel;
