@@ -16,11 +16,6 @@ public class DashboardView extends javax.swing.JPanel {
 
     
 
-    public JButton getBtnRegisterWalkin() { return btnRegisterWalkin; }
-    public JButton getBtnGenerateToken() { return btnGenerateToken; }
-    public JButton getBtnAssignDoctor() { return btnAssignDoctor; }
-    public JButton getBtnManageWaitlist() { return btnManageWaitlist; }
-    public JButton getBtnLogout() { return btnLogout; }
     public JButton getBtnNewPatientReg() { return btnNewPatientReg; }
     public JButton getBtnGenEmergency() { return btnGenEmergency; }
     public JButton getBtnDailyReport() { return btnDailyReport; }
@@ -152,12 +147,9 @@ public class DashboardView extends javax.swing.JPanel {
         lblPediatricsVal = new javax.swing.JLabel();
         pbPediatrics = new javax.swing.JProgressBar();
 
-        // setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1024, 768));
 
-        // gridBagConstraints setup removed
         setLayout(new java.awt.BorderLayout());
-        // sidebarPanel removed
 
         mainPanel.setLayout(new java.awt.BorderLayout());
 
@@ -641,7 +633,6 @@ public class DashboardView extends javax.swing.JPanel {
     private javax.swing.JProgressBar pbOrtho;
     private javax.swing.JProgressBar pbPediatrics;
     private javax.swing.JPanel quickActionsPanel;
-    // private javax.swing.JPanel sidebarPanel;
     private javax.swing.JPanel statsPanel;
     private javax.swing.JPanel tableHeaderArea;
     private javax.swing.JScrollPane tableScroll;
