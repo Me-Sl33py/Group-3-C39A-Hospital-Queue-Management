@@ -74,20 +74,22 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        tabbedPane.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+
         pnlDoctors.setBackground(new java.awt.Color(255, 255, 255));
         pnlDoctors.setLayout(null);
 
         lblSearchDoc.setText("Search Doctor:");
         pnlDoctors.add(lblSearchDoc);
-        lblSearchDoc.setBounds(240, 50, 100, 30);
+        lblSearchDoc.setBounds(210, 40, 100, 30);
         pnlDoctors.add(txtSearchDoc);
-        txtSearchDoc.setBounds(400, 40, 300, 30);
+        txtSearchDoc.setBounds(310, 40, 300, 30);
 
         btnSearchDoc.setBackground(new java.awt.Color(13, 110, 253));
         btnSearchDoc.setForeground(new java.awt.Color(255, 255, 255));
         btnSearchDoc.setText("Search");
         pnlDoctors.add(btnSearchDoc);
-        btnSearchDoc.setBounds(730, 30, 100, 30);
+        btnSearchDoc.setBounds(650, 40, 100, 30);
 
         tblDoctors.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,7 +102,7 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         jspDoctors.setViewportView(tblDoctors);
 
         pnlDoctors.add(jspDoctors);
-        jspDoctors.setBounds(180, 80, 800, 250);
+        jspDoctors.setBounds(80, 90, 800, 250);
 
         pnlDoctorDetails.setBackground(new java.awt.Color(255, 255, 255));
         pnlDoctorDetails.setBorder(javax.swing.BorderFactory.createTitledBorder("Selected Doctor Details"));
@@ -134,7 +136,7 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         pnlDoctorDetails.add(lblDocAvailability);
         lblDocAvailability.setBounds(20, 110, 80, 20);
 
-        cmbDocAvailability.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mon-Fri", "Mon-Wed", "Thu-Sat", "Weekends" }));
+        cmbDocAvailability.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Non-available" }));
         pnlDoctorDetails.add(cmbDocAvailability);
         cmbDocAvailability.setBounds(100, 110, 200, 26);
 
@@ -147,30 +149,30 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         cmbDocStatus.setBounds(450, 110, 200, 26);
 
         pnlDoctors.add(pnlDoctorDetails);
-        pnlDoctorDetails.setBounds(190, 350, 800, 160);
+        pnlDoctorDetails.setBounds(80, 350, 800, 160);
 
         btnAddDoc.setBackground(new java.awt.Color(13, 110, 253));
         btnAddDoc.setForeground(new java.awt.Color(255, 255, 255));
         btnAddDoc.setText("Add Doctor");
         pnlDoctors.add(btnAddDoc);
-        btnAddDoc.setBounds(310, 570, 110, 30);
+        btnAddDoc.setBounds(130, 550, 110, 30);
 
         btnUpdateDoc.setBackground(new java.awt.Color(13, 110, 253));
         btnUpdateDoc.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdateDoc.setText("Update Doctor");
         pnlDoctors.add(btnUpdateDoc);
-        btnUpdateDoc.setBounds(440, 570, 120, 30);
+        btnUpdateDoc.setBounds(290, 550, 120, 30);
 
         btnRemoveDoc.setBackground(new java.awt.Color(220, 53, 69));
         btnRemoveDoc.setForeground(new java.awt.Color(255, 255, 255));
         btnRemoveDoc.setText("Remove Doctor");
         pnlDoctors.add(btnRemoveDoc);
-        btnRemoveDoc.setBounds(570, 570, 120, 30);
+        btnRemoveDoc.setBounds(450, 550, 120, 30);
 
         btnRefreshDoc.setBackground(new java.awt.Color(224, 224, 224));
         btnRefreshDoc.setText("Refresh");
         pnlDoctors.add(btnRefreshDoc);
-        btnRefreshDoc.setBounds(780, 570, 100, 30);
+        btnRefreshDoc.setBounds(610, 550, 100, 30);
 
         tabbedPane.addTab("Doctors", pnlDoctors);
 
@@ -179,15 +181,15 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
 
         lblSearchDept.setText("Search Department:");
         pnlDepartments.add(lblSearchDept);
-        lblSearchDept.setBounds(20, 20, 120, 30);
+        lblSearchDept.setBounds(240, 20, 120, 30);
         pnlDepartments.add(txtSearchDept);
-        txtSearchDept.setBounds(150, 20, 270, 30);
+        txtSearchDept.setBounds(370, 20, 270, 30);
 
         btnSearchDept.setBackground(new java.awt.Color(13, 110, 253));
         btnSearchDept.setForeground(new java.awt.Color(255, 255, 255));
         btnSearchDept.setText("Search");
         pnlDepartments.add(btnSearchDept);
-        btnSearchDept.setBounds(430, 20, 100, 30);
+        btnSearchDept.setBounds(670, 20, 100, 30);
 
         tblDepartments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -200,7 +202,7 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         jspDepartments.setViewportView(tblDepartments);
 
         pnlDepartments.add(jspDepartments);
-        jspDepartments.setBounds(20, 70, 800, 250);
+        jspDepartments.setBounds(120, 80, 800, 250);
 
         pnlDeptDetails.setBackground(new java.awt.Color(255, 255, 255));
         pnlDeptDetails.setBorder(javax.swing.BorderFactory.createTitledBorder("Selected Department Details"));
@@ -227,31 +229,31 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         cmbDeptStatus.setBounds(140, 70, 200, 26);
 
         pnlDepartments.add(pnlDeptDetails);
-        pnlDeptDetails.setBounds(20, 340, 800, 120);
+        pnlDeptDetails.setBounds(120, 360, 800, 140);
 
         btnAddDept.setBackground(new java.awt.Color(13, 110, 253));
         btnAddDept.setForeground(new java.awt.Color(255, 255, 255));
         btnAddDept.setText("Add Department");
         pnlDepartments.add(btnAddDept);
-        btnAddDept.setBounds(130, 480, 140, 40);
+        btnAddDept.setBounds(160, 540, 140, 40);
 
         btnUpdateDept.setBackground(new java.awt.Color(13, 110, 253));
         btnUpdateDept.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdateDept.setText("Update Department");
         pnlDepartments.add(btnUpdateDept);
-        btnUpdateDept.setBounds(320, 480, 150, 40);
+        btnUpdateDept.setBounds(340, 540, 150, 40);
 
         btnRemoveDept.setBackground(new java.awt.Color(220, 53, 69));
         btnRemoveDept.setForeground(new java.awt.Color(255, 255, 255));
         btnRemoveDept.setText("Remove Department");
         pnlDepartments.add(btnRemoveDept);
-        btnRemoveDept.setBounds(510, 490, 160, 30);
+        btnRemoveDept.setBounds(520, 540, 160, 40);
 
         btnRefreshDept.setBackground(new java.awt.Color(224, 224, 224));
         btnRefreshDept.setText("Refresh");
         btnRefreshDept.addActionListener(this::btnRefreshDeptActionPerformed);
         pnlDepartments.add(btnRefreshDept);
-        btnRefreshDept.setBounds(710, 490, 100, 30);
+        btnRefreshDept.setBounds(720, 540, 100, 40);
 
         tabbedPane.addTab("Departments", pnlDepartments);
 
@@ -280,7 +282,7 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
             .addGroup(topBarPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(pageTitleLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 887, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 624, Short.MAX_VALUE)
                 .addComponent(adminCircleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(adminNameLabel)
@@ -307,17 +309,17 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(topBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
+                        .addGap(22, 22, 22)
                         .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(topBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -373,4 +375,33 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
     private javax.swing.JTextField txtSearchDept;
     private javax.swing.JTextField txtSearchDoc;
     // End of variables declaration//GEN-END:variables
+
+// Doctor getters
+public javax.swing.JTable getTblDoctors()               { return tblDoctors; }
+public javax.swing.JTextField getTxtSearchDoc()         { return txtSearchDoc; }
+public javax.swing.JTextField getTxtDocFullName()       { return txtDocFullName; }
+public javax.swing.JTextField getTxtDocPhone()          { return txtDocPhone; }
+public javax.swing.JTextField getTxtDocSpecialty()      { return txtDocSpecialty; }
+public javax.swing.JTextField getTxtDocDepartment()     { return txtDocDepartment; }
+public javax.swing.JComboBox<String> getCmbDocAvailability() { return cmbDocAvailability; }
+public javax.swing.JComboBox<String> getCmbDocStatus()  { return cmbDocStatus; }
+public javax.swing.JButton getBtnSearchDoc()            { return btnSearchDoc; }
+public javax.swing.JButton getBtnAddDoc()               { return btnAddDoc; }
+public javax.swing.JButton getBtnUpdateDoc()            { return btnUpdateDoc; }
+public javax.swing.JButton getBtnRemoveDoc()            { return btnRemoveDoc; }
+public javax.swing.JButton getBtnRefreshDoc()           { return btnRefreshDoc; }
+
+// Department getters
+public javax.swing.JTable getTblDepartments()           { return tblDepartments; }
+public javax.swing.JTextField getTxtSearchDept()        { return txtSearchDept; }
+public javax.swing.JTextField getTxtDeptName()          { return txtDeptName; }
+public javax.swing.JTextField getTxtDeptHeadDoctor()    { return txtDeptHeadDoctor; }
+public javax.swing.JComboBox<String> getCmbDeptStatus() { return cmbDeptStatus; }
+public javax.swing.JButton getBtnSearchDept()           { return btnSearchDept; }
+public javax.swing.JButton getBtnAddDept()              { return btnAddDept; }
+public javax.swing.JButton getBtnUpdateDept()           { return btnUpdateDept; }
+public javax.swing.JButton getBtnRemoveDept()           { return btnRemoveDept; }
+public javax.swing.JButton getBtnRefreshDept()          { return btnRefreshDept; }
+
 }
+

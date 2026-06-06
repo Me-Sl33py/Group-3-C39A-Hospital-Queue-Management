@@ -311,4 +311,16 @@ public class SchedulePanel extends javax.swing.JPanel {
     private javax.swing.JLabel time5Label;
     private javax.swing.JPanel topBarPanel1;
     // End of variables declaration//GEN-END:variables
+
+public javax.swing.JLabel getTime1Label()  { return time1Label; }
+public javax.swing.JLabel getTime2Label()  { return time2Label; }
+public javax.swing.JLabel getTime3Label()  { return time3Label; }
+public javax.swing.JLabel getTime4Label()  { return time4Label; }
+public javax.swing.JLabel getTime5Label()  { return time5Label; }
+public javax.swing.JLabel getEntry1Label() { return entry1Label; }
+public javax.swing.JLabel getEntry2Label() { return entry2Label; }
+public javax.swing.JLabel getEntry3Label() { return entry3Label; }
+public javax.swing.JLabel getEntry4Label() { return entry4Label; }
+public javax.swing.JLabel getEntry5Label() { return entry5Label; }
+
 }

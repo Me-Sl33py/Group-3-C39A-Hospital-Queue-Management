@@ -38,6 +38,7 @@ public class LogoutPanel extends javax.swing.JPanel {
         adminNameLabel = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setMinimumSize(new java.awt.Dimension(1200, 800));
 
         logoutCardPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -78,14 +79,15 @@ public class LogoutPanel extends javax.swing.JPanel {
             logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logoutCardPanelLayout.createSequentialGroup()
                 .addGroup(logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(logoutQuestionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(logoutCardPanelLayout.createSequentialGroup()
-                            .addGap(287, 287, 287)
-                            .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(31, 31, 31)
-                            .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(37, 37, 37)))
+                    .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                        .addGap(216, 216, 216)
+                        .addGroup(logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(logoutQuestionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37))))
                     .addGroup(logoutCardPanelLayout.createSequentialGroup()
                         .addGap(307, 307, 307)
                         .addComponent(logoutSubLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -175,7 +177,7 @@ public class LogoutPanel extends javax.swing.JPanel {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -195,4 +197,8 @@ public class LogoutPanel extends javax.swing.JPanel {
     private javax.swing.JLabel pageTitleLabel;
     private javax.swing.JPanel topBarPanel;
     // End of variables declaration//GEN-END:variables
+
+public javax.swing.JButton getLogoutButton() { return logoutButton; }
+public javax.swing.JButton getCancelButton()  { return cancelButton; }
+
 }
