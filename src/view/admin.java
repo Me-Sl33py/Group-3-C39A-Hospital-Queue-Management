@@ -21,14 +21,26 @@ public class admin extends javax.swing.JFrame {
     /**
      * Creates new form admin
      */
-  public admin() {
+ public admin() {
     initComponents();
+    setMinimumSize(new java.awt.Dimension(1200, 800));
+    setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+    
+    javax.swing.JButton[] sidebarBtns = {jButton1, jButton2, jButton3, jButton4, 
+                                          jButton5, jButton6, jButton7, jButton8, jButton9};
+    for (javax.swing.JButton btn : sidebarBtns) {
+        btn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
+        btn.setContentAreaFilled(false);
+        btn.setOpaque(true);
+        btn.setBackground(new java.awt.Color(51, 153, 255));
+        btn.setForeground(new java.awt.Color(255, 255, 255));
+    }
     
     cardLayout = new CardLayout();
     contentPanel.setLayout(cardLayout);
     new AdminController(this);
-    
-   
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,6 +67,7 @@ public class admin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         sidebar.setBackground(new java.awt.Color(51, 153, 255));
+        sidebar.setMinimumSize(new java.awt.Dimension(1200, 800));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -110,7 +123,7 @@ public class admin extends javax.swing.JFrame {
 
         jButton9.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Manage doctor&department");
+        jButton9.setText("🩺Manage doctor&department            ");
         jButton9.setContentAreaFilled(false);
         jButton9.addActionListener(this::jButton9ActionPerformed);
 
@@ -126,7 +139,7 @@ public class admin extends javax.swing.JFrame {
             .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         sidebarLayout.setVerticalGroup(
@@ -150,15 +163,17 @@ public class admin extends javax.swing.JFrame {
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        contentPanel.setMinimumSize(new java.awt.Dimension(1200, 800));
 
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 665, Short.MAX_VALUE)
+            .addGap(0, 1212, Short.MAX_VALUE)
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,6 +196,8 @@ public class admin extends javax.swing.JFrame {
             .addComponent(sidebar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(contentPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        sidebar.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -275,5 +292,5 @@ public javax.swing.JButton getBtnLogout()       { return jButton7; }
 public javax.swing.JButton getBtnManageUser()   { return jButton8; }  
 public javax.swing.JPanel  getContentPanel()    { return contentPanel; }
 public java.awt.CardLayout getCardLayout()      { return cardLayout; }
-
+public javax.swing.JButton getBtnManageDoctor()  { return jButton9; }
 }

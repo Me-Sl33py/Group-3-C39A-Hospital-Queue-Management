@@ -351,4 +351,11 @@ public class ReportPanel extends javax.swing.JPanel {
     private javax.swing.JLabel summaryTitleLabel;
     private javax.swing.JPanel topBarPanel;
     // End of variables declaration//GEN-END:variables
+
+public javax.swing.JLabel getRcard1NumberLabel() { return rcard1NumberLabel4; }
+public javax.swing.JLabel getRcard2NumberLabel() { return rcard2NumberLabel; }
+public javax.swing.JLabel getRcard3NumberLabel() { return rcard3NumberLabel; }
+public javax.swing.JLabel getRcard4NumberLabel() { return rcard4NumberLabel; }
+public javax.swing.JTable getJTable1()           { return jTable1; }
+
 }

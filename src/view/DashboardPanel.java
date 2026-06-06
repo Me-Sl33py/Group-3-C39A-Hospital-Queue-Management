@@ -365,4 +365,8 @@ private void loadData() {
     private javax.swing.JLabel welcomeDateLabel;
     private javax.swing.JLabel welcomeTitleLabel;
     // End of variables declaration//GEN-END:variables
+
+
+public javax.swing.JTable getDashboardTable() { return jTable1; }
+
 }

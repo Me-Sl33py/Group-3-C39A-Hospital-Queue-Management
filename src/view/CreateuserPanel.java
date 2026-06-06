@@ -73,7 +73,7 @@ public class CreateuserPanel extends javax.swing.JPanel {
         roleLabel.setText("System Role");
 
         roleComboBox.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Doctor", "Receptionist", "Admin", "Patient" }));
+        roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receptionist", "Admin", "Patient" }));
         roleComboBox.addActionListener(this::roleComboBoxActionPerformed);
 
         passwordLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N

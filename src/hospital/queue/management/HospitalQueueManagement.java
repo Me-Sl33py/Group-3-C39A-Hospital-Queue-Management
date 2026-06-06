@@ -3,16 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package hospital.queue.management;
-
 import database.Db;
 import database.MySqlConnection;
-
 /**
  *
  * @author User
  */
 public class HospitalQueueManagement {
-
     /**
      * @param args the command line arguments
      */
@@ -23,8 +20,3 @@ public class HospitalQueueManagement {
     }
     
 }
-
-
-
-
-

@@ -45,7 +45,13 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="99" red="33" type="rgb"/>
         </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[1200, 800]"/>
+        </Property>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
+      </AccessibilityProperties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -58,7 +64,7 @@
               <Component id="jButton5" alignment="0" max="32767" attributes="0"/>
               <Component id="jButton6" max="32767" attributes="0"/>
               <Component id="jButton7" alignment="1" max="32767" attributes="0"/>
-              <Component id="jButton8" alignment="0" pref="354" max="32767" attributes="0"/>
+              <Component id="jButton8" alignment="0" max="32767" attributes="0"/>
               <Component id="jButton9" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
@@ -83,7 +89,7 @@
                   <Component id="jButton8" min="-2" pref="74" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jButton9" min="-2" pref="74" max="-2" attributes="0"/>
-                  <EmptySpace pref="24" max="32767" attributes="0"/>
+                  <EmptySpace pref="75" max="32767" attributes="0"/>
                   <Component id="jButton7" min="-2" pref="84" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -229,7 +235,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Manage doctor&amp;department"/>
+            <Property name="text" type="java.lang.String" value="\ud83e\ude7aManage doctor&amp;department            " containsInvalidXMLChars="true"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -239,11 +245,16 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="contentPanel">
+      <Properties>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[1200, 800]"/>
+        </Property>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="665" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="1212" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">

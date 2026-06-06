@@ -251,4 +251,12 @@ public class NotificationPanel extends javax.swing.JPanel {
     private javax.swing.JLabel scheduleTitleLabel;
     private javax.swing.JPanel topBarPanel1;
     // End of variables declaration//GEN-END:variables
+
+public javax.swing.JLabel getJLabel2() { return jLabel2; }
+public javax.swing.JLabel getJLabel3() { return jLabel3; }
+public javax.swing.JLabel getJLabel5() { return jLabel5; }
+public javax.swing.JLabel getJLabel6() { return jLabel6; }
+public javax.swing.JLabel getJLabel8() { return jLabel8; }
+public javax.swing.JLabel getJLabel9() { return jLabel9; }
+
 }
