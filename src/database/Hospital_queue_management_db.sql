@@ -1,8 +1,17 @@
-drop database hospital_queue_management_db;
+-- drop and recreate database
+-- drop database if exists hospital_queue_management_db;
 
 create database hospital_queue_management_db;
 use hospital_queue_management_db;
 
+-- create admins table
+create table admins (
+    admin_id varchar(10) primary key,
+    user_id int not null,
+    full_name varchar(100) not null,
+    contact_number varchar(15),
+    created_at timestamp default current_timestamp
+);
 -- 1. departments
 create table departments (
     department_id int auto_increment primary key,
@@ -27,6 +36,7 @@ create table patients (
     full_name varchar(100) not null,
     dob date null,
     age int not null,
+    blood_group enum('A+','A-','B+','B-','O+','O-','AB+','AB-','Unknown') default 'Unknown',
     gender enum('male','female','others','prefer not to say') not null,
     contact_number varchar(10) not null,
     address varchar(255),
@@ -118,81 +128,81 @@ create table ratings (
     created_at timestamp default current_timestamp
 );
 
--- patients
+-- 11. receptionists
+create table receptionists (
+    receptionist_id varchar(10) primary key,
+    user_id int not null,
+    full_name varchar(100) not null,
+    contact_number varchar(10),
+    shift enum('morning','afternoon','evening') default 'morning',
+    created_at timestamp default current_timestamp
+);
+
+-- =========================
+-- FOREIGN KEYS (via ALTER)
+-- =========================
+
+alter table admins
+add constraint fk_admins_to_users
+foreign key (user_id) references users(user_id);
+
 alter table patients
-add constraint fk_patients_to_users
-foreign key (user_id) references users(user_id);
-
--- doctors
-alter table doctors
-add constraint fk_doctors_to_users
-foreign key (user_id) references users(user_id);
+add constraint fk_patients_to_users foreign key (user_id) references users(user_id);
 
 alter table doctors
-add constraint fk_doctors_to_departments
-foreign key (department_id) references departments(department_id);
+add constraint fk_doctors_to_users foreign key (user_id) references users(user_id);
 
--- security_questions
+alter table doctors
+add constraint fk_doctors_to_departments foreign key (department_id) references departments(department_id);
+
 alter table security_questions
-add constraint fk_security_to_users
-foreign key (user_id) references users(user_id);
-
--- appointments
-alter table appointments
-add constraint fk_appointments_to_patients
-foreign key (patient_id) references patients(patient_id);
+add constraint fk_security_to_users foreign key (user_id) references users(user_id);
 
 alter table appointments
-add constraint fk_appointments_to_doctors
-foreign key (doctor_id) references doctors(doctor_id);
+add constraint fk_appointments_to_patients foreign key (patient_id) references patients(patient_id);
 
--- queue
-alter table queue
-add constraint fk_queue_to_appointments
-foreign key (appointment_id) references appointments(appointment_id);
+alter table appointments
+add constraint fk_appointments_to_doctors foreign key (doctor_id) references doctors(doctor_id);
 
 alter table queue
-add constraint fk_queue_to_patients
-foreign key (patient_id) references patients(patient_id);
+add constraint fk_queue_to_appointments foreign key (appointment_id) references appointments(appointment_id);
 
 alter table queue
-add constraint fk_queue_to_doctors
-foreign key (doctor_id) references doctors(doctor_id);
+add constraint fk_queue_to_patients foreign key (patient_id) references patients(patient_id);
 
--- waitlist
-alter table waitlist
-add constraint fk_waitlist_to_patients
-foreign key (patient_id) references patients(patient_id);
+alter table queue
+add constraint fk_queue_to_doctors foreign key (doctor_id) references doctors(doctor_id);
 
 alter table waitlist
-add constraint fk_waitlist_to_doctors
-foreign key (doctor_id) references doctors(doctor_id);
+add constraint fk_waitlist_to_patients foreign key (patient_id) references patients(patient_id);
 
--- medical_records
-alter table medical_records
-add constraint fk_records_to_appointments
-foreign key (appointment_id) references appointments(appointment_id);
+alter table waitlist
+add constraint fk_waitlist_to_doctors foreign key (doctor_id) references doctors(doctor_id);
 
 alter table medical_records
-add constraint fk_records_to_patients
-foreign key (patient_id) references patients(patient_id);
+add constraint fk_records_to_appointments foreign key (appointment_id) references appointments(appointment_id);
 
 alter table medical_records
-add constraint fk_records_to_doctors
-foreign key (doctor_id) references doctors(doctor_id);
+add constraint fk_records_to_patients foreign key (patient_id) references patients(patient_id);
 
--- ratings
-alter table ratings
-add constraint fk_ratings_to_appointments
-foreign key (appointment_id) references appointments(appointment_id);
+alter table medical_records
+add constraint fk_records_to_doctors foreign key (doctor_id) references doctors(doctor_id);
 
 alter table ratings
-add constraint fk_ratings_to_patients
-foreign key (patient_id) references patients(patient_id);
+add constraint fk_ratings_to_appointments foreign key (appointment_id) references appointments(appointment_id);
 
 alter table ratings
-add constraint fk_ratings_to_doctors
-foreign key (doctor_id) references doctors(doctor_id);
+add constraint fk_ratings_to_patients foreign key (patient_id) references patients(patient_id);
+
+alter table ratings
+add constraint fk_ratings_to_doctors foreign key (doctor_id) references doctors(doctor_id);
+
+alter table receptionists
+add constraint fk_receptionists_to_users foreign key (user_id) references users(user_id);
+
+-- =========================
+-- SEED DATA
+-- =========================
 
 -- departments
 insert into departments (department_name, description) values
@@ -202,12 +212,55 @@ insert into departments (department_name, description) values
 ('general medicine', 'general health checkup'),
 ('pediatrics', 'children health');
 
--- admin user
+-- admin users
 insert into users (username, password, role) values
-('admin', 'admin123', 'admin');
+('admin1', 'admin123', 'admin'),
+('admin2', 'admin123', 'admin');
 
-show tables;
+-- seed admin profiles
+insert into admins (admin_id, user_id, full_name, contact_number) values
+('A-001', 1, 'Super Admin', '9800000100'),
+('A-002', 2, 'System Admin', '9800000101');
+
+-- receptionists
+insert into users (username, password, role) values
+('reception1', 'reception123', 'receptionist'),
+('reception2', 'reception123', 'receptionist');
+
+insert into receptionists (receptionist_id, user_id, full_name, contact_number, shift) values
+('R-001', 3, 'Ram Receptionist', '9800000003', 'morning'),
+('R-002', 4, 'Gita Receptionist', '9800000020', 'afternoon');
+
+-- patients
+insert into users (username, password, role) values
+('patient1', 'patient123', 'patient'),
+('patient2', 'patient123', 'patient'),
+('patient3', 'patient123', 'patient');
+
+insert into patients (patient_id, user_id, full_name, dob, age, blood_group, gender, contact_number, address) values
+('P-001', 5, 'Sita Sharma', '1995-04-12', 31, 'A+', 'female', '9800000001', 'Kathmandu'),
+('P-002', 6, 'Hari Thapa', '1988-07-20', 38, 'O-', 'male', '9800000002', 'Lalitpur'),
+('P-003', 7, 'Anil Koirala', '2000-01-15', 26, 'B+', 'male', '9800000004', 'Bhaktapur');
+
+-- doctors (covering all departments)
+insert into users (username, password, role) values
+('doctor_cardiology', 'doctor123', 'doctor'),
+('doctor_neurology', 'doctor123', 'doctor'),
+('doctor_orthopedics', 'doctor123', 'doctor'),
+('doctor_general', 'doctor123', 'doctor'),
+('doctor_pediatrics', 'doctor123', 'doctor');
+
+insert into doctors (doctor_id, user_id, full_name, specialization, department_id, contact_number, availability) values
+('D-101', 8, 'Dr. Anil Khatiwada', 'Cardiologist', 1, '9811111111', 'available'),
+('D-102', 9, 'Dr. Meera Shrestha', 'Neurologist', 2, '9811111112', 'available'),
+('D-103', 10, 'Dr. Suresh Lama', 'Orthopedic Surgeon', 3, '9811111113', 'available'),
+('D-104', 11, 'Dr. Rupa Joshi', 'General Physician', 4, '9811111114', 'available'),
+('D-105', 12, 'Dr. Deepak Giri', 'Pediatrician', 5, '9811111115', 'available');
+
 describe patients;
 select * from patients;
 select * from users;
+select * from doctors;
+select * from receptionists;
+select * from admins;
 select * from security_questions;
