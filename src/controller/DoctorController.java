@@ -89,8 +89,54 @@ public class DoctorController {
         DefaultTableModel model = (DefaultTableModel) view.getQueueTable().getModel();
         model.setRowCount(0);
 
+        int waiting = 0;
+        int confirmed = 0;
+        int noShow = 0;
+
         for (Object[] row : rows) {
             model.addRow(row);
+            String status = row[2] != null ? row[2].toString().toLowerCase() : "";
+            if (status.equals("waiting")) {
+                waiting++;
+            } else if (status.equals("confirmed")) {
+                confirmed++;
+            } else if (status.equals("no show") || status.equals("noshow")) {
+                noShow++;
+            }
+        }
+        
+        // Update Dashboard Cards
+        view.getLblWaitingCount().setText(String.format("%02d", waiting));
+        view.getLblConfirmedCount().setText(String.format("%02d", confirmed));
+        view.getLblNoShowCount().setText(String.format("%02d", noShow));
+        view.getLblRemainingCount().setText("You have " + (waiting + confirmed) + " patients remaining");
+        
+        updateQueueLabels(rows);
+    }
+
+    private void updateQueueLabels(List<Object[]> upcoming) {
+        if (upcoming.size() > 0) {
+            view.getJPatientQueue().setVisible(true);
+            view.getLblQueueName1().setText(upcoming.get(0)[1].toString());
+            view.getLblQueueDesc1().setText("Token #" + upcoming.get(0)[0].toString());
+            view.getLblPatientQueueNum1().setText(upcoming.get(0)[0].toString());
+        } else {
+            view.getJPatientQueue().setVisible(false);
+            view.getLblQueueName1().setText("—");
+            view.getLblQueueDesc1().setText("");
+            view.getLblPatientQueueNum1().setText("-");
+        }
+        
+        if (upcoming.size() > 1) {
+            view.getJPatientQueue1().setVisible(true);
+            view.getLblQueueName2().setText(upcoming.get(1)[1].toString());
+            view.getLblQueueDesc2().setText("Token #" + upcoming.get(1)[0].toString());
+            view.getLblPatientQueueNum2().setText(upcoming.get(1)[0].toString());
+        } else {
+            view.getJPatientQueue1().setVisible(false);
+            view.getLblQueueName2().setText("—");
+            view.getLblQueueDesc2().setText("");
+            view.getLblPatientQueueNum2().setText("-");
         }
     }
 
@@ -126,24 +172,8 @@ public class DoctorController {
         view.getTxtPatientIdField().setText(next.getPatientId());
         view.getTxtPatientNameField().setText(next.getFullName());
 
-        // Refresh the queue table
+        // Refresh the queue table and update the upcoming labels
         loadQueueTable();
-        List<Object[]> upcoming = patientDAO.getQueueByDoctor(currentDoctor != null ? currentDoctor.getDoctorId() : "");
-        if (upcoming.size() > 0) {
-                view.getLblQueueName1().setText(upcoming.get(0)[1].toString());
-                view.getLblQueueDesc1().setText("Token #" + upcoming.get(0)[0].toString());
-        }else {
-                 view.getLblQueueName1().setText("—");
-                 view.getLblQueueDesc1().setText("");
-            }
-        if (upcoming.size() > 1) {
-          view.getLblQueueName2().setText(upcoming.get(1)[1].toString());
-          view.getLblQueueDesc2().setText("Token #" + upcoming.get(1)[0].toString());
-        } else {
-            view.getLblQueueName2().setText("—");
-            view.getLblQueueDesc2().setText("");
-        }
-                  
     }
 
     public void endSession() {
