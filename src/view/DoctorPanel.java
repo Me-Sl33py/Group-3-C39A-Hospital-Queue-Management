@@ -33,6 +33,14 @@ public class DoctorPanel extends javax.swing.JFrame {
 public javax.swing.JLabel getLblQueueName2() { return lblQueueName2; }
 public javax.swing.JLabel getLblQueueDesc1() { return lblQueueDesc1; }
 public javax.swing.JLabel getLblQueueDesc2() { return lblQueueDesc2; }
+public javax.swing.JLabel getLblPatientQueueNum1() { return lblPatientQueueNum1; }
+public javax.swing.JLabel getLblPatientQueueNum2() { return lblPatientQueueNum2; }
+public javax.swing.JPanel getJPatientQueue() { return jPatientQueue; }
+public javax.swing.JPanel getJPatientQueue1() { return jPatientQueue1; }
+public javax.swing.JLabel getLblRemainingCount() { return jLabel2; }
+public javax.swing.JLabel getLblWaitingCount() { return jLabel12; }
+public javax.swing.JLabel getLblConfirmedCount() { return jLabel15; }
+public javax.swing.JLabel getLblNoShowCount() { return jLabel19; }
 public javax.swing.JTextField getTxtPatientIdField()   { return jTextField1; }
 public javax.swing.JTextField getTxtPatientNameField() { return jTextField2; }
 public javax.swing.JButton getBtnMyQueue()        { return MyQueue;          }

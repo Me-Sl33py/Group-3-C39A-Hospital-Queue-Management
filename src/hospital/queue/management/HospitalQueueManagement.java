@@ -40,7 +40,15 @@ public class HospitalQueueManagement {
         // 3. Launch the DoctorPanel screen as the starting point of the app
         java.awt.EventQueue.invokeLater(() -> {
             view.DoctorPanel view = new view.DoctorPanel();
-            new controller.DoctorController(view); // attach controller
+            controller.DoctorController controller = new controller.DoctorController(view);
+            
+            // For testing the DoctorPanel standalone without logging in, we inject a test doctor.
+            // If D001 exists in your DB, it will load their actual name/specialty later.
+            model.Doctor testDoctor = new model.Doctor();
+            testDoctor.setDoctorId("D001");
+            testDoctor.setFullName("Dr. Tester");
+            controller.setCurrentDoctor(testDoctor);
+            
             view.setVisible(true);
         });
     }
