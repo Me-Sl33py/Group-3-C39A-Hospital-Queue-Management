@@ -13,15 +13,16 @@ import java.sql.DriverManager;
  */
 public class MySqlConnection implements Db {
 
+    public static final String USERNAME = "root";
+    public static final String PASSWORD = "Aayush@2060";
+    public static final String DATABASE = "hospital_queue_management_db";
+
     @Override
     public Connection openConnection() {
         try{
-            String username = "root";
-            String password = "Aayush@2060";
-            String database = "hospital_queue_management_db";
             Connection conn;
             conn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/" + database, username, password
+            "jdbc:mysql://localhost:3306/" + DATABASE, USERNAME, PASSWORD
             );
             if(conn == null){
                 System.out.print("Connection not Sucessfull");

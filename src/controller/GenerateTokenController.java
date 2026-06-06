@@ -1,61 +1,75 @@
 package controller;
 
 import view.GenerateTokenView;
-import view.DashboardView;
-import view.RegisterWalkinView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
+import java.sql.Timestamp;
 
-/**
- * Controller class for the Generate Token Screen.
- * Implements MVC logic for form validation, table updates, and screen navigation.
- */
 public class GenerateTokenController {
     private final GenerateTokenView view;
     private final view.WithTabbedPane mainFrame;
+    private String currentPatientId = null;
     private String patientName = "Mr. Alexander Thompson";
     private String patientID = "Patient ID: #HP-2024-8891";
     private String ageGen = "34 Years / Male";
     private String contact = "+1 (555) 012-3456";
     private String bloodGroup = "O Positive (O+)";
     private String regDate = "Oct 24, 2023 | 09:15 AM";
+    private List<model.Department> departments;
 
     public GenerateTokenController(GenerateTokenView view, view.WithTabbedPane mainFrame) {
         this.view = view;
         this.mainFrame = mainFrame;
         if (view.getCbDepartment() != null) {
-            view.getCbDepartment().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Department", "Cardiology", "Dermatology", "Pediatrics", "General Medicine" }));
+            dao.DepartmentDAO deptDAO = new dao.DepartmentDAO();
+            departments = deptDAO.getAllDepartments();
+            DefaultComboBoxModel<model.Department> model = new DefaultComboBoxModel<>();
+            model.addElement(new model.Department(-1, "Choose Department", ""));
+            if (departments != null) {
+                for (model.Department d : departments) {
+                    model.addElement(d);
+                }
+            }
+            view.getCbDepartment().setModel((DefaultComboBoxModel) model);
         }
         initEventHandlers();
+        
+        if (this.currentPatientId == null) {
+            dao.PatientDAO pDAO = new dao.PatientDAO();
+            model.Patient latest = pDAO.getLatestPatient();
+            if (latest != null) {
+                this.currentPatientId = latest.getPatientId();
+                this.patientName = latest.getFullName();
+                this.patientID = "Patient ID: " + latest.getPatientId();
+                this.ageGen = latest.getAge() + " Years / " + latest.getGender();
+                this.contact = latest.getContactNumber();
+                this.bloodGroup = "Not Specified";
+                this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+            }
+        }
+        
         loadInitialData();
     }
 
-    public void updatePatientDetails(String name, String dob, String gender, String phone) {
+    public void updatePatientDetails(String patientId, String name, String dob, String gender, String phone) {
+        this.currentPatientId = patientId;
         this.patientName = name;
-        this.patientID = "Patient ID: #HP-2026-" + (1000 + (int)(Math.random() * 9000));
-        this.ageGen = dob + " / " + gender;
+        this.patientID = "Patient ID: " + patientId;
+        this.ageGen = dob + " Years / " + gender;
         this.contact = phone;
-        this.bloodGroup = "O Positive (O+)";
-        this.regDate = new java.text.SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+        this.bloodGroup = "Not Specified";
+        this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
         loadInitialData();
     }
 
     private void initEventHandlers() {
-        // Dynamic combobox selection to update estimated wait times
-        view.getCbDepartment().addActionListener(e -> {
-            updateEstimatedWaitTime();
-        });
-
-        // Generate Token Submit button action
-        view.getBtnGenerateTokenSubmit().addActionListener(e -> {
-            generateToken();
-        });
+        view.getCbDepartment().addActionListener(e -> updateEstimatedWaitTime());
+        view.getBtnGenerateTokenSubmit().addActionListener(e -> generateToken());
     }
 
     private void loadInitialData() {
-        // Default patient information shown on mockup
         view.getLblPatientName().setText(patientName);
         view.getLblPatientID().setText(patientID);
         view.getLblAgeGenVal().setText(ageGen);
@@ -63,64 +77,91 @@ public class GenerateTokenController {
         view.getLblBloodVal().setText(bloodGroup);
         view.getLblRegDateVal().setText(regDate);
 
-        // Vitals
-        view.getLblBPVal().setText("120/80");
-        view.getLblTempVal().setText("98.6°F");
-        view.getLblSpo2Val().setText("99%");
-
-        // Default combo box and tip
         view.getCbDepartment().setSelectedIndex(0);
         view.getLblTipText().setText("<html>Please select a department to see estimated waiting times.</html>");
+        
+        refreshLiveQueue();
+    }
+
+    public void refreshLiveQueue() {
+        dao.TokenDAO tokenDAO = new dao.TokenDAO();
+        List<model.Token> liveTokens = tokenDAO.getAllWaitingTokens();
+        DefaultTableModel model = (DefaultTableModel) view.getTblLiveQueue().getModel();
+        model.setRowCount(0);
+        if (liveTokens != null) {
+            for (model.Token t : liveTokens) {
+                String timeStr = "";
+                if (t.getCreatedAt() != null) {
+                    timeStr = new SimpleDateFormat("hh:mm a").format(t.getCreatedAt());
+                }
+                model.addRow(new Object[]{t.getTokenNumber(), t.getPatientName(), "N/A", t.getStatus(), timeStr});
+            }
+        }
     }
 
     private void updateEstimatedWaitTime() {
-        String dept = (String) view.getCbDepartment().getSelectedItem();
-        if (dept == null || dept.equals("Choose Department")) {
+        Object selected = view.getCbDepartment().getSelectedItem();
+        if (selected == null || !(selected instanceof model.Department)) return;
+        model.Department dept = (model.Department) selected;
+
+        if (dept.getDepartmentId() == -1) {
             view.getLblTipText().setText("<html>Please select a department to see estimated waiting times.</html>");
             return;
         }
 
-        switch (dept) {
-            case "General Medicine":
-                view.getLblTipText().setText("<html>Estimated waiting time for <b>General Medicine</b> is currently <b>12 minutes</b> with 4 patients ahead in queue.</html>");
-                break;
-            case "Cardiology":
-                view.getLblTipText().setText("<html>Estimated waiting time for <b>Cardiology</b> is currently <b>35 minutes</b> with 8 patients ahead in queue.</html>");
-                break;
-            case "Dermatology":
-                view.getLblTipText().setText("<html>Estimated waiting time for <b>Dermatology</b> is currently <b>18 minutes</b> with 3 patients ahead in queue.</html>");
-                break;
-            case "Pediatrics":
-                view.getLblTipText().setText("<html>Estimated waiting time for <b>Pediatrics</b> is currently <b>8 minutes</b> with 1 patient ahead in queue.</html>");
-                break;
-            default:
-                view.getLblTipText().setText("<html>Estimated waiting time is currently unavailable for this department.</html>");
-        }
+        // Just an estimate since queue table doesn't have department_id
+        int waitingCount = new dao.TokenDAO().countTotalWaiting();
+        int estimatedMins = waitingCount * 12;
+
+        view.getLblTipText().setText("<html>Estimated waiting time for <b>" + dept.getDepartmentName() + "</b> is currently <b>" + estimatedMins + " minutes</b> with " + waitingCount + " patients ahead in queue.</html>");
     }
 
     private void generateToken() {
-        String dept = (String) view.getCbDepartment().getSelectedItem();
-        if (dept == null || dept.equals("Choose Department")) {
+        Object selected = view.getCbDepartment().getSelectedItem();
+        if (selected == null || !(selected instanceof model.Department)) return;
+        model.Department dept = (model.Department) selected;
+
+        if (dept.getDepartmentId() == -1) {
             JOptionPane.showMessageDialog(view, "Please select a department first.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // 1. Determine prefix based on department
-        String prefix = "GM";
-        if (dept.equals("Cardiology")) prefix = "CD";
-        else if (dept.equals("Dermatology")) prefix = "DM";
-        else if (dept.equals("Pediatrics")) prefix = "PD";
+        if (currentPatientId == null) {
+            JOptionPane.showMessageDialog(view, "Please register a patient first.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        // 2. Generate random ticket number
-        int randomNum = 100 + (int)(Math.random() * 900);
-        String token = "#" + prefix + "-" + randomNum;
-        String patientName = view.getLblPatientName().getText();
-        String timeStr = new SimpleDateFormat("hh:mm a").format(new Date());
+        int tokenNum = 100 + (int)(Math.random() * 900);
+        
+        dao.DoctorDAO doctorDAO = new dao.DoctorDAO();
+        java.util.List<model.Doctor> doctors = doctorDAO.getDoctorsByDepartment(dept.getDepartmentId());
+        String assignedDoctorId = "";
+        if (doctors != null && !doctors.isEmpty()) {
+            assignedDoctorId = doctors.get(0).getDoctorId();
+        } else {
+            JOptionPane.showMessageDialog(view, "No doctors available in this department to assign.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        // 3. Add to live queue table
-        DefaultTableModel model = (DefaultTableModel) view.getTblLiveQueue().getModel();
-        model.insertRow(0, new Object[]{token, patientName, dept, "Waiting", timeStr});
+        model.Token token = new model.Token(-1, tokenNum, currentPatientId, assignedDoctorId, "Waiting", null);
 
-        JOptionPane.showMessageDialog(view, "Token generated successfully!\nToken Number: " + token, "Token Generated", JOptionPane.INFORMATION_MESSAGE);
+        dao.TokenDAO tokenDAO = new dao.TokenDAO();
+        int queueId = tokenDAO.createToken(token);
+
+        if (queueId != -1) {
+            refreshLiveQueue();
+            JOptionPane.showMessageDialog(view, "Token generated successfully!\nToken Number: " + tokenNum, "Token Generated", JOptionPane.INFORMATION_MESSAGE);
+            if (mainFrame.getAssignToDoctorController() != null) {
+                mainFrame.getAssignToDoctorController().refreshData();
+            }
+            if (mainFrame.getDashboardController() != null) {
+                mainFrame.getDashboardController().refreshData();
+            }
+            if (mainFrame.getRegisterWalkinController() != null) {
+                mainFrame.getRegisterWalkinController().refreshData();
+            }
+        } else {
+            JOptionPane.showMessageDialog(view, "Database Error: Could not create token.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
