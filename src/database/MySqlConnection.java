@@ -13,41 +13,43 @@ import java.sql.DriverManager;
  */
 public class MySqlConnection implements Db {
 
+    // Database credentials (easy to update here)
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/hospital_queue_management_db";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "I_1t_Relax!";
+
     @Override
     public Connection openConnection() {
-        try{
-            String username = "root";
-            String password = "nishant123";
-            String database = "hospital_queue_management_db";
-            Connection conn;
-            conn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/" + database, username, password
-            );
-            if(conn == null){
-                System.out.print("Connection not Sucessfull");
-            }else{
-                System.out.print("Connection Sucessfull");
-            }
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            System.out.println("Connection Successful");
             return conn;
-        }catch(Exception e){
-            System.out.print(e);
+        } catch(Exception e) {
+            System.err.println("Database connection failed: " + e.getMessage());
         }
         return null;
     }
 
     @Override
     public void closeConnection(Connection conn) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (conn != null) {
+            try {
+                conn.close();
+                System.out.println("Connection Closed Successfully");
+            } catch (Exception e) {
+                System.err.println("Failed to close connection: " + e.getMessage());
+            }
+        }
     }
 
     @Override
     public ResultSet runQuery(Connection conn, String Query) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public int executeUpdate(Connection conn, String Query) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }
