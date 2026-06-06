@@ -1,0 +1,17 @@
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\controller\DoctorController.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\controller\NewClass.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\dao\DatabaseConnection.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\dao\DoctorDAO.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\dao\MedicalRecordDAO.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\dao\NewClass.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\dao\PatientDAO.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\database\Db.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\database\MySqlConnection.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\hospital\queue\management\HospitalQueueManagement.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\images\NewClass.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\model\Doctor.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\model\MedicalRecord.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\model\NewClass.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\model\Patient.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\view\DoctorPanel.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\view\NewClass.java
