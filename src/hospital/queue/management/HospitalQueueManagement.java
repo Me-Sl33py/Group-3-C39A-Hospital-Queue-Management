@@ -18,6 +18,9 @@ public class HospitalQueueManagement {
             e.printStackTrace();
         }
 
+        // Initialize database if it doesn't exist
+        // database.DatabaseSetup.initialize(); // Removed as user already has DB
+
         // Open database connection
         Db database = new MySqlConnection();
         database.openConnection();

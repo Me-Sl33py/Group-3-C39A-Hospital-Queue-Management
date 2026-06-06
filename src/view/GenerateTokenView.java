@@ -28,9 +28,6 @@ public class GenerateTokenView extends javax.swing.JPanel {
     public JLabel getLblBloodVal() { return lblBloodVal; }
     public JLabel getLblRegDateVal() { return lblRegDateVal; }
 
-    public JLabel getLblBPVal() { return lblBPVal; }
-    public JLabel getLblTempVal() { return lblTempVal; }
-    public JLabel getLblSpo2Val() { return lblSpo2Val; }
     public JPanel getMainPanel() { return mainPanel; }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -107,28 +104,6 @@ public class GenerateTokenView extends javax.swing.JPanel {
         lblBloodVal.setForeground(new java.awt.Color(16, 185, 129));
         lblRegDateVal = new javax.swing.JLabel();
         lblRegDateVal.setForeground(new java.awt.Color(80, 80, 80));
-        vitalsPanel = new javax.swing.JPanel();
-        vitalsPanel.setBackground(new java.awt.Color(255, 255, 255));
-        vitalsPanel.setOpaque(true);
-        lblVitalsTitle = new javax.swing.JLabel();
-        lblVitalsTitle.setForeground(new java.awt.Color(128, 128, 128));
-        cardBP = new javax.swing.JPanel();
-        cardBP.setBackground(new java.awt.Color(255, 255, 255));
-        cardBP.setOpaque(true);
-        lblBPTitle = new javax.swing.JLabel();
-        lblBPVal = new javax.swing.JLabel();
-        lblBPVal.setForeground(new java.awt.Color(80, 80, 80));
-        cardTemp = new javax.swing.JPanel();
-        cardTemp.setBackground(new java.awt.Color(255, 255, 255));
-        cardTemp.setOpaque(true);
-        lblTempTitle = new javax.swing.JLabel();
-        lblTempVal = new javax.swing.JLabel();
-        lblTempVal.setForeground(new java.awt.Color(80, 80, 80));
-        cardSpo2 = new javax.swing.JPanel();
-        cardSpo2.setBackground(new java.awt.Color(255, 255, 255));
-        cardSpo2.setOpaque(true);
-        lblSpo2Title = new javax.swing.JLabel();
-        lblSpo2Val = new javax.swing.JLabel();
         rightColumnPanel = new javax.swing.JPanel();
         rightColumnPanel.setOpaque(false);
         genTokenCard = new javax.swing.JPanel();
@@ -449,124 +424,6 @@ public class GenerateTokenView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
         leftColumnPanel.add(patientInfoPanel, gridBagConstraints);
 
-        vitalsPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
-        vitalsPanel.setLayout(new java.awt.GridBagLayout());
-
-        lblVitalsTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblVitalsTitle.setText("Patient Vitals");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
-        vitalsPanel.add(lblVitalsTitle, gridBagConstraints);
-
-        cardBP.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
-        cardBP.setPreferredSize(new java.awt.Dimension(120, 70));
-        cardBP.setLayout(new java.awt.GridBagLayout());
-
-        lblBPTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblBPTitle.setText("BP");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 15, 2, 15);
-        cardBP.add(lblBPTitle, gridBagConstraints);
-
-        lblBPVal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblBPVal.setText("120/80");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 15);
-        cardBP.add(lblBPVal, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.33;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 20, 10);
-        vitalsPanel.add(cardBP, gridBagConstraints);
-
-        cardTemp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
-        cardTemp.setPreferredSize(new java.awt.Dimension(120, 70));
-        cardTemp.setLayout(new java.awt.GridBagLayout());
-
-        lblTempTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblTempTitle.setText("TEMP");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 15, 2, 15);
-        cardTemp.add(lblTempTitle, gridBagConstraints);
-
-        lblTempVal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTempVal.setText("98.6°F");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 15);
-        cardTemp.add(lblTempVal, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.33;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
-        vitalsPanel.add(cardTemp, gridBagConstraints);
-
-        cardSpo2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
-        cardSpo2.setPreferredSize(new java.awt.Dimension(120, 70));
-        cardSpo2.setLayout(new java.awt.GridBagLayout());
-
-        lblSpo2Title.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblSpo2Title.setText("SPO2");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 15, 2, 15);
-        cardSpo2.add(lblSpo2Title, gridBagConstraints);
-
-        lblSpo2Val.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblSpo2Val.setForeground(new java.awt.Color(16, 185, 129));
-        lblSpo2Val.setText("99%");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 15);
-        cardSpo2.add(lblSpo2Val, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.34;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 15);
-        vitalsPanel.add(cardSpo2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        leftColumnPanel.add(vitalsPanel, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -739,16 +596,11 @@ public class GenerateTokenView extends javax.swing.JPanel {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageWaitlist;
     private javax.swing.JButton btnRegisterWalkin;
-    private javax.swing.JPanel cardBP;
-    private javax.swing.JPanel cardSpo2;
-    private javax.swing.JPanel cardTemp;
     private javax.swing.JComboBox cbDepartment;
     private javax.swing.JPanel genTokenCard;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel lblAgeGenTitle;
     private javax.swing.JLabel lblAgeGenVal;
-    private javax.swing.JLabel lblBPTitle;
-    private javax.swing.JLabel lblBPVal;
     private javax.swing.JLabel lblBloodTitle;
     private javax.swing.JLabel lblBloodVal;
     private javax.swing.JLabel lblContactTitle;
@@ -766,15 +618,10 @@ public class GenerateTokenView extends javax.swing.JPanel {
     private javax.swing.JLabel lblPreRegisteredBadge;
     private javax.swing.JLabel lblRegDateTitle;
     private javax.swing.JLabel lblRegDateVal;
-    private javax.swing.JLabel lblSpo2Title;
-    private javax.swing.JLabel lblSpo2Val;
     private javax.swing.JLabel lblTab1;
     private javax.swing.JLabel lblTab2;
     private javax.swing.JLabel lblTab3;
-    private javax.swing.JLabel lblTempTitle;
-    private javax.swing.JLabel lblTempVal;
     private javax.swing.JLabel lblTipText;
-    private javax.swing.JLabel lblVitalsTitle;
     private javax.swing.JPanel leftColumnPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel navTabsPanel;
@@ -785,6 +632,5 @@ public class GenerateTokenView extends javax.swing.JPanel {
     private javax.swing.JScrollPane tableScroll;
     private javax.swing.JTable tblLiveQueue;
     private javax.swing.JPanel tipPanel;
-    private javax.swing.JPanel vitalsPanel;
     // End of variables declaration//GEN-END:variables
 }

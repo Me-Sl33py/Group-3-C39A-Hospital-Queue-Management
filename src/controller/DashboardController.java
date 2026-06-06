@@ -1,16 +1,11 @@
 package controller;
 
 import view.DashboardView;
-import view.GenerateTokenView;
-import view.RegisterWalkinView;
-import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
-/**
- * Controller class for the Reception Dashboard.
- * Coordinates user interactions from the DashboardView and updates the database/model.
- */
 public class DashboardController {
-
     private final DashboardView view;
     private final view.WithTabbedPane mainFrame;
 
@@ -18,49 +13,53 @@ public class DashboardController {
         this.view = view;
         this.mainFrame = mainFrame;
         initEventHandlers();
-        loadInitialData();
+        refreshData();
     }
-
-    // Main entry point logic should now be managed by WithTabbedPane, not here.
 
     private void initEventHandlers() {
-
         view.getBtnNewPatientReg().addActionListener(e -> {
-            JOptionPane.showMessageDialog(view,
-                    "New Patient Registration Form will open",
-                    "Hospicare",
-                    JOptionPane.INFORMATION_MESSAGE);
+            mainFrame.switchToTab(1); // Switch to Register Walk-in tab
+            mainFrame.getBtnRegisterWalkin().doClick(); // Select sidebar button
         });
-
         view.getBtnGenEmergency().addActionListener(e -> {
-            JOptionPane.showMessageDialog(view,
-                    "Emergency Token successfully generated and added to priority queue",
-                    "Hospicare",
-                    JOptionPane.WARNING_MESSAGE);
-        });
-
-        view.getBtnDailyReport().addActionListener(e -> {
-            JOptionPane.showMessageDialog(view,
-                    "Generating Daily Queue Report PDF...",
-                    "Hospicare",
-                    JOptionPane.INFORMATION_MESSAGE);
+            mainFrame.switchToTab(2); // Switch to Generate Token tab
+            mainFrame.getBtnGenerateToken().doClick(); // Select sidebar button
         });
     }
 
-    private void loadInitialData() {
+    public void refreshData() {
+        dao.PatientDAO patientDAO = new dao.PatientDAO();
+        dao.TokenDAO tokenDAO = new dao.TokenDAO();
+        dao.DoctorDAO doctorDAO = new dao.DoctorDAO();
+        
+        int totalPatients = patientDAO.getTotalPatientsCount();
+        int waiting = tokenDAO.countTotalWaiting();
+        int availableDoctors = 0;
+        
+        List<model.Doctor> doctors = doctorDAO.getAllDoctors();
+        if (doctors != null) {
+            for (model.Doctor d : doctors) {
+                if ("Available".equalsIgnoreCase(d.getAvailability())) {
+                    availableDoctors++;
+                }
+            }
+        }
+        view.getLblTotalVal().setText(String.valueOf(totalPatients));
+        view.getLblWaitingVal().setText(String.valueOf(waiting));
+        view.getLblDoctorsVal().setText(String.valueOf(availableDoctors));
 
-        view.getLblTotalVal().setText("1,284");
-        view.getLblTokensVal().setText("156");
-        view.getLblWaitingVal().setText("12");
-        view.getLblDoctorsVal().setText("08/10");
+        List<model.Token> liveTokens = tokenDAO.getAllWaitingTokens();
+        DefaultTableModel model = (DefaultTableModel) view.getTblWaitlist().getModel();
+        model.setRowCount(0); 
 
-        view.getPbCardio().setValue(85);
-        view.getLblCardioVal().setText("85% Capacity");
-
-        view.getPbOrtho().setValue(40);
-        view.getLblOrthoVal().setText("40% Capacity");
-
-        view.getPbPediatrics().setValue(62);
-        view.getLblPediatricsVal().setText("62% Capacity");
+        if (liveTokens != null) {
+            for (model.Token t : liveTokens) {
+                String timeStr = "";
+                if (t.getCreatedAt() != null) {
+                    timeStr = new SimpleDateFormat("hh:mm a").format(t.getCreatedAt());
+                }
+                model.addRow(new Object[]{t.getTokenNumber(), t.getPatientName(), t.getDoctorName() != null ? t.getDoctorName() : "Unassigned", t.getStatus(), timeStr});
+            }
+        }
     }
 }

@@ -280,7 +280,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
 
         lblLoadVal.setForeground(new java.awt.Color(255, 255, 255));
         lblLoadVal.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        lblLoadVal.setText("14");
+        lblLoadVal.setText("0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;

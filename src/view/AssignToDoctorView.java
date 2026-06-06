@@ -7,6 +7,8 @@ public class AssignToDoctorView extends javax.swing.JPanel {
 
     public AssignToDoctorView() {
         initComponents();
+        btnAssignPatient.setOpaque(true);
+        btnAssignPatient.setBorderPainted(false);
     }
 
 
@@ -16,6 +18,12 @@ public class AssignToDoctorView extends javax.swing.JPanel {
     public JButton getBtnRoom105() { return btnRoom105; }
     public JButton getBtnRoom201() { return btnRoom201; }
     public JPanel getMainPanel() { return mainPanel; }
+    public JLabel getLblTokenValue() { return lblTokenValue; }
+    public JLabel getLblFNameValue() { return lblFNameValue; }
+    public JLabel getLblPIDValue() { return lblPIDValue; }
+    public JLabel getLblGenValue() { return lblGenValue; }
+    public JTextArea getTaReason() { return taReason; }
+    public JPanel getPnlWLGrid() { return pnlWLGrid; }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
