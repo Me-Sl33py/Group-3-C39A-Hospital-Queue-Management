@@ -36,23 +36,7 @@ public class GenerateTokenController {
         }
         
         if (view.getCbPatientSearch() != null) {
-            dao.PatientDAO pDAO = new dao.PatientDAO();
-            List<model.Patient> patients = pDAO.getAllPatients();
-            DefaultComboBoxModel<model.Patient> pModel = new DefaultComboBoxModel<>();
-            if (patients != null) {
-                for (model.Patient p : patients) {
-                    pModel.addElement(p);
-                }
-            }
-            view.getCbPatientSearch().setModel((DefaultComboBoxModel) pModel);
-            
-            // Initial selection
-            if (pModel.getSize() > 0) {
-                view.getCbPatientSearch().setSelectedIndex(0);
-                onPatientSelected();
-            } else {
-                loadInitialData();
-            }
+            refreshPatientList(null);
         } else {
             loadInitialData();
         }
@@ -61,22 +45,42 @@ public class GenerateTokenController {
     }
 
     public void updatePatientDetails(String patientId, String name, String dob, String gender, String phone) {
-        this.currentPatientId = patientId;
-        this.patientName = name;
-        this.patientID = "Patient ID: " + patientId;
-        this.ageGen = dob + " Years / " + gender;
-        this.contact = phone;
-        this.bloodGroup = "Not Specified";
-        
-        dao.PatientDAO pDAO = new dao.PatientDAO();
-        model.Patient p = pDAO.getPatientById(patientId);
-        if (p != null && p.getCreatedAt() != null) {
-            this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(p.getCreatedAt());
-        } else {
-            this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+        refreshPatientList(patientId);
+    }
+
+    public void refreshPatientList(String selectPatientId) {
+        if (view.getCbPatientSearch() != null) {
+            dao.PatientDAO pDAO = new dao.PatientDAO();
+            List<model.Patient> patients = pDAO.getAllPatients();
+            DefaultComboBoxModel<model.Patient> pModel = new DefaultComboBoxModel<>();
+            model.Patient selectedPatient = null;
+            if (patients != null) {
+                for (model.Patient p : patients) {
+                    pModel.addElement(p);
+                    if (selectPatientId != null && p.getPatientId().equals(selectPatientId)) {
+                        selectedPatient = p;
+                    }
+                }
+            }
+            
+            java.awt.event.ActionListener[] listeners = view.getCbPatientSearch().getActionListeners();
+            for (java.awt.event.ActionListener l : listeners) {
+                view.getCbPatientSearch().removeActionListener(l);
+            }
+            
+            view.getCbPatientSearch().setModel((DefaultComboBoxModel) pModel);
+            if (selectedPatient != null) {
+                view.getCbPatientSearch().setSelectedItem(selectedPatient);
+            } else if (pModel.getSize() > 0) {
+                view.getCbPatientSearch().setSelectedIndex(0);
+            }
+            
+            for (java.awt.event.ActionListener l : listeners) {
+                view.getCbPatientSearch().addActionListener(l);
+            }
+            
+            onPatientSelected();
         }
-        
-        loadInitialData();
     }
 
     private void initEventHandlers() {
