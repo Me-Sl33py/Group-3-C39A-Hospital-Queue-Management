@@ -1,6 +1,5 @@
 package dao;
 
-import db.DBConnection;
 import model.Appointment;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +17,7 @@ public class AppointmentDAO {
         String sql = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, reason, status, type) " +
                      "VALUES (?, ?, ?, ?, ?, 'pending', 'online')";
         
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dao.DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
              
             pstmt.setString(1, patientId);
@@ -43,7 +42,7 @@ public class AppointmentDAO {
                      "WHERE a.patient_id = ? " +
                      "ORDER BY a.appointment_date DESC, a.appointment_time DESC";
                      
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dao.DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
              
             pstmt.setString(1, patientId);
@@ -77,7 +76,7 @@ public class AppointmentDAO {
                      "LEFT JOIN ratings r ON a.appointment_id = r.appointment_id " +
                      "WHERE a.patient_id = ? AND a.status = 'completed' AND r.rating_id IS NULL";
                      
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dao.DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
              
             pstmt.setString(1, patientId);
@@ -100,7 +99,7 @@ public class AppointmentDAO {
     public boolean cancelAppointment(int appointmentId, String patientId) {
         String sql = "UPDATE appointments SET status = 'cancelled' WHERE appointment_id = ? AND patient_id = ? AND status IN ('pending', 'confirmed')";
         
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dao.DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
              
             pstmt.setInt(1, appointmentId);

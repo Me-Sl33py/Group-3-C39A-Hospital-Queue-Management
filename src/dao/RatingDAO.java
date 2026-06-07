@@ -1,6 +1,5 @@
 package dao;
 
-import db.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +12,7 @@ public class RatingDAO {
                           "LEFT JOIN ratings r ON a.appointment_id = r.appointment_id " +
                           "WHERE a.appointment_id = ? AND a.patient_id = ? AND a.status = 'completed' AND r.rating_id IS NULL";
                           
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dao.DatabaseConnection.getConnection();
              PreparedStatement checkPstmt = conn.prepareStatement(checkSql)) {
              
             checkPstmt.setInt(1, appointmentId);

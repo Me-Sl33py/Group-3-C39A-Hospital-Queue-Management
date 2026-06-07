@@ -12,6 +12,9 @@ public class MedicalRecord {
     private String diagnosis;
     private String prescription;
     private String notes;
+    private java.util.Date recordDate;
+    private String doctorName;
+    private String departmentName;
 
     public MedicalRecord() {}
 
@@ -34,6 +37,9 @@ public class MedicalRecord {
     public String getDiagnosis()     { return diagnosis;     }
     public String getPrescription()  { return prescription;  }
     public String getNotes()         { return notes;         }
+    public java.util.Date getRecordDate() { return recordDate; }
+    public String getDoctorName()    { return doctorName;    }
+    public String getDepartmentName(){ return departmentName;}
 
     public void setRecordId(int recordId)           { this.recordId      = recordId;      }
     public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }
@@ -42,4 +48,7 @@ public class MedicalRecord {
     public void setDiagnosis(String diagnosis)      { this.diagnosis     = diagnosis;     }
     public void setPrescription(String prescription){ this.prescription  = prescription;  }
     public void setNotes(String notes)              { this.notes         = notes;         }
+    public void setRecordDate(java.util.Date recordDate) { this.recordDate = recordDate; }
+    public void setDoctorName(String doctorName)    { this.doctorName = doctorName;      }
+    public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
 }

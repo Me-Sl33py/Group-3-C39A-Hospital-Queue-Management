@@ -35,17 +35,21 @@ public class MedicalRecordDAO {
         }
     }
 
-    public List<MedicalRecord> getRecordsByPatient(String patientId) {
+    public List<MedicalRecord> getMedicalRecordsByPatient(String patientId) {
         List<MedicalRecord> list = new ArrayList<>();
-        String sql = "SELECT record_id, appointment_id, patient_id, doctor_id, " +
-                     "diagnosis, prescription, notes FROM medical_records " +
-                     "WHERE patient_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT m.record_id, m.appointment_id, m.patient_id, m.doctor_id, " +
+                     "m.diagnosis, m.prescription, m.notes, m.created_at AS recordDate, " +
+                     "d.full_name AS doctorName, dep.department_name AS departmentName " +
+                     "FROM medical_records m " +
+                     "LEFT JOIN doctors d ON m.doctor_id = d.doctor_id " +
+                     "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
+                     "WHERE m.patient_id = ? ORDER BY m.created_at DESC";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    list.add(new MedicalRecord(
+                    MedicalRecord record = new MedicalRecord(
                         rs.getInt("record_id"),
                         rs.getInt("appointment_id"),
                         rs.getString("patient_id"),
@@ -53,11 +57,15 @@ public class MedicalRecordDAO {
                         rs.getString("diagnosis"),
                         rs.getString("prescription"),
                         rs.getString("notes")
-                    ));
+                    );
+                    record.setRecordDate(rs.getTimestamp("recordDate"));
+                    record.setDoctorName(rs.getString("doctorName"));
+                    record.setDepartmentName(rs.getString("departmentName"));
+                    list.add(record);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("getRecordsByPatient error: " + e.getMessage());
+            System.err.println("getMedicalRecordsByPatient error: " + e.getMessage());
         }
         return list;
     }

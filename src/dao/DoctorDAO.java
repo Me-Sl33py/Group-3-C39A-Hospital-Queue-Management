@@ -40,6 +40,25 @@ public class DoctorDAO {
         }
     }
 
+    public java.util.List<Doctor> getAvailableDoctorsByDepartment(int departmentId) {
+        java.util.List<Doctor> list = new java.util.ArrayList<>();
+        String sql = "SELECT d.doctor_id, d.user_id, d.full_name, d.specialization, " +
+                     "d.department_id, dep.department_name, d.contact_number, d.availability " +
+                     "FROM doctors d " +
+                     "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
+                     "WHERE d.department_id = ? AND d.availability = 'available'";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, departmentId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) list.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("getAvailableDoctorsByDepartment error: " + e.getMessage());
+        }
+        return list;
+    }
+
     private Doctor mapRow(ResultSet rs) throws SQLException {
         Doctor d = new Doctor(
             rs.getString("doctor_id"),
