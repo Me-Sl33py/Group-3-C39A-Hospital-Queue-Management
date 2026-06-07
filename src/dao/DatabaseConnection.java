@@ -13,7 +13,7 @@ public class DatabaseConnection {
     // ── Change these three values to match your setup ─────────────────────────
     private static final String URL      = "jdbc:mysql://localhost:3306/hospital_queue_management_db";
     private static final String USER     = "root";
-    private static final String PASSWORD = "nishant123";
+    private static final String PASSWORD = "I_1t_Relax!";
     // ─────────────────────────────────────────────────────────────────────────
  
     private static Connection connection = null;

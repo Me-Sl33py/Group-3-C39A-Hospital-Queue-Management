@@ -316,7 +316,7 @@ public class PatientDao {
 
     // Get patient by ID
     public Patient getPatientById(String patientId) {
-        String sql = "SELECT patient_id, user_id, full_name, age, gender, " +
+        String sql = "SELECT patient_id, user_id, full_name, dob, age, gender, " +
                      "contact_number, address FROM patients WHERE patient_id = ?";
         try (Connection conn = dao.DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -332,7 +332,7 @@ public class PatientDao {
 
     // Get next waiting patient from queue table
     public Patient getNextWaitingPatient() {
-        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.age, p.gender, " +
+        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
                      "p.contact_number, p.address FROM patients p " +
                      "JOIN queue q ON p.patient_id = q.patient_id " +
                      "WHERE q.status = 'waiting' " +
@@ -388,7 +388,7 @@ public class PatientDao {
     }
 
     private Patient mapRow(ResultSet rs) throws SQLException {
-        return new Patient(
+        Patient p = new Patient(
             rs.getString("patient_id"),
             rs.getInt("user_id"),
             rs.getString("full_name"),
@@ -397,5 +397,80 @@ public class PatientDao {
             rs.getString("contact_number"),
             rs.getString("address")
         );
+        p.setDob(rs.getDate("dob"));
+        return p;
+    }
+
+    public String getUsernameByUserId(int userId) {
+        String sql = "SELECT username FROM users WHERE user_id = ?";
+        try (Connection conn = dao.DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getString("username");
+            }
+        } catch (SQLException e) {
+            System.err.println("getUsernameByUserId error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean validateCurrentPassword(int userId, String currentPassword) {
+        String sql = "SELECT 1 FROM users WHERE user_id = ? AND password = ?";
+        try (Connection conn = dao.DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setString(2, currentPassword);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.err.println("validateCurrentPassword error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updatePatientProfile(String patientId, java.util.Date dob, int age, String phone, String address) {
+        String sql = "UPDATE patients SET dob = ?, age = ?, contact_number = ?, address = ? WHERE patient_id = ?";
+        try (Connection conn = dao.DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            if (dob != null) ps.setDate(1, new java.sql.Date(dob.getTime()));
+            else ps.setNull(1, java.sql.Types.DATE);
+            ps.setInt(2, age);
+            ps.setString(3, phone);
+            ps.setString(4, address);
+            ps.setString(5, patientId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("updatePatientProfile error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateUsernameAndPassword(int userId, String username, String password) {
+        String sql = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
+        try (Connection conn = dao.DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setInt(3, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("updateUsernameAndPassword error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateUsername(int userId, String username) {
+        String sql = "UPDATE users SET username = ? WHERE user_id = ?";
+        try (Connection conn = dao.DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("updateUsername error: " + e.getMessage());
+            return false;
+        }
     }
 }

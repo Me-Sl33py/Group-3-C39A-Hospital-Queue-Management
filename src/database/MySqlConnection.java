@@ -18,7 +18,7 @@ import java.sql.DriverManager;
  * 
  * @author User
  */
-public class MySqlConnection implements Db {
+public class MySqlConnection implements DB {
 
     // ==================== Database Configuration ====================
     private static final String DB_USERNAME = "root";

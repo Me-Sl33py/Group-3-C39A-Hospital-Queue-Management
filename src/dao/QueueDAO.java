@@ -1,6 +1,5 @@
 package dao;
 
-import db.DBConnection;
 import model.QueueItem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +16,7 @@ public class QueueDAO {
                      "WHERE q.patient_id = ? AND q.status IN ('waiting', 'in consultation') " +
                      "ORDER BY q.created_at DESC LIMIT 1";
                      
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dao.DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
              
             pstmt.setString(1, patientId);
@@ -44,7 +43,7 @@ public class QueueDAO {
     public boolean cancelQueue(int queueId, String patientId) {
         String sql = "UPDATE queue SET status = 'completed' WHERE queue_id = ? AND patient_id = ?";
         
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dao.DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
              
             pstmt.setInt(1, queueId);

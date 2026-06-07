@@ -1,6 +1,5 @@
 package dao;
 
-import db.DBConnection;
 import model.Department;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +13,7 @@ public class DepartmentDAO {
         List<Department> departments = new ArrayList<>();
         String sql = "SELECT department_id, department_name, description FROM departments";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = dao.DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 

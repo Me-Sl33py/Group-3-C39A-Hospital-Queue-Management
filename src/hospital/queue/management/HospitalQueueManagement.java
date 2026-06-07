@@ -1,6 +1,6 @@
 package hospital.queue.management;
 
-import database.Db;
+import database.DB;
 import database.MySqlConnection;
 import view.UserLogin;
 import java.util.logging.Logger;
@@ -26,7 +26,7 @@ public class HospitalQueueManagement {
         }
 
         // 2. Optional: Test the database connection briefly at startup
-        Db database = new MySqlConnection();
+        DB database = new MySqlConnection();
         java.sql.Connection conn = database.openConnection();
         if (conn != null) {
             System.out.println("Startup Check: Database connection successful.");

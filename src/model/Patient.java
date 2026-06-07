@@ -14,6 +14,7 @@ public class Patient {
     private String gender;      // male, female, other
     private String contactNumber;
     private String address;
+    private java.util.Date dob;
 
     // Default constructor
     public Patient() {
@@ -60,6 +61,10 @@ public class Patient {
         return address;
     }
 
+    public java.util.Date getDob() {
+        return dob;
+    }
+
     // ==================== Setters ====================
     public void setPatientId(String patientId) {
         this.patientId = patientId;
@@ -87,5 +92,9 @@ public class Patient {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setDob(java.util.Date dob) {
+        this.dob = dob;
     }
 }
