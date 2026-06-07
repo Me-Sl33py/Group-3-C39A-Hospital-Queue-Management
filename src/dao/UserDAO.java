@@ -13,8 +13,8 @@ public class UserDAO {
 
     public List<String[]> searchUsers(String keyword) {
         List<String[]> list = new ArrayList<>();
-        String sql = "SELECT user_id, full_name, phone, gender, email, role, status " +
-                     "FROM users WHERE full_name LIKE ? OR email LIKE ? OR role LIKE ?";
+        String sql = "SELECT user_id, full_name, phone, gender, dob, role, status " +
+             "FROM users WHERE full_name LIKE ? OR dob LIKE ? OR role LIKE ?";
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
             String kw = "%" + keyword + "%";
@@ -26,7 +26,7 @@ public class UserDAO {
                     rs.getString("full_name"),
                     rs.getString("phone"),
                     rs.getString("gender"),
-                    rs.getString("email"),
+                    rs.getString("dob"),
                     rs.getString("role"),
                     rs.getString("status")
                 });
@@ -36,14 +36,15 @@ public class UserDAO {
     }
 
     public boolean createUser(String fullName, String phone, String gender,
-                              String email, String role, String password) {
-        String sql = "INSERT INTO users (full_name, phone, gender, email, role, password, status) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, 'active')";
+                          String dob, String role, String password) {
+    String sql = "INSERT INTO users (full_name, phone, gender, dob, role, password, status) " +
+                 "VALUES (?, ?, ?, ?, ?, ?, 'active')";
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, fullName); ps.setString(2, phone);
-            ps.setString(3, gender);  ps.setString(4, email);
-            ps.setString(5, role);    ps.setString(6, password);
+       ps.setString(3, gender);
+       ps.setString(4, dob);
+       ps.setString(5, role);    ps.setString(6, password);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) { e.printStackTrace(); }
         return false;
