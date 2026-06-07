@@ -249,13 +249,13 @@ public class ReportPanel extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"abc", "       cardiology", "active", "  12 may", "Dr.xyz", null},
-                {"gggx", "ndddxb", "bxbx", "bxbx", "xbx", "bxbx"},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {"abc", "       cardiology", "active", "  12 may", "Dr.xyz"},
+                {"gggx", "ndddxb", "bxbx", "bxbx", "xbx"},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Patient Name", "Department", "Status", "Visit_Date", "Doctor Assigned", "Actions"
+                "Patient Name", "Department", "Status", "Visit_Date", "Doctor Assigned"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
