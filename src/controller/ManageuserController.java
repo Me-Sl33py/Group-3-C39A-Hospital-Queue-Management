@@ -24,7 +24,7 @@ public class ManageUserController {
 
     private void setupTable() {
         DefaultTableModel model = new DefaultTableModel(
-            new String[]{"User ID", "Full Name", "Phone", "Gender", "Email", "Role", "Status"}, 0
+            new String[]{"User ID", "Full Name", "Phone", "Gender", "Date of Birth", "Role", "Status"}, 0
         ) {
             public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -62,7 +62,7 @@ public class ManageUserController {
 
         setValue(panel.getTxtFullName(), table.getValueAt(row, 1));
         setValue(panel.getTxtPhone(),    table.getValueAt(row, 2));
-        setValue(panel.getTxtEmail(),    table.getValueAt(row, 4));
+       setValue(panel.getTxtDob(), table.getValueAt(row, 4));
 
         setCombo(panel.getCmbRole(),   table.getValueAt(row, 5));
         setCombo(panel.getCmbGender(), table.getValueAt(row, 3));
@@ -136,7 +136,7 @@ public class ManageUserController {
         selectedUserId = -1;
         panel.getTxtFullName().setText("");
         panel.getTxtPhone().setText("");
-        panel.getTxtEmail().setText("");
+        panel.getTxtDob().setText("");
         panel.getCmbRole().setSelectedIndex(0);
         panel.getCmbStatus().setSelectedIndex(0);
         panel.getCmbGender().setSelectedIndex(0);
