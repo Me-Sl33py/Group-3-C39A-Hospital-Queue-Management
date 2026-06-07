@@ -1,0 +1,342 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package controller;
+
+import dao.DoctorDAO;
+import dao.MedicalRecordDAO;
+import dao.PatientDao;
+import model.Doctor;
+import model.MedicalRecord;
+import model.Patient;
+import view.DoctorPanel;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
+
+public class DoctorController {
+
+    // ── Dependencies ──────────────────────────────────────────────────────────
+    private final DoctorPanel      view;
+    private final PatientDao       patientDAO;
+    private final MedicalRecordDAO recordDAO;
+    private final DoctorDAO        doctorDAO;
+
+    // ── Session state ─────────────────────────────────────────────────────────
+    private Doctor  currentDoctor;
+    private Patient activePatient;
+
+    // =========================================================================
+    // Constructor — wires all buttons
+    // =========================================================================
+    public DoctorController(DoctorPanel view) {
+        this.view       = view;
+        this.patientDAO = new PatientDao();
+        this.recordDAO  = new MedicalRecordDAO();
+        this.doctorDAO  = new DoctorDAO();
+
+        patientDAO.createTableIfNotExists();
+        recordDAO.createTableIfNotExists();
+        doctorDAO.createTableIfNotExists();
+
+        attachListeners();
+        loadQueueTable();
+    }
+
+    // =========================================================================
+    // Wire buttons to action methods
+    // =========================================================================
+    private void attachListeners() {
+
+        // ── Sidebar navigation ────────────────────────────────────────────────
+        view.getBtnMyQueue().addActionListener(e -> view.getTabbedPane().setSelectedIndex(0));
+        view.getBtnCallNextPatient().addActionListener(e -> view.getTabbedPane().setSelectedIndex(1));
+        view.getBtnAddRecords().addActionListener(e -> view.getTabbedPane().setSelectedIndex(2));
+        view.getBtnAccount().addActionListener(e -> view.getTabbedPane().setSelectedIndex(3));
+
+        // ── Tab 1 : dashboard "Call Next Patient" card button ─────────────────
+        view.getBtnCallNextDashboard().addActionListener(e -> callNextPatient());
+
+        // ── Tab 2 : active consultation ───────────────────────────────────────
+        view.getBtnCallNext().addActionListener(e -> callNextPatient());
+        view.getBtnEndSession().addActionListener(e -> endSession());
+        view.getBtnViewFullQueue().addActionListener(e -> {
+            loadQueueTable();
+            view.getTabbedPane().setSelectedIndex(0);
+        });
+
+        // ── Tab 3 : medical record form ───────────────────────────────────────
+        view.getBtnSubmitRecord().addActionListener(e -> submitMedicalRecord());
+        view.getBtnCancelRecord().addActionListener(e -> clearRecordForm());
+
+        // ── Tab 4 : account settings ──────────────────────────────────────────
+        view.getBtnSave().addActionListener(e -> saveAccountChanges());
+        view.getBtnCancelAccount().addActionListener(e -> loadAccountData());
+
+        // ── Sidebar : logout ──────────────────────────────────────────────────
+        view.getBtnLogout().addActionListener(e -> logout());
+    }
+
+    // =========================================================================
+    // Tab 1 — My Queue
+    // =========================================================================
+    public void loadQueueTable() {
+        if (currentDoctor == null) return;
+
+        List<Object[]> rows = patientDAO.getQueueByDoctor(currentDoctor.getDoctorId());
+        DefaultTableModel model = (DefaultTableModel) view.getQueueTable().getModel();
+        model.setRowCount(0);
+
+        int waiting = 0;
+        int confirmed = 0;
+        int noShow = 0;
+
+        for (Object[] row : rows) {
+            model.addRow(row);
+            String status = row[2] != null ? row[2].toString().toLowerCase() : "";
+            if (status.equals("waiting")) {
+                waiting++;
+            } else if (status.equals("confirmed")) {
+                confirmed++;
+            } else if (status.equals("no show") || status.equals("noshow")) {
+                noShow++;
+            }
+        }
+        
+        // Update Dashboard Cards
+        view.getLblWaitingCount().setText(String.format("%02d", waiting));
+        view.getLblConfirmedCount().setText(String.format("%02d", confirmed));
+        view.getLblNoShowCount().setText(String.format("%02d", noShow));
+        view.getLblRemainingCount().setText("You have " + (waiting + confirmed) + " patients remaining");
+        
+        updateQueueLabels(rows);
+    }
+
+    private void updateQueueLabels(List<Object[]> upcoming) {
+        if (upcoming.size() > 0) {
+            view.getJPatientQueue().setVisible(true);
+            view.getLblQueueName1().setText(upcoming.get(0)[1].toString());
+            view.getLblQueueDesc1().setText("Token #" + upcoming.get(0)[0].toString());
+            view.getLblPatientQueueNum1().setText(upcoming.get(0)[0].toString());
+        } else {
+            view.getJPatientQueue().setVisible(false);
+            view.getLblQueueName1().setText("—");
+            view.getLblQueueDesc1().setText("");
+            view.getLblPatientQueueNum1().setText("-");
+        }
+        
+        if (upcoming.size() > 1) {
+            view.getJPatientQueue1().setVisible(true);
+            view.getLblQueueName2().setText(upcoming.get(1)[1].toString());
+            view.getLblQueueDesc2().setText("Token #" + upcoming.get(1)[0].toString());
+            view.getLblPatientQueueNum2().setText(upcoming.get(1)[0].toString());
+        } else {
+            view.getJPatientQueue1().setVisible(false);
+            view.getLblQueueName2().setText("—");
+            view.getLblQueueDesc2().setText("");
+            view.getLblPatientQueueNum2().setText("-");
+        }
+    }
+
+    // =========================================================================
+    // Tab 2 — Call Next Patient
+    // =========================================================================
+    public void callNextPatient() {
+        Patient next = patientDAO.getNextWaitingPatient();
+
+        if (next == null) {
+            JOptionPane.showMessageDialog(view,
+                    "No more patients in the queue.",
+                    "Queue Empty",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Mark the old active patient as completed (if any)
+        if (activePatient != null) {
+            patientDAO.updateQueueStatus(activePatient.getPatientId(), "completed");
+            addRowToHistory(activePatient);
+        }
+
+        // Update status in DB
+        patientDAO.updateQueueStatus(next.getPatientId(), "in consultation");
+        activePatient = next;
+
+        // Update the UI labels
+        view.getLblActivePatientName().setText(next.getFullName());
+        view.getLblActivePatientId().setText(next.getPatientId());
+
+        // Update Tab 3 patient info fields
+        view.getTxtPatientIdField().setText(next.getPatientId());
+        view.getTxtPatientNameField().setText(next.getFullName());
+
+        // Refresh the queue table and update the upcoming labels
+        loadQueueTable();
+    }
+
+    public void endSession() {
+        if (activePatient == null) {
+            JOptionPane.showMessageDialog(view,
+                    "No active consultation to end.",
+                    "No Session",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        patientDAO.updateQueueStatus(activePatient.getPatientId(), "completed");
+        addRowToHistory(activePatient);
+        activePatient = null;
+
+        view.getLblActivePatientName().setText("—");
+        view.getLblActivePatientId().setText("—");
+        loadQueueTable();
+    }
+
+    private void addRowToHistory(Patient patient) {
+        DefaultTableModel historyModel =
+                (DefaultTableModel) view.getSessionHistoryTable().getModel();
+
+        String time = java.time.LocalTime.now()
+                .format(java.time.format.DateTimeFormatter.ofPattern("hh:mm a"));
+
+        historyModel.addRow(new Object[]{
+            time,
+            patient.getFullName(),
+            "COMPLETED",
+            "View File"
+        });
+    }
+
+    // =========================================================================
+    // Tab 3 — Add Medical Records
+    // =========================================================================
+    public void submitMedicalRecord() {
+        if (activePatient == null) {
+            JOptionPane.showMessageDialog(view,
+                    "No active patient. Please call a patient first.",
+                    "No Active Patient",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String notes = view.getTaMessage().getText().trim();
+        if (notes.isEmpty() ||
+            notes.equals("Enter detailed clinical notes, patient history update, " +
+                         "and recommended next steps...")) {
+            JOptionPane.showMessageDialog(view,
+                    "Please enter clinical notes before submitting.",
+                    "Empty Notes",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String doctorId = (currentDoctor != null) ? currentDoctor.getDoctorId() : "";
+
+        MedicalRecord record = new MedicalRecord();
+        record.setPatientId(activePatient.getPatientId());
+        record.setDoctorId(doctorId);
+        record.setNotes(notes);
+        record.setDiagnosis("");
+        record.setPrescription("");
+        record.setAppointmentId(0);
+
+        boolean saved = recordDAO.insertRecord(record);
+
+        if (saved) {
+            JOptionPane.showMessageDialog(view,
+                    "Medical record saved successfully.",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+            clearRecordForm();
+        } else {
+            JOptionPane.showMessageDialog(view,
+                    "Failed to save medical record. Please try again.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void clearRecordForm() {
+        view.getTaMessage().setText(
+            "Enter detailed clinical notes, patient history update, " +
+            "and recommended next steps...");
+    }
+
+    // =========================================================================
+    // Tab 4 — Account Settings
+    // =========================================================================
+    public void loadAccountData() {
+    if (currentDoctor == null) return;
+
+    Doctor d = doctorDAO.getDoctorById(currentDoctor.getDoctorId());
+    if (d == null) return;
+
+    currentDoctor = d;
+
+    view.getTxtFullName().setText(d.getFullName());
+    view.getTxtPhone().setText(d.getContactNumber());
+    view.getTxtSpecialization().setText(d.getSpecialization());
+    view.getTxtRoom().setText(d.getDepartmentName() != null ? d.getDepartmentName() : ""); // ADD THIS
+    view.getLblDoctorIdVal().setText(d.getDoctorId());
+    view.getLblAccountStatusVal().setText(d.getAvailability());
+}
+
+    public void saveAccountChanges() {
+        if (currentDoctor == null) {
+            JOptionPane.showMessageDialog(view,
+                    "No doctor session found.",
+                    "Session Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        currentDoctor.setFullName(view.getTxtFullName().getText().trim());
+        currentDoctor.setContactNumber(view.getTxtPhone().getText().trim());
+        currentDoctor.setSpecialization(view.getTxtSpecialization().getText().trim());
+
+        boolean updated = doctorDAO.updateDoctorProfile(currentDoctor);
+
+        if (updated) {
+            JOptionPane.showMessageDialog(view,
+                    "Profile updated successfully.",
+                    "Saved",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(view,
+                    "Failed to update profile. Please try again.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // =========================================================================
+    // Logout
+    // =========================================================================
+    public void logout() {
+        int confirm = JOptionPane.showConfirmDialog(view,
+                "Are you sure you want to logout?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            view.dispose();
+            // TODO: open your LoginFrame here, e.g.:
+            // new LoginFrame().setVisible(true);
+        }
+    }
+
+    // =========================================================================
+    // Setters (called by login controller after authentication)
+    // =========================================================================
+    public void setCurrentDoctor(Doctor doctor) {
+        this.currentDoctor = doctor;
+        loadAccountData();
+        loadQueueTable();
+    }
+
+    public Doctor getCurrentDoctor() {
+        return currentDoctor;
+    }
+}

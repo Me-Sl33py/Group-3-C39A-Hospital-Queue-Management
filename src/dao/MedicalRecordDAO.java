@@ -1,48 +1,64 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 package dao;
 
-import db.DBConnection;
 import model.MedicalRecord;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MedicalRecordDAO {
 
-    public List<MedicalRecord> getMedicalRecordsByPatient(String patientId) {
-        List<MedicalRecord> records = new ArrayList<>();
-        String sql = "SELECT m.*, a.appointment_date, d.full_name AS doctor_name, dep.department_name " +
-                     "FROM medical_records m " +
-                     "JOIN appointments a ON m.appointment_id = a.appointment_id " +
-                     "JOIN doctors d ON m.doctor_id = d.doctor_id " +
-                     "JOIN departments dep ON d.department_id = dep.department_id " +
-                     "WHERE m.patient_id = ? " +
-                     "ORDER BY a.appointment_date DESC";
-                     
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-             
-            pstmt.setString(1, patientId);
-            try (ResultSet rs = pstmt.executeQuery()) {
+    public void createTableIfNotExists() {
+        // Table already exists in your team's schema — nothing to create
+    }
+
+    public boolean insertRecord(MedicalRecord record) {
+        String sql = "INSERT INTO medical_records " +
+                     "(appointment_id, patient_id, doctor_id, diagnosis, prescription, notes) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, record.getAppointmentId());
+            ps.setString(2, record.getPatientId());
+            ps.setString(3, record.getDoctorId());
+            ps.setString(4, record.getDiagnosis());
+            ps.setString(5, record.getPrescription());
+            ps.setString(6, record.getNotes());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("insertRecord error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public List<MedicalRecord> getRecordsByPatient(String patientId) {
+        List<MedicalRecord> list = new ArrayList<>();
+        String sql = "SELECT record_id, appointment_id, patient_id, doctor_id, " +
+                     "diagnosis, prescription, notes FROM medical_records " +
+                     "WHERE patient_id = ? ORDER BY created_at DESC";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, patientId);
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    MedicalRecord r = new MedicalRecord();
-                    r.setRecordId(rs.getInt("record_id"));
-                    r.setAppointmentId(rs.getInt("appointment_id"));
-                    r.setPatientId(rs.getString("patient_id"));
-                    r.setDoctorId(rs.getString("doctor_id"));
-                    r.setDiagnosis(rs.getString("diagnosis"));
-                    r.setPrescription(rs.getString("prescription"));
-                    r.setNotes(rs.getString("notes"));
-                    r.setRecordDate(rs.getDate("appointment_date"));
-                    r.setDoctorName(rs.getString("doctor_name"));
-                    r.setDepartmentName(rs.getString("department_name"));
-                    records.add(r);
+                    list.add(new MedicalRecord(
+                        rs.getInt("record_id"),
+                        rs.getInt("appointment_id"),
+                        rs.getString("patient_id"),
+                        rs.getString("doctor_id"),
+                        rs.getString("diagnosis"),
+                        rs.getString("prescription"),
+                        rs.getString("notes")
+                    ));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("getRecordsByPatient error: " + e.getMessage());
         }
-        return records;
+        return list;
     }
 }

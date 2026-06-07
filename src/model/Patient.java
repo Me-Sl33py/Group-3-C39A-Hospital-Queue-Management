@@ -1,39 +1,91 @@
 package model;
 
-import java.util.Date;
-
+/**
+ * Model class for Patient — maps to the 'patients' table
+ * Contains constructor, getters and setters
+ */
 public class Patient {
-    private String patientId;
-    private int userId;
+
+    // Fields matching the patients table columns
+    private String patientId;   // e.g., "p-001"
+    private int userId;         // foreign key to users table
     private String fullName;
-    private Date dob;
     private int age;
-    private String gender;
+    private String gender;      // male, female, other
     private String contactNumber;
     private String address;
 
-    // Getters and Setters
-    public String getPatientId() { return patientId; }
-    public void setPatientId(String patientId) { this.patientId = patientId; }
+    // Default constructor
+    public Patient() {
+    }
 
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+    // Full constructor (when reading from database)
+    public Patient(String patientId, int userId, String fullName, int age,
+                   String gender, String contactNumber, String address) {
+        this.patientId = patientId;
+        this.userId = userId;
+        this.fullName = fullName;
+        this.age = age;
+        this.gender = gender;
+        this.contactNumber = contactNumber;
+        this.address = address;
+    }
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    // ==================== Getters ====================
+    public String getPatientId() {
+        return patientId;
+    }
 
-    public Date getDob() { return dob; }
-    public void setDob(Date dob) { this.dob = dob; }
+    public int getUserId() {
+        return userId;
+    }
 
-    public int getAge() { return age; }
-    public void setAge(int age) { this.age = age; }
+    public String getFullName() {
+        return fullName;
+    }
 
-    public String getGender() { return gender; }
-    public void setGender(String gender) { this.gender = gender; }
+    public int getAge() {
+        return age;
+    }
 
-    public String getContactNumber() { return contactNumber; }
-    public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
+    public String getGender() {
+        return gender;
+    }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    // ==================== Setters ====================
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
