@@ -23,20 +23,7 @@ public class admin extends javax.swing.JFrame {
      */
  public admin() {
     initComponents();
-    setMinimumSize(new java.awt.Dimension(1200, 800));
-    setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-    
-    javax.swing.JButton[] sidebarBtns = {jButton1, jButton2, jButton3, jButton4, 
-                                          jButton5, jButton6, jButton7, jButton8, jButton9};
-    for (javax.swing.JButton btn : sidebarBtns) {
-        btn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btn.setBorderPainted(false);
-        btn.setFocusPainted(false);
-        btn.setContentAreaFilled(false);
-        btn.setOpaque(true);
-        btn.setBackground(new java.awt.Color(51, 153, 255));
-        btn.setForeground(new java.awt.Color(255, 255, 255));
-    }
+   
     
     cardLayout = new CardLayout();
     contentPanel.setLayout(cardLayout);
@@ -70,61 +57,42 @@ public class admin extends javax.swing.JFrame {
         sidebar.setMinimumSize(new java.awt.Dimension(1200, 800));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("    🏥 HQMS");
 
         jButton1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText(" 🏠Home                                              ");
-        jButton1.setContentAreaFilled(false);
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jButton2.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("🖥️Dashboard                                      ");
-        jButton2.setContentAreaFilled(false);
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
         jButton3.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("🗓️Schedule                                         ");
-        jButton3.setContentAreaFilled(false);
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
         jButton4.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("🧾Report                                              ");
-        jButton4.setContentAreaFilled(false);
         jButton4.addActionListener(this::jButton4ActionPerformed);
 
         jButton5.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("🔔Notification                                       ");
-        jButton5.setContentAreaFilled(false);
         jButton5.addActionListener(this::jButton5ActionPerformed);
 
         jButton6.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("🙍🏻‍Create user                                       ");
-        jButton6.setContentAreaFilled(false);
         jButton6.addActionListener(this::jButton6ActionPerformed);
 
         jButton7.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("⇤Logout                                        ");
-        jButton7.setContentAreaFilled(false);
         jButton7.addActionListener(this::jButton7ActionPerformed);
 
         jButton8.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("🙍🏻‍Manage User                                     ");
-        jButton8.setContentAreaFilled(false);
         jButton8.addActionListener(this::jButton8ActionPerformed);
 
         jButton9.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
         jButton9.setText("🩺Manage doctor&department            ");
-        jButton9.setContentAreaFilled(false);
         jButton9.addActionListener(this::jButton9ActionPerformed);
 
         javax.swing.GroupLayout sidebarLayout = new javax.swing.GroupLayout(sidebar);
@@ -132,20 +100,23 @@ public class admin extends javax.swing.JFrame {
         sidebarLayout.setHorizontalGroup(
             sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(sidebarLayout.createSequentialGroup()
+                .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         sidebarLayout.setVerticalGroup(
             sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidebarLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,19 +132,20 @@ public class admin extends javax.swing.JFrame {
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         contentPanel.setMinimumSize(new java.awt.Dimension(1200, 800));
+        contentPanel.setOpaque(false);
 
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1212, Short.MAX_VALUE)
+            .addGap(0, 1361, Short.MAX_VALUE)
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,8 +160,8 @@ public class admin extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(sidebar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 720, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
