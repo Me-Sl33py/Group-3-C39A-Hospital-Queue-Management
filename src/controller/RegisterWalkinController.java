@@ -35,7 +35,7 @@ public class RegisterWalkinController {
 
     private void resetFields() {
         view.getTfName().setText("");
-        view.getTfDob().setText("");
+        view.getTfDob().setDate(null);
         view.getCbGender().setSelectedIndex(0);
         view.getTfPhone().setText("");
         view.getTaReason().setText("");
@@ -43,29 +43,36 @@ public class RegisterWalkinController {
 
     private void saveAndContinue() {
         String name = view.getTfName().getText().trim();
-        String dob = view.getTfDob().getText().trim();
+        java.util.Date selectedDob = view.getTfDob().getDate();
         String gender = (String) view.getCbGender().getSelectedItem();
         String phone = view.getTfPhone().getText().trim();
         String reason = view.getTaReason().getText().trim();
 
-        if (name.isEmpty() || dob.isEmpty() || phone.isEmpty() || reason.isEmpty() || gender.equals("Select Gender")) {
+        if (name.isEmpty() || selectedDob == null || phone.isEmpty() || reason.isEmpty() || gender.equals("Select Gender")) {
             JOptionPane.showMessageDialog(view, "Please fill in all details accurately before saving.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        int age = 0;
-        try { age = Integer.parseInt(dob); } catch (Exception ex) {}
+        java.sql.Date sqlDob = new java.sql.Date(selectedDob.getTime());
+        
+        java.util.Calendar dobCal = java.util.Calendar.getInstance();
+        dobCal.setTime(selectedDob);
+        java.util.Calendar today = java.util.Calendar.getInstance();
+        int age = today.get(java.util.Calendar.YEAR) - dobCal.get(java.util.Calendar.YEAR);
+        if (today.get(java.util.Calendar.DAY_OF_YEAR) < dobCal.get(java.util.Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
 
         // Generate a short ID to fit inside VARCHAR(10) or VARCHAR(15)
         String patientId = "P-" + (100000 + (int)(Math.random() * 899999));
-        model.Patient patient = new model.Patient(patientId, name, age, gender, phone, "", reason);
+        model.Patient patient = new model.Patient(patientId, name, sqlDob, age, gender, phone, "", reason);
 
         dao.PatientDAO patientDAO = new dao.PatientDAO();
         String savedId = patientDAO.insertPatient(patient);
 
         if (savedId != null) {
             JOptionPane.showMessageDialog(view, "Patient registered successfully!\nProceeding to Token Generation...", "Success", JOptionPane.INFORMATION_MESSAGE);
-            mainFrame.getGenerateTokenController().updatePatientDetails(savedId, name, dob, gender, phone);
+            mainFrame.getGenerateTokenController().updatePatientDetails(savedId, name, String.valueOf(age), gender, phone);
             mainFrame.switchToTab(2);
             resetFields();
         } else {

@@ -7,7 +7,7 @@ public class PatientDAO {
 
     public String insertPatient(Patient patient) {
         String userQuery = "INSERT INTO users (username, password, role) VALUES (?, 'password123', 'patient')";
-        String query = "INSERT INTO patients (patient_id, user_id, full_name, age, gender, contact_number, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO patients (patient_id, user_id, full_name, dob, age, gender, contact_number, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = new MySqlConnection().openConnection();
              PreparedStatement userStmt = conn.prepareStatement(userQuery, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -24,10 +24,11 @@ public class PatientDAO {
             pstmt.setString(1, patient.getPatientId());
             pstmt.setInt(2, userId);
             pstmt.setString(3, patient.getFullName());
-            pstmt.setInt(4, patient.getAge());
-            pstmt.setString(5, patient.getGender().toLowerCase());
-            pstmt.setString(6, patient.getContactNumber());
-            pstmt.setString(7, patient.getAddress());
+            pstmt.setDate(4, patient.getDob());
+            pstmt.setInt(5, patient.getAge());
+            pstmt.setString(6, patient.getGender().toLowerCase());
+            pstmt.setString(7, patient.getContactNumber());
+            pstmt.setString(8, patient.getAddress());
             
             pstmt.executeUpdate();
             return patient.getPatientId();
@@ -47,6 +48,7 @@ public class PatientDAO {
                 return new Patient(
                     rs.getString("patient_id"),
                     rs.getString("full_name"),
+                    rs.getDate("dob"),
                     rs.getInt("age"),
                     rs.getString("gender"),
                     rs.getString("contact_number"),
@@ -69,6 +71,7 @@ public class PatientDAO {
                 return new Patient(
                     rs.getString("patient_id"),
                     rs.getString("full_name"),
+                    rs.getDate("dob"),
                     rs.getInt("age"),
                     rs.getString("gender"),
                     rs.getString("contact_number"),
@@ -80,6 +83,30 @@ public class PatientDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public java.util.List<Patient> getAllPatients() {
+        java.util.List<Patient> patients = new java.util.ArrayList<>();
+        String query = "SELECT * FROM patients ORDER BY created_at DESC";
+        try (Connection conn = new MySqlConnection().openConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                patients.add(new Patient(
+                    rs.getString("patient_id"),
+                    rs.getString("full_name"),
+                    rs.getDate("dob"),
+                    rs.getInt("age"),
+                    rs.getString("gender"),
+                    rs.getString("contact_number"),
+                    rs.getString("address"),
+                    "" // reason is not in patients table
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return patients;
     }
 
     public int getTotalPatientsCount() {

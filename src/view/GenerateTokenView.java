@@ -27,6 +27,7 @@ public class GenerateTokenView extends javax.swing.JPanel {
     public JLabel getLblContactVal() { return lblContactVal; }
     public JLabel getLblBloodVal() { return lblBloodVal; }
     public JLabel getLblRegDateVal() { return lblRegDateVal; }
+    public JComboBox<model.Patient> getCbPatientSearch() { return cbPatientSearch; }
 
     public JPanel getMainPanel() { return mainPanel; }
 
@@ -79,7 +80,9 @@ public class GenerateTokenView extends javax.swing.JPanel {
         lblTab2 = new javax.swing.JLabel();
         lblTab3 = new javax.swing.JLabel();
         leftColumnPanel = new javax.swing.JPanel();
-        leftColumnPanel.setOpaque(false);
+        searchPanel = new javax.swing.JPanel();
+        lblSearchPatient = new javax.swing.JLabel();
+        cbPatientSearch = new javax.swing.JComboBox<>();
         patientInfoPanel = new javax.swing.JPanel();
         patientInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
         patientInfoPanel.setOpaque(true);
@@ -291,9 +294,41 @@ public class GenerateTokenView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 10, 15);
         bodyPanel.add(navTabsPanel, gridBagConstraints);
 
+        leftColumnPanel.setOpaque(false);
         leftColumnPanel.setLayout(new java.awt.GridBagLayout());
 
+        searchPanel.setOpaque(false);
+        searchPanel.setLayout(new java.awt.GridBagLayout());
+
+        lblSearchPatient.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblSearchPatient.setText("Select Patient:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 10);
+        searchPanel.add(lblSearchPatient, gridBagConstraints);
+
+        cbPatientSearch.setPreferredSize(new java.awt.Dimension(300, 35));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        searchPanel.add(cbPatientSearch, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
+        leftColumnPanel.add(searchPanel, gridBagConstraints);
+
+        patientInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
         patientInfoPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(230, 230, 230), 1, true));
+        patientInfoPanel.setOpaque(true);
         patientInfoPanel.setLayout(new java.awt.GridBagLayout());
 
         lblPatientInfoTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -418,7 +453,7 @@ public class GenerateTokenView extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
@@ -506,6 +541,7 @@ public class GenerateTokenView extends javax.swing.JPanel {
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 25, 20);
@@ -626,6 +662,9 @@ public class GenerateTokenView extends javax.swing.JPanel {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel navTabsPanel;
     private javax.swing.JPanel patientInfoPanel;
+    private javax.swing.JPanel searchPanel;
+    private javax.swing.JLabel lblSearchPatient;
+    private javax.swing.JComboBox<model.Patient> cbPatientSearch;
     private javax.swing.JPanel rightColumnPanel;
     private javax.swing.JPanel sidebarPanel;
     private javax.swing.JPanel tableHeaderArea;

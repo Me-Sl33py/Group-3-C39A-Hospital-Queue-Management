@@ -101,6 +101,18 @@ public class TokenDAO {
         return 0;
     }
 
+    public int countTotalTokens() {
+        String query = "SELECT COUNT(*) FROM queue";
+        try (Connection conn = new MySqlConnection().openConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public boolean assignDoctorToToken(int queueId, String doctorId) {
         String query = "UPDATE queue SET doctor_id = ?, status = 'in consultation' WHERE queue_id = ?";
         try (Connection conn = new MySqlConnection().openConnection();

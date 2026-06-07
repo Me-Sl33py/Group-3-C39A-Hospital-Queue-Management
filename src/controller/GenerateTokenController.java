@@ -34,23 +34,30 @@ public class GenerateTokenController {
             }
             view.getCbDepartment().setModel((DefaultComboBoxModel) model);
         }
-        initEventHandlers();
         
-        if (this.currentPatientId == null) {
+        if (view.getCbPatientSearch() != null) {
             dao.PatientDAO pDAO = new dao.PatientDAO();
-            model.Patient latest = pDAO.getLatestPatient();
-            if (latest != null) {
-                this.currentPatientId = latest.getPatientId();
-                this.patientName = latest.getFullName();
-                this.patientID = "Patient ID: " + latest.getPatientId();
-                this.ageGen = latest.getAge() + " Years / " + latest.getGender();
-                this.contact = latest.getContactNumber();
-                this.bloodGroup = "Not Specified";
-                this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+            List<model.Patient> patients = pDAO.getAllPatients();
+            DefaultComboBoxModel<model.Patient> pModel = new DefaultComboBoxModel<>();
+            if (patients != null) {
+                for (model.Patient p : patients) {
+                    pModel.addElement(p);
+                }
             }
+            view.getCbPatientSearch().setModel((DefaultComboBoxModel) pModel);
+            
+            // Initial selection
+            if (pModel.getSize() > 0) {
+                view.getCbPatientSearch().setSelectedIndex(0);
+                onPatientSelected();
+            } else {
+                loadInitialData();
+            }
+        } else {
+            loadInitialData();
         }
-        
-        loadInitialData();
+
+        initEventHandlers();
     }
 
     public void updatePatientDetails(String patientId, String name, String dob, String gender, String phone) {
@@ -65,8 +72,33 @@ public class GenerateTokenController {
     }
 
     private void initEventHandlers() {
+        if (view.getCbPatientSearch() != null) {
+            view.getCbPatientSearch().addActionListener(e -> onPatientSelected());
+        }
         view.getCbDepartment().addActionListener(e -> updateEstimatedWaitTime());
         view.getBtnGenerateTokenSubmit().addActionListener(e -> generateToken());
+    }
+
+    private void onPatientSelected() {
+        if (view.getCbPatientSearch() == null) return;
+        Object selected = view.getCbPatientSearch().getSelectedItem();
+        if (selected == null || !(selected instanceof model.Patient)) return;
+        model.Patient p = (model.Patient) selected;
+        
+        this.currentPatientId = p.getPatientId();
+        this.patientName = p.getFullName();
+        this.patientID = "Patient ID: " + p.getPatientId();
+        
+        String capGender = p.getGender();
+        if (capGender != null && capGender.length() > 0) {
+            capGender = capGender.substring(0, 1).toUpperCase() + capGender.substring(1).toLowerCase();
+        }
+        this.ageGen = p.getAge() + " Years / " + capGender;
+        this.contact = p.getContactNumber();
+        this.bloodGroup = "Not Specified";
+        this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+        
+        loadInitialData();
     }
 
     private void loadInitialData() {

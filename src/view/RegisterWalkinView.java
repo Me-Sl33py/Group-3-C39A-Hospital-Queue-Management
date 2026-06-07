@@ -18,7 +18,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
 
 
     public JTextField getTfName() { return tfName; }
-    public JTextField getTfDob() { return tfDob; }
+    public com.toedter.calendar.JDateChooser getTfDob() { return tfDob; }
     public JComboBox<String> getCbGender() { return cbGender; }
     public JTextField getTfPhone() { return tfPhone; }
     public JTextArea getTaReason() { return taReason; }
@@ -47,7 +47,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         lblNameLabel = new javax.swing.JLabel();
         lblDobLabel = new javax.swing.JLabel();
         tfName = new javax.swing.JTextField();
-        tfDob = new javax.swing.JTextField();
+        tfDob = new com.toedter.calendar.JDateChooser();
         lblGenderLabel = new javax.swing.JLabel();
         lblPhoneLabel = new javax.swing.JLabel();
         cbGender = new javax.swing.JComboBox();
@@ -470,7 +470,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
     private javax.swing.JScrollPane reasonScroll;
     private javax.swing.JPanel rightColumnPanel;
     private javax.swing.JTextArea taReason;
-    private javax.swing.JTextField tfDob;
+    private com.toedter.calendar.JDateChooser tfDob;
     private javax.swing.JTextField tfName;
     private javax.swing.JTextField tfPhone;
     private javax.swing.JPanel tipsCard;
