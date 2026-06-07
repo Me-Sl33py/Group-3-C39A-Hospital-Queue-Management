@@ -33,7 +33,7 @@ public class UserDAO {
         try {
             conn = db.openConnection();
             // Query the users table for matching username and password
-            String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+            String sql = "SELECT * FROM users WHERE LOWER(username) = LOWER(?) AND password = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
@@ -73,10 +73,11 @@ public class UserDAO {
             // First try to find in patients table
             String sql = "SELECT u.* FROM users u "
                        + "JOIN patients p ON u.user_id = p.user_id "
-                       + "WHERE p.contact_number = ? AND u.password = ?";
+                       + "WHERE (p.contact_number = ? OR LOWER(p.full_name) = LOWER(?)) AND u.password = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, phone);
-            ps.setString(2, password);
+            ps.setString(2, phone);
+            ps.setString(3, password);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -91,10 +92,11 @@ public class UserDAO {
             // If not found in patients, try doctors table
             sql = "SELECT u.* FROM users u "
                 + "JOIN doctors d ON u.user_id = d.user_id "
-                + "WHERE d.contact_number = ? AND u.password = ?";
+                + "WHERE (d.contact_number = ? OR LOWER(d.full_name) = LOWER(?)) AND u.password = ?";
             ps = conn.prepareStatement(sql);
             ps.setString(1, phone);
-            ps.setString(2, password);
+            ps.setString(2, phone);
+            ps.setString(3, password);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -313,10 +315,13 @@ public class UserDAO {
     public String checkLogin(String identifier, String password) {
         String query = 
             "select u.role, u.user_id from users u " +
-            "left join patients p " +
-            "on u.user_id = p.user_id " +
-            "where (u.username = ? " +
-            "or p.contact_number = ?) " +
+            "left join patients p on u.user_id = p.user_id " +
+            "left join doctors d on u.user_id = d.user_id " +
+            "where (LOWER(u.username) = LOWER(?) " +
+            "or p.contact_number = ? " +
+            "or LOWER(p.full_name) = LOWER(?) " +
+            "or d.contact_number = ? " +
+            "or LOWER(d.full_name) = LOWER(?)) " +
             "and u.password = ?";
             
         Connection conn = null;
@@ -325,7 +330,10 @@ public class UserDAO {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, identifier);
             ps.setString(2, identifier);
-            ps.setString(3, password);
+            ps.setString(3, identifier);
+            ps.setString(4, identifier);
+            ps.setString(5, identifier);
+            ps.setString(6, password);
             
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

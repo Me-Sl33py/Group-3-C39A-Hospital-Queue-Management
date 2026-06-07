@@ -6,7 +6,7 @@ package controller;
 
 import dao.DoctorDAO;
 import dao.MedicalRecordDAO;
-import dao.PatientDAO;
+import dao.PatientDao;
 import model.Doctor;
 import model.MedicalRecord;
 import model.Patient;
@@ -20,7 +20,7 @@ public class DoctorController {
 
     // ── Dependencies ──────────────────────────────────────────────────────────
     private final DoctorPanel      view;
-    private final PatientDAO       patientDAO;
+    private final PatientDao       patientDAO;
     private final MedicalRecordDAO recordDAO;
     private final DoctorDAO        doctorDAO;
 
@@ -33,7 +33,7 @@ public class DoctorController {
     // =========================================================================
     public DoctorController(DoctorPanel view) {
         this.view       = view;
-        this.patientDAO = new PatientDAO();
+        this.patientDAO = new PatientDao();
         this.recordDAO  = new MedicalRecordDAO();
         this.doctorDAO  = new DoctorDAO();
 
