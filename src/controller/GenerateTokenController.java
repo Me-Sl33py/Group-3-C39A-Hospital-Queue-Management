@@ -16,7 +16,7 @@ public class GenerateTokenController {
     private String ageGen = "34 Years / Male";
     private String contact = "+1 (555) 012-3456";
     private String bloodGroup = "O Positive (O+)";
-    private String regDate = "Oct 24, 2023 | 09:15 AM";
+    private String regDate = "N/A";
     private List<model.Department> departments;
 
     public GenerateTokenController(GenerateTokenView view, view.WithTabbedPane mainFrame) {
@@ -67,7 +67,15 @@ public class GenerateTokenController {
         this.ageGen = dob + " Years / " + gender;
         this.contact = phone;
         this.bloodGroup = "Not Specified";
-        this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+        
+        dao.PatientDAO pDAO = new dao.PatientDAO();
+        model.Patient p = pDAO.getPatientById(patientId);
+        if (p != null && p.getCreatedAt() != null) {
+            this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(p.getCreatedAt());
+        } else {
+            this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+        }
+        
         loadInitialData();
     }
 
@@ -96,7 +104,11 @@ public class GenerateTokenController {
         this.ageGen = p.getAge() + " Years / " + capGender;
         this.contact = p.getContactNumber();
         this.bloodGroup = "Not Specified";
-        this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+        if (p.getCreatedAt() != null) {
+            this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(p.getCreatedAt());
+        } else {
+            this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(new java.util.Date());
+        }
         
         loadInitialData();
     }

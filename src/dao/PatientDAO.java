@@ -53,7 +53,8 @@ public class PatientDAO {
                     rs.getString("gender"),
                     rs.getString("contact_number"),
                     rs.getString("address"),
-                    "" // reason is not in patients table, stored in queue/waitlist
+                    "", // reason is not in patients table, stored in queue/waitlist
+                    rs.getTimestamp("created_at")
                 );
             }
         } catch (SQLException e) {
@@ -76,7 +77,8 @@ public class PatientDAO {
                     rs.getString("gender"),
                     rs.getString("contact_number"),
                     rs.getString("address"),
-                    "" // reason is not in patients table, stored in queue/waitlist
+                    "", // reason is not in patients table, stored in queue/waitlist
+                    rs.getTimestamp("created_at")
                 );
             }
         } catch (SQLException e) {
@@ -100,7 +102,8 @@ public class PatientDAO {
                     rs.getString("gender"),
                     rs.getString("contact_number"),
                     rs.getString("address"),
-                    "" // reason is not in patients table
+                    "", // reason is not in patients table
+                    rs.getTimestamp("created_at")
                 ));
             }
         } catch (SQLException e) {

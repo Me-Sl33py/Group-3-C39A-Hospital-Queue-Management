@@ -11,7 +11,7 @@ public class RegisterWalkinController {
         this.view = view;
         this.mainFrame = mainFrame;
         if (view.getCbGender() != null) {
-            view.getCbGender().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Gender", "Male", "Female", "Other" }));
+            view.getCbGender().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Gender", "Male", "Female", "Others" }));
         }
         initEventHandlers();
         loadInitialData();
@@ -65,7 +65,7 @@ public class RegisterWalkinController {
 
         // Generate a short ID to fit inside VARCHAR(10) or VARCHAR(15)
         String patientId = "P-" + (100000 + (int)(Math.random() * 899999));
-        model.Patient patient = new model.Patient(patientId, name, sqlDob, age, gender, phone, "", reason);
+        model.Patient patient = new model.Patient(patientId, name, sqlDob, age, gender, phone, "", reason, new java.sql.Timestamp(System.currentTimeMillis()));
 
         dao.PatientDAO patientDAO = new dao.PatientDAO();
         String savedId = patientDAO.insertPatient(patient);
