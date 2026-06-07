@@ -112,7 +112,7 @@ public class ManageuserPanel extends javax.swing.JPanel {
         pnlDetails.add(lblRole);
         lblRole.setBounds(350, 70, 100, 20);
 
-        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Doctor", "Receptionist", "Patient" }));
+        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Receptionist", "Patient" }));
         pnlDetails.add(cmbRole);
         cmbRole.setBounds(460, 70, 200, 26);
 

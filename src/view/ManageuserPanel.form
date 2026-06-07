@@ -234,11 +234,10 @@
             <Component class="javax.swing.JComboBox" name="cmbRole">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
+                  <StringArray count="3">
                     <StringItem index="0" value="Admin"/>
-                    <StringItem index="1" value="Doctor"/>
-                    <StringItem index="2" value="Receptionist"/>
-                    <StringItem index="3" value="Patient"/>
+                    <StringItem index="1" value="Receptionist"/>
+                    <StringItem index="2" value="Patient"/>
                   </StringArray>
                 </Property>
               </Properties>
