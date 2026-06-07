@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package view;
-import dao.AdminDAO;
+import dao.DashboardDAO;
 
 /**
  *
@@ -23,7 +23,7 @@ public class DashboardPanel extends javax.swing.JPanel {
     
 private void loadData() {
 
-    AdminDAO dao = new AdminDAO();
+   DashboardDAO dao = new DashboardDAO();
 
     card1NumberLabel.setText(
             String.valueOf(dao.getPatientCount()));
@@ -366,7 +366,23 @@ private void loadData() {
     private javax.swing.JLabel welcomeTitleLabel;
     // End of variables declaration//GEN-END:variables
 
+public javax.swing.JTable getDashboardTable() {
+    return jTable1;
+}
 
-public javax.swing.JTable getDashboardTable() { return jTable1; }
+public javax.swing.JLabel getCard1NumberLabel() {
+    return card1NumberLabel;
+}
 
+public javax.swing.JLabel getCard2NumberLabel() {
+    return card2NumberLabel;
+}
+
+public javax.swing.JLabel getCard3NumberLabel() {
+    return card3NumberLabel;
+}
+
+public javax.swing.JLabel getCard4NumberLabel() {
+    return card4NumberLabel;
+}
 }
