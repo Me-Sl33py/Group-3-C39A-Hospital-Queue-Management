@@ -11,7 +11,45 @@ public class RegisterWalkinView extends javax.swing.JPanel {
 
     public RegisterWalkinView() {
         initComponents();
+        initCustomComponents();
+    }
+
+    private javax.swing.JLabel lblBloodGroupLabel;
+    private javax.swing.JComboBox<String> cbBloodGroup;
+
+    private void initCustomComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+        lblBloodGroupLabel = new javax.swing.JLabel();
+        cbBloodGroup = new javax.swing.JComboBox<>();
         
+        lblBloodGroupLabel.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        lblBloodGroupLabel.setText("Blood Group");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 10);
+        formPanel.add(lblBloodGroupLabel, gridBagConstraints);
+
+        cbBloodGroup.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Not Specified", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" }));
+        cbBloodGroup.setPreferredSize(new java.awt.Dimension(150, 35));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 10);
+        formPanel.add(cbBloodGroup, gridBagConstraints);
+
+        java.awt.GridBagLayout layout = (java.awt.GridBagLayout) formPanel.getLayout();
+        gridBagConstraints = layout.getConstraints(lblReasonLabel);
+        gridBagConstraints.gridy = 6;
+        layout.setConstraints(lblReasonLabel, gridBagConstraints);
+
+        gridBagConstraints = layout.getConstraints(reasonScroll);
+        gridBagConstraints.gridy = 7;
+        layout.setConstraints(reasonScroll, gridBagConstraints);
     }
 
     
@@ -20,6 +58,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
     public JTextField getTfName() { return tfName; }
     public com.toedter.calendar.JDateChooser getTfDob() { return tfDob; }
     public JComboBox<String> getCbGender() { return cbGender; }
+    public JComboBox<String> getCbBloodGroup() { return cbBloodGroup; }
     public JTextField getTfPhone() { return tfPhone; }
     public JTextArea getTaReason() { return taReason; }
 

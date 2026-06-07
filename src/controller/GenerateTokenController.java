@@ -107,7 +107,7 @@ public class GenerateTokenController {
         }
         this.ageGen = p.getAge() + " Years / " + capGender;
         this.contact = p.getContactNumber();
-        this.bloodGroup = "Not Specified";
+        this.bloodGroup = p.getBloodGroup() != null && !p.getBloodGroup().isEmpty() ? p.getBloodGroup() : "Not Specified";
         if (p.getCreatedAt() != null) {
             this.regDate = new SimpleDateFormat("MMM dd, yyyy | hh:mm a").format(p.getCreatedAt());
         } else {

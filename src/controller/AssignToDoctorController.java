@@ -35,11 +35,26 @@ public class AssignToDoctorController {
             view.getLblTokenValue().setText(String.valueOf(currentToken.getTokenNumber()));
             view.getLblFNameValue().setText(currentToken.getPatientName() != null ? currentToken.getPatientName() : "Unknown");
             view.getLblPIDValue().setText("Patient ID: " + currentToken.getPatientId());
+            
+            dao.PatientDAO pDAO = new dao.PatientDAO();
+            model.Patient p = pDAO.getPatientById(currentToken.getPatientId());
+            if (p != null) {
+                String capGender = p.getGender() != null && !p.getGender().isEmpty() ? p.getGender().substring(0, 1).toUpperCase() + p.getGender().substring(1).toLowerCase() : "";
+                view.getLblGenValue().setText(capGender + ", " + p.getAge() + " Years");
+                view.getLblContactValue().setText(p.getContactNumber() != null ? p.getContactNumber() : "N/A");
+                view.getLblBloodGroupValue().setText(p.getBloodGroup() != null && !p.getBloodGroup().isEmpty() ? p.getBloodGroup() : "Not Specified");
+                view.getTaReason().setText(p.getReason() != null ? p.getReason() : "No reason specified.");
+            }
+
             view.getBtnAssignPatient().setEnabled(true);
         } else {
             view.getLblTokenValue().setText("--");
             view.getLblFNameValue().setText("No waiting patients");
             view.getLblPIDValue().setText("Patient ID: N/A");
+            view.getLblGenValue().setText("N/A");
+            view.getLblContactValue().setText("N/A");
+            view.getLblBloodGroupValue().setText("N/A");
+            view.getTaReason().setText("");
             view.getBtnAssignPatient().setEnabled(false);
         }
     }
