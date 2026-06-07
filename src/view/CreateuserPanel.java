@@ -64,7 +64,7 @@ public class CreateuserPanel extends javax.swing.JPanel {
 
         emailLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         emailLabel.setForeground(new java.awt.Color(100, 100, 100));
-        emailLabel.setText("Email Address");
+        emailLabel.setText("Date Of Birth");
 
         emailField.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
 
