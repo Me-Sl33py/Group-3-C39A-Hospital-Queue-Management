@@ -211,11 +211,13 @@ public class UserDAO {
             conn = db.openConnection();
             // Search patients table by full name and phone number
             String sql = "SELECT p.user_id FROM patients p "
-                       + "WHERE LOWER(p.full_name) = LOWER(?) "
+                       + "JOIN users u ON p.user_id = u.user_id "
+                       + "WHERE (LOWER(p.full_name) = LOWER(?) OR LOWER(u.username) = LOWER(?)) "
                        + "AND p.contact_number = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, fullName.trim());
-            ps.setString(2, phone.trim());
+            ps.setString(2, fullName.trim());
+            ps.setString(3, phone.trim());
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
