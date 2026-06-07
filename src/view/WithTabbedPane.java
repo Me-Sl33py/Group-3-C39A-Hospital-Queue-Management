@@ -20,8 +20,13 @@ public class WithTabbedPane extends javax.swing.JFrame {
         initComponents();
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH); // Make it full screen
         
-
-
+        // Hide JTabbedPane tabs
+        jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
+            @Override
+            protected int calculateTabAreaHeight(int tabPlacement, int horizRunCount, int maxTabHeight) {
+                return 0;
+            }
+        });
     }
 
     private controller.DashboardController dashboardController;

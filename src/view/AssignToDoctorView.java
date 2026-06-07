@@ -14,9 +14,7 @@ public class AssignToDoctorView extends javax.swing.JPanel {
 
     public JComboBox<String> getCbDoctors() { return cbDoctors; }
     public JButton getBtnAssignPatient() { return btnAssignPatient; }
-    public JButton getBtnRoom102() { return btnRoom102; }
-    public JButton getBtnRoom105() { return btnRoom105; }
-    public JButton getBtnRoom201() { return btnRoom201; }
+
     public JPanel getMainPanel() { return mainPanel; }
     public JLabel getLblTokenValue() { return lblTokenValue; }
     public JLabel getLblFNameValue() { return lblFNameValue; }
@@ -61,11 +59,7 @@ public class AssignToDoctorView extends javax.swing.JPanel {
         lblAssignToLabel = new javax.swing.JLabel();
         cbDoctors = new javax.swing.JComboBox();
         lblRecDoc = new javax.swing.JLabel();
-        lblRoomLabel = new javax.swing.JLabel();
-        pnlRooms = new javax.swing.JPanel();
-        btnRoom102 = new javax.swing.JButton();
-        btnRoom105 = new javax.swing.JButton();
-        btnRoom201 = new javax.swing.JButton();
+
         btnAssignPatient = new javax.swing.JButton();
         pnlWorkload = new javax.swing.JPanel();
         lblWLTitle = new javax.swing.JLabel();
@@ -385,43 +379,7 @@ public class AssignToDoctorView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 20);
         pnlSelection.add(lblRecDoc, gridBagConstraints);
 
-        lblRoomLabel.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        lblRoomLabel.setForeground(new java.awt.Color(128, 128, 128));
-        lblRoomLabel.setText("CONSULTATION ROOM");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 20);
-        pnlSelection.add(lblRoomLabel, gridBagConstraints);
 
-        pnlRooms.setBackground(new java.awt.Color(255, 255, 255));
-        pnlRooms.setLayout(new java.awt.GridLayout(1, 3, 10, 0));
-
-        btnRoom102.setText("RM-102");
-        btnRoom102.setFocusPainted(false);
-        pnlRooms.add(btnRoom102);
-
-        btnRoom105.setBackground(new java.awt.Color(236, 254, 235));
-        btnRoom105.setForeground(new java.awt.Color(5, 150, 105));
-        btnRoom105.setText("RM-105");
-        btnRoom105.setFocusPainted(false);
-        btnRoom105.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(5, 150, 105), 2));
-        pnlRooms.add(btnRoom105);
-
-        btnRoom201.setText("RM-201");
-        btnRoom201.setFocusPainted(false);
-        pnlRooms.add(btnRoom201);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 20);
-        pnlSelection.add(pnlRooms, gridBagConstraints);
 
         btnAssignPatient.setBackground(new java.awt.Color(5, 150, 105));
         btnAssignPatient.setForeground(new java.awt.Color(255, 255, 255));
@@ -431,7 +389,7 @@ public class AssignToDoctorView extends javax.swing.JPanel {
         btnAssignPatient.setPreferredSize(new java.awt.Dimension(125, 45));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         gridBagConstraints.weightx = 1.0;
@@ -639,9 +597,7 @@ public class AssignToDoctorView extends javax.swing.JPanel {
     private javax.swing.JPanel bodyPanel;
     private javax.swing.JScrollPane bodyScroll;
     private javax.swing.JButton btnAssignPatient;
-    private javax.swing.JButton btnRoom102;
-    private javax.swing.JButton btnRoom105;
-    private javax.swing.JButton btnRoom201;
+
     private javax.swing.JComboBox cbDoctors;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel lblAssignToLabel;
@@ -672,7 +628,7 @@ public class AssignToDoctorView extends javax.swing.JPanel {
     private javax.swing.JLabel lblPriority;
     private javax.swing.JLabel lblReasonLabel;
     private javax.swing.JLabel lblRecDoc;
-    private javax.swing.JLabel lblRoomLabel;
+
     private javax.swing.JLabel lblSelectionTitle;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTokenText;
@@ -696,7 +652,7 @@ public class AssignToDoctorView extends javax.swing.JPanel {
     private javax.swing.JPanel pnlDoc3;
     private javax.swing.JPanel pnlDoc4;
     private javax.swing.JPanel pnlPatientDetails;
-    private javax.swing.JPanel pnlRooms;
+
     private javax.swing.JPanel pnlSelection;
     private javax.swing.JPanel pnlToken;
     private javax.swing.JPanel pnlWLGrid;

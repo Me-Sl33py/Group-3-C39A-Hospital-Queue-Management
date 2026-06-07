@@ -9,8 +9,9 @@ public class Patient {
     private String contactNumber;
     private String address;
     private String reason;
+    private java.sql.Timestamp createdAt;
 
-    public Patient(String patientId, String fullName, java.sql.Date dob, int age, String gender, String contactNumber, String address, String reason) {
+    public Patient(String patientId, String fullName, java.sql.Date dob, int age, String gender, String contactNumber, String address, String reason, java.sql.Timestamp createdAt) {
         this.patientId = patientId;
         this.fullName = fullName;
         this.dob = dob;
@@ -19,6 +20,7 @@ public class Patient {
         this.contactNumber = contactNumber;
         this.address = address;
         this.reason = reason;
+        this.createdAt = createdAt;
     }
 
     public String getPatientId() { return patientId; }
@@ -44,6 +46,9 @@ public class Patient {
     
     public String getReason() { return reason; }
     public void setReason(String reason) { this.reason = reason; }
+
+    public java.sql.Timestamp getCreatedAt() { return createdAt; }
+    public void setCreatedAt(java.sql.Timestamp createdAt) { this.createdAt = createdAt; }
 
     @Override
     public String toString() {
