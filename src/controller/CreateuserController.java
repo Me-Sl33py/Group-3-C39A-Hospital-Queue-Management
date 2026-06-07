@@ -26,18 +26,21 @@ public class CreateUserController {
         String fullName = panel.getNameField().getText().trim();
         String phone    = panel.getNameField1().getText().trim();
         String gender   = panel.getGenderCombobox().getSelectedItem().toString().trim();
-        String email    = panel.getEmailField().getText().trim();
+        java.util.Date dobDate = panel.getDobField().getDate();
+        String dob = dobDate != null
+    ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(dobDate)
+    : "";
         String role     = panel.getRoleComboBox().getSelectedItem().toString().trim();
         String password = new String(panel.getPasswordField().getPassword()).trim();
 
-        if (fullName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(parentFrame,
-                "Please fill in all fields.", "Validation Error",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+        if (fullName.isEmpty() || phone.isEmpty() || dobDate == null || password.isEmpty()) {
+        JOptionPane.showMessageDialog(parentFrame,
+        "Please fill in all fields.", "Validation Error",
+        JOptionPane.WARNING_MESSAGE);
+         return;
+     }
 
-        boolean success = dao.createUser(fullName, phone, gender, email, role, password);
+        boolean success = dao.createUser(fullName, phone, gender, dob, role, password);
 
         if (success) {
             String message =
@@ -46,7 +49,7 @@ public class CreateUserController {
                 "Full Name : " + fullName  + "\n" +
                 "Phone     : " + phone     + "\n" +
                 "Gender    : " + gender    + "\n" +
-                "Email     : " + email     + "\n" +
+                "Date of Birth : " + dob + "\n" +
                 "Role      : " + role      + "\n" +
                 "Password  : " + password  + "\n" +
                 "Status    : Active";
@@ -63,7 +66,7 @@ public class CreateUserController {
     private void clearForm() {
         panel.getNameField().setText("");
         panel.getNameField1().setText("");
-        panel.getEmailField().setText("");
+        panel.getDobField().setDate(null);
         panel.getPasswordField().setText("");
         panel.getGenderCombobox().setSelectedIndex(0);
         panel.getRoleComboBox().setSelectedIndex(0);

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package view;
-
+import com.toedter.calendar.JDateChooser;
 /**
  *
  * @author aanishparajuli
@@ -30,8 +30,6 @@ public class CreateuserPanel extends javax.swing.JPanel {
         formTitleLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
-        emailLabel = new javax.swing.JLabel();
-        emailField = new javax.swing.JTextField();
         roleLabel = new javax.swing.JLabel();
         roleComboBox = new javax.swing.JComboBox<>();
         passwordLabel = new javax.swing.JLabel();
@@ -42,6 +40,8 @@ public class CreateuserPanel extends javax.swing.JPanel {
         nameField1 = new javax.swing.JTextField();
         roleLabel1 = new javax.swing.JLabel();
         GenderCombobox = new javax.swing.JComboBox<>();
+        Dateofbirth = new com.toedter.calendar.JDateChooser();
+        DOB = new javax.swing.JLabel();
         topBarPanel = new javax.swing.JPanel();
         pageTitleLabel = new javax.swing.JLabel();
         adminCircleLabel = new javax.swing.JLabel();
@@ -61,12 +61,6 @@ public class CreateuserPanel extends javax.swing.JPanel {
         nameLabel.setText("Full Name");
 
         nameField.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-
-        emailLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        emailLabel.setForeground(new java.awt.Color(100, 100, 100));
-        emailLabel.setText("Date Of Birth");
-
-        emailField.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
 
         roleLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         roleLabel.setForeground(new java.awt.Color(100, 100, 100));
@@ -110,12 +104,19 @@ public class CreateuserPanel extends javax.swing.JPanel {
         GenderCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Others", " " }));
         GenderCombobox.addActionListener(this::GenderComboboxActionPerformed);
 
+        DOB.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        DOB.setForeground(new java.awt.Color(100, 100, 100));
+        DOB.setText("Date of Birth");
+
         javax.swing.GroupLayout formCardPanelLayout = new javax.swing.GroupLayout(formCardPanel);
         formCardPanel.setLayout(formCardPanelLayout);
         formCardPanelLayout.setHorizontalGroup(
             formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(formCardPanelLayout.createSequentialGroup()
                 .addGroup(formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(formCardPanelLayout.createSequentialGroup()
+                        .addGap(211, 211, 211)
+                        .addComponent(formTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(formCardPanelLayout.createSequentialGroup()
                         .addGap(156, 156, 156)
                         .addGroup(formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,8 +125,6 @@ public class CreateuserPanel extends javax.swing.JPanel {
                             .addGroup(formCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(roleComboBox, 0, 378, Short.MAX_VALUE)
                                 .addComponent(roleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(emailField)
-                                .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(nameField)
                                 .addGroup(formCardPanelLayout.createSequentialGroup()
                                     .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -135,10 +134,9 @@ public class CreateuserPanel extends javax.swing.JPanel {
                             .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameField1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(formCardPanelLayout.createSequentialGroup()
-                        .addGap(211, 211, 211)
-                        .addComponent(formTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(nameField1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Dateofbirth, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DOB, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(474, Short.MAX_VALUE))
         );
         formCardPanelLayout.setVerticalGroup(
@@ -158,11 +156,11 @@ public class CreateuserPanel extends javax.swing.JPanel {
                 .addComponent(roleLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(GenderCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(DOB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(Dateofbirth, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(roleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,7 +234,7 @@ public class CreateuserPanel extends javax.swing.JPanel {
                 .addComponent(topBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addComponent(formCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -250,12 +248,12 @@ public class CreateuserPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel DOB;
+    private com.toedter.calendar.JDateChooser Dateofbirth;
     private javax.swing.JComboBox<String> GenderCombobox;
     private javax.swing.JLabel adminCircleLabel;
     private javax.swing.JLabel adminNameLabel;
     private javax.swing.JButton clearButton;
-    private javax.swing.JTextField emailField;
-    private javax.swing.JLabel emailLabel;
     private javax.swing.JPanel formCardPanel;
     private javax.swing.JLabel formTitleLabel;
     private javax.swing.JTextField nameField;
@@ -274,7 +272,7 @@ public class CreateuserPanel extends javax.swing.JPanel {
 
 public javax.swing.JTextField getNameField()              { return nameField; }
 public javax.swing.JTextField getNameField1()             { return nameField1; }
-public javax.swing.JTextField getEmailField()             { return emailField; }
+public com.toedter.calendar.JDateChooser getDobField() { return Dateofbirth; }
 public javax.swing.JPasswordField getPasswordField()      { return passwordField; }
 public javax.swing.JComboBox<String> getGenderCombobox()  { return GenderCombobox; }
 public javax.swing.JComboBox<String> getRoleComboBox()    { return roleComboBox; }
