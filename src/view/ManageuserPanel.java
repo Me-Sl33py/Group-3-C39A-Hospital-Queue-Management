@@ -35,7 +35,7 @@ public class ManageuserPanel extends javax.swing.JPanel {
         pnlDetails = new javax.swing.JPanel();
         lblFullName = new javax.swing.JLabel();
         txtFullName = new javax.swing.JTextField();
-        lblEmail = new javax.swing.JLabel();
+        DOB = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblPhone = new javax.swing.JLabel();
         txtPhone = new javax.swing.JTextField();
@@ -78,7 +78,7 @@ public class ManageuserPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "User ID", "Full Name", "Phone", "Gender", "Email", "Role", "Status"
+                "User ID", "Full Name", "Phone", "Gender", "Date of Birth", "Role", "Status"
             }
         ));
         jScrollPane1.setViewportView(tblUsers);
@@ -96,9 +96,9 @@ public class ManageuserPanel extends javax.swing.JPanel {
         pnlDetails.add(txtFullName);
         txtFullName.setBounds(100, 30, 200, 26);
 
-        lblEmail.setText("Email Address");
-        pnlDetails.add(lblEmail);
-        lblEmail.setBounds(350, 30, 100, 20);
+        DOB.setText("Date of birth");
+        pnlDetails.add(DOB);
+        DOB.setBounds(350, 30, 100, 20);
         pnlDetails.add(txtEmail);
         txtEmail.setBounds(460, 30, 200, 26);
 
@@ -211,6 +211,7 @@ public class ManageuserPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel DOB;
     private javax.swing.JLabel adminCircleLabel;
     private javax.swing.JLabel adminNameLabel;
     private javax.swing.JButton btnDeactivateUser;
@@ -222,7 +223,6 @@ public class ManageuserPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JLabel lblGender;
     private javax.swing.JLabel lblPhone;
@@ -246,7 +246,7 @@ public javax.swing.JButton getBtnRefresh()       { return btnRefresh; }
 public javax.swing.JTextField getTxtSearch()     { return txtSearch; }
 public javax.swing.JTextField getTxtFullName()   { return txtFullName; }
 public javax.swing.JTextField getTxtPhone()      { return txtPhone; }
-public javax.swing.JTextField getTxtEmail()      { return txtEmail; }
+public javax.swing.JTextField getTxtDob() { return txtEmail; }
 public javax.swing.JComboBox<String> getCmbRole()  { return cmbRole; }
 public javax.swing.JComboBox<String> getCmbStatus(){ return cmbStatus; }
 public javax.swing.JComboBox<String> getCmbGender(){ return cmbGender; }
