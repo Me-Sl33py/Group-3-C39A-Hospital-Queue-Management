@@ -9,6 +9,46 @@ public class AssignToDoctorView extends javax.swing.JPanel {
         initComponents();
         btnAssignPatient.setOpaque(true);
         btnAssignPatient.setBorderPainted(false);
+        initCustomComponents();
+    }
+
+    private javax.swing.JLabel lblBloodGroupLabel;
+    private javax.swing.JLabel lblBloodGroupValue;
+
+    private void initCustomComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+        lblBloodGroupLabel = new javax.swing.JLabel();
+        lblBloodGroupValue = new javax.swing.JLabel();
+        
+        lblBloodGroupLabel.setFont(new java.awt.Font("Segoe UI", 1, 10));
+        lblBloodGroupLabel.setForeground(new java.awt.Color(128, 128, 128));
+        lblBloodGroupLabel.setText("BLOOD GROUP");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(5, 20, 2, 10);
+        pnlPatientDetails.add(lblBloodGroupLabel, gridBagConstraints);
+
+        lblBloodGroupValue.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        lblBloodGroupValue.setText("Not Specified");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 10);
+        pnlPatientDetails.add(lblBloodGroupValue, gridBagConstraints);
+
+        java.awt.GridBagLayout layout = (java.awt.GridBagLayout) pnlPatientDetails.getLayout();
+        gridBagConstraints = layout.getConstraints(lblReasonLabel);
+        gridBagConstraints.gridy = 7;
+        layout.setConstraints(lblReasonLabel, gridBagConstraints);
+
+        gridBagConstraints = layout.getConstraints(spReason);
+        gridBagConstraints.gridy = 8;
+        layout.setConstraints(spReason, gridBagConstraints);
     }
 
 
@@ -20,6 +60,8 @@ public class AssignToDoctorView extends javax.swing.JPanel {
     public JLabel getLblFNameValue() { return lblFNameValue; }
     public JLabel getLblPIDValue() { return lblPIDValue; }
     public JLabel getLblGenValue() { return lblGenValue; }
+    public JLabel getLblContactValue() { return lblContactValue; }
+    public JLabel getLblBloodGroupValue() { return lblBloodGroupValue; }
     public JTextArea getTaReason() { return taReason; }
     public JPanel getPnlWLGrid() { return pnlWLGrid; }
 

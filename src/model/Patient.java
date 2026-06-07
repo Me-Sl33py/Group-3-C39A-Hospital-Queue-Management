@@ -8,10 +8,11 @@ public class Patient {
     private String gender;
     private String contactNumber;
     private String address;
+    private String bloodGroup;
     private String reason;
     private java.sql.Timestamp createdAt;
 
-    public Patient(String patientId, String fullName, java.sql.Date dob, int age, String gender, String contactNumber, String address, String reason, java.sql.Timestamp createdAt) {
+    public Patient(String patientId, String fullName, java.sql.Date dob, int age, String gender, String contactNumber, String address, String bloodGroup, String reason, java.sql.Timestamp createdAt) {
         this.patientId = patientId;
         this.fullName = fullName;
         this.dob = dob;
@@ -19,6 +20,7 @@ public class Patient {
         this.gender = gender;
         this.contactNumber = contactNumber;
         this.address = address;
+        this.bloodGroup = bloodGroup;
         this.reason = reason;
         this.createdAt = createdAt;
     }
@@ -44,6 +46,9 @@ public class Patient {
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
     
+    public String getBloodGroup() { return bloodGroup; }
+    public void setBloodGroup(String bloodGroup) { this.bloodGroup = bloodGroup; }
+
     public String getReason() { return reason; }
     public void setReason(String reason) { this.reason = reason; }
 

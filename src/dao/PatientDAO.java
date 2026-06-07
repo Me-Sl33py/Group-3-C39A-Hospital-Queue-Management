@@ -7,7 +7,7 @@ public class PatientDAO {
 
     public String insertPatient(Patient patient) {
         String userQuery = "INSERT INTO users (username, password, role) VALUES (?, 'password123', 'patient')";
-        String query = "INSERT INTO patients (patient_id, user_id, full_name, dob, age, gender, contact_number, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO patients (patient_id, user_id, full_name, dob, age, gender, contact_number, address, blood_group, reason) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = new MySqlConnection().openConnection();
              PreparedStatement userStmt = conn.prepareStatement(userQuery, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -29,6 +29,8 @@ public class PatientDAO {
             pstmt.setString(6, patient.getGender().toLowerCase());
             pstmt.setString(7, patient.getContactNumber());
             pstmt.setString(8, patient.getAddress());
+            pstmt.setString(9, patient.getBloodGroup());
+            pstmt.setString(10, patient.getReason());
             
             pstmt.executeUpdate();
             return patient.getPatientId();
@@ -53,7 +55,8 @@ public class PatientDAO {
                     rs.getString("gender"),
                     rs.getString("contact_number"),
                     rs.getString("address"),
-                    "", // reason is not in patients table, stored in queue/waitlist
+                    rs.getString("blood_group"),
+                    rs.getString("reason"),
                     rs.getTimestamp("created_at")
                 );
             }
@@ -77,7 +80,8 @@ public class PatientDAO {
                     rs.getString("gender"),
                     rs.getString("contact_number"),
                     rs.getString("address"),
-                    "", // reason is not in patients table, stored in queue/waitlist
+                    rs.getString("blood_group"),
+                    rs.getString("reason"),
                     rs.getTimestamp("created_at")
                 );
             }
@@ -102,7 +106,8 @@ public class PatientDAO {
                     rs.getString("gender"),
                     rs.getString("contact_number"),
                     rs.getString("address"),
-                    "", // reason is not in patients table
+                    rs.getString("blood_group"),
+                    rs.getString("reason"),
                     rs.getTimestamp("created_at")
                 ));
             }
