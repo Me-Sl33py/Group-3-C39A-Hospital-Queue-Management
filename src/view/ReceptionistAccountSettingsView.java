@@ -6,6 +6,18 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         initComponents();
     }
 
+    // Getters for UI components
+    public javax.swing.JTextField getTxtFullName() { return txtFullName; }
+    public javax.swing.JTextField getTxtPhone() { return txtPhone; }
+    public javax.swing.JPasswordField getTxtCurrentPwd() { return txtCurrentPwd; }
+    public javax.swing.JPasswordField getTxtNewPwd() { return txtNewPwd; }
+    public javax.swing.JPasswordField getTxtConfirmPwd() { return txtConfirmPwd; }
+    public javax.swing.JButton getBtnSave() { return btnSave; }
+    public javax.swing.JButton getBtnCancel() { return btnCancel; }
+    public javax.swing.JLabel getLblWelcome() { return lblWelcome; }
+    public javax.swing.JLabel getLblFullNameVal() { return lblFullNameVal; }
+    public javax.swing.JLabel getLblPhoneVal() { return lblPhoneVal; }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -34,9 +46,6 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         cardPhone = new javax.swing.JPanel();
         lblPhoneTitle = new javax.swing.JLabel();
         lblPhoneVal = new javax.swing.JLabel();
-        cardEmail = new javax.swing.JPanel();
-        lblEmailTitle = new javax.swing.JLabel();
-        lblEmailVal = new javax.swing.JLabel();
         cardJoinDate = new javax.swing.JPanel();
         lblJoinDateTitle = new javax.swing.JLabel();
         lblJoinDateVal = new javax.swing.JLabel();
@@ -50,8 +59,6 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         lblPn = new javax.swing.JLabel();
         txtFullName = new javax.swing.JTextField();
         txtPhone = new javax.swing.JTextField();
-        lblEa = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
         lblCp = new javax.swing.JLabel();
         lblNp = new javax.swing.JLabel();
         lblCnp = new javax.swing.JLabel();
@@ -196,20 +203,6 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
 
         summaryPanel.add(cardPhone);
 
-        cardEmail.setBackground(new java.awt.Color(255, 255, 255));
-        cardEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        cardEmail.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
-
-        lblEmailTitle.setText("EMAIL ADDRESS");
-        lblEmailTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblEmailTitle.setForeground(new java.awt.Color(128, 128, 128));
-        cardEmail.add(lblEmailTitle);
-
-        lblEmailVal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        cardEmail.add(lblEmailVal);
-
-        summaryPanel.add(cardEmail);
-
         cardJoinDate.setBackground(new java.awt.Color(255, 255, 255));
         cardJoinDate.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
         cardJoinDate.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
@@ -310,29 +303,6 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
         leftForm.add(txtPhone, gridBagConstraints);
-
-        lblEa.setText("EMAIL ADDRESS");
-        lblEa.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblEa.setForeground(new java.awt.Color(128, 128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
-        leftForm.add(lblEa, gridBagConstraints);
-
-        txtEmail.setMargin(new java.awt.Insets(5, 10, 5, 10));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        leftForm.add(txtEmail, gridBagConstraints);
 
         lblCp.setText("CURRENT PASSWORD");
         lblCp.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -661,7 +631,6 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
     private javax.swing.JPanel cardDept;
-    private javax.swing.JPanel cardEmail;
     private javax.swing.JPanel cardEmpId;
     private javax.swing.JPanel cardFullName;
     private javax.swing.JPanel cardJoinDate;
@@ -685,10 +654,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
     private javax.swing.JLabel lblCp;
     private javax.swing.JLabel lblDeptTitle;
     private javax.swing.JLabel lblDeptVal;
-    private javax.swing.JLabel lblEa;
     private javax.swing.JLabel lblEditProfile;
-    private javax.swing.JLabel lblEmailTitle;
-    private javax.swing.JLabel lblEmailVal;
     private javax.swing.JLabel lblEmpIdTitle;
     private javax.swing.JLabel lblEmpIdVal;
     private javax.swing.JLabel lblFn;
@@ -724,7 +690,6 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
     private javax.swing.JPanel summaryPanel;
     private javax.swing.JPasswordField txtConfirmPwd;
     private javax.swing.JPasswordField txtCurrentPwd;
-    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullName;
     private javax.swing.JPasswordField txtNewPwd;
     private javax.swing.JTextField txtPhone;

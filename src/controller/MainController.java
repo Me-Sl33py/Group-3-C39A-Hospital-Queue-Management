@@ -13,6 +13,7 @@ public class MainController {
     private RegisterWalkinController registerWalkinController;
     private GenerateTokenController generateTokenController;
     private AssignToDoctorController assignToDoctorController;
+    private ReceptionistAccountSettingsController receptionistAccountSettingsController;
 
     public MainController(WithTabbedPane mainFrame) {
         this.mainFrame = mainFrame;
@@ -31,6 +32,7 @@ public class MainController {
         this.registerWalkinController = new RegisterWalkinController(mainFrame.getRegisterWalkinView(), mainFrame);
         this.generateTokenController = new GenerateTokenController(mainFrame.getGenerateTokenView(), mainFrame);
         this.assignToDoctorController = new AssignToDoctorController(mainFrame.getAssignToDoctorView(), mainFrame);
+        this.receptionistAccountSettingsController = new ReceptionistAccountSettingsController(mainFrame.getReceptionistAccountSettingsView(), mainFrame);
         
         // Pass sub-controllers to main frame just in case other parts of the application need them
         mainFrame.setDashboardController(this.dashboardController);

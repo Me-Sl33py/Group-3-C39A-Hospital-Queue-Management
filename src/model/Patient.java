@@ -3,15 +3,17 @@ package model;
 public class Patient {
     private String patientId;
     private String fullName;
+    private java.sql.Date dob;
     private int age;
     private String gender;
     private String contactNumber;
     private String address;
     private String reason;
 
-    public Patient(String patientId, String fullName, int age, String gender, String contactNumber, String address, String reason) {
+    public Patient(String patientId, String fullName, java.sql.Date dob, int age, String gender, String contactNumber, String address, String reason) {
         this.patientId = patientId;
         this.fullName = fullName;
+        this.dob = dob;
         this.age = age;
         this.gender = gender;
         this.contactNumber = contactNumber;
@@ -24,6 +26,9 @@ public class Patient {
 
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
+
+    public java.sql.Date getDob() { return dob; }
+    public void setDob(java.sql.Date dob) { this.dob = dob; }
 
     public int getAge() { return age; }
     public void setAge(int age) { this.age = age; }
