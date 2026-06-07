@@ -5,15 +5,7 @@
         <group>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/hospital/queue/management/HospitalQueueManagement.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/database/MySqlConnection.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/database/Hospital_queue_management_db.sql</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/model/Doctor.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/DoctorPanel.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/controller/DoctorController.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/dao/PatientDao.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/ForgotPassword.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/NewClass.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/SecurityQuestions.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/UserLogin.java</file>
         </group>
     </open-files>
 </project-private>
