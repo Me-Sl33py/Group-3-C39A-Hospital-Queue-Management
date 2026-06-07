@@ -197,8 +197,44 @@ public class UserLoginController {
 
         switch (role.toLowerCase()) {
             case "patient":
-                view.Patients patientView = new view.Patients();
-                patientView.setVisible(true);
+                String patIdentifier = !username.isEmpty() ? username : phone;
+                String patientId = null;
+                int userId = -1;
+                String patName = "";
+                String actualUsername = "";
+                
+                try {
+                    database.DB db = new database.MySqlConnection();
+                    java.sql.Connection conn = db.openConnection();
+                    java.sql.PreparedStatement ps = conn.prepareStatement(
+                        "SELECT p.patient_id, p.full_name, u.user_id, u.username FROM patients p " +
+                        "JOIN users u ON p.user_id = u.user_id " +
+                        "WHERE LOWER(u.username) = LOWER(?) OR p.contact_number = ? OR LOWER(p.full_name) = LOWER(?)");
+                    ps.setString(1, patIdentifier);
+                    ps.setString(2, patIdentifier);
+                    ps.setString(3, patIdentifier);
+                    java.sql.ResultSet rs = ps.executeQuery();
+                    if (rs.next()) {
+                        patientId = rs.getString("patient_id");
+                        patName = rs.getString("full_name");
+                        userId = rs.getInt("user_id");
+                        actualUsername = rs.getString("username");
+                        
+                        session.PatientSession.setPatientId(patientId);
+                        session.PatientSession.setUserId(userId);
+                        session.PatientSession.setUsername(actualUsername);
+                        session.PatientSession.setRole("patient");
+                    }
+                    db.closeConnection(conn);
+                } catch (Exception ex) { ex.printStackTrace(); }
+                
+                if (patientId != null) {
+                    JOptionPane.showMessageDialog(null, "Welcome, " + patName + "!");
+                    view.Patients patientView = new view.Patients();
+                    patientView.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Could not find Patient profile for this user!");
+                }
                 break;
             case "doctor":
                 // We need to find the specific Doctor ID for this logged in user
