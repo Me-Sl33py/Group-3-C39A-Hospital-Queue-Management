@@ -83,7 +83,7 @@ public class UserLogin extends javax.swing.JFrame {
         jTextField1.addActionListener(this::jTextField1ActionPerformed);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("Username");
+        jLabel4.setText("Full Name/ Username");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("OR");

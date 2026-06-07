@@ -1,3 +1,4 @@
+// Force Rebuild
 package controller;
 
 import dao.UserDAO;
@@ -239,39 +240,40 @@ public class UserLoginController {
                     break;
                 case "doctor":
                     // We need to find the specific Doctor ID for this logged in user
-                    // We can reuse userDAO to get the User object
-                    model.User userObj = userDAO.loginById(username, password);
-                    if (userObj == null) userObj = userDAO.loginByPhone(phone, password);
+                    String identifier = !username.isEmpty() ? username : phone;
+                    String doctorId = null;
+                    String docName = "";
                     
-                    if (userObj != null) {
-                        String doctorId = null;
-                        String docName = "";
-                        try {
-                            database.Db db = new database.MySqlConnection();
-                            java.sql.Connection conn = db.openConnection();
-                            java.sql.PreparedStatement ps = conn.prepareStatement("SELECT doctor_id, full_name FROM doctors WHERE user_id = ?");
-                            ps.setInt(1, userObj.getUserId());
-                            java.sql.ResultSet rs = ps.executeQuery();
-                            if (rs.next()) {
-                                doctorId = rs.getString("doctor_id");
-                                docName = rs.getString("full_name");
-                            }
-                            db.closeConnection(conn);
-                        } catch (Exception ex) { ex.printStackTrace(); }
-                        
-                        if (doctorId != null) {
-                            view.DoctorPanel dp = new view.DoctorPanel();
-                            controller.DoctorController dc = new controller.DoctorController(dp);
-                            
-                            model.Doctor loggedInDoctor = new model.Doctor();
-                            loggedInDoctor.setDoctorId(doctorId);
-                            loggedInDoctor.setFullName(docName);
-                            
-                            dc.setCurrentDoctor(loggedInDoctor);
-                            dp.setVisible(true);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Could not find Doctor profile for this user!");
+                    try {
+                        database.Db db = new database.MySqlConnection();
+                        java.sql.Connection conn = db.openConnection();
+                        java.sql.PreparedStatement ps = conn.prepareStatement(
+                            "SELECT d.doctor_id, d.full_name FROM doctors d " +
+                            "JOIN users u ON d.user_id = u.user_id " +
+                            "WHERE LOWER(u.username) = LOWER(?) OR d.contact_number = ? OR LOWER(d.full_name) = LOWER(?)");
+                        ps.setString(1, identifier);
+                        ps.setString(2, identifier);
+                        ps.setString(3, identifier);
+                        java.sql.ResultSet rs = ps.executeQuery();
+                        if (rs.next()) {
+                            doctorId = rs.getString("doctor_id");
+                            docName = rs.getString("full_name");
                         }
+                        db.closeConnection(conn);
+                    } catch (Exception ex) { ex.printStackTrace(); }
+                    
+                    if (doctorId != null) {
+                        view.DoctorPanel dp = new view.DoctorPanel();
+                        controller.DoctorController dc = new controller.DoctorController(dp);
+                        
+                        model.Doctor loggedInDoctor = new model.Doctor();
+                        loggedInDoctor.setDoctorId(doctorId);
+                        loggedInDoctor.setFullName(docName);
+                        
+                        dc.setCurrentDoctor(loggedInDoctor);
+                        dp.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Could not find Doctor profile for this user!");
                     }
                     break;
                 case "receptionist":
