@@ -50,6 +50,10 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         gridBagConstraints = layout.getConstraints(reasonScroll);
         gridBagConstraints.gridy = 7;
         layout.setConstraints(reasonScroll, gridBagConstraints);
+        
+        lblReasonLabel.setVisible(false);
+        reasonScroll.setVisible(false);
+        taReason.setVisible(false);
     }
 
     

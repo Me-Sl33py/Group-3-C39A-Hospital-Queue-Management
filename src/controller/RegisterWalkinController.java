@@ -39,7 +39,6 @@ public class RegisterWalkinController {
         view.getCbGender().setSelectedIndex(0);
         view.getTfPhone().setText("");
         view.getCbBloodGroup().setSelectedIndex(0);
-        view.getTaReason().setText("");
     }
 
     private void saveAndContinue() {
@@ -48,9 +47,8 @@ public class RegisterWalkinController {
         String gender = (String) view.getCbGender().getSelectedItem();
         String phone = view.getTfPhone().getText().trim();
         String bloodGroup = (String) view.getCbBloodGroup().getSelectedItem();
-        String reason = view.getTaReason().getText().trim();
 
-        if (name.isEmpty() || selectedDob == null || phone.isEmpty() || reason.isEmpty() || gender.equals("Select Gender")) {
+        if (name.isEmpty() || selectedDob == null || phone.isEmpty() || gender.equals("Select Gender")) {
             JOptionPane.showMessageDialog(view, "Please fill in all details accurately before saving.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -67,7 +65,7 @@ public class RegisterWalkinController {
 
         // Generate a short ID to fit inside VARCHAR(10) or VARCHAR(15)
         String patientId = "P-" + (100000 + (int)(Math.random() * 899999));
-        model.Patient patient = new model.Patient(patientId, name, sqlDob, age, gender, phone, "", bloodGroup, reason, new java.sql.Timestamp(System.currentTimeMillis()));
+        model.Patient patient = new model.Patient(patientId, name, sqlDob, age, gender, phone, "", bloodGroup, "", new java.sql.Timestamp(System.currentTimeMillis()));
 
         dao.PatientDAO patientDAO = new dao.PatientDAO();
         String savedId = patientDAO.insertPatient(patient);
