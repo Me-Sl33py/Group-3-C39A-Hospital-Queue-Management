@@ -22,22 +22,18 @@ public class DashboardPanel extends javax.swing.JPanel {
         
     
 private void loadData() {
+    DashboardDAO dao = new DashboardDAO();
 
-   DashboardDAO dao = new DashboardDAO();
+    card1NumberLabel.setText(String.valueOf(dao.getPatientCount()));
+    card2NumberLabel.setText(String.valueOf(dao.getDoctorCount()));
+    card3NumberLabel.setText(String.valueOf(dao.getAppointmentCount()));
+    card4NumberLabel.setText(String.valueOf(dao.getReceptionistCount()));
 
-    card1NumberLabel.setText(
-            String.valueOf(dao.getPatientCount()));
-
-    card2NumberLabel.setText(
-            String.valueOf(dao.getDoctorCount()));
-
-    card3NumberLabel.setText(
-            String.valueOf(dao.getAppointmentCount()));
-
-    card4NumberLabel.setText(
-            String.valueOf(dao.getReceptionistCount()));
+    // Fix date - always shows today's actual date
+    String today = new java.text.SimpleDateFormat("EEEE, MMMM dd yyyy")
+                       .format(new java.util.Date());
+    welcomeDateLabel.setText(today);
 }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,6 +66,9 @@ private void loadData() {
         userMgmtLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        lblSearch = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -269,7 +268,7 @@ private void loadData() {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"abc", "Anmol", "1223", "active", "male", "24", "paid"},
+                {"", "", "", "", "", "", ""},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null}
@@ -280,25 +279,46 @@ private void loadData() {
         ));
         jScrollPane2.setViewportView(jTable1);
 
+        lblSearch.setText("Search User:");
+
+        btnSearch.setBackground(new java.awt.Color(13, 110, 253));
+        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch.setText("Search");
+
         javax.swing.GroupLayout tableCardPanelLayout = new javax.swing.GroupLayout(tableCardPanel);
         tableCardPanel.setLayout(tableCardPanelLayout);
         tableCardPanelLayout.setHorizontalGroup(
             tableCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tableCardPanelLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
                 .addGroup(tableCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(userMgmtLabel)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(298, Short.MAX_VALUE))
+                    .addGroup(tableCardPanelLayout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(tableCardPanelLayout.createSequentialGroup()
+                        .addGap(411, 411, 411)
+                        .addComponent(userMgmtLabel))
+                    .addGroup(tableCardPanelLayout.createSequentialGroup()
+                        .addGap(198, 198, 198)
+                        .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
         tableCardPanelLayout.setVerticalGroup(
             tableCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tableCardPanelLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addContainerGap()
                 .addComponent(userMgmtLabel)
-                .addGap(48, 48, 48)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGap(74, 74, 74)
+                .addGroup(tableCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainContentPanelLayout = new javax.swing.GroupLayout(mainContentPanel);
@@ -322,7 +342,7 @@ private void loadData() {
                 .addComponent(cardsRowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90)
                 .addComponent(tableCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -333,14 +353,13 @@ private void loadData() {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(mainContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 181, Short.MAX_VALUE))
+            .addComponent(mainContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel card1NumberLabel;
     private javax.swing.JPanel card1Panel;
     private javax.swing.JLabel card1TextLabel;
@@ -357,8 +376,10 @@ private void loadData() {
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblSearch;
     private javax.swing.JPanel mainContentPanel;
     private javax.swing.JPanel tableCardPanel;
+    private javax.swing.JTextField txtSearch;
     private javax.swing.JLabel userMgmtLabel;
     private javax.swing.JLabel weatherLabel;
     private javax.swing.JPanel welcomeCardPanel;
@@ -385,4 +406,9 @@ public javax.swing.JLabel getCard3NumberLabel() {
 public javax.swing.JLabel getCard4NumberLabel() {
     return card4NumberLabel;
 }
+
+public javax.swing.JTextField getSearchField()  { return txtSearch; }
+public javax.swing.JButton getSearchButton()    { return btnSearch; }
+public javax.swing.JLabel getWelcomeDateLabel() { return welcomeDateLabel; }
+
 }
