@@ -318,6 +318,7 @@ public class PatientDao {
     public Patient getPatientById(String patientId) {
         String sql = "SELECT patient_id, user_id, full_name, dob, age, gender, " +
                      "contact_number, address, blood_group FROM patients WHERE patient_id = ?";
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
             try (ResultSet rs = ps.executeQuery()) {
