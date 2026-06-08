@@ -25,11 +25,11 @@ public class HospitalQueueManagement {
         Db database = new MySqlConnection();
         database.openConnection();
 
-        // Open WithTabbedPane and hook it up to MainController
+        // Launch the Login screen as the entry point
         java.awt.EventQueue.invokeLater(() -> {
-            view.WithTabbedPane mainFrame = new view.WithTabbedPane();
-            controller.MainController mainController = new controller.MainController(mainFrame);
-            mainFrame.setVisible(true);
+            view.UserLogin loginFrame = new view.UserLogin();
+            // UserLogin internally creates its own controller in its constructor.
+            loginFrame.setVisible(true);
         });
     }
 }

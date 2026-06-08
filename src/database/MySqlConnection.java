@@ -14,7 +14,7 @@ import java.sql.DriverManager;
 public class MySqlConnection implements Db {
 
     public static final String USERNAME = "root";
-    public static final String PASSWORD = "Aayush@2060";
+    public static final String PASSWORD = "I_1t_Relax!";
     public static final String DATABASE = "hospital_queue_management_db";
 
     @Override
