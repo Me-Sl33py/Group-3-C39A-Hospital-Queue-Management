@@ -11,6 +11,21 @@ public class DoctorDAO {
         return new MySqlConnection().openConnection();
     }
 
+    private String generateDoctorId(Connection c) throws SQLException {
+        String sql = "SELECT doctor_id FROM doctors ORDER BY doctor_id DESC LIMIT 1";
+        try (PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                String lastId = rs.getString("doctor_id"); // e.g. "D-105"
+                int num = Integer.parseInt(lastId.substring(2)); // extracts 105
+                return "D-" + (num + 1); // returns "D-106"
+            } else {
+                return "D-101"; // first doctor
+            }
+        }
+    }
+
     public List<String[]> searchDoctors(String keyword) {
         List<String[]> list = new ArrayList<>();
 
@@ -54,37 +69,37 @@ public class DoctorDAO {
     }
 
     public boolean addDoctor(String fullName,
-                         String phone,
-                         String specialization,
-                         int deptId,
-                         String availability) {
+                             String phone,
+                             String specialization,
+                             int deptId,
+                             String availability) {
 
-    String sql = "INSERT INTO doctors " +
-                 "(doctor_id, user_id, full_name, contact_number, specialization, department_id, availability, status) " +
-                 "VALUES (?, ?, ?, ?, ?, ?, ?, 'active')";
+        String sql = "INSERT INTO doctors " +
+                     "(doctor_id, user_id, full_name, contact_number, specialization, department_id, availability, status) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, 'active')";
 
-    try (Connection c = getConnection();
-         PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
 
-        String doctorId = "D-" + System.currentTimeMillis();
-        int userId = 3; // temporary value
+            String doctorId = generateDoctorId(c);
+            int userId = 3; // temporary value
 
-        ps.setString(1, doctorId);
-        ps.setInt(2, userId);
-        ps.setString(3, fullName);
-        ps.setString(4, phone);
-        ps.setString(5, specialization);
-        ps.setInt(6, deptId);
-        ps.setString(7, availability);
+            ps.setString(1, doctorId);
+            ps.setInt(2, userId);
+            ps.setString(3, fullName);
+            ps.setString(4, phone);
+            ps.setString(5, specialization);
+            ps.setInt(6, deptId);
+            ps.setString(7, availability);
 
-        return ps.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
 
-    } catch (SQLException e) {
-        e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
-
-    return false;
-}
 
     public boolean updateDoctor(String doctorId,
                                 String fullName,

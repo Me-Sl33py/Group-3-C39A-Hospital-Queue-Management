@@ -10,6 +10,7 @@ public class AdminController {
     private javax.swing.JPanel contentPanel;
 
     // Panels
+    private HomePanel homePanel;
     private DashboardPanel       dashboardPanel;
     private ManageuserPanel      manageUserPanel;
     private CreateuserPanel      createUserPanel;
@@ -20,6 +21,7 @@ public class AdminController {
     private NotificationPanel    notificationPanel;
 
     // Controllers
+    private HomeController homeController;
     private DashboardController      dashboardController;
     private ManageUserController     manageUserController;
     private CreateUserController     createUserController;
@@ -48,8 +50,10 @@ public class AdminController {
         schedulePanel     = new SchedulePanel();
         notificationPanel = new NotificationPanel();
 
-        contentPanel.add(new HomePanel(),   "home");
-        contentPanel.add(dashboardPanel,    "dashboard");
+        
+        homePanel = new HomePanel();
+        contentPanel.add(homePanel, "home");
+        contentPanel.add(dashboardPanel, "dashboard");
         contentPanel.add(schedulePanel,     "schedule");
         contentPanel.add(reportPanel,       "report");
         contentPanel.add(notificationPanel, "notification");
@@ -58,23 +62,31 @@ public class AdminController {
         contentPanel.add(doctorDeptPanel,   "managedoctor");
         contentPanel.add(logoutPanel,       "logout");
 
-        cardLayout.show(contentPanel, "home");
-    }
+       cardLayout.show(contentPanel, "home");
+}
 
-    private void initControllers() {
-        dashboardController    = new DashboardController(dashboardPanel);
-        manageUserController   = new ManageUserController(manageUserPanel, adminFrame);
-        createUserController   = new CreateUserController(createUserPanel, adminFrame);
-        doctorDeptController   = new DoctorDeptController(doctorDeptPanel, adminFrame);
-        reportController       = new ReportController(reportPanel);
-        scheduleController     = new ScheduleController(schedulePanel);
-        notificationController = new NotificationController(notificationPanel);
-        logoutController       = new LogoutController(logoutPanel, adminFrame, cardLayout, contentPanel);
-    }
+private void initControllers() {
+    dashboardController    = new DashboardController(dashboardPanel);
+    manageUserController   = new ManageUserController(manageUserPanel, adminFrame);
+    createUserController   = new CreateUserController(createUserPanel, adminFrame);
+    doctorDeptController   = new DoctorDeptController(doctorDeptPanel, adminFrame);
+    reportController       = new ReportController(reportPanel);
+    scheduleController     = new ScheduleController(schedulePanel);
+    notificationController = new NotificationController(notificationPanel);
+    logoutController       = new LogoutController(logoutPanel, adminFrame, cardLayout, contentPanel);
+    homeController = new HomeController(homePanel);
+    homeController.loadAll();
+    dashboardController.loadAll(); 
+}
 
     private void initNavigation() {
-        adminFrame.getBtnHome()
-            .addActionListener(e -> cardLayout.show(contentPanel, "home"));
+        
+      adminFrame.getBtnHome()
+       .addActionListener(e -> {
+         homeController.loadAll();
+        cardLayout.show(contentPanel, "home");
+    });
+        
 
         adminFrame.getBtnDashboard()
             .addActionListener(e -> {
