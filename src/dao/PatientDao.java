@@ -317,7 +317,7 @@ public class PatientDao {
     // Get patient by ID
     public Patient getPatientById(String patientId) {
         String sql = "SELECT patient_id, user_id, full_name, dob, age, gender, " +
-                     "contact_number, address FROM patients WHERE patient_id = ?";
+                     "contact_number, address, blood_group FROM patients WHERE patient_id = ?";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
@@ -398,6 +398,11 @@ public class PatientDao {
             rs.getString("address")
         );
         p.setDob(rs.getDate("dob"));
+        try {
+            p.setBloodGroup(rs.getString("blood_group"));
+        } catch (SQLException e) {
+            // blood_group might not be in the SELECT clause of some queries
+        }
         return p;
     }
 
@@ -430,8 +435,8 @@ public class PatientDao {
         }
     }
 
-    public boolean updatePatientProfile(String patientId, java.util.Date dob, int age, String phone, String address) {
-        String sql = "UPDATE patients SET dob = ?, age = ?, contact_number = ?, address = ? WHERE patient_id = ?";
+    public boolean updatePatientProfile(String patientId, java.util.Date dob, int age, String phone, String address, String bloodGroup) {
+        String sql = "UPDATE patients SET dob = ?, age = ?, contact_number = ?, address = ?, blood_group = ? WHERE patient_id = ?";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             if (dob != null) ps.setDate(1, new java.sql.Date(dob.getTime()));
@@ -439,7 +444,8 @@ public class PatientDao {
             ps.setInt(2, age);
             ps.setString(3, phone);
             ps.setString(4, address);
-            ps.setString(5, patientId);
+            ps.setString(5, bloodGroup);
+            ps.setString(6, patientId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("updatePatientProfile error: " + e.getMessage());

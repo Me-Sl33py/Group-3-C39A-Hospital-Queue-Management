@@ -60,7 +60,7 @@ public class AccountPanel extends javax.swing.JPanel {
         btnCancel = new javax.swing.JButton();
         btnConfirm = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(750, 700));
+        setPreferredSize(new java.awt.Dimension(750, 1100));
         setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -265,24 +265,94 @@ public class AccountPanel extends javax.swing.JPanel {
         add(txtCurrentPassword);
         txtCurrentPassword.setBounds(30, 505, 230, 35);
 
+        javax.swing.JLabel jLabelBlood = new javax.swing.JLabel();
+        jLabelBlood.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelBlood.setForeground(new java.awt.Color(150, 150, 150));
+        jLabelBlood.setText("CHANGE BLOOD GROUP");
+        add(jLabelBlood);
+        jLabelBlood.setBounds(420, 480, 280, 20);
+
+        cmbBloodGroup = new javax.swing.JComboBox<>();
+        cmbBloodGroup.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cmbBloodGroup.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-", "Unknown" }));
+        add(cmbBloodGroup);
+        cmbBloodGroup.setBounds(420, 505, 290, 35);
+
+        javax.swing.JLabel lblSecTitle = new javax.swing.JLabel("🔒 Security Questions (Required for Password Recovery)");
+        lblSecTitle.setFont(new java.awt.Font("Tahoma", 1, 14));
+        lblSecTitle.setForeground(new java.awt.Color(51, 51, 51));
+        add(lblSecTitle);
+        lblSecTitle.setBounds(30, 560, 450, 20);
+
+        javax.swing.JLabel lblQ1 = new javax.swing.JLabel("1. In what city were you born?");
+        lblQ1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblQ1.setForeground(new java.awt.Color(150, 150, 150));
+        add(lblQ1);
+        lblQ1.setBounds(30, 600, 300, 20);
+        txtQ1 = new javax.swing.JTextField();
+        add(txtQ1);
+        txtQ1.setBounds(30, 625, 300, 35);
+
+        javax.swing.JLabel lblQ2 = new javax.swing.JLabel("2. What is the name of your favorite pet?");
+        lblQ2.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblQ2.setForeground(new java.awt.Color(150, 150, 150));
+        add(lblQ2);
+        lblQ2.setBounds(420, 600, 300, 20);
+        txtQ2 = new javax.swing.JTextField();
+        add(txtQ2);
+        txtQ2.setBounds(420, 625, 290, 35);
+
+        javax.swing.JLabel lblQ3 = new javax.swing.JLabel("3. What is your mother's maiden name?");
+        lblQ3.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblQ3.setForeground(new java.awt.Color(150, 150, 150));
+        add(lblQ3);
+        lblQ3.setBounds(30, 680, 300, 20);
+        txtQ3 = new javax.swing.JTextField();
+        add(txtQ3);
+        txtQ3.setBounds(30, 705, 300, 35);
+
+        javax.swing.JLabel lblQ4 = new javax.swing.JLabel("4. What high school did you attend?");
+        lblQ4.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblQ4.setForeground(new java.awt.Color(150, 150, 150));
+        add(lblQ4);
+        lblQ4.setBounds(420, 680, 300, 20);
+        txtQ4 = new javax.swing.JTextField();
+        add(txtQ4);
+        txtQ4.setBounds(420, 705, 290, 35);
+
+        javax.swing.JLabel lblQ5 = new javax.swing.JLabel("5. What is your favorite food?");
+        lblQ5.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblQ5.setForeground(new java.awt.Color(150, 150, 150));
+        add(lblQ5);
+        lblQ5.setBounds(30, 760, 300, 20);
+        txtQ5 = new javax.swing.JTextField();
+        add(txtQ5);
+        txtQ5.setBounds(30, 785, 300, 35);
+
         btnCancel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnCancel.setForeground(new java.awt.Color(30, 100, 180));
         btnCancel.setText("Cancel");
         btnCancel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 100, 180)));
         add(btnCancel);
-        btnCancel.setBounds(30, 580, 110, 35);
+        btnCancel.setBounds(30, 860, 110, 35);
 
         btnConfirm.setBackground(new java.awt.Color(30, 100, 180));
         btnConfirm.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnConfirm.setForeground(new java.awt.Color(51, 51, 51));
         btnConfirm.setText("Confirm");
         add(btnConfirm);
-        btnConfirm.setBounds(160, 580, 110, 35);
+        btnConfirm.setBounds(160, 860, 110, 35);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnConfirm;
+    private javax.swing.JComboBox<String> cmbBloodGroup;
+    private javax.swing.JTextField txtQ1;
+    private javax.swing.JTextField txtQ2;
+    private javax.swing.JTextField txtQ3;
+    private javax.swing.JTextField txtQ4;
+    private javax.swing.JTextField txtQ5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -350,4 +420,18 @@ public class AccountPanel extends javax.swing.JPanel {
     public javax.swing.JButton getBtnConfirm() {
         return btnConfirm;
     }
+
+    public javax.swing.JButton getBtnCancel() {
+        return btnCancel;
+    }
+
+    public javax.swing.JComboBox<String> getCmbBloodGroup() {
+        return cmbBloodGroup;
+    }
+
+    public javax.swing.JTextField getTxtQ1() { return txtQ1; }
+    public javax.swing.JTextField getTxtQ2() { return txtQ2; }
+    public javax.swing.JTextField getTxtQ3() { return txtQ3; }
+    public javax.swing.JTextField getTxtQ4() { return txtQ4; }
+    public javax.swing.JTextField getTxtQ5() { return txtQ5; }
 }

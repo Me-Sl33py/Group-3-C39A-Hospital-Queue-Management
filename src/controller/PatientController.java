@@ -25,6 +25,7 @@ public class PatientController {
     private RatingPanel ratingPanel;
     private AccountPanel accountPanel;
     private LogoutPanel logoutPanel;
+    private javax.swing.JScrollPane accountScrollPane;
     
     private PatientDao patientDAO = new PatientDao();
     private DepartmentDAO departmentDAO = new DepartmentDAO();
@@ -33,6 +34,7 @@ public class PatientController {
     private QueueDAO queueDAO = new QueueDAO();
     private MedicalRecordDAO medicalRecordDAO = new MedicalRecordDAO();
     private RatingDAO ratingDAO = new RatingDAO();
+    private dao.SecurityQuestionsDao securityDAO = new dao.SecurityQuestionsDao();
 
     public PatientController(Patients mainView) {
         this.mainView = mainView;
@@ -44,6 +46,9 @@ public class PatientController {
         ratingPanel = new RatingPanel();
         accountPanel = new AccountPanel();
         logoutPanel = new LogoutPanel();
+        accountScrollPane = new javax.swing.JScrollPane(accountPanel);
+        accountScrollPane.setBorder(null);
+        accountScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
         setupListeners();
         
@@ -80,7 +85,7 @@ public class PatientController {
 
         mainView.btnAccount.addActionListener(e -> {
             loadAccountData();
-            showPanel(accountPanel);
+            showPanel(accountScrollPane);
         });
 
         mainView.btnLogout.addActionListener(e -> showPanel(logoutPanel));
@@ -146,9 +151,9 @@ public class PatientController {
         accountPanel.getBtnConfirm().addActionListener(e -> updateProfile());
     }
 
-    private void showPanel(JPanel panel) {
+    private void showPanel(javax.swing.JComponent panel) {
         mainView.contentPanel.removeAll();
-        mainView.contentPanel.add(panel);
+        mainView.contentPanel.add(panel, java.awt.BorderLayout.CENTER);
         mainView.contentPanel.revalidate();
         mainView.contentPanel.repaint();
     }
@@ -285,6 +290,26 @@ public class PatientController {
             } else {
                 accountPanel.getTxtDob().setDate(null);
             }
+            if (p.getBloodGroup() != null) {
+                accountPanel.getCmbBloodGroup().setSelectedItem(p.getBloodGroup());
+            } else {
+                accountPanel.getCmbBloodGroup().setSelectedItem("Unknown");
+            }
+        }
+        
+        String[] answers = securityDAO.getSecurityAnswers(PatientSession.getUserId());
+        if (answers != null && answers.length == 5) {
+            accountPanel.getTxtQ1().setText(answers[0]);
+            accountPanel.getTxtQ2().setText(answers[1]);
+            accountPanel.getTxtQ3().setText(answers[2]);
+            accountPanel.getTxtQ4().setText(answers[3]);
+            accountPanel.getTxtQ5().setText(answers[4]);
+        } else {
+            accountPanel.getTxtQ1().setText("");
+            accountPanel.getTxtQ2().setText("");
+            accountPanel.getTxtQ3().setText("");
+            accountPanel.getTxtQ4().setText("");
+            accountPanel.getTxtQ5().setText("");
         }
         
         accountPanel.getTxtPhone().setText("");
@@ -332,7 +357,23 @@ public class PatientController {
             finalPhone = phone;
         }
 
-        patientDAO.updatePatientProfile(p.getPatientId(), dob, age, finalPhone, p.getAddress());
+        String bg = accountPanel.getCmbBloodGroup().getSelectedItem().toString();
+        patientDAO.updatePatientProfile(p.getPatientId(), dob, age, finalPhone, p.getAddress(), bg);
+
+        String a1 = accountPanel.getTxtQ1().getText().trim();
+        String a2 = accountPanel.getTxtQ2().getText().trim();
+        String a3 = accountPanel.getTxtQ3().getText().trim();
+        String a4 = accountPanel.getTxtQ4().getText().trim();
+        String a5 = accountPanel.getTxtQ5().getText().trim();
+        
+        if (!a1.isEmpty() || !a2.isEmpty() || !a3.isEmpty() || !a4.isEmpty() || !a5.isEmpty()) {
+            securityDAO.updateSecurityQuestions(PatientSession.getUserId(),
+                "Your Favourite food?", a1,
+                "Your First pet's name?", a2,
+                "Your Favourite game?", a3,
+                "Your Best Friend's name?", a4,
+                "Your Favourite Place to visit?", a5);
+        }
 
         if (!email.isEmpty() && !email.startsWith("Enter")) {
             if (!newPass.isEmpty() && !newPass.startsWith("Enter")) {

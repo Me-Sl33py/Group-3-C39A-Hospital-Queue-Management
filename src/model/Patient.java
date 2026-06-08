@@ -15,6 +15,7 @@ public class Patient {
     private String contactNumber;
     private String address;
     private java.util.Date dob;
+    private String bloodGroup;
 
     // Default constructor
     public Patient() {
@@ -96,5 +97,13 @@ public class Patient {
 
     public void setDob(java.util.Date dob) {
         this.dob = dob;
+    }
+
+    public String getBloodGroup() {
+        return bloodGroup;
+    }
+
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
     }
 }
