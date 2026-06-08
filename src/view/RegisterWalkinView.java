@@ -32,7 +32,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 10);
         formPanel.add(lblBloodGroupLabel, gridBagConstraints);
 
-        cbBloodGroup.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Not Specified", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" }));
+        cbBloodGroup.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Unknown", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" }));
         cbBloodGroup.setPreferredSize(new java.awt.Dimension(150, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -186,7 +186,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         formPanel.setLayout(new java.awt.GridBagLayout());
 
         lblNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblNameLabel.setText("Full Name");
+        lblNameLabel.setText("Name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -279,8 +279,8 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         formPanel.add(lblReasonLabel, gridBagConstraints);
 
         taReason.setColumns(20);
-        taReason.setRows(5);
         taReason.setLineWrap(true);
+        taReason.setRows(5);
         taReason.setWrapStyleWord(true);
         reasonScroll.setViewportView(taReason);
 
