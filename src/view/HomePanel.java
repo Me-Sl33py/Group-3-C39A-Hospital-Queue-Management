@@ -352,4 +352,21 @@ public class HomePanel extends javax.swing.JPanel {
     private javax.swing.JLabel welcomeSubLabel;
     private javax.swing.JLabel welcomeTitleLabel;
     // End of variables declaration//GEN-END:variables
+
+public javax.swing.JLabel getPatientLabel() {
+    return card1NumberLabel;
+}
+
+public javax.swing.JLabel getDoctorLabel() {
+    return card2NumberLabel;
+}
+
+public javax.swing.JLabel getDepartmentLabel() {
+    return card3NumberLabel;
+}
+
+public javax.swing.JLabel getReceptionistLabel() {
+    return card4NumberLabel;
+}
+
 }
