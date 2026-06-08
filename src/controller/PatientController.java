@@ -297,20 +297,11 @@ public class PatientController {
             }
         }
         
-        String[] answers = securityDAO.getSecurityAnswers(PatientSession.getUserId());
-        if (answers != null && answers.length == 5) {
-            accountPanel.getTxtQ1().setText(answers[0]);
-            accountPanel.getTxtQ2().setText(answers[1]);
-            accountPanel.getTxtQ3().setText(answers[2]);
-            accountPanel.getTxtQ4().setText(answers[3]);
-            accountPanel.getTxtQ5().setText(answers[4]);
-        } else {
-            accountPanel.getTxtQ1().setText("");
-            accountPanel.getTxtQ2().setText("");
-            accountPanel.getTxtQ3().setText("");
-            accountPanel.getTxtQ4().setText("");
-            accountPanel.getTxtQ5().setText("");
-        }
+        accountPanel.getTxtQ1().setText("");
+        accountPanel.getTxtQ2().setText("");
+        accountPanel.getTxtQ3().setText("");
+        accountPanel.getTxtQ4().setText("");
+        accountPanel.getTxtQ5().setText("");
         
         accountPanel.getTxtPhone().setText("");
         accountPanel.getTxtEmail().setText("");
@@ -322,6 +313,20 @@ public class PatientController {
         java.util.Date utilDob = accountPanel.getTxtDob().getDate();
         String phone = accountPanel.getTxtPhone().getText().trim();
         String email = accountPanel.getTxtEmail().getText().trim();
+        if (!email.isEmpty() && !email.startsWith("Enter")) {
+            if (email.contains(" ")) {
+                JOptionPane.showMessageDialog(mainView, "Username must be exactly one word with no spaces.");
+                return;
+            }
+            if (Character.isDigit(email.charAt(0))) {
+                JOptionPane.showMessageDialog(mainView, "Username cannot start with a number.");
+                return;
+            }
+            if (!Character.isLowerCase(email.charAt(0))) {
+                JOptionPane.showMessageDialog(mainView, "Username must start with a lowercase letter.");
+                return;
+            }
+        }
         String newPass = accountPanel.getTxtPassword().getText().trim();
         String currPass = accountPanel.getTxtCurrentPassword().getText().trim();
 
@@ -365,6 +370,15 @@ public class PatientController {
         String a3 = accountPanel.getTxtQ3().getText().trim();
         String a4 = accountPanel.getTxtQ4().getText().trim();
         String a5 = accountPanel.getTxtQ5().getText().trim();
+        
+        String[] existAns = securityDAO.getSecurityAnswers(PatientSession.getUserId());
+        if (existAns != null && existAns.length == 5) {
+            if (a1.isEmpty()) a1 = existAns[0];
+            if (a2.isEmpty()) a2 = existAns[1];
+            if (a3.isEmpty()) a3 = existAns[2];
+            if (a4.isEmpty()) a4 = existAns[3];
+            if (a5.isEmpty()) a5 = existAns[4];
+        }
         
         if (!a1.isEmpty() || !a2.isEmpty() || !a3.isEmpty() || !a4.isEmpty() || !a5.isEmpty()) {
             securityDAO.updateSecurityQuestions(PatientSession.getUserId(),
