@@ -176,43 +176,55 @@ public class UserLoginController {
             return;
         }
 
-        // Decide which identifier to use (if username is not empty, use it, else use phone)
-        String identifier = !username.isEmpty() ? username : phone;
-
-        // Call the DAO checkLogin method using the identifier and password
-        String role = userDAO.checkLogin(identifier, password);
+        // Try logging in with username first
+        String role = null;
+        String successfulIdentifier = "";
+        
+        if (!username.isEmpty()) {
+            role = userDAO.checkLogin(username, password);
+            if (role != null) {
+                successfulIdentifier = username;
+            }
+        }
+        
+        // If username login failed (or was empty), try logging in with phone
+        if (role == null && !phone.isEmpty()) {
+            role = userDAO.checkLogin(phone, password);
+            if (role != null) {
+                successfulIdentifier = phone;
+            }
+        }
 
         // If login is successful (role is found), show welcome popup. Else show error.
         if (role != null) {
             handleRememberMe(username, phone, password);
-            showWelcomePopup(role, username, phone, password);
+            showWelcomePopup(role, username, phone, password, successfulIdentifier);
         } else {
             JOptionPane.showMessageDialog(view, "invalid credentials please try again");
         }
     }
 
-    private void showWelcomePopup(String role, String username, String phone, String password) {
+    private void showWelcomePopup(String role, String username, String phone, String password, String successfulIdentifier) {
         // Immediately close the login view and route
         view.dispose();
 
         switch (role.toLowerCase()) {
             case "patient":
-                String patIdentifier = !username.isEmpty() ? username : phone;
                 String patientId = null;
                 int userId = -1;
                 String patName = "";
                 String actualUsername = "";
                 
                 try {
-                    database.DB db = new database.MySqlConnection();
+                    database.MySqlConnection db = new database.MySqlConnection();
                     java.sql.Connection conn = db.openConnection();
                     java.sql.PreparedStatement ps = conn.prepareStatement(
                         "SELECT p.patient_id, p.full_name, u.user_id, u.username FROM patients p " +
                         "JOIN users u ON p.user_id = u.user_id " +
                         "WHERE LOWER(u.username) = LOWER(?) OR p.contact_number = ? OR LOWER(p.full_name) = LOWER(?)");
-                    ps.setString(1, patIdentifier);
-                    ps.setString(2, patIdentifier);
-                    ps.setString(3, patIdentifier);
+                    ps.setString(1, successfulIdentifier);
+                    ps.setString(2, successfulIdentifier);
+                    ps.setString(3, successfulIdentifier);
                     java.sql.ResultSet rs = ps.executeQuery();
                     if (rs.next()) {
                         patientId = rs.getString("patient_id");
@@ -220,43 +232,45 @@ public class UserLoginController {
                         userId = rs.getInt("user_id");
                         actualUsername = rs.getString("username");
                         
-                        session.PatientSession.setPatientId(patientId);
-                        session.PatientSession.setUserId(userId);
-                        session.PatientSession.setUsername(actualUsername);
-                        session.PatientSession.setRole("patient");
+                        // Session logic removed as per patient_integration branch
                     }
                     db.closeConnection(conn);
                 } catch (Exception ex) { ex.printStackTrace(); }
                 
                 if (patientId != null) {
-                    JOptionPane.showMessageDialog(null, "Welcome, " + patName + "!");
-                    view.Patients patientView = new view.Patients();
-                    patientView.setVisible(true);
+                    JOptionPane.showMessageDialog(null, "Welcome, " + patName + "!\n(Patient Dashboard UI is not available on this branch)");
+                    // view.Patients patientView = new view.Patients();
+                    // patientView.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Could not find Patient profile for this user!");
                 }
                 break;
             case "doctor":
                 // We need to find the specific Doctor ID for this logged in user
-                String identifier = !username.isEmpty() ? username : phone;
                 String doctorId = null;
                 String docName = "";
                 
                 try {
-                    database.DB db = new database.MySqlConnection();
+                    database.MySqlConnection db = new database.MySqlConnection();
                     java.sql.Connection conn = db.openConnection();
+                    
+                    // 1. Try to fetch existing doctor
                     java.sql.PreparedStatement ps = conn.prepareStatement(
-                        "SELECT d.doctor_id, d.full_name FROM doctors d " +
+                        "SELECT d.doctor_id, d.full_name, u.user_id FROM doctors d " +
                         "JOIN users u ON d.user_id = u.user_id " +
                         "WHERE LOWER(u.username) = LOWER(?) OR d.contact_number = ? OR LOWER(d.full_name) = LOWER(?)");
-                    ps.setString(1, identifier);
-                    ps.setString(2, identifier);
-                    ps.setString(3, identifier);
+                    ps.setString(1, successfulIdentifier);
+                    ps.setString(2, successfulIdentifier);
+                    ps.setString(3, successfulIdentifier);
                     java.sql.ResultSet rs = ps.executeQuery();
                     if (rs.next()) {
                         doctorId = rs.getString("doctor_id");
                         docName = rs.getString("full_name");
                     }
+                    
+                    // Doctors should be created by Receptionists or Admins.
+                    // We do NOT auto-create doctors here.
+                    
                     db.closeConnection(conn);
                 } catch (Exception ex) { ex.printStackTrace(); }
                 
