@@ -320,4 +320,82 @@ public class PatientDAO {
         }
         return false;
     }
+
+    public void createTableIfNotExists() {
+        String sql = "CREATE TABLE IF NOT EXISTS queue (" +
+                     "queue_id INT AUTO_INCREMENT PRIMARY KEY, " +
+                     "patient_id VARCHAR(50), " +
+                     "doctor_id VARCHAR(50), " +
+                     "token_number INT, " +
+                     "status VARCHAR(20) DEFAULT 'waiting')";
+        try (Connection conn = MySqlConnection.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Patient getNextWaitingPatient() {
+        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
+                     "p.contact_number, p.address, p.blood_group, p.created_at, p.updated_at FROM patients p " +
+                     "JOIN queue q ON p.patient_id = q.patient_id " +
+                     "WHERE q.status = 'waiting' " +
+                     "ORDER BY q.token_number ASC LIMIT 1";
+        try (Connection conn = MySqlConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                Patient p = new Patient();
+                p.setPatientId(rs.getString("patient_id"));
+                p.setUserId(rs.getInt("user_id"));
+                p.setFullName(rs.getString("full_name"));
+                p.setAge(rs.getInt("age"));
+                p.setGender(rs.getString("gender"));
+                p.setContactNumber(rs.getString("contact_number"));
+                p.setAddress(rs.getString("address"));
+                return p;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean updateQueueStatus(String patientId, String newStatus) {
+        String sql = "UPDATE queue SET status = ? WHERE patient_id = ? AND status != 'completed'";
+        try (Connection conn = MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newStatus);
+            ps.setString(2, patientId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public java.util.List<Object[]> getQueueByDoctor(String doctorId) {
+        java.util.List<Object[]> list = new java.util.ArrayList<>();
+        String sql = "SELECT q.token_number, p.full_name, q.status " +
+                     "FROM queue q JOIN patients p ON q.patient_id = p.patient_id " +
+                     "WHERE q.doctor_id = ? ORDER BY q.token_number ASC";
+        try (Connection conn = MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, doctorId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new Object[]{
+                        rs.getInt("token_number"),
+                        rs.getString("full_name"),
+                        rs.getString("status"),
+                        "View File"
+                    });
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
