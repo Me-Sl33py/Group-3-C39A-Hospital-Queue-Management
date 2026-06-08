@@ -48,6 +48,9 @@ public class ReportPanel extends javax.swing.JPanel {
         summaryTitleLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        lblSearch = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
 
         topBarPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -114,7 +117,7 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addGroup(rcard1Panel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rcard1NumberLabel4)
                     .addComponent(rcard1TextLabel4))
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
         rcard1Panel4Layout.setVerticalGroup(
             rcard1Panel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,11 +133,11 @@ public class ReportPanel extends javax.swing.JPanel {
 
         rcard2NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         rcard2NumberLabel.setForeground(new java.awt.Color(255, 255, 255));
-        rcard2NumberLabel.setText("Rs 24k");
+        rcard2NumberLabel.setText("5");
 
         rcard2TextLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
         rcard2TextLabel.setForeground(new java.awt.Color(210, 228, 255));
-        rcard2TextLabel.setText("Revenue");
+        rcard2TextLabel.setText("Total Doctor");
 
         javax.swing.GroupLayout rcard2PanelLayout = new javax.swing.GroupLayout(rcard2Panel);
         rcard2Panel.setLayout(rcard2PanelLayout);
@@ -145,7 +148,7 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addGroup(rcard2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rcard2NumberLabel)
                     .addComponent(rcard2TextLabel))
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
         rcard2PanelLayout.setVerticalGroup(
             rcard2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,11 +164,11 @@ public class ReportPanel extends javax.swing.JPanel {
 
         rcard3NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 30)); // NOI18N
         rcard3NumberLabel.setForeground(new java.awt.Color(255, 255, 255));
-        rcard3NumberLabel.setText("92%");
+        rcard3NumberLabel.setText("15");
 
         rcard3TextLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
         rcard3TextLabel.setForeground(new java.awt.Color(210, 228, 255));
-        rcard3TextLabel.setText("Fees collected");
+        rcard3TextLabel.setText("Appointment this month");
 
         javax.swing.GroupLayout rcard3PanelLayout = new javax.swing.GroupLayout(rcard3Panel);
         rcard3Panel.setLayout(rcard3PanelLayout);
@@ -176,7 +179,7 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addGroup(rcard3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rcard3NumberLabel)
                     .addComponent(rcard3TextLabel))
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
         rcard3PanelLayout.setVerticalGroup(
             rcard3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +199,7 @@ public class ReportPanel extends javax.swing.JPanel {
 
         rcard4TextLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
         rcard4TextLabel.setForeground(new java.awt.Color(210, 228, 255));
-        rcard4TextLabel.setText("Pending dues");
+        rcard4TextLabel.setText("Department");
 
         javax.swing.GroupLayout rcard4PanelLayout = new javax.swing.GroupLayout(rcard4Panel);
         rcard4Panel.setLayout(rcard4PanelLayout);
@@ -207,7 +210,7 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addGroup(rcard4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rcard4NumberLabel)
                     .addComponent(rcard4TextLabel))
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         rcard4PanelLayout.setVerticalGroup(
             rcard4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,6 +263,12 @@ public class ReportPanel extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(jTable1);
 
+        lblSearch.setText("Search User:");
+
+        btnSearch.setBackground(new java.awt.Color(13, 110, 253));
+        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch.setText("Search");
+
         javax.swing.GroupLayout summaryCardPanelLayout = new javax.swing.GroupLayout(summaryCardPanel);
         summaryCardPanel.setLayout(summaryCardPanelLayout);
         summaryCardPanelLayout.setHorizontalGroup(
@@ -267,21 +276,33 @@ public class ReportPanel extends javax.swing.JPanel {
             .addGroup(summaryCardPanelLayout.createSequentialGroup()
                 .addGroup(summaryCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(summaryCardPanelLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                        .addGap(343, 343, 343)
                         .addComponent(summaryTitleLabel))
                     .addGroup(summaryCardPanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 928, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(203, 203, 203)
+                        .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(summaryCardPanelLayout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 975, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         summaryCardPanelLayout.setVerticalGroup(
             summaryCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(summaryCardPanelLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addContainerGap()
                 .addComponent(summaryTitleLabel)
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addGap(106, 106, 106)
+                .addGroup(summaryCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainContentPanelLayout = new javax.swing.GroupLayout(mainContentPanel);
@@ -300,9 +321,9 @@ public class ReportPanel extends javax.swing.JPanel {
             .addGroup(mainContentPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(cardsRowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGap(87, 87, 87)
                 .addComponent(summaryCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -313,7 +334,7 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(topBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(mainContentPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,7 +343,7 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addComponent(topBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
                 .addComponent(mainContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(237, 237, 237))
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -330,9 +351,11 @@ public class ReportPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel adminCircleLabel;
     private javax.swing.JLabel adminNameLabel;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JPanel cardsRowPanel;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblSearch;
     private javax.swing.JPanel mainContentPanel;
     private javax.swing.JLabel pageTitleLabel;
     private javax.swing.JLabel rcard1NumberLabel4;
@@ -350,6 +373,7 @@ public class ReportPanel extends javax.swing.JPanel {
     private javax.swing.JPanel summaryCardPanel;
     private javax.swing.JLabel summaryTitleLabel;
     private javax.swing.JPanel topBarPanel;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
 public javax.swing.JLabel getRcard1NumberLabel() { return rcard1NumberLabel4; }
@@ -357,5 +381,6 @@ public javax.swing.JLabel getRcard2NumberLabel() { return rcard2NumberLabel; }
 public javax.swing.JLabel getRcard3NumberLabel() { return rcard3NumberLabel; }
 public javax.swing.JLabel getRcard4NumberLabel() { return rcard4NumberLabel; }
 public javax.swing.JTable getJTable1()           { return jTable1; }
-
+public javax.swing.JTextField getSearchField() { return txtSearch; }
+public javax.swing.JButton getSearchButton()   { return btnSearch; }
 }
