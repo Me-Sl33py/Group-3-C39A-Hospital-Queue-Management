@@ -33,7 +33,7 @@ public class DoctorController {
     // =========================================================================
     public DoctorController(DoctorPanel view) {
         this.view       = view;
-        this.patientDAO = new PatientDao();
+        this.patientDAO = new PatientDAO();
         this.recordDAO  = new MedicalRecordDAO();
         this.doctorDAO  = new DoctorDAO();
 

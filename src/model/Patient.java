@@ -1,6 +1,5 @@
 package model;
 
-<<<<<<< HEAD
 /**
  * Model class for Patient — maps to the 'patients' table
  * Contains constructor, getters and setters
