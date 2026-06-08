@@ -53,8 +53,14 @@ public class RegisterWalkinController {
             return;
         }
 
+        // Phone validation: only numbers
+        if (!phone.matches("^[0-9]+$")) {
+            JOptionPane.showMessageDialog(view, "Phone number can only contain numbers.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         // Phone validation: exactly 10 digits
-        if (!phone.matches("^\\d{10}$")) {
+        if (phone.length() != 10) {
             JOptionPane.showMessageDialog(view, "Phone number must be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
