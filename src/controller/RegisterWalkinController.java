@@ -94,11 +94,10 @@ public class RegisterWalkinController {
             age--;
         }
 
-        // Generate a short ID to fit inside VARCHAR(10) or VARCHAR(15)
-        String patientId = "P-" + (100000 + (int)(Math.random() * 899999));
+        dao.PatientDAO patientDAO = new dao.PatientDAO();
+        String patientId = patientDAO.generatePatientId();
         model.Patient patient = new model.Patient(patientId, name, sqlDob, age, gender, phone, "", bloodGroup, "", new java.sql.Timestamp(System.currentTimeMillis()));
 
-        dao.PatientDAO patientDAO = new dao.PatientDAO();
         String savedId = patientDAO.insertPatient(patient);
 
         if (savedId != null) {
