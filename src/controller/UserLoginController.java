@@ -275,7 +275,37 @@ public class UserLoginController {
                 }
                 break;
             case "receptionist":
-                // new ReceptionistDashboard().setVisible(true);
+                // We need to find the specific Receptionist ID for this logged in user
+                String recIdentifier = !username.isEmpty() ? username : phone;
+                int recUserId = -1;
+                String recName = "";
+                
+                try {
+                    database.DB db = new database.MySqlConnection();
+                    java.sql.Connection conn = db.openConnection();
+                    java.sql.PreparedStatement ps = conn.prepareStatement(
+                        "SELECT r.receptionist_id, r.full_name, u.user_id FROM receptionists r " +
+                        "JOIN users u ON r.user_id = u.user_id " +
+                        "WHERE LOWER(u.username) = LOWER(?) OR r.contact_number = ? OR LOWER(r.full_name) = LOWER(?)");
+                    ps.setString(1, recIdentifier);
+                    ps.setString(2, recIdentifier);
+                    ps.setString(3, recIdentifier);
+                    java.sql.ResultSet rs = ps.executeQuery();
+                    if (rs.next()) {
+                        recUserId = rs.getInt("user_id");
+                        recName = rs.getString("full_name");
+                    }
+                    db.closeConnection(conn);
+                } catch (Exception ex) { ex.printStackTrace(); }
+                
+                if (recUserId != -1) {
+                    JOptionPane.showMessageDialog(null, "Welcome, " + recName + "!");
+                    view.WithTabbedPane rFrame = new view.WithTabbedPane();
+                    controller.MainController rController = new controller.MainController(rFrame, recUserId);
+                    rFrame.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Could not find Receptionist profile for this user!");
+                }
                 break;
             case "admin":
                 // new AdminDashboard().setVisible(true);

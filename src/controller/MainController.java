@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 public class MainController {
 
     private final WithTabbedPane mainFrame;
+    private final int currentUserId;
 
     // Sub-controllers
     private DashboardController dashboardController;
@@ -15,8 +16,9 @@ public class MainController {
     private AssignToDoctorController assignToDoctorController;
     private ReceptionistAccountSettingsController receptionistAccountSettingsController;
 
-    public MainController(WithTabbedPane mainFrame) {
+    public MainController(WithTabbedPane mainFrame, int currentUserId) {
         this.mainFrame = mainFrame;
+        this.currentUserId = currentUserId;
         
         initComponents();
         initEventHandlers();
@@ -32,7 +34,7 @@ public class MainController {
         this.registerWalkinController = new RegisterWalkinController(mainFrame.getRegisterWalkinView(), mainFrame);
         this.generateTokenController = new GenerateTokenController(mainFrame.getGenerateTokenView(), mainFrame);
         this.assignToDoctorController = new AssignToDoctorController(mainFrame.getAssignToDoctorView(), mainFrame);
-        this.receptionistAccountSettingsController = new ReceptionistAccountSettingsController(mainFrame.getReceptionistAccountSettingsView(), mainFrame);
+        this.receptionistAccountSettingsController = new ReceptionistAccountSettingsController(mainFrame.getReceptionistAccountSettingsView(), mainFrame, currentUserId);
         
         // Pass sub-controllers to main frame just in case other parts of the application need them
         mainFrame.setDashboardController(this.dashboardController);
