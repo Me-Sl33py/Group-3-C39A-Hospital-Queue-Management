@@ -27,7 +27,7 @@ public class PatientController {
     private LogoutPanel logoutPanel;
     private javax.swing.JScrollPane accountScrollPane;
     
-    private PatientDao patientDAO = new PatientDao();
+    private PatientDAO patientDAO = new PatientDAO();
     private DepartmentDAO departmentDAO = new DepartmentDAO();
     private DoctorDAO doctorDAO = new DoctorDAO();
     private AppointmentDAO appointmentDAO = new AppointmentDAO();

@@ -1,6 +1,6 @@
 package controller;
 
-import dao.PatientDao;
+import dao.PatientDAO;
 import view.SignUp;
 import view.UserLogin;
 import javax.swing.JOptionPane;
@@ -46,7 +46,7 @@ public class RegistrationController {
     private SignUp view;
 
     // Reference to the PatientDao — used to perform all DB operations
-    private PatientDao patientDao;
+    private PatientDAO patientDao;
 
     // ==================== Theme Colors ====================
     // (Moved from SignUp view — all styling logic belongs in the controller)
@@ -65,7 +65,7 @@ public class RegistrationController {
      */
     public RegistrationController(SignUp view) {
         this.view = view;
-        this.patientDao = new PatientDao();
+        this.patientDao = new PatientDAO();
 
         // Set up styles (borders, colours, images) — moved from SignUp view
         setupStyles();
