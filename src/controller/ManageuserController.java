@@ -79,21 +79,33 @@ public class ManageUserController {
     }
 
     private void updateUser() {
-        if (selectedUserId == -1) {
-            JOptionPane.showMessageDialog(parentFrame, "Please select a user first.",
-                "No Selection", JOptionPane.WARNING_MESSAGE); return;
-        }
-        String status = panel.getCmbStatus().getSelectedItem().toString().toLowerCase();
-        String gender = panel.getCmbGender().getSelectedItem().toString().toLowerCase();
-        String phone  = panel.getTxtPhone().getText().trim();
-
-        boolean ok = dao.updateUser(selectedUserId, status, gender, phone);
-        JOptionPane.showMessageDialog(parentFrame,
-            ok ? "User updated successfully!" : "Failed to update user.",
-            ok ? "Success" : "Error",
-            ok ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
-        if (ok) { loadAllUsers(); clearFields(); }
+    if (selectedUserId == -1) {
+        JOptionPane.showMessageDialog(parentFrame, "Please select a user first.",
+            "No Selection", JOptionPane.WARNING_MESSAGE); return;
     }
+    String status  = panel.getCmbStatus().getSelectedItem().toString().toLowerCase();
+    String gender  = panel.getCmbGender().getSelectedItem().toString().toLowerCase();
+    String phone   = panel.getTxtPhone().getText().trim();
+    String newPass = panel.getTxtChangePassword().getText().trim();
+
+    boolean ok = dao.updateUser(selectedUserId, status, gender, phone);
+
+    if (ok && !newPass.isEmpty()) {
+        boolean passOk = dao.changePassword(selectedUserId, newPass);
+        JOptionPane.showMessageDialog(parentFrame,
+            passOk ? "Password changed successfully!" : "Failed to change password.",
+            passOk ? "Success" : "Error",
+            passOk ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
+        panel.getTxtChangePassword().setText("");
+    }
+
+    JOptionPane.showMessageDialog(parentFrame,
+        ok ? "User updated successfully!" : "Failed to update user.",
+        ok ? "Success" : "Error",
+        ok ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
+
+    if (ok) { loadAllUsers(); clearFields(); }
+}
 
     private void toggleUserStatus() {
         if (selectedUserId == -1) {
@@ -132,16 +144,17 @@ public class ManageUserController {
 
     public void loadAllUsers() { searchUsers(""); }
 
-    private void clearFields() {
-        selectedUserId = -1;
-        panel.getTxtFullName().setText("");
-        panel.getTxtPhone().setText("");
-        panel.getTxtDob().setText("");
-        panel.getCmbRole().setSelectedIndex(0);
-        panel.getCmbStatus().setSelectedIndex(0);
-        panel.getCmbGender().setSelectedIndex(0);
-        panel.getTblUsers().clearSelection();
-    }
+   private void clearFields() {
+    selectedUserId = -1;
+    panel.getTxtFullName().setText("");
+    panel.getTxtPhone().setText("");
+    panel.getTxtDob().setText("");
+    panel.getTxtChangePassword().setText(""); // ← add this
+    panel.getCmbRole().setSelectedIndex(0);
+    panel.getCmbStatus().setSelectedIndex(0);
+    panel.getCmbGender().setSelectedIndex(0);
+    panel.getTblUsers().clearSelection();
+}
 
     private void resetDeactivateButton() {
         panel.getBtnDeactivateUser().setText("Deactivate User");
