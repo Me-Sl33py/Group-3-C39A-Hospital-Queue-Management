@@ -11,14 +11,14 @@ public class ReceptionistAccountSettingsController {
     private final WithTabbedPane mainFrame;
     private final ReceptionistDAO dao;
     
-    // We hardcode userId 3 (Ram Receptionist) since there is no login manager yet
-    private final int currentUserId = 3; 
+    private final int currentUserId; 
     private String currentDbPassword = "";
 
-    public ReceptionistAccountSettingsController(ReceptionistAccountSettingsView view, WithTabbedPane mainFrame) {
+    public ReceptionistAccountSettingsController(ReceptionistAccountSettingsView view, WithTabbedPane mainFrame, int currentUserId) {
         this.view = view;
         this.mainFrame = mainFrame;
         this.dao = new ReceptionistDAO();
+        this.currentUserId = currentUserId;
         
         initEventHandlers();
         loadProfileData();
