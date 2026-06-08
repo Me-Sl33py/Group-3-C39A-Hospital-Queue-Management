@@ -97,7 +97,7 @@ public class ForgotPassword extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Full Name *");
+        jLabel1.setText("Full Name or UserName *");
 
         FullNameBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         FullNameBox.addActionListener(this::FullNameBoxActionPerformed);
@@ -109,7 +109,7 @@ public class ForgotPassword extends javax.swing.JFrame {
         PhoneNumberBox.addActionListener(this::PhoneNumberBoxActionPerformed);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("DOB *");
+        jLabel3.setText("DOB ");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Location");

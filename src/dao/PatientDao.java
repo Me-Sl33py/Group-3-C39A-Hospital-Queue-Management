@@ -304,7 +304,7 @@ public class PatientDao {
         List<Patient> list = new ArrayList<>();
         String sql = "SELECT patient_id, user_id, full_name, age, gender, " +
                      "contact_number, address FROM patients";
-        try (Connection conn = dao.DatabaseConnection.getConnection();
+        try (Connection conn = database.MySqlConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) list.add(mapRow(rs));
@@ -316,9 +316,9 @@ public class PatientDao {
 
     // Get patient by ID
     public Patient getPatientById(String patientId) {
-        String sql = "SELECT patient_id, user_id, full_name, age, gender, " +
-                     "contact_number, address FROM patients WHERE patient_id = ?";
-        try (Connection conn = dao.DatabaseConnection.getConnection();
+        String sql = "SELECT patient_id, user_id, full_name, dob, age, gender, " +
+                     "contact_number, address, blood_group FROM patients WHERE patient_id = ?";
+        try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -332,12 +332,12 @@ public class PatientDao {
 
     // Get next waiting patient from queue table
     public Patient getNextWaitingPatient() {
-        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.age, p.gender, " +
+        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
                      "p.contact_number, p.address FROM patients p " +
                      "JOIN queue q ON p.patient_id = q.patient_id " +
                      "WHERE q.status = 'waiting' " +
                      "ORDER BY q.token_number ASC LIMIT 1";
-        try (Connection conn = dao.DatabaseConnection.getConnection();
+        try (Connection conn = database.MySqlConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             if (rs.next()) return mapRow(rs);
@@ -351,7 +351,7 @@ public class PatientDao {
     public boolean updateQueueStatus(String patientId, String newStatus) {
         String sql = "UPDATE queue SET status = ? WHERE patient_id = ? " +
                      "AND status != 'completed'";
-        try (Connection conn = dao.DatabaseConnection.getConnection();
+        try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newStatus);
             ps.setString(2, patientId);
@@ -368,7 +368,7 @@ public class PatientDao {
         String sql = "SELECT q.token_number, p.full_name, q.status " +
                      "FROM queue q JOIN patients p ON q.patient_id = p.patient_id " +
                      "WHERE q.doctor_id = ? ORDER BY q.token_number ASC";
-        try (Connection conn = dao.DatabaseConnection.getConnection();
+        try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, doctorId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -388,7 +388,7 @@ public class PatientDao {
     }
 
     private Patient mapRow(ResultSet rs) throws SQLException {
-        return new Patient(
+        Patient p = new Patient(
             rs.getString("patient_id"),
             rs.getInt("user_id"),
             rs.getString("full_name"),
@@ -397,5 +397,86 @@ public class PatientDao {
             rs.getString("contact_number"),
             rs.getString("address")
         );
+        p.setDob(rs.getDate("dob"));
+        try {
+            p.setBloodGroup(rs.getString("blood_group"));
+        } catch (SQLException e) {
+            // blood_group might not be in the SELECT clause of some queries
+        }
+        return p;
+    }
+
+    public String getUsernameByUserId(int userId) {
+        String sql = "SELECT username FROM users WHERE user_id = ?";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getString("username");
+            }
+        } catch (SQLException e) {
+            System.err.println("getUsernameByUserId error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean validateCurrentPassword(int userId, String currentPassword) {
+        String sql = "SELECT 1 FROM users WHERE user_id = ? AND password = ?";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setString(2, currentPassword);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.err.println("validateCurrentPassword error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updatePatientProfile(String patientId, java.util.Date dob, int age, String phone, String address, String bloodGroup) {
+        String sql = "UPDATE patients SET dob = ?, age = ?, contact_number = ?, address = ?, blood_group = ? WHERE patient_id = ?";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            if (dob != null) ps.setDate(1, new java.sql.Date(dob.getTime()));
+            else ps.setNull(1, java.sql.Types.DATE);
+            ps.setInt(2, age);
+            ps.setString(3, phone);
+            ps.setString(4, address);
+            ps.setString(5, bloodGroup);
+            ps.setString(6, patientId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("updatePatientProfile error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateUsernameAndPassword(int userId, String username, String password) {
+        String sql = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setInt(3, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("updateUsernameAndPassword error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateUsername(int userId, String username) {
+        String sql = "UPDATE users SET username = ? WHERE user_id = ?";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("updateUsername error: " + e.getMessage());
+            return false;
+        }
     }
 }
