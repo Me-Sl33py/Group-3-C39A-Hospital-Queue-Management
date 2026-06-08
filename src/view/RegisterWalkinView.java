@@ -42,6 +42,9 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 10);
         formPanel.add(cbBloodGroup, gridBagConstraints);
 
+        if (reasonScroll != null) {
+            reasonScroll.setVisible(false);
+        }
     }
 
     
