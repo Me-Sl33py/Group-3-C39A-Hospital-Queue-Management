@@ -11,7 +11,7 @@ public class RegisterWalkinController {
         this.view = view;
         this.mainFrame = mainFrame;
         if (view.getCbGender() != null) {
-            view.getCbGender().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Gender", "Male", "Female", "Others" }));
+            view.getCbGender().setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Gender", "Male", "Female", "Others", "Prefer not to say" }));
         }
         initEventHandlers();
         loadInitialData();
