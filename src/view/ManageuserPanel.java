@@ -34,10 +34,10 @@ public class ManageuserPanel extends javax.swing.JPanel {
         tblUsers = new javax.swing.JTable();
         pnlDetails = new javax.swing.JPanel();
         lblFullName = new javax.swing.JLabel();
-        txtFullName = new javax.swing.JTextField();
+        password = new javax.swing.JTextField();
         DOB = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        lblPhone = new javax.swing.JLabel();
+        changepassword = new javax.swing.JLabel();
         txtPhone = new javax.swing.JTextField();
         lblRole = new javax.swing.JLabel();
         cmbRole = new javax.swing.JComboBox<>();
@@ -45,6 +45,8 @@ public class ManageuserPanel extends javax.swing.JPanel {
         cmbGender = new javax.swing.JComboBox<>();
         lblStatus = new javax.swing.JLabel();
         cmbStatus = new javax.swing.JComboBox<>();
+        txtFullName1 = new javax.swing.JTextField();
+        lblPhone1 = new javax.swing.JLabel();
         btnUpdateUser = new javax.swing.JButton();
         btnDeactivateUser = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
@@ -93,8 +95,8 @@ public class ManageuserPanel extends javax.swing.JPanel {
         lblFullName.setText("Full Name");
         pnlDetails.add(lblFullName);
         lblFullName.setBounds(20, 30, 70, 20);
-        pnlDetails.add(txtFullName);
-        txtFullName.setBounds(100, 30, 200, 26);
+        pnlDetails.add(password);
+        password.setBounds(120, 160, 200, 26);
 
         DOB.setText("Date of birth");
         pnlDetails.add(DOB);
@@ -102,9 +104,9 @@ public class ManageuserPanel extends javax.swing.JPanel {
         pnlDetails.add(txtEmail);
         txtEmail.setBounds(460, 30, 200, 26);
 
-        lblPhone.setText("Phone");
-        pnlDetails.add(lblPhone);
-        lblPhone.setBounds(20, 70, 70, 20);
+        changepassword.setText("Change Password");
+        pnlDetails.add(changepassword);
+        changepassword.setBounds(10, 160, 110, 20);
         pnlDetails.add(txtPhone);
         txtPhone.setBounds(100, 70, 200, 26);
 
@@ -131,9 +133,15 @@ public class ManageuserPanel extends javax.swing.JPanel {
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive" }));
         pnlDetails.add(cmbStatus);
         cmbStatus.setBounds(460, 110, 200, 26);
+        pnlDetails.add(txtFullName1);
+        txtFullName1.setBounds(100, 30, 200, 26);
+
+        lblPhone1.setText("Phone");
+        pnlDetails.add(lblPhone1);
+        lblPhone1.setBounds(20, 70, 70, 20);
 
         jPanel1.add(pnlDetails);
-        pnlDetails.setBounds(130, 500, 810, 200);
+        pnlDetails.setBounds(130, 500, 810, 220);
 
         btnUpdateUser.setBackground(new java.awt.Color(13, 110, 253));
         btnUpdateUser.setForeground(new java.awt.Color(255, 255, 255));
@@ -218,6 +226,7 @@ public class ManageuserPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateUser;
+    private javax.swing.JLabel changepassword;
     private javax.swing.JComboBox<String> cmbGender;
     private javax.swing.JComboBox<String> cmbRole;
     private javax.swing.JComboBox<String> cmbStatus;
@@ -225,16 +234,17 @@ public class ManageuserPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JLabel lblGender;
-    private javax.swing.JLabel lblPhone;
+    private javax.swing.JLabel lblPhone1;
     private javax.swing.JLabel lblRole;
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel pageTitleLabel;
+    private javax.swing.JTextField password;
     private javax.swing.JPanel pnlDetails;
     private javax.swing.JTable tblUsers;
     private javax.swing.JPanel topBarPanel;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtFullName;
+    private javax.swing.JTextField txtFullName1;
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
@@ -244,12 +254,12 @@ public javax.swing.JButton getBtnUpdateUser()    { return btnUpdateUser; }
 public javax.swing.JButton getBtnDeactivateUser(){ return btnDeactivateUser; }
 public javax.swing.JButton getBtnRefresh()       { return btnRefresh; }
 public javax.swing.JTextField getTxtSearch()     { return txtSearch; }
-public javax.swing.JTextField getTxtFullName()   { return txtFullName; }
+public javax.swing.JTextField getTxtFullName()   { return password; }
 public javax.swing.JTextField getTxtPhone()      { return txtPhone; }
 public javax.swing.JTextField getTxtDob() { return txtEmail; }
 public javax.swing.JComboBox<String> getCmbRole()  { return cmbRole; }
 public javax.swing.JComboBox<String> getCmbStatus(){ return cmbStatus; }
 public javax.swing.JComboBox<String> getCmbGender(){ return cmbGender; }
 public javax.swing.JTable getTblUsers()          { return tblUsers; }
-
+public javax.swing.JTextField getTxtChangePassword() { return password; }
 }
