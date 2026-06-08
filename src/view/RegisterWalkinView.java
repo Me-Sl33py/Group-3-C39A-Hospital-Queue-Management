@@ -42,18 +42,6 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 10);
         formPanel.add(cbBloodGroup, gridBagConstraints);
 
-        java.awt.GridBagLayout layout = (java.awt.GridBagLayout) formPanel.getLayout();
-        gridBagConstraints = layout.getConstraints(lblReasonLabel);
-        gridBagConstraints.gridy = 6;
-        layout.setConstraints(lblReasonLabel, gridBagConstraints);
-
-        gridBagConstraints = layout.getConstraints(reasonScroll);
-        gridBagConstraints.gridy = 7;
-        layout.setConstraints(reasonScroll, gridBagConstraints);
-        
-        lblReasonLabel.setVisible(false);
-        reasonScroll.setVisible(false);
-        taReason.setVisible(false);
     }
 
     
@@ -64,7 +52,6 @@ public class RegisterWalkinView extends javax.swing.JPanel {
     public JComboBox<String> getCbGender() { return cbGender; }
     public JComboBox<String> getCbBloodGroup() { return cbBloodGroup; }
     public JTextField getTfPhone() { return tfPhone; }
-    public JTextArea getTaReason() { return taReason; }
 
     public JButton getBtnReset() { return btnReset; }
     public JButton getBtnSaveContinue() { return btnSaveContinue; }
@@ -95,9 +82,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         lblPhoneLabel = new javax.swing.JLabel();
         cbGender = new javax.swing.JComboBox();
         tfPhone = new javax.swing.JTextField();
-        lblReasonLabel = new javax.swing.JLabel();
         reasonScroll = new javax.swing.JScrollPane();
-        taReason = new javax.swing.JTextArea();
         rightColumnPanel = new javax.swing.JPanel();
         loadCard = new javax.swing.JPanel();
         lblLoadTitle = new javax.swing.JLabel();
@@ -266,24 +251,6 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 15, 20);
         formPanel.add(tfPhone, gridBagConstraints);
-
-        lblReasonLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblReasonLabel.setText("Reason");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 20);
-        formPanel.add(lblReasonLabel, gridBagConstraints);
-
-        taReason.setColumns(20);
-        taReason.setLineWrap(true);
-        taReason.setRows(5);
-        taReason.setWrapStyleWord(true);
-        reasonScroll.setViewportView(taReason);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -500,7 +467,6 @@ public class RegisterWalkinView extends javax.swing.JPanel {
     private javax.swing.JLabel lblLoadVal;
     private javax.swing.JLabel lblNameLabel;
     private javax.swing.JLabel lblPhoneLabel;
-    private javax.swing.JLabel lblReasonLabel;
     private javax.swing.JLabel lblTip1;
     private javax.swing.JLabel lblTip2;
     private javax.swing.JLabel lblTip3;
@@ -512,7 +478,6 @@ public class RegisterWalkinView extends javax.swing.JPanel {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JScrollPane reasonScroll;
     private javax.swing.JPanel rightColumnPanel;
-    private javax.swing.JTextArea taReason;
     private com.toedter.calendar.JDateChooser tfDob;
     private javax.swing.JTextField tfName;
     private javax.swing.JTextField tfPhone;
