@@ -13,11 +13,16 @@ public class DashboardController {
     public DashboardController(DashboardPanel panel) {
         this.panel = panel;
         this.dao   = new DashboardDAO();
+        initListeners();
+    }
+
+    private void initListeners() {
+        panel.getSearchButton().addActionListener(e -> searchUsers());
     }
 
     public void loadAll() {
         loadCards();
-        loadTable();
+        loadTable("");
     }
 
     private void loadCards() {
@@ -27,13 +32,18 @@ public class DashboardController {
         panel.getCard4NumberLabel().setText(String.valueOf(dao.getReceptionistCount()));
     }
 
-    private void loadTable() {
+    private void searchUsers() {
+        String keyword = panel.getSearchField().getText().trim();
+        loadTable(keyword);
+    }
+
+    private void loadTable(String keyword) {
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"ID", "User", "Enrolled", "Status", "Gender", "Role"}, 0
         ) {
             public boolean isCellEditable(int r, int c) { return false; }
         };
-        List<String[]> rows = dao.getRecentUsers();
+        List<String[]> rows = dao.searchUsers(keyword);
         for (String[] row : rows) model.addRow(row);
         panel.getDashboardTable().setModel(model);
     }
