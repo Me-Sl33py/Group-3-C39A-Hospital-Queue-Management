@@ -12,7 +12,7 @@ public class DoctorDAO {
                      "FROM doctors d " +
                      "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
                      "WHERE d.doctor_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, doctorId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -27,7 +27,7 @@ public class DoctorDAO {
     public boolean updateDoctorProfile(Doctor doctor) {
         String sql = "UPDATE doctors SET full_name = ?, specialization = ?, " +
                      "contact_number = ? WHERE doctor_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, doctor.getFullName());
             ps.setString(2, doctor.getSpecialization());
@@ -47,7 +47,7 @@ public class DoctorDAO {
                      "FROM doctors d " +
                      "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
                      "WHERE d.department_id = ? AND d.availability = 'available'";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, departmentId);
             try (ResultSet rs = ps.executeQuery()) {

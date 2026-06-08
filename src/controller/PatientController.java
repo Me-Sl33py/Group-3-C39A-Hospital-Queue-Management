@@ -85,6 +85,18 @@ public class PatientController {
 
         mainView.btnLogout.addActionListener(e -> showPanel(logoutPanel));
         
+        logoutPanel.getBtnCancel().addActionListener(e -> {
+            loadHomeData();
+            showPanel(homePanel);
+        });
+        
+        logoutPanel.getBtnLogout().addActionListener(e -> {
+            session.PatientSession.clearSession();
+            mainView.dispose();
+            view.UserLogin loginView = new view.UserLogin();
+            loginView.setVisible(true);
+        });
+
         // Home Panel Buttons
         homePanel.getBtnBookNow().addActionListener(e -> {
             loadAppointmentData();
@@ -98,8 +110,9 @@ public class PatientController {
 
         // Appointment Panel Logic
         appointmentPanel.getCmbDepartment().addActionListener(e -> {
-            Department selectedDept = (Department) appointmentPanel.getCmbDepartment().getSelectedItem();
-            if (selectedDept != null) {
+            Object item = appointmentPanel.getCmbDepartment().getSelectedItem();
+            if (item instanceof Department) {
+                Department selectedDept = (Department) item;
                 List<Doctor> docs = doctorDAO.getAvailableDoctorsByDepartment(selectedDept.getDepartmentId());
                 appointmentPanel.getCmbDoctor().removeAllItems();
                 for (Doctor d : docs) {
@@ -155,18 +168,23 @@ public class PatientController {
     }
 
     private void loadAppointmentData() {
-        appointmentPanel.getCmbDepartment().removeAllItems();
-        List<Department> depts = departmentDAO.getAllDepartments();
-        if (depts == null || depts.isEmpty()) {
-            JOptionPane.showMessageDialog(mainView, "Warning: No departments available in the system.");
-        } else {
-            for (Department d : depts) {
-                appointmentPanel.getCmbDepartment().addItem(d);
+        try {
+            appointmentPanel.getCmbDepartment().removeAllItems();
+            List<Department> depts = departmentDAO.getAllDepartments();
+            if (depts == null || depts.isEmpty()) {
+                JOptionPane.showMessageDialog(mainView, "Warning: No departments available in the system.");
+            } else {
+                for (Department d : depts) {
+                    appointmentPanel.getCmbDepartment().addItem(d);
+                }
             }
-        }
 
-        appointmentPanel.getCmbDate().setDate(java.sql.Date.valueOf(LocalDate.now().plusDays(1)));
-        appointmentPanel.getTxtTime().setText("10:30");
+            appointmentPanel.getCmbDate().setDate(java.sql.Date.valueOf(LocalDate.now().plusDays(1)));
+            appointmentPanel.getTxtTime().setText("10:30");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(mainView, "Error loading appointment data: " + ex.getMessage() + "\n" + ex.toString());
+        }
     }
 
     private void confirmAppointment() {

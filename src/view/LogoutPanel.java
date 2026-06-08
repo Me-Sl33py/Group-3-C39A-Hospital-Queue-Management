@@ -102,5 +102,8 @@ public class LogoutPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+
+    public javax.swing.JButton getBtnLogout() { return btnLogout; }
+    public javax.swing.JButton getBtnCancel() { return btnCancel; }
     // End of variables declaration//GEN-END:variables
 }

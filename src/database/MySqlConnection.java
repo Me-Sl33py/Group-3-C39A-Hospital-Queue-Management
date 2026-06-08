@@ -27,6 +27,13 @@ public class MySqlConnection implements DB {
     private static final String DB_URL      = "jdbc:mysql://localhost:3306/" + DB_NAME;
 
     /**
+     * Static helper method to get a connection directly.
+     */
+    public static Connection getConnection() {
+        return new MySqlConnection().openConnection();
+    }
+
+    /**
      * Opens and returns a MySQL database connection.
      * @return Connection object, or null if connection failed
      */

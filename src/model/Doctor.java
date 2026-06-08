@@ -40,4 +40,9 @@ public class Doctor {
     public void setDepartmentName(String departmentName) { this.departmentName = departmentName; } // ADD THIS
     public void setContactNumber(String contactNumber)   { this.contactNumber  = contactNumber;  }
     public void setAvailability(String availability)     { this.availability   = availability;   }
+
+    @Override
+    public String toString() {
+        return fullName != null ? "Dr. " + fullName : "Unknown Doctor";
+    }
 }

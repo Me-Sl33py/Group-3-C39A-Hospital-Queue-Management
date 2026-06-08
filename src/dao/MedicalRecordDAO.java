@@ -20,7 +20,7 @@ public class MedicalRecordDAO {
         String sql = "INSERT INTO medical_records " +
                      "(appointment_id, patient_id, doctor_id, diagnosis, prescription, notes) " +
                      "VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, record.getAppointmentId());
             ps.setString(2, record.getPatientId());
@@ -44,7 +44,7 @@ public class MedicalRecordDAO {
                      "LEFT JOIN doctors d ON m.doctor_id = d.doctor_id " +
                      "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
                      "WHERE m.patient_id = ? ORDER BY m.created_at DESC";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
             try (ResultSet rs = ps.executeQuery()) {
