@@ -5,7 +5,7 @@ public class Doctor {
     private String fullName;
     private String specialization;
     private int    departmentId;
-    private String departmentName;   // ADD THIS
+    private String departmentName;
     private String contactNumber;
     private String availability;
 
@@ -23,12 +23,20 @@ public class Doctor {
         this.availability   = availability;
     }
 
+    public Doctor(String doctorId, String fullName, String specialization, int departmentId, String availability) {
+        this.doctorId = doctorId;
+        this.fullName = fullName;
+        this.specialization = specialization;
+        this.departmentId = departmentId;
+        this.availability = availability;
+    }
+
     public String getDoctorId()         { return doctorId;       }
     public int    getUserId()           { return userId;         }
     public String getFullName()         { return fullName;       }
     public String getSpecialization()   { return specialization; }
     public int    getDepartmentId()     { return departmentId;   }
-    public String getDepartmentName()   { return departmentName; }   // ADD THIS
+    public String getDepartmentName()   { return departmentName; }
     public String getContactNumber()    { return contactNumber;  }
     public String getAvailability()     { return availability;   }
 
@@ -37,12 +45,12 @@ public class Doctor {
     public void setFullName(String fullName)             { this.fullName       = fullName;       }
     public void setSpecialization(String specialization) { this.specialization = specialization; }
     public void setDepartmentId(int departmentId)        { this.departmentId   = departmentId;   }
-    public void setDepartmentName(String departmentName) { this.departmentName = departmentName; } // ADD THIS
+    public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
     public void setContactNumber(String contactNumber)   { this.contactNumber  = contactNumber;  }
     public void setAvailability(String availability)     { this.availability   = availability;   }
 
     @Override
     public String toString() {
-        return fullName != null ? "Dr. " + fullName : "Unknown Doctor";
+        return (fullName != null ? "Dr. " + fullName : "Unknown Doctor") + " (" + (specialization != null ? specialization : "General") + ")";
     }
 }
