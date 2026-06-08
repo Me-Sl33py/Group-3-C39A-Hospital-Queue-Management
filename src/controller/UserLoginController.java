@@ -192,104 +192,95 @@ public class UserLoginController {
     }
 
     private void showWelcomePopup(String role, String username, String phone, String password) {
-        JDialog dialog = new JDialog();
-        dialog.setUndecorated(true);
-        dialog.setSize(350, 200);
-        dialog.setLocationRelativeTo(view);
-        dialog.getContentPane().setBackground(Color.WHITE);
-        dialog.setLayout(new BorderLayout());
+        // Immediately close the login view and route
+        view.dispose();
 
-        JPanel centerPanel = new JPanel();
-        centerPanel.setBackground(Color.WHITE);
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-
-        JLabel checkmark = new JLabel("✓");
-        checkmark.setForeground(Color.GREEN);
-        checkmark.setFont(new Font("Arial", Font.BOLD, 50));
-        checkmark.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JLabel title = new JLabel("Welcome Back!");
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JLabel text = new JLabel("You are logged in as " + role);
-        text.setFont(new Font("Arial", Font.PLAIN, 14));
-        text.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(checkmark);
-        centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(title);
-        centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(text);
-
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setBackground(Color.WHITE);
-
-        JButton continueButton = new JButton("Continue");
-        continueButton.setBackground(new Color(33, 97, 172));
-        continueButton.setForeground(Color.WHITE);
-        continueButton.setFocusPainted(false);
-        
-        continueButton.addActionListener(e -> {
-            dialog.dispose();
-            view.dispose(); // close Login window
-            switch (role.toLowerCase()) {
-                case "patient":
-                    // new PatientDashboard().setVisible(true);
-                    break;
-                case "doctor":
-                    // We need to find the specific Doctor ID for this logged in user
-                    String identifier = !username.isEmpty() ? username : phone;
-                    String doctorId = null;
-                    String docName = "";
-                    
-                    try {
-                        database.Db db = new database.MySqlConnection();
-                        java.sql.Connection conn = db.openConnection();
-                        java.sql.PreparedStatement ps = conn.prepareStatement(
-                            "SELECT d.doctor_id, d.full_name FROM doctors d " +
-                            "JOIN users u ON d.user_id = u.user_id " +
-                            "WHERE LOWER(u.username) = LOWER(?) OR d.contact_number = ? OR LOWER(d.full_name) = LOWER(?)");
-                        ps.setString(1, identifier);
-                        ps.setString(2, identifier);
-                        ps.setString(3, identifier);
-                        java.sql.ResultSet rs = ps.executeQuery();
-                        if (rs.next()) {
-                            doctorId = rs.getString("doctor_id");
-                            docName = rs.getString("full_name");
-                        }
-                        db.closeConnection(conn);
-                    } catch (Exception ex) { ex.printStackTrace(); }
-                    
-                    if (doctorId != null) {
-                        view.DoctorPanel dp = new view.DoctorPanel();
-                        controller.DoctorController dc = new controller.DoctorController(dp);
+        switch (role.toLowerCase()) {
+            case "patient":
+                String patIdentifier = !username.isEmpty() ? username : phone;
+                String patientId = null;
+                int userId = -1;
+                String patName = "";
+                String actualUsername = "";
+                
+                try {
+                    database.DB db = new database.MySqlConnection();
+                    java.sql.Connection conn = db.openConnection();
+                    java.sql.PreparedStatement ps = conn.prepareStatement(
+                        "SELECT p.patient_id, p.full_name, u.user_id, u.username FROM patients p " +
+                        "JOIN users u ON p.user_id = u.user_id " +
+                        "WHERE LOWER(u.username) = LOWER(?) OR p.contact_number = ? OR LOWER(p.full_name) = LOWER(?)");
+                    ps.setString(1, patIdentifier);
+                    ps.setString(2, patIdentifier);
+                    ps.setString(3, patIdentifier);
+                    java.sql.ResultSet rs = ps.executeQuery();
+                    if (rs.next()) {
+                        patientId = rs.getString("patient_id");
+                        patName = rs.getString("full_name");
+                        userId = rs.getInt("user_id");
+                        actualUsername = rs.getString("username");
                         
-                        model.Doctor loggedInDoctor = new model.Doctor();
-                        loggedInDoctor.setDoctorId(doctorId);
-                        loggedInDoctor.setFullName(docName);
-                        
-                        dc.setCurrentDoctor(loggedInDoctor);
-                        dp.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Could not find Doctor profile for this user!");
+                        session.PatientSession.setPatientId(patientId);
+                        session.PatientSession.setUserId(userId);
+                        session.PatientSession.setUsername(actualUsername);
+                        session.PatientSession.setRole("patient");
                     }
-                    break;
-                case "receptionist":
-                    // new ReceptionistDashboard().setVisible(true);
-                    break;
-                case "admin":
-                    // new AdminDashboard().setVisible(true);
-                    break;
-            }
-        });
-
-        bottomPanel.add(continueButton);
-
-        dialog.add(centerPanel, BorderLayout.CENTER);
-        dialog.add(bottomPanel, BorderLayout.SOUTH);
-        dialog.setVisible(true);
+                    db.closeConnection(conn);
+                } catch (Exception ex) { ex.printStackTrace(); }
+                
+                if (patientId != null) {
+                    JOptionPane.showMessageDialog(null, "Welcome, " + patName + "!");
+                    view.Patients patientView = new view.Patients();
+                    patientView.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Could not find Patient profile for this user!");
+                }
+                break;
+            case "doctor":
+                // We need to find the specific Doctor ID for this logged in user
+                String identifier = !username.isEmpty() ? username : phone;
+                String doctorId = null;
+                String docName = "";
+                
+                try {
+                    database.DB db = new database.MySqlConnection();
+                    java.sql.Connection conn = db.openConnection();
+                    java.sql.PreparedStatement ps = conn.prepareStatement(
+                        "SELECT d.doctor_id, d.full_name FROM doctors d " +
+                        "JOIN users u ON d.user_id = u.user_id " +
+                        "WHERE LOWER(u.username) = LOWER(?) OR d.contact_number = ? OR LOWER(d.full_name) = LOWER(?)");
+                    ps.setString(1, identifier);
+                    ps.setString(2, identifier);
+                    ps.setString(3, identifier);
+                    java.sql.ResultSet rs = ps.executeQuery();
+                    if (rs.next()) {
+                        doctorId = rs.getString("doctor_id");
+                        docName = rs.getString("full_name");
+                    }
+                    db.closeConnection(conn);
+                } catch (Exception ex) { ex.printStackTrace(); }
+                
+                if (doctorId != null) {
+                    view.DoctorPanel dp = new view.DoctorPanel();
+                    controller.DoctorController dc = new controller.DoctorController(dp);
+                    
+                    model.Doctor loggedInDoctor = new model.Doctor();
+                    loggedInDoctor.setDoctorId(doctorId);
+                    loggedInDoctor.setFullName(docName);
+                    
+                    dc.setCurrentDoctor(loggedInDoctor);
+                    dp.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Could not find Doctor profile for this user!");
+                }
+                break;
+            case "receptionist":
+                // new ReceptionistDashboard().setVisible(true);
+                break;
+            case "admin":
+                // new AdminDashboard().setVisible(true);
+                break;
+        }
     }
 
     /**

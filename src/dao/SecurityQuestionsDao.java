@@ -53,4 +53,64 @@ public class SecurityQuestionsDao {
             }
         }
     }
+
+    public boolean updateSecurityQuestions(
+        int userId,
+        String q1, String a1,
+        String q2, String a2,
+        String q3, String a3,
+        String q4, String a4,
+        String q5, String a5) {
+
+        Connection conn = null;
+        try {
+            conn = db.openConnection();
+            String query = "UPDATE security_questions SET " +
+                "question_1=?, answer_1=?, question_2=?, answer_2=?, " +
+                "question_3=?, answer_3=?, question_4=?, answer_4=?, " +
+                "question_5=?, answer_5=? WHERE user_id=?";
+            
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, q1); ps.setString(2, a1);
+            ps.setString(3, q2); ps.setString(4, a2);
+            ps.setString(5, q3); ps.setString(6, a3);
+            ps.setString(7, q4); ps.setString(8, a4);
+            ps.setString(9, q5); ps.setString(10, a5);
+            ps.setInt(11, userId);
+            
+            int result = ps.executeUpdate();
+            if (result == 0) {
+                return insertSecurityQuestions(userId, q1, a1, q2, a2, q3, a3, q4, a4, q5, a5);
+            }
+            return true;
+        } catch (Exception e) {
+            System.out.println("Update security questions error: " + e);
+            return false;
+        } finally {
+            if (conn != null) db.closeConnection(conn);
+        }
+    }
+
+    public String[] getSecurityAnswers(int userId) {
+        Connection conn = null;
+        try {
+            conn = db.openConnection();
+            String query = "SELECT answer_1, answer_2, answer_3, answer_4, answer_5 FROM security_questions WHERE user_id = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, userId);
+            java.sql.ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new String[]{
+                    rs.getString("answer_1"), rs.getString("answer_2"), 
+                    rs.getString("answer_3"), rs.getString("answer_4"), 
+                    rs.getString("answer_5")
+                };
+            }
+        } catch (Exception e) {
+            System.out.println("Get security answers error: " + e);
+        } finally {
+            if (conn != null) db.closeConnection(conn);
+        }
+        return null;
+    }
 }
