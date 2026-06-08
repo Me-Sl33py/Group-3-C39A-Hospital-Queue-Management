@@ -20,7 +20,7 @@ public class PatientDAO {
              PreparedStatement userStmt = conn.prepareStatement(userQuery, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             
-            userStmt.setString(1, patient.getPatientId()); // username is patient_id
+            userStmt.setString(1, generateUsername(patient.getFullName())); // username is firstname + number
             userStmt.executeUpdate();
             
             ResultSet rs = userStmt.getGeneratedKeys();

@@ -53,6 +53,37 @@ public class RegisterWalkinController {
             return;
         }
 
+        // Phone validation: exactly 10 digits
+        if (!phone.matches("^\\d{10}$")) {
+            JOptionPane.showMessageDialog(view, "Phone number must be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Name validation: cannot start with a digit
+        if (Character.isDigit(name.charAt(0))) {
+            JOptionPane.showMessageDialog(view, "Name cannot start with a digit.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Name validation: at least two words
+        String[] nameParts = name.split("\\s+");
+        if (nameParts.length < 2) {
+            JOptionPane.showMessageDialog(view, "Please enter full name (at least two words).", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Capitalize first letter of each word
+        StringBuilder formattedName = new StringBuilder();
+        for (String part : nameParts) {
+            if (!part.isEmpty()) {
+                formattedName.append(Character.toUpperCase(part.charAt(0)))
+                             .append(part.substring(1).toLowerCase())
+                             .append(" ");
+            }
+        }
+        name = formattedName.toString().trim();
+        view.getTfName().setText(name);
+
         java.sql.Date sqlDob = new java.sql.Date(selectedDob.getTime());
         
         java.util.Calendar dobCal = java.util.Calendar.getInstance();
@@ -71,7 +102,7 @@ public class RegisterWalkinController {
         String savedId = patientDAO.insertPatient(patient);
 
         if (savedId != null) {
-            JOptionPane.showMessageDialog(view, "Patient registered successfully!\nProceeding to Token Generation...", "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Account is created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
             mainFrame.getGenerateTokenController().updatePatientDetails(savedId, name, String.valueOf(age), gender, phone);
             mainFrame.switchToTab(2);
             resetFields();

@@ -186,7 +186,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         formPanel.setLayout(new java.awt.GridBagLayout());
 
         lblNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblNameLabel.setText("Name");
+        lblNameLabel.setText("Full Name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
