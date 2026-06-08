@@ -37,4 +37,11 @@ public class PatientSession {
     public static void setRole(String role) {
         PatientSession.role = role;
     }
+
+    public static void clearSession() {
+        patientId = null;
+        userId = -1;
+        username = null;
+        role = null;
+    }
 }

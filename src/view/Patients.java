@@ -42,7 +42,18 @@ public class Patients extends javax.swing.JFrame {
         btnLogout = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                int confirm = javax.swing.JOptionPane.showConfirmDialog(Patients.this, 
+                    "Are you sure you want to exit the application?", "Exit Confirmation", 
+                    javax.swing.JOptionPane.YES_NO_OPTION);
+                if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
         setPreferredSize(new java.awt.Dimension(1000, 700));
         getContentPane().setLayout(null);
 

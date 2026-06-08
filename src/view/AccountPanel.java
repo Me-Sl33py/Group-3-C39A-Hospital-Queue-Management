@@ -186,7 +186,7 @@ public class AccountPanel extends javax.swing.JPanel {
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(150, 150, 150));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("EMAIL");
+        jLabel13.setText("USERNAME");
         jPanel6.add(jLabel13);
         jLabel13.setBounds(0, 10, 230, 20);
 
@@ -214,7 +214,6 @@ public class AccountPanel extends javax.swing.JPanel {
 
         txtDob.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtDob.setForeground(new java.awt.Color(150, 150, 150));
-        // txtDob.setText(...) removed for JDateChooser
         add(txtDob);
         txtDob.setBounds(30, 335, 230, 35);
 
@@ -232,13 +231,13 @@ public class AccountPanel extends javax.swing.JPanel {
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(150, 150, 150));
-        jLabel18.setText("CHANGE EMAIL");
+        jLabel18.setText("CHANGE USERNAME");
         add(jLabel18);
         jLabel18.setBounds(30, 390, 150, 20);
 
         txtEmail.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtEmail.setForeground(new java.awt.Color(150, 150, 150));
-        txtEmail.setText("Enter new email address");
+        txtEmail.setText("Enter new username");
         add(txtEmail);
         txtEmail.setBounds(30, 415, 230, 35);
 
@@ -275,7 +274,7 @@ public class AccountPanel extends javax.swing.JPanel {
 
         btnConfirm.setBackground(new java.awt.Color(30, 100, 180));
         btnConfirm.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnConfirm.setForeground(new java.awt.Color(255, 255, 255));
+        btnConfirm.setForeground(new java.awt.Color(51, 51, 51));
         btnConfirm.setText("Confirm");
         add(btnConfirm);
         btnConfirm.setBounds(160, 580, 110, 35);
