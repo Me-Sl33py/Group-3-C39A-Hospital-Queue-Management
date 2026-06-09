@@ -24,7 +24,7 @@ public Connection openConnection() {
                 "jdbc:mysql://localhost:3306/hospital_queue_management_db";
 
         String username = "root";
-        String password = "Ahhklzzz@133";
+        String password = "I_1t_Relax!";
 
         Connection conn =
                 DriverManager.getConnection(
