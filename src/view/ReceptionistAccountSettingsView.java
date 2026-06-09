@@ -372,7 +372,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         lblCp.setForeground(new java.awt.Color(128, 128, 128));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.33;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
@@ -383,7 +383,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         lblNp.setForeground(new java.awt.Color(128, 128, 128));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.33;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
@@ -394,7 +394,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         lblCnp.setForeground(new java.awt.Color(128, 128, 128));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.34;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
@@ -403,7 +403,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         txtCurrentPwd.setMargin(new java.awt.Insets(5, 10, 5, 10));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 0.33;
@@ -414,7 +414,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         txtNewPwd.setMargin(new java.awt.Insets(5, 10, 5, 10));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 0.33;
@@ -425,7 +425,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         txtConfirmPwd.setMargin(new java.awt.Insets(5, 10, 5, 10));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 0.34;
