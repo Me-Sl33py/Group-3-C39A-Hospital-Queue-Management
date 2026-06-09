@@ -3,20 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/Patients.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/DashboardView.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/ForgotPassword.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/GenerateTokenView.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/DoctorPanel.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/LogoutPanel.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/MedicalRecordPanel.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/ReceptionistAccountSettingsView.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/RegisterWalkinView.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/UserLogin.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/WithTabbedPane.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/images/João%20(1)_1.jpeg</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/images/login_3_people.png</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/images/hide%20password.png</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/database/MySqlConnection.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/controller/DoctorController.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/hospital/queue/management/HospitalQueueManagement.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/view/SignUp.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/Group-3-C39A-Hospital-Queue-Management/src/database/Hospital_queue_management_db.sql</file>
         </group>
     </open-files>
 </project-private>
