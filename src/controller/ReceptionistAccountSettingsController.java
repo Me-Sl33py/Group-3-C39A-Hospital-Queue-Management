@@ -36,6 +36,8 @@ public class ReceptionistAccountSettingsController {
             String phone = (String) profile[1];
             currentDbPassword = (String) profile[2];
             String empId = (String) profile[3];
+            String secQ = (String) profile[4];
+            String secA = (String) profile[5];
 
             // Update Header and Summary Cards
             view.getLblWelcome().setText("Welcome, " + fullName);
@@ -43,8 +45,15 @@ public class ReceptionistAccountSettingsController {
             view.getLblPhoneVal().setText(phone != null ? phone : "N/A");
 
             // Populate forms
-            view.getTxtFullName().setText("");
-            view.getTxtPhone().setText("");
+            view.getTxtFullName().setText(fullName);
+            view.getTxtPhone().setText(phone != null ? phone : "");
+            
+            if (secQ != null && !secQ.isEmpty()) {
+                view.getCbSecurityQuestion().setSelectedItem(secQ);
+            } else {
+                view.getCbSecurityQuestion().setSelectedIndex(0);
+            }
+            view.getTxtSecurityAnswer().setText(secA != null ? secA : "");
             
             // Clear passwords
             view.getTxtCurrentPwd().setText("");
@@ -56,6 +65,8 @@ public class ReceptionistAccountSettingsController {
     private void saveChanges() {
         String newFullName = view.getTxtFullName().getText().trim();
         String newPhone = view.getTxtPhone().getText().trim();
+        String securityQuestion = (String) view.getCbSecurityQuestion().getSelectedItem();
+        String securityAnswer = view.getTxtSecurityAnswer().getText().trim();
         
         String currentPwdInput = new String(view.getTxtCurrentPwd().getPassword());
         String newPwdInput = new String(view.getTxtNewPwd().getPassword());
@@ -63,6 +74,15 @@ public class ReceptionistAccountSettingsController {
 
         if (newFullName.isEmpty()) {
             JOptionPane.showMessageDialog(mainFrame, "Full Name cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (view.getCbSecurityQuestion().getSelectedIndex() == 0 && !securityAnswer.isEmpty()) {
+            JOptionPane.showMessageDialog(mainFrame, "Please select a security question.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (view.getCbSecurityQuestion().getSelectedIndex() != 0 && securityAnswer.isEmpty()) {
+            JOptionPane.showMessageDialog(mainFrame, "Please enter an answer for your security question.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -85,7 +105,10 @@ public class ReceptionistAccountSettingsController {
             targetPassword = newPwdInput;
         }
 
-        boolean success = dao.updateReceptionistProfile(currentUserId, newFullName, newPhone, targetPassword);
+        String finalSecQ = view.getCbSecurityQuestion().getSelectedIndex() == 0 ? null : securityQuestion;
+        String finalSecA = securityAnswer.isEmpty() ? null : securityAnswer;
+
+        boolean success = dao.updateReceptionistProfile(currentUserId, newFullName, newPhone, targetPassword, finalSecQ, finalSecA);
 
         if (success) {
             JOptionPane.showMessageDialog(mainFrame, "Profile updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
