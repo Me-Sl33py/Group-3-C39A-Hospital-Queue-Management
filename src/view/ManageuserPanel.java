@@ -254,12 +254,12 @@ public javax.swing.JButton getBtnUpdateUser()    { return btnUpdateUser; }
 public javax.swing.JButton getBtnDeactivateUser(){ return btnDeactivateUser; }
 public javax.swing.JButton getBtnRefresh()       { return btnRefresh; }
 public javax.swing.JTextField getTxtSearch()     { return txtSearch; }
-public javax.swing.JTextField getTxtFullName()   { return password; }
+public javax.swing.JTextField getTxtFullName()       { return txtFullName1; }
 public javax.swing.JTextField getTxtPhone()      { return txtPhone; }
 public javax.swing.JTextField getTxtDob() { return txtEmail; }
 public javax.swing.JComboBox<String> getCmbRole()  { return cmbRole; }
 public javax.swing.JComboBox<String> getCmbStatus(){ return cmbStatus; }
 public javax.swing.JComboBox<String> getCmbGender(){ return cmbGender; }
 public javax.swing.JTable getTblUsers()          { return tblUsers; }
-public javax.swing.JTextField getTxtChangePassword() { return password; }
+public javax.swing.JTextField getTxtChangePassword() { return password; } 
 }
