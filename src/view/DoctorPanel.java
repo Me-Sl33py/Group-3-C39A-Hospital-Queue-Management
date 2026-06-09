@@ -738,8 +738,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
 
         jTableSessionHistory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"09:15 AM", "John Doe", "COMPLETED", "View File"},
-                {"09:40 AM", "Sarah Williams", "COMPLETED", "View File"}
+
             },
             new String [] {
                 "TIME", "PATIENT NAME", "STATUS", "ACTION"
