@@ -23,7 +23,8 @@ public class admin extends javax.swing.JFrame {
      */
  public admin() {
     initComponents();
-   
+    setSize(1200, 800);
+    setLocationRelativeTo(null);
     
     cardLayout = new CardLayout();
     contentPanel.setLayout(cardLayout);
@@ -45,127 +46,68 @@ public class admin extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
-        sidebar.setBackground(new java.awt.Color(51, 153, 255));
+        // Deep blue professional sidebar
+        sidebar.setBackground(new java.awt.Color(22, 54, 120));
+        sidebar.setPreferredSize(new java.awt.Dimension(250, 800));
+        sidebar.setLayout(new javax.swing.BoxLayout(sidebar, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jLabel1.setText("    🏥 HQMS");
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("  🏥 HQMS");
+        jLabel1.setMaximumSize(new java.awt.Dimension(250, 80));
+        jLabel1.setPreferredSize(new java.awt.Dimension(250, 80));
+        sidebar.add(jLabel1);
 
-        jButton2.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton2.setText("🏠Home                                              ");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        java.awt.Color btnBg = new java.awt.Color(22, 54, 120);
+        java.awt.Color btnFg = new java.awt.Color(255, 255, 255);
+        java.awt.Font btnFont = new java.awt.Font("Helvetica Neue", 0, 16);
+        java.awt.Dimension btnSize = new java.awt.Dimension(250, 50);
 
-        jButton3.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton3.setText("🗓️Schedule                                         ");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        javax.swing.JButton[] buttons = {jButton2, jButton10, jButton3, jButton4, jButton5, jButton6, jButton8, jButton9, jButton7};
+        String[] labels = {"🏠  Home", "🖥️  Dashboard", "🗓️  Schedule", "🧾  Report", "🔔  Notification", "🙍🏻‍  Create user", "🙍🏻‍  Manage User", "🩺  Manage doctor", "⇤  Logout"};
+        java.awt.event.ActionListener[] actions = {
+            this::jButton2ActionPerformed, this::jButton10ActionPerformed, this::jButton3ActionPerformed, 
+            this::jButton4ActionPerformed, this::jButton5ActionPerformed, this::jButton6ActionPerformed, 
+            this::jButton8ActionPerformed, this::jButton9ActionPerformed, this::jButton7ActionPerformed
+        };
 
-        jButton4.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton4.setText("🧾Report                                              ");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
+        for (int i = 0; i < buttons.length; i++) {
+            javax.swing.JButton btn = buttons[i];
+            btn.setText(labels[i]);
+            btn.setFont(btnFont);
+            btn.setBackground(btnBg);
+            btn.setForeground(btnFg);
+            btn.setFocusPainted(false);
+            btn.setBorderPainted(false);
+            btn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+            btn.setMaximumSize(btnSize);
+            btn.setPreferredSize(btnSize);
+            btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btn.addActionListener(actions[i]);
+            
+            // Add margin for text
+            btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+            
+            if (i == buttons.length - 1) {
+                sidebar.add(javax.swing.Box.createVerticalGlue()); // Push logout to bottom
+            }
+            sidebar.add(btn);
+        }
 
-        jButton5.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton5.setText("🔔Notification                                       ");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
-
-        jButton6.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton6.setText("🙍🏻‍Create user                                       ");
-        jButton6.addActionListener(this::jButton6ActionPerformed);
-
-        jButton7.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton7.setText("⇤Logout                                        ");
-        jButton7.addActionListener(this::jButton7ActionPerformed);
-
-        jButton8.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton8.setText("🙍🏻‍Manage User                                     ");
-        jButton8.addActionListener(this::jButton8ActionPerformed);
-
-        jButton9.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton9.setText("🩺Manage doctor&department            ");
-        jButton9.addActionListener(this::jButton9ActionPerformed);
-
-        jButton10.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton10.setText("🖥️Dashboard                                      ");
-        jButton10.addActionListener(this::jButton10ActionPerformed);
-
-        javax.swing.GroupLayout sidebarLayout = new javax.swing.GroupLayout(sidebar);
-        sidebar.setLayout(sidebarLayout);
-        sidebarLayout.setHorizontalGroup(
-            sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(sidebarLayout.createSequentialGroup()
-                .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        sidebarLayout.setVerticalGroup(
-            sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sidebarLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        getContentPane().add(sidebar, java.awt.BorderLayout.WEST);
 
         contentPanel.setOpaque(false);
-
-        javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
-        contentPanel.setLayout(contentPanelLayout);
-        contentPanelLayout.setHorizontalGroup(
-            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        contentPanelLayout.setVerticalGroup(
-            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(sidebar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sidebar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(contentPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        sidebar.getAccessibleContext().setAccessibleName("");
+        contentPanel.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
