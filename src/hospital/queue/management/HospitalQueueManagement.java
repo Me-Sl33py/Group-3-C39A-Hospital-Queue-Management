@@ -14,9 +14,14 @@ public class HospitalQueueManagement {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Initialize DB (optional if controllers do it)
         Db database = new MySqlConnection();
         database.openConnection();
+        
+        // Show the admin interface
+        java.awt.EventQueue.invokeLater(() -> {
+            new view.admin().setVisible(true);
+        });
     }
     
 }
