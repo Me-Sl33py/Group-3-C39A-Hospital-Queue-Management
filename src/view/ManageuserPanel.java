@@ -15,6 +15,50 @@ public class ManageuserPanel extends javax.swing.JPanel {
      */
     public ManageuserPanel() {
         initComponents();
+        fixLayout();
+    }
+
+    private void fixLayout() {
+        this.setLayout(new java.awt.BorderLayout());
+        this.removeAll();
+        this.add(topBarPanel, java.awt.BorderLayout.NORTH);
+        
+        // Create a responsive body layout
+        javax.swing.JPanel bodyPanel = new javax.swing.JPanel(new java.awt.BorderLayout(20, 20));
+        bodyPanel.setBackground(new java.awt.Color(235, 240, 251));
+        bodyPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        // 1. Search Bar (Top)
+        javax.swing.JPanel searchPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
+        searchPanel.setBackground(new java.awt.Color(235, 240, 251));
+        searchPanel.add(lblSearch);
+        searchPanel.add(txtSearch);
+        searchPanel.add(btnSearch);
+        
+        // 2. Details and Buttons (Bottom)
+        javax.swing.JPanel bottomPanel = new javax.swing.JPanel(new java.awt.BorderLayout(10, 10));
+        bottomPanel.setBackground(new java.awt.Color(235, 240, 251));
+        
+        javax.swing.JPanel detailsWrapper = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
+        detailsWrapper.setBackground(new java.awt.Color(235, 240, 251));
+        pnlDetails.setPreferredSize(new java.awt.Dimension(810, 220));
+        detailsWrapper.add(pnlDetails);
+        
+        javax.swing.JPanel buttonsPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 10));
+        buttonsPanel.setBackground(new java.awt.Color(235, 240, 251));
+        buttonsPanel.add(btnUpdateUser);
+        buttonsPanel.add(btnDeactivateUser);
+        buttonsPanel.add(btnRefresh);
+        
+        bottomPanel.add(detailsWrapper, java.awt.BorderLayout.CENTER);
+        bottomPanel.add(buttonsPanel, java.awt.BorderLayout.SOUTH);
+        
+        // Assemble Body
+        bodyPanel.add(searchPanel, java.awt.BorderLayout.NORTH);
+        bodyPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER); // Table stretches to fill space
+        bodyPanel.add(bottomPanel, java.awt.BorderLayout.SOUTH);
+        
+        this.add(bodyPanel, java.awt.BorderLayout.CENTER);
     }
 
     /**

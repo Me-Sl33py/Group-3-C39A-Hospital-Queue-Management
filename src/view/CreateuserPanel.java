@@ -15,6 +15,25 @@ public class CreateuserPanel extends javax.swing.JPanel {
      */
     public CreateuserPanel() {
         initComponents();
+        fixLayout();
+    }
+
+    private void fixLayout() {
+        this.setLayout(new java.awt.BorderLayout());
+        this.removeAll();
+        this.add(topBarPanel, java.awt.BorderLayout.NORTH);
+        
+        javax.swing.JPanel centerWrapper = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        centerWrapper.setBackground(new java.awt.Color(235, 240, 251)); // Same as dashboard
+        
+        // Ensure formCardPanel doesn't demand huge width that breaks GridBagLayout centering
+        formCardPanel.setPreferredSize(new java.awt.Dimension(700, 750));
+        formCardPanel.setMinimumSize(new java.awt.Dimension(600, 700));
+        centerWrapper.add(formCardPanel);
+        
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(centerWrapper);
+        scrollPane.setBorder(null);
+        this.add(scrollPane, java.awt.BorderLayout.CENTER);
     }
 
     /**

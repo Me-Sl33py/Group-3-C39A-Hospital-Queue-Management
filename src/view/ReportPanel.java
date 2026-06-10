@@ -15,6 +15,29 @@ public class ReportPanel extends javax.swing.JPanel {
      */
     public ReportPanel() {
         initComponents();
+        fixLayout();
+    }
+
+    private void fixLayout() {
+        summaryCardPanel.setLayout(new java.awt.BorderLayout());
+        summaryCardPanel.removeAll();
+        
+        javax.swing.JPanel topBar = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
+        topBar.setBackground(java.awt.Color.WHITE);
+        topBar.add(lblSearch);
+        topBar.add(txtSearch);
+        topBar.add(btnSearch);
+        
+        javax.swing.JPanel titlePanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
+        titlePanel.setBackground(java.awt.Color.WHITE);
+        titlePanel.add(summaryTitleLabel);
+        
+        javax.swing.JPanel headerPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+        headerPanel.add(titlePanel, java.awt.BorderLayout.NORTH);
+        headerPanel.add(topBar, java.awt.BorderLayout.CENTER);
+        
+        summaryCardPanel.add(headerPanel, java.awt.BorderLayout.NORTH);
+        summaryCardPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
     }
 
     /**
