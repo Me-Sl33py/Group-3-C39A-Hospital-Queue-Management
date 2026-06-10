@@ -26,6 +26,7 @@ create table users (
     username varchar(50) not null unique,
     password varchar(255) not null,
     role enum('patient','doctor','receptionist','admin') not null,
+    status enum('active', 'deactive') default 'active',
     created_at timestamp default current_timestamp
 );
 
@@ -52,6 +53,7 @@ create table doctors (
     department_id int not null,
     contact_number varchar(10),
     availability enum('available','unavailable') default 'available',
+    status enum('active', 'deactive') default 'active',
     created_at timestamp default current_timestamp
 );
 

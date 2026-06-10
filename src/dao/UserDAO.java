@@ -11,27 +11,53 @@ public class UserDAO {
     }
 
     // ─── Search Users ───────────────────────────────────────────────────────
-    public List<String[]> searchUsers(String keyword) {
+    public List<String[]> searchUsers(String keyword, String roleFilter, String statusFilter, String ageFilter) {
         List<String[]> list = new ArrayList<>();
-        String sql =
+        StringBuilder sql = new StringBuilder(
             "SELECT u.user_id, " +
             "COALESCE(a.full_name, r.full_name, d.full_name, p.full_name) AS full_name, " +
             "COALESCE(a.contact_number, r.contact_number, d.contact_number, p.contact_number) AS phone, " +
             "COALESCE(p.gender, 'N/A') AS gender, " +
+            "COALESCE(p.blood_group, 'N/A') AS blood_group, " +
             "COALESCE(p.dob, NULL) AS dob, " +
+            "COALESCE(p.age, 'N/A') AS age, " +
             "u.role, u.status " +
             "FROM users u " +
             "LEFT JOIN admins a ON u.user_id = a.user_id " +
             "LEFT JOIN receptionists r ON u.user_id = r.user_id " +
             "LEFT JOIN doctors d ON u.user_id = d.user_id " +
             "LEFT JOIN patients p ON u.user_id = p.user_id " +
-            "WHERE COALESCE(a.full_name, r.full_name, d.full_name, p.full_name) LIKE ? " +
+            "WHERE (COALESCE(a.full_name, r.full_name, d.full_name, p.full_name) LIKE ? " +
             "OR u.role LIKE ? " +
-            "OR CAST(p.dob AS CHAR) LIKE ?";
+            "OR CAST(p.dob AS CHAR) LIKE ?) "
+        );
+
+        if (roleFilter != null && !roleFilter.equalsIgnoreCase("All")) {
+            sql.append(" AND u.role = ? ");
+        }
+        if (statusFilter != null && !statusFilter.equalsIgnoreCase("All")) {
+            sql.append(" AND u.status = ? ");
+        }
+        if (ageFilter != null && !ageFilter.equalsIgnoreCase("All")) {
+            if (ageFilter.equals("Under 18")) sql.append(" AND p.age < 18 ");
+            else if (ageFilter.equals("18-35")) sql.append(" AND p.age BETWEEN 18 AND 35 ");
+            else if (ageFilter.equals("36-50")) sql.append(" AND p.age BETWEEN 36 AND 50 ");
+            else if (ageFilter.equals("50+")) sql.append(" AND p.age >= 51 ");
+        }
+
         try (Connection c = getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+             PreparedStatement ps = c.prepareStatement(sql.toString())) {
             String kw = "%" + keyword + "%";
             ps.setString(1, kw); ps.setString(2, kw); ps.setString(3, kw);
+            
+            int paramIndex = 4;
+            if (roleFilter != null && !roleFilter.equalsIgnoreCase("All")) {
+                ps.setString(paramIndex++, roleFilter.toLowerCase());
+            }
+            if (statusFilter != null && !statusFilter.equalsIgnoreCase("All")) {
+                ps.setString(paramIndex++, statusFilter.toLowerCase());
+            }
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     list.add(new String[]{
@@ -39,7 +65,9 @@ public class UserDAO {
                         rs.getString("full_name"),
                         rs.getString("phone"),
                         rs.getString("gender"),
+                        rs.getString("blood_group"),
                         rs.getString("dob"),
+                        rs.getString("age"),
                         rs.getString("role"),
                         rs.getString("status")
                     });
@@ -96,7 +124,7 @@ public class UserDAO {
     }
 
     // ─── Update User (status + role-table fields) ───────────────────────────
-    public boolean updateUser(int userId, String fullName, String dob, String status, String gender, String phone) {
+    public boolean updateUser(int userId, String fullName, String dob, String status, String gender, String phone, String bloodGroup) {
         Connection c = null;
         try {
             c = getConnection();
@@ -146,12 +174,13 @@ public class UserDAO {
                 }
                 case "patient" -> {
                     try (PreparedStatement ps = c.prepareStatement(
-                            "UPDATE patients SET contact_number=?, gender=?, full_name=?, dob=? WHERE user_id=?")) {
+                            "UPDATE patients SET contact_number=?, gender=?, full_name=?, dob=?, blood_group=? WHERE user_id=?")) {
                         ps.setString(1, phone); ps.setString(2, gender); 
                         ps.setString(3, fullName); 
                         if(dob != null && dob.trim().isEmpty()) dob = null;
                         ps.setString(4, dob);
-                        ps.setInt(5, userId);
+                        ps.setString(5, bloodGroup);
+                        ps.setInt(6, userId);
                         ps.executeUpdate();
                     }
                 }
@@ -170,7 +199,7 @@ public class UserDAO {
     }
 
     // ─── Activate / Deactivate ──────────────────────────────────────────────
-    public boolean deactivateUser(int userId) { return setUserStatus(userId, "inactive"); }
+    public boolean deactivateUser(int userId) { return setUserStatus(userId, "deactive"); }
     public boolean activateUser(int userId)   { return setUserStatus(userId, "active"); }
 
     private boolean setUserStatus(int userId, String status) {

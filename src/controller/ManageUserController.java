@@ -24,7 +24,7 @@ public class ManageUserController {
 
     private void setupTable() {
         DefaultTableModel model = new DefaultTableModel(
-            new String[]{"User ID", "Full Name", "Phone", "Gender", "Date of Birth", "Role", "Status"}, 0
+            new String[]{"User ID", "Full Name", "Phone", "Gender", "Blood Group", "Date of Birth", "Age", "Role", "Status"}, 0
         ) {
             public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -36,8 +36,11 @@ public class ManageUserController {
             if (!e.getValueIsAdjusting()) onRowSelected();
         });
 
-        panel.getBtnSearch().addActionListener(e ->
-            searchUsers(panel.getTxtSearch().getText().trim()));
+        panel.getBtnSearch().addActionListener(e -> triggerSearch());
+        
+        panel.getCmbFilterRole().addActionListener(e -> triggerSearch());
+        panel.getCmbFilterStatus().addActionListener(e -> triggerSearch());
+        panel.getCmbFilterAge().addActionListener(e -> triggerSearch());
 
         panel.getBtnUpdateUser().addActionListener(e -> updateUser());
 
@@ -62,17 +65,22 @@ public class ManageUserController {
 
         setValue(panel.getTxtFullName(), table.getValueAt(row, 1));
         setValue(panel.getTxtPhone(),    table.getValueAt(row, 2));
-       setValue(panel.getTxtDob(), table.getValueAt(row, 4));
-
-        setCombo(panel.getCmbRole(),   table.getValueAt(row, 5));
         setCombo(panel.getCmbGender(), table.getValueAt(row, 3));
+        setCombo(panel.getCmbBloodGroup(), table.getValueAt(row, 4));
+        setValue(panel.getTxtDob(), table.getValueAt(row, 5));
+        
+        // Age is index 6, but we don't have a field for it in the Selected User Details panel.
+        
+        setCombo(panel.getCmbRole(),   table.getValueAt(row, 7));
 
-        Object statusVal = table.getValueAt(row, 6);
+        Object statusVal = table.getValueAt(row, 8);
         if (statusVal != null) {
-            setCombo(panel.getCmbStatus(), statusVal);
-            boolean isInactive = statusVal.toString().equalsIgnoreCase("inactive");
-            panel.getBtnDeactivateUser().setText(isInactive ? "Activate User" : "Deactivate User");
-            panel.getBtnDeactivateUser().setBackground(isInactive
+            String s = statusVal.toString();
+            if (s.equalsIgnoreCase("deactive")) s = "Deactive";
+            setCombo(panel.getCmbStatus(), s);
+            boolean isDeactive = s.equalsIgnoreCase("Deactive");
+            panel.getBtnDeactivateUser().setText(isDeactive ? "Activate User" : "Deactivate User");
+            panel.getBtnDeactivateUser().setBackground(isDeactive
                 ? new java.awt.Color(40, 167, 69)
                 : new java.awt.Color(220, 53, 69));
         }
@@ -88,9 +96,10 @@ public class ManageUserController {
     String status  = panel.getCmbStatus().getSelectedItem().toString().toLowerCase();
     String gender  = panel.getCmbGender().getSelectedItem().toString().toLowerCase();
     String phone   = panel.getTxtPhone().getText().trim();
+    String bloodGroup = panel.getCmbBloodGroup().getSelectedItem().toString();
     String newPass = panel.getTxtChangePassword().getText().trim();
 
-    boolean ok = dao.updateUser(selectedUserId, fullName, dob, status, gender, phone);
+    boolean ok = dao.updateUser(selectedUserId, fullName, dob, status, gender, phone, bloodGroup);
 
     if (ok && !newPass.isEmpty()) {
         boolean passOk = dao.changePassword(selectedUserId, newPass);
@@ -115,7 +124,7 @@ public class ManageUserController {
                 "No Selection", JOptionPane.WARNING_MESSAGE); return;
         }
         String status   = panel.getCmbStatus().getSelectedItem().toString();
-        boolean isActive = status.equalsIgnoreCase("active");
+        boolean isActive = !status.equalsIgnoreCase("deactive");
         String action   = isActive ? "deactivate" : "activate";
 
         int confirm = JOptionPane.showConfirmDialog(parentFrame,
@@ -134,14 +143,22 @@ public class ManageUserController {
         }
     }
 
-    private void searchUsers(String keyword) {
-        List<String[]> users = dao.searchUsers(keyword);
+    private void triggerSearch() {
+        String keyword = panel.getTxtSearch().getText().trim();
+        String roleFilter = panel.getCmbFilterRole().getSelectedItem().toString();
+        String statusFilter = panel.getCmbFilterStatus().getSelectedItem().toString();
+        String ageFilter = panel.getCmbFilterAge().getSelectedItem().toString();
+        searchUsers(keyword, roleFilter, statusFilter, ageFilter);
+    }
+
+    private void searchUsers(String keyword, String roleFilter, String statusFilter, String ageFilter) {
+        List<String[]> users = dao.searchUsers(keyword, roleFilter, statusFilter, ageFilter);
         DefaultTableModel model = (DefaultTableModel) panel.getTblUsers().getModel();
         model.setRowCount(0);
         for (String[] row : users) model.addRow(row);
     }
 
-    public void loadAllUsers() { searchUsers(""); }
+    public void loadAllUsers() { searchUsers("", "All", "All", "All"); }
 
    private void clearFields() {
     selectedUserId = -1;
@@ -152,6 +169,7 @@ public class ManageUserController {
     panel.getCmbRole().setSelectedIndex(0);
     panel.getCmbStatus().setSelectedIndex(0);
     panel.getCmbGender().setSelectedIndex(0);
+    panel.getCmbBloodGroup().setSelectedIndex(0);
     panel.getTblUsers().clearSelection();
 }
 
