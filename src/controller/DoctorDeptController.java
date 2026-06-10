@@ -90,7 +90,13 @@ public class DoctorDeptController {
         setValue(panel.getTxtDocSpecialty(),  table.getValueAt(row, 3));
         setValue(panel.getTxtDocDepartment(), table.getValueAt(row, 4));
         setCombo(panel.getCmbDocAvailability(), table.getValueAt(row, 5));
-        setCombo(panel.getCmbDocStatus(),       table.getValueAt(row, 6));
+
+        Object statusVal = table.getValueAt(row, 6);
+        if (statusVal != null) {
+            String s = statusVal.toString();
+            if (s.equalsIgnoreCase("deactive")) s = "Deactive";
+            setCombo(panel.getCmbDocStatus(), s);
+        }
     }
 
     private void addDoctor() {
@@ -140,7 +146,7 @@ public class DoctorDeptController {
         String spec     = panel.getTxtDocSpecialty().getText().trim();
         String deptName = panel.getTxtDocDepartment().getText().trim();
         String avail    = panel.getCmbDocAvailability().getSelectedItem().toString();
-        String status   = panel.getCmbDocStatus().getSelectedItem().toString();
+        String status   = panel.getCmbDocStatus().getSelectedItem().toString().toLowerCase();
 
         int deptId = deptDAO.getDepartmentIdByName(deptName);
         if (deptId == -1) {

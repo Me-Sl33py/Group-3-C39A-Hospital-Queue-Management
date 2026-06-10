@@ -32,9 +32,16 @@ public class ManageuserPanel extends javax.swing.JPanel {
         javax.swing.JPanel searchPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
         searchPanel.setBackground(new java.awt.Color(235, 240, 251));
         searchPanel.add(lblSearch);
-        txtSearch.setPreferredSize(new java.awt.Dimension(400, 30));
+        txtSearch.setPreferredSize(new java.awt.Dimension(150, 30));
         searchPanel.add(txtSearch);
         searchPanel.add(btnSearch);
+        
+        searchPanel.add(lblFilterRole);
+        searchPanel.add(cmbFilterRole);
+        searchPanel.add(lblFilterStatus);
+        searchPanel.add(cmbFilterStatus);
+        searchPanel.add(lblFilterAge);
+        searchPanel.add(cmbFilterAge);
         
         // 2. Details and Buttons (Bottom)
         javax.swing.JPanel bottomPanel = new javax.swing.JPanel(new java.awt.BorderLayout(10, 10));
@@ -107,15 +114,36 @@ public class ManageuserPanel extends javax.swing.JPanel {
 
         lblSearch.setText("Search User:");
         jPanel1.add(lblSearch);
-        lblSearch.setBounds(200, 140, 80, 30);
+        lblSearch.setBounds(130, 140, 80, 30);
         jPanel1.add(txtSearch);
-        txtSearch.setBounds(290, 140, 400, 30);
+        txtSearch.setBounds(210, 140, 200, 30);
 
         btnSearch.setBackground(new java.awt.Color(13, 110, 253));
         btnSearch.setForeground(new java.awt.Color(255, 255, 255));
         btnSearch.setText("Search");
         jPanel1.add(btnSearch);
-        btnSearch.setBounds(720, 140, 100, 30);
+        btnSearch.setBounds(420, 140, 80, 30);
+        
+        lblFilterRole = new javax.swing.JLabel("Role:");
+        jPanel1.add(lblFilterRole);
+        lblFilterRole.setBounds(510, 140, 40, 30);
+        cmbFilterRole = new javax.swing.JComboBox<>(new String[]{"All", "Admin", "Receptionist", "Doctor", "Patient"});
+        jPanel1.add(cmbFilterRole);
+        cmbFilterRole.setBounds(550, 140, 100, 30);
+        
+        lblFilterStatus = new javax.swing.JLabel("Status:");
+        jPanel1.add(lblFilterStatus);
+        lblFilterStatus.setBounds(660, 140, 40, 30);
+        cmbFilterStatus = new javax.swing.JComboBox<>(new String[]{"All", "Active", "Deactive"});
+        jPanel1.add(cmbFilterStatus);
+        cmbFilterStatus.setBounds(700, 140, 90, 30);
+        
+        lblFilterAge = new javax.swing.JLabel("Age:");
+        jPanel1.add(lblFilterAge);
+        lblFilterAge.setBounds(800, 140, 30, 30);
+        cmbFilterAge = new javax.swing.JComboBox<>(new String[]{"All", "Under 18", "18-35", "36-50", "50+"});
+        jPanel1.add(cmbFilterAge);
+        cmbFilterAge.setBounds(830, 140, 110, 30);
 
         tblUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -152,6 +180,15 @@ public class ManageuserPanel extends javax.swing.JPanel {
         changepassword.setText("Change Password");
         pnlDetails.add(changepassword);
         changepassword.setBounds(10, 160, 110, 20);
+
+        lblBloodGroup = new javax.swing.JLabel();
+        cmbBloodGroup = new javax.swing.JComboBox<>();
+        lblBloodGroup.setText("Blood Group");
+        pnlDetails.add(lblBloodGroup);
+        lblBloodGroup.setBounds(350, 160, 100, 20);
+        cmbBloodGroup.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-", "Unknown" }));
+        pnlDetails.add(cmbBloodGroup);
+        cmbBloodGroup.setBounds(460, 160, 200, 26);
         pnlDetails.add(txtPhone);
         txtPhone.setBounds(100, 70, 200, 26);
 
@@ -175,7 +212,7 @@ public class ManageuserPanel extends javax.swing.JPanel {
         pnlDetails.add(lblStatus);
         lblStatus.setBounds(350, 110, 100, 20);
 
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive" }));
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
         pnlDetails.add(cmbStatus);
         cmbStatus.setBounds(460, 110, 200, 26);
         pnlDetails.add(txtFullName1);
@@ -272,11 +309,19 @@ public class ManageuserPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateUser;
     private javax.swing.JLabel changepassword;
+    private javax.swing.JComboBox<String> cmbBloodGroup;
+    private javax.swing.JComboBox<String> cmbFilterAge;
+    private javax.swing.JComboBox<String> cmbFilterRole;
+    private javax.swing.JComboBox<String> cmbFilterStatus;
     private javax.swing.JComboBox<String> cmbGender;
     private javax.swing.JComboBox<String> cmbRole;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblBloodGroup;
+    private javax.swing.JLabel lblFilterAge;
+    private javax.swing.JLabel lblFilterRole;
+    private javax.swing.JLabel lblFilterStatus;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JLabel lblGender;
     private javax.swing.JLabel lblPhone1;
@@ -299,6 +344,9 @@ public javax.swing.JButton getBtnUpdateUser()    { return btnUpdateUser; }
 public javax.swing.JButton getBtnDeactivateUser(){ return btnDeactivateUser; }
 public javax.swing.JButton getBtnRefresh()       { return btnRefresh; }
 public javax.swing.JTextField getTxtSearch()     { return txtSearch; }
+public javax.swing.JComboBox<String> getCmbFilterRole() { return cmbFilterRole; }
+public javax.swing.JComboBox<String> getCmbFilterStatus() { return cmbFilterStatus; }
+public javax.swing.JComboBox<String> getCmbFilterAge() { return cmbFilterAge; }
 public javax.swing.JTextField getTxtFullName()       { return txtFullName1; }
 public javax.swing.JTextField getTxtPhone()      { return txtPhone; }
 public javax.swing.JTextField getTxtDob() { return txtEmail; }
@@ -307,4 +355,5 @@ public javax.swing.JComboBox<String> getCmbStatus(){ return cmbStatus; }
 public javax.swing.JComboBox<String> getCmbGender(){ return cmbGender; }
 public javax.swing.JTable getTblUsers()          { return tblUsers; }
 public javax.swing.JTextField getTxtChangePassword() { return password; } 
+public javax.swing.JComboBox<String> getCmbBloodGroup(){ return cmbBloodGroup; }
 }

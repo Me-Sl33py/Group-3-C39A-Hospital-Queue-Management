@@ -144,7 +144,7 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         pnlDoctorDetails.add(lblDocStatus);
         lblDocStatus.setBounds(350, 110, 80, 20);
 
-        cmbDocStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive" }));
+        cmbDocStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
         pnlDoctorDetails.add(cmbDocStatus);
         cmbDocStatus.setBounds(450, 110, 200, 26);
 
@@ -224,7 +224,7 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         pnlDeptDetails.add(lblDeptStatus);
         lblDeptStatus.setBounds(20, 70, 120, 20);
 
-        cmbDeptStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive" }));
+        cmbDeptStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
         pnlDeptDetails.add(cmbDeptStatus);
         cmbDeptStatus.setBounds(140, 70, 200, 26);
 
