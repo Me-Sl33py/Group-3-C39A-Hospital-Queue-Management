@@ -16,7 +16,30 @@ public class DashboardPanel extends javax.swing.JPanel {
      */
  public DashboardPanel() {
     initComponents();
+    fixLayout();
     loadData();
+}
+
+private void fixLayout() {
+    tableCardPanel.setLayout(new java.awt.BorderLayout());
+    tableCardPanel.removeAll();
+    
+    javax.swing.JPanel topBar = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
+    topBar.setBackground(java.awt.Color.WHITE);
+    topBar.add(lblSearch);
+    topBar.add(txtSearch);
+    topBar.add(btnSearch);
+    
+    javax.swing.JPanel titlePanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
+    titlePanel.setBackground(java.awt.Color.WHITE);
+    titlePanel.add(userMgmtLabel);
+    
+    javax.swing.JPanel headerPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+    headerPanel.add(titlePanel, java.awt.BorderLayout.NORTH);
+    headerPanel.add(topBar, java.awt.BorderLayout.CENTER);
+    
+    tableCardPanel.add(headerPanel, java.awt.BorderLayout.NORTH);
+    tableCardPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 }
         
         
