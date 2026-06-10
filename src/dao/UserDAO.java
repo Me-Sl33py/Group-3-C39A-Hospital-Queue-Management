@@ -96,7 +96,7 @@ public class UserDAO {
     }
 
     // ─── Update User (status + role-table fields) ───────────────────────────
-    public boolean updateUser(int userId, String status, String gender, String phone) {
+    public boolean updateUser(int userId, String fullName, String dob, String status, String gender, String phone) {
         Connection c = null;
         try {
             c = getConnection();
@@ -121,33 +121,37 @@ public class UserDAO {
                 }
             }
 
-            // Update contact_number (and gender if patient) in role table
+            // Update contact_number, full_name (and gender/dob if patient) in role table
             switch (role.toLowerCase()) {
                 case "admin" -> {
                     try (PreparedStatement ps = c.prepareStatement(
-                            "UPDATE admins SET contact_number=? WHERE user_id=?")) {
-                        ps.setString(1, phone); ps.setInt(2, userId);
+                            "UPDATE admins SET contact_number=?, full_name=? WHERE user_id=?")) {
+                        ps.setString(1, phone); ps.setString(2, fullName); ps.setInt(3, userId);
                         ps.executeUpdate();
                     }
                 }
                 case "receptionist" -> {
                     try (PreparedStatement ps = c.prepareStatement(
-                            "UPDATE receptionists SET contact_number=? WHERE user_id=?")) {
-                        ps.setString(1, phone); ps.setInt(2, userId);
+                            "UPDATE receptionists SET contact_number=?, full_name=? WHERE user_id=?")) {
+                        ps.setString(1, phone); ps.setString(2, fullName); ps.setInt(3, userId);
                         ps.executeUpdate();
                     }
                 }
                 case "doctor" -> {
                     try (PreparedStatement ps = c.prepareStatement(
-                            "UPDATE doctors SET contact_number=? WHERE user_id=?")) {
-                        ps.setString(1, phone); ps.setInt(2, userId);
+                            "UPDATE doctors SET contact_number=?, full_name=? WHERE user_id=?")) {
+                        ps.setString(1, phone); ps.setString(2, fullName); ps.setInt(3, userId);
                         ps.executeUpdate();
                     }
                 }
                 case "patient" -> {
                     try (PreparedStatement ps = c.prepareStatement(
-                            "UPDATE patients SET contact_number=?, gender=? WHERE user_id=?")) {
-                        ps.setString(1, phone); ps.setString(2, gender); ps.setInt(3, userId);
+                            "UPDATE patients SET contact_number=?, gender=?, full_name=?, dob=? WHERE user_id=?")) {
+                        ps.setString(1, phone); ps.setString(2, gender); 
+                        ps.setString(3, fullName); 
+                        if(dob != null && dob.trim().isEmpty()) dob = null;
+                        ps.setString(4, dob);
+                        ps.setInt(5, userId);
                         ps.executeUpdate();
                     }
                 }

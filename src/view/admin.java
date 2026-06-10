@@ -42,7 +42,6 @@ public class admin extends javax.swing.JFrame {
         sidebar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -75,17 +74,6 @@ public class admin extends javax.swing.JFrame {
         jButton2.setMaximumSize(new java.awt.Dimension(250, 50));
         jButton2.setPreferredSize(new java.awt.Dimension(250, 50));
         sidebar.add(jButton2);
-
-        jButton10.setBackground(new java.awt.Color(22, 54, 120));
-        jButton10.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        jButton10.setForeground(new java.awt.Color(255, 255, 255));
-        jButton10.setText("🖥️  Dashboard");
-        jButton10.setBorderPainted(false);
-        jButton10.setFocusPainted(false);
-        jButton10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton10.setMaximumSize(new java.awt.Dimension(250, 50));
-        jButton10.setPreferredSize(new java.awt.Dimension(250, 50));
-        sidebar.add(jButton10);
 
         jButton3.setText("🗓️  Schedule");
         jButton3.setBackground(new java.awt.Color(22, 54, 120));
@@ -174,7 +162,7 @@ public class admin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void setActiveButton(javax.swing.JButton activeBtn) {
-        javax.swing.JButton[] buttons = {jButton2, jButton10, jButton3, jButton4, jButton5, jButton6, jButton8, jButton9, jButton7};
+        javax.swing.JButton[] buttons = {jButton2, jButton3, jButton4, jButton5, jButton6, jButton8, jButton9, jButton7};
         java.awt.Color normalBg = new java.awt.Color(22, 54, 120);
         java.awt.Color activeBg = new java.awt.Color(51, 102, 255);
         for (javax.swing.JButton btn : buttons) {
@@ -221,7 +209,6 @@ public class admin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -237,7 +224,6 @@ public class admin extends javax.swing.JFrame {
 
 
 public javax.swing.JButton getBtnHome()       { return jButton2; }
-public javax.swing.JButton getBtnDashboard()  { return jButton10; }
 public javax.swing.JButton getBtnSchedule()   { return jButton3; }
 public javax.swing.JButton getBtnReport()     { return jButton4; }
 public javax.swing.JButton getBtnNotification() { return jButton5; }

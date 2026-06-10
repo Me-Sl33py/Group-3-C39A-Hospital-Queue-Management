@@ -11,7 +11,6 @@ public class AdminController {
 
     // Panels
     private HomePanel homePanel;
-    private DashboardPanel       dashboardPanel;
     private ManageuserPanel      manageUserPanel;
     private CreateuserPanel      createUserPanel;
     private LogoutPanel          logoutPanel;
@@ -22,7 +21,6 @@ public class AdminController {
 
     // Controllers
     private HomeController homeController;
-    private DashboardController      dashboardController;
     private ManageUserController     manageUserController;
     private CreateUserController     createUserController;
     private DoctorDeptController     doctorDeptController;
@@ -42,7 +40,6 @@ public class AdminController {
     }
 
     private void loadPanels() {
-        dashboardPanel    = new DashboardPanel();
         manageUserPanel   = new ManageuserPanel();
         createUserPanel   = new CreateuserPanel();
         logoutPanel       = new LogoutPanel();
@@ -54,7 +51,6 @@ public class AdminController {
         
         homePanel = new HomePanel();
         contentPanel.add(homePanel, "home");
-        contentPanel.add(dashboardPanel, "dashboard");
         contentPanel.add(schedulePanel,     "schedule");
         contentPanel.add(reportPanel,       "report");
         contentPanel.add(notificationPanel, "notification");
@@ -67,7 +63,6 @@ public class AdminController {
 }
 
 private void initControllers() {
-    dashboardController    = new DashboardController(dashboardPanel);
     manageUserController   = new ManageUserController(manageUserPanel, adminFrame);
     createUserController   = new CreateUserController(createUserPanel, adminFrame);
     doctorDeptController   = new DoctorDeptController(doctorDeptPanel, adminFrame);
@@ -77,7 +72,6 @@ private void initControllers() {
     logoutController       = new LogoutController(logoutPanel, adminFrame, cardLayout, contentPanel);
     homeController = new HomeController(homePanel);
     homeController.loadAll();
-    dashboardController.loadAll(); 
 }
 
     private void initNavigation() {
@@ -88,15 +82,6 @@ private void initControllers() {
          homeController.loadAll();
         cardLayout.show(contentPanel, "home");
     });
-        
-
-        adminFrame.getBtnDashboard()
-            .addActionListener(e -> {
-                adminFrame.setActiveButton(adminFrame.getBtnDashboard());
-                dashboardController.loadAll();
-                cardLayout.show(contentPanel, "dashboard");
-            });
-
         adminFrame.getBtnSchedule()
             .addActionListener(e -> {
                 adminFrame.setActiveButton(adminFrame.getBtnSchedule());
