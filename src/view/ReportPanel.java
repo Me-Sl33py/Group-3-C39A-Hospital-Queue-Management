@@ -19,12 +19,25 @@ public class ReportPanel extends javax.swing.JPanel {
     }
 
     private void fixLayout() {
+        this.setLayout(new java.awt.BorderLayout());
+        this.removeAll();
+        this.add(topBarPanel, java.awt.BorderLayout.NORTH);
+        
+        javax.swing.JPanel bodyPanel = new javax.swing.JPanel(new java.awt.BorderLayout(20, 20));
+        bodyPanel.setBackground(new java.awt.Color(235, 240, 251));
+        bodyPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        // Cards on top
+        bodyPanel.add(cardsRowPanel, java.awt.BorderLayout.NORTH);
+        
+        // Summary Card in center (will stretch)
         summaryCardPanel.setLayout(new java.awt.BorderLayout());
         summaryCardPanel.removeAll();
         
         javax.swing.JPanel topBar = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
         topBar.setBackground(java.awt.Color.WHITE);
         topBar.add(lblSearch);
+        txtSearch.setPreferredSize(new java.awt.Dimension(400, 30));
         topBar.add(txtSearch);
         topBar.add(btnSearch);
         
@@ -38,6 +51,10 @@ public class ReportPanel extends javax.swing.JPanel {
         
         summaryCardPanel.add(headerPanel, java.awt.BorderLayout.NORTH);
         summaryCardPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        
+        bodyPanel.add(summaryCardPanel, java.awt.BorderLayout.CENTER);
+        
+        this.add(bodyPanel, java.awt.BorderLayout.CENTER);
     }
 
     /**

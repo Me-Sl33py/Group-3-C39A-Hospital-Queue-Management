@@ -83,12 +83,14 @@ public class ManageUserController {
         JOptionPane.showMessageDialog(parentFrame, "Please select a user first.",
             "No Selection", JOptionPane.WARNING_MESSAGE); return;
     }
+    String fullName = panel.getTxtFullName().getText().trim();
+    String dob     = panel.getTxtDob().getText().trim();
     String status  = panel.getCmbStatus().getSelectedItem().toString().toLowerCase();
     String gender  = panel.getCmbGender().getSelectedItem().toString().toLowerCase();
     String phone   = panel.getTxtPhone().getText().trim();
     String newPass = panel.getTxtChangePassword().getText().trim();
 
-    boolean ok = dao.updateUser(selectedUserId, status, gender, phone);
+    boolean ok = dao.updateUser(selectedUserId, fullName, dob, status, gender, phone);
 
     if (ok && !newPass.isEmpty()) {
         boolean passOk = dao.changePassword(selectedUserId, newPass);
@@ -137,9 +139,6 @@ public class ManageUserController {
         DefaultTableModel model = (DefaultTableModel) panel.getTblUsers().getModel();
         model.setRowCount(0);
         for (String[] row : users) model.addRow(row);
-        if (users.isEmpty())
-            JOptionPane.showMessageDialog(parentFrame, "No users found.",
-                "Search", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void loadAllUsers() { searchUsers(""); }

@@ -32,6 +32,7 @@ public class ManageuserPanel extends javax.swing.JPanel {
         javax.swing.JPanel searchPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
         searchPanel.setBackground(new java.awt.Color(235, 240, 251));
         searchPanel.add(lblSearch);
+        txtSearch.setPreferredSize(new java.awt.Dimension(400, 30));
         searchPanel.add(txtSearch);
         searchPanel.add(btnSearch);
         
