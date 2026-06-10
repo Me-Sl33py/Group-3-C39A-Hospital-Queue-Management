@@ -38,6 +38,7 @@ public class AdminController {
         loadPanels();
         initControllers();
         initNavigation();
+        adminFrame.setActiveButton(adminFrame.getBtnHome());
     }
 
     private void loadPanels() {
@@ -83,6 +84,7 @@ private void initControllers() {
         
       adminFrame.getBtnHome()
        .addActionListener(e -> {
+         adminFrame.setActiveButton(adminFrame.getBtnHome());
          homeController.loadAll();
         cardLayout.show(contentPanel, "home");
     });
@@ -90,45 +92,57 @@ private void initControllers() {
 
         adminFrame.getBtnDashboard()
             .addActionListener(e -> {
+                adminFrame.setActiveButton(adminFrame.getBtnDashboard());
                 dashboardController.loadAll();
                 cardLayout.show(contentPanel, "dashboard");
             });
 
         adminFrame.getBtnSchedule()
             .addActionListener(e -> {
+                adminFrame.setActiveButton(adminFrame.getBtnSchedule());
                 scheduleController.loadAll();
                 cardLayout.show(contentPanel, "schedule");
             });
 
         adminFrame.getBtnReport()
             .addActionListener(e -> {
+                adminFrame.setActiveButton(adminFrame.getBtnReport());
                 reportController.loadAll();
                 cardLayout.show(contentPanel, "report");
             });
 
         adminFrame.getBtnNotification()
             .addActionListener(e -> {
+                adminFrame.setActiveButton(adminFrame.getBtnNotification());
                 notificationController.loadAll();
                 cardLayout.show(contentPanel, "notification");
             });
 
         adminFrame.getBtnCreateUser()
-            .addActionListener(e -> cardLayout.show(contentPanel, "createuser"));
+            .addActionListener(e -> {
+                adminFrame.setActiveButton(adminFrame.getBtnCreateUser());
+                cardLayout.show(contentPanel, "createuser");
+            });
 
         adminFrame.getBtnManageUser()
             .addActionListener(e -> {
+                adminFrame.setActiveButton(adminFrame.getBtnManageUser());
                 manageUserController.loadAllUsers();
                 cardLayout.show(contentPanel, "manageuser");
             });
 
         adminFrame.getBtnManageDoctor()
             .addActionListener(e -> {
+                adminFrame.setActiveButton(adminFrame.getBtnManageDoctor());
                 doctorDeptController.loadAllDoctors();
                 doctorDeptController.loadAllDepartments();
                 cardLayout.show(contentPanel, "managedoctor");
             });
 
         adminFrame.getBtnLogout()
-            .addActionListener(e -> cardLayout.show(contentPanel, "logout"));
+            .addActionListener(e -> {
+                adminFrame.setActiveButton(adminFrame.getBtnLogout());
+                cardLayout.show(contentPanel, "logout");
+            });
     }
 }

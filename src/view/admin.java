@@ -42,20 +42,18 @@ public class admin extends javax.swing.JFrame {
         sidebar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
-        // Deep blue professional sidebar
         sidebar.setBackground(new java.awt.Color(22, 54, 120));
         sidebar.setPreferredSize(new java.awt.Dimension(250, 800));
         sidebar.setLayout(new javax.swing.BoxLayout(sidebar, javax.swing.BoxLayout.Y_AXIS));
@@ -67,41 +65,104 @@ public class admin extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(250, 80));
         sidebar.add(jLabel1);
 
-        java.awt.Color btnBg = new java.awt.Color(22, 54, 120);
-        java.awt.Color btnFg = new java.awt.Color(255, 255, 255);
-        java.awt.Font btnFont = new java.awt.Font("Helvetica Neue", 0, 16);
-        java.awt.Dimension btnSize = new java.awt.Dimension(250, 50);
+        jButton2.setText("🏠  Home");
+        jButton2.setBackground(new java.awt.Color(22, 54, 120));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        jButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton2.setFocusPainted(false);
+        jButton2.setBorderPainted(false);
+        jButton2.setMaximumSize(new java.awt.Dimension(250, 50));
+        jButton2.setPreferredSize(new java.awt.Dimension(250, 50));
+        sidebar.add(jButton2);
 
-        javax.swing.JButton[] buttons = {jButton2, jButton10, jButton3, jButton4, jButton5, jButton6, jButton8, jButton9, jButton7};
-        String[] labels = {"🏠  Home", "🖥️  Dashboard", "🗓️  Schedule", "🧾  Report", "🔔  Notification", "🙍🏻‍  Create user", "🙍🏻‍  Manage User", "🩺  Manage doctor", "⇤  Logout"};
-        java.awt.event.ActionListener[] actions = {
-            this::jButton2ActionPerformed, this::jButton10ActionPerformed, this::jButton3ActionPerformed, 
-            this::jButton4ActionPerformed, this::jButton5ActionPerformed, this::jButton6ActionPerformed, 
-            this::jButton8ActionPerformed, this::jButton9ActionPerformed, this::jButton7ActionPerformed
-        };
+        jButton10.setBackground(new java.awt.Color(22, 54, 120));
+        jButton10.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(255, 255, 255));
+        jButton10.setText("🖥️  Dashboard");
+        jButton10.setBorderPainted(false);
+        jButton10.setFocusPainted(false);
+        jButton10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton10.setMaximumSize(new java.awt.Dimension(250, 50));
+        jButton10.setPreferredSize(new java.awt.Dimension(250, 50));
+        sidebar.add(jButton10);
 
-        for (int i = 0; i < buttons.length; i++) {
-            javax.swing.JButton btn = buttons[i];
-            btn.setText(labels[i]);
-            btn.setFont(btnFont);
-            btn.setBackground(btnBg);
-            btn.setForeground(btnFg);
-            btn.setFocusPainted(false);
-            btn.setBorderPainted(false);
-            btn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-            btn.setMaximumSize(btnSize);
-            btn.setPreferredSize(btnSize);
-            btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            btn.addActionListener(actions[i]);
-            
-            // Add margin for text
-            btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
-            
-            if (i == buttons.length - 1) {
-                sidebar.add(javax.swing.Box.createVerticalGlue()); // Push logout to bottom
-            }
-            sidebar.add(btn);
-        }
+        jButton3.setText("🗓️  Schedule");
+        jButton3.setBackground(new java.awt.Color(22, 54, 120));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        jButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton3.setFocusPainted(false);
+        jButton3.setBorderPainted(false);
+        jButton3.setMaximumSize(new java.awt.Dimension(250, 50));
+        jButton3.setPreferredSize(new java.awt.Dimension(250, 50));
+        sidebar.add(jButton3);
+
+        jButton4.setText("🧾  Report");
+        jButton4.setBackground(new java.awt.Color(22, 54, 120));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        jButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton4.setFocusPainted(false);
+        jButton4.setBorderPainted(false);
+        jButton4.setMaximumSize(new java.awt.Dimension(250, 50));
+        jButton4.setPreferredSize(new java.awt.Dimension(250, 50));
+        sidebar.add(jButton4);
+
+        jButton5.setBackground(new java.awt.Color(22, 54, 120));
+        jButton5.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("🔔  Notification");
+        jButton5.setBorderPainted(false);
+        jButton5.setFocusPainted(false);
+        jButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton5.setMaximumSize(new java.awt.Dimension(250, 50));
+        jButton5.setPreferredSize(new java.awt.Dimension(250, 50));
+        sidebar.add(jButton5);
+
+        jButton6.setText("🙍🏻‍  Create user");
+        jButton6.setBackground(new java.awt.Color(22, 54, 120));
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton6.setFocusPainted(false);
+        jButton6.setBorderPainted(false);
+        jButton6.setMaximumSize(new java.awt.Dimension(250, 50));
+        jButton6.setPreferredSize(new java.awt.Dimension(250, 50));
+        sidebar.add(jButton6);
+
+        jButton8.setText("🙍🏻‍  Manage User");
+        jButton8.setBackground(new java.awt.Color(22, 54, 120));
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        jButton8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton8.setFocusPainted(false);
+        jButton8.setBorderPainted(false);
+        jButton8.setMaximumSize(new java.awt.Dimension(250, 50));
+        jButton8.setPreferredSize(new java.awt.Dimension(250, 50));
+        sidebar.add(jButton8);
+
+        jButton9.setText("🩺  Manage doctor");
+        jButton9.setBackground(new java.awt.Color(22, 54, 120));
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        jButton9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton9.setFocusPainted(false);
+        jButton9.setBorderPainted(false);
+        jButton9.setMaximumSize(new java.awt.Dimension(250, 50));
+        jButton9.setPreferredSize(new java.awt.Dimension(250, 50));
+        sidebar.add(jButton9);
+
+        jButton7.setText("⇤  Logout");
+        jButton7.setBackground(new java.awt.Color(22, 54, 120));
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        jButton7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton7.setFocusPainted(false);
+        jButton7.setBorderPainted(false);
+        jButton7.setMaximumSize(new java.awt.Dimension(250, 50));
+        jButton7.setPreferredSize(new java.awt.Dimension(250, 50));
+        sidebar.add(jButton7);
 
         getContentPane().add(sidebar, java.awt.BorderLayout.WEST);
 
@@ -111,6 +172,16 @@ public class admin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void setActiveButton(javax.swing.JButton activeBtn) {
+        javax.swing.JButton[] buttons = {jButton2, jButton10, jButton3, jButton4, jButton5, jButton6, jButton8, jButton9, jButton7};
+        java.awt.Color normalBg = new java.awt.Color(22, 54, 120);
+        java.awt.Color activeBg = new java.awt.Color(51, 102, 255);
+        for (javax.swing.JButton btn : buttons) {
+            btn.setBackground(btn == activeBtn ? activeBg : normalBg);
+            btn.setOpaque(true);
+        }
+    }
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
@@ -145,10 +216,6 @@ public class admin extends javax.swing.JFrame {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
 
 
 
