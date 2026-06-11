@@ -8,6 +8,8 @@ import java.util.logging.Level;
 
 /**
  * Main Entry Point for the Hospital Queue Management System.
+ * 
+ * Note: If you encounter ClassNotFoundException, clean and build the project.
  */
 public class HospitalQueueManagement {
 

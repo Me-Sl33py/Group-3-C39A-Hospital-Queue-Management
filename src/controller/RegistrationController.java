@@ -472,6 +472,7 @@ public class RegistrationController {
             patientId,      // auto-generated, e.g., "P-001"
             userId,         // returned from insertUser()
             fullName,
+            username,       // username from generateUsername()
             dob,            // java.sql.Date from JDateChooser
             age,            // auto-calculated from dob
             gender,

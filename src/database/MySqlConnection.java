@@ -22,7 +22,7 @@ public class MySqlConnection implements Db {
 
     // ==================== Database Configuration ====================
     private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "nishant123";
+    private static final String DB_PASSWORD = "I_1t_Relax!";
     private static final String DB_NAME     = "hospital_queue_management_db";
     private static final String DB_URL      = "jdbc:mysql://localhost:3306/" + DB_NAME;
 
@@ -33,6 +33,9 @@ public class MySqlConnection implements Db {
     @Override
     public Connection openConnection() {
         try {
+            // Load the MySQL JDBC driver (needed for older JDK/JDBC versions)
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
             Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
             if (conn == null) {
@@ -42,6 +45,9 @@ public class MySqlConnection implements Db {
             }
             return conn;
 
+        } catch (ClassNotFoundException e) {
+            // Driver JAR not found — add mysql-connector-j to your project libraries
+            System.out.println("[DB] MySQL driver not found: " + e.getMessage());
         } catch (SQLException e) {
             // Wrong credentials, database doesn't exist, or MySQL not running
             System.out.println("[DB] Connection failed: " + e.getMessage());
