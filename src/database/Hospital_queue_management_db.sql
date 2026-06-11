@@ -17,7 +17,6 @@ create table users (
     user_id int auto_increment primary key,
     username varchar(50) not null unique,
     password varchar(255) not null,
-    role enum('patient','doctor','receptionist','admin') not null,
     status enum('active', 'deactive') default 'active',
     created_at timestamp default current_timestamp
 );
@@ -31,6 +30,7 @@ create table user_profiles (
     age int default 0,
     blood_group enum('A+','A-','B+','B-','O+','O-','AB+','AB-','Unknown') default 'Unknown',
     gender enum('male','female','others','prefer not to say') default 'prefer not to say',
+    role enum('patient','doctor','receptionist','admin') not null,
     contact_number varchar(15),
     address varchar(255),
     created_at timestamp default current_timestamp,
@@ -55,6 +55,8 @@ create table patients (
 create table doctors (
     doctor_id varchar(10) primary key,
     user_id int not null,
+    full_name varchar(100) not null,
+    username varchar(50) not null,
     specialization varchar(100),
     department_id int not null,
     availability enum('available','unavailable') default 'available',
@@ -138,6 +140,8 @@ create table ratings (
 create table receptionists (
     receptionist_id varchar(10) primary key,
     user_id int not null,
+    full_name varchar(100) not null,
+    username varchar(50) not null,
     shift enum('morning','afternoon','evening') default 'morning',
     created_at timestamp default current_timestamp
 );
@@ -215,69 +219,59 @@ insert into departments (department_name, description) values
 ('general medicine', 'general health checkup'),
 ('pediatrics', 'children health');
 
--- admin users
-insert into users (username, password, role) values
-('admin1', 'admin123', 'admin'),
-('admin2', 'admin123', 'admin');
+-- dummy users (passwords are 'password' just for testing)
+insert into users (username, password, status) values 
+('super_admin', 'password', 'active'),
+('system_admin', 'password', 'active'),
+('ram_receptionist', 'password', 'active'),
+('gita_receptionist', 'password', 'active'),
+('sita_sharma', 'password', 'active'),
+('hari_thapa', 'password', 'active'),
+('anil_koirala', 'password', 'active'),
+('doc_anil', 'password', 'active'),
+('doc_meera', 'password', 'active'),
+('doc_suresh', 'password', 'active'),
+('doc_rupa', 'password', 'active'),
+('doc_deepak', 'password', 'active');
 
--- seed admin profiles
-insert into user_profiles (user_id, full_name, contact_number) values
-(1, 'Super Admin', '9800000100'),
-(2, 'System Admin', '9800000101');
+-- dummy user_profiles
+insert into user_profiles (user_id, full_name, dob, age, blood_group, gender, role, contact_number, address) values 
+(1, 'Super Admin', null, 0, 'Unknown', 'prefer not to say', 'admin', '9800000100', 'Kathmandu'),
+(2, 'System Admin', null, 0, 'Unknown', 'prefer not to say', 'admin', '9800000101', 'Kathmandu'),
+(3, 'Ram Receptionist', null, 0, 'Unknown', 'prefer not to say', 'receptionist', '9800000003', 'Pokhara'),
+(4, 'Gita Receptionist', null, 0, 'Unknown', 'prefer not to say', 'receptionist', '9800000020', 'Lalitpur'),
+(5, 'Sita Sharma', '1995-04-12', 31, 'A+', 'female', 'patient', '9800000001', 'Kathmandu'),
+(6, 'Hari Thapa', '1988-07-20', 38, 'O-', 'male', 'patient', '9800000002', 'Pokhara'),
+(7, 'Anil Koirala', '2000-01-15', 26, 'B+', 'male', 'patient', '9800000004', 'Bhaktapur'),
+(8, 'Dr. Anil Khatiwada', null, 0, 'Unknown', 'prefer not to say', 'doctor', '9811111111', 'Kathmandu'),
+(9, 'Dr. Meera Shrestha', null, 0, 'Unknown', 'prefer not to say', 'doctor', '9811111112', 'Lalitpur'),
+(10, 'Dr. Suresh Lama', null, 0, 'Unknown', 'prefer not to say', 'doctor', '9811111113', 'Pokhara'),
+(11, 'Dr. Rupa Joshi', null, 0, 'Unknown', 'prefer not to say', 'doctor', '9811111114', 'Biratnagar'),
+(12, 'Dr. Deepak Giri', null, 0, 'Unknown', 'prefer not to say', 'doctor', '9811111115', 'Butwal');
 
 insert into admins (admin_id, user_id) values
 ('A-001', 1),
 ('A-002', 2);
 
--- receptionists
-insert into users (username, password, role) values
-('reception1', 'reception123', 'receptionist'),
-('reception2', 'reception123', 'receptionist');
-
-insert into user_profiles (user_id, full_name, contact_number) values
-(3, 'Ram Receptionist', '9800000003'),
-(4, 'Gita Receptionist', '9800000020');
-
-insert into receptionists (receptionist_id, user_id, shift) values
-('R-001', 3, 'morning'),
-('R-002', 4, 'afternoon');
-
--- patients
-insert into users (username, password, role) values
-('patient1', 'patient123', 'patient'),
-('patient2', 'patient123', 'patient'),
-('patient3', 'patient123', 'patient');
-
-insert into user_profiles (user_id, full_name, dob, age, blood_group, gender, contact_number, address) values
-(5, 'Sita Sharma', '1995-04-12', 31, 'A+', 'female', '9800000001', 'Kathmandu'),
-(6, 'Hari Thapa', '1988-07-20', 38, 'O-', 'male', '9800000002', 'Lalitpur'),
-(7, 'Anil Koirala', '2000-01-15', 26, 'B+', 'male', '9800000004', 'Bhaktapur');
+insert into receptionists (receptionist_id, user_id, full_name, username, shift) values
+('R-001', 3, 'Ram Receptionist', 'ram_receptionist', 'morning'),
+('R-002', 4, 'Gita Receptionist', 'gita_receptionist', 'afternoon');
 
 insert into patients (patient_id, user_id) values
 ('P-001', 5),
 ('P-002', 6),
 ('P-003', 7);
 
--- doctors (covering all departments)
-insert into users (username, password, role) values
-('doctor_cardiology', 'doctor123', 'doctor'),
-('doctor_neurology', 'doctor123', 'doctor'),
-('doctor_orthopedics', 'doctor123', 'doctor'),
-('doctor_general', 'doctor123', 'doctor'),
-('doctor_pediatrics', 'doctor123', 'doctor');
-
-insert into user_profiles (user_id, full_name, contact_number) values
-(8, 'Dr. Anil Khatiwada', '9811111111'),
-(9, 'Dr. Meera Shrestha', '9811111112'),
-(10, 'Dr. Suresh Lama', '9811111113'),
-(11, 'Dr. Rupa Joshi', '9811111114'),
-(12, 'Dr. Deepak Giri', '9811111115');
-
-insert into doctors (doctor_id, user_id, specialization, department_id, availability) values
-('D-101', 8, 'Cardiologist', 1, 'available'),
-('D-102', 9, 'Neurologist', 2, 'available'),
-('D-103', 10, 'Orthopedic Surgeon', 3, 'available'),
-('D-104', 11, 'General Physician', 4, 'available'),
-('D-105', 12, 'Pediatrician', 5, 'available');
+insert into doctors (doctor_id, user_id, full_name, username, specialization, department_id, availability) values
+('D-101', 8, 'Dr. Anil Khatiwada', 'doc_anil', 'Cardiologist', 1, 'available'),
+('D-102', 9, 'Dr. Meera Shrestha', 'doc_meera', 'Neurologist', 2, 'available'),
+('D-103', 10, 'Dr. Suresh Lama', 'doc_suresh', 'Orthopedic Surgeon', 3, 'available'),
+('D-104', 11, 'Dr. Rupa Joshi', 'doc_rupa', 'General Physician', 4, 'available'),
+('D-105', 12, 'Dr. Deepak Giri', 'doc_deepak', 'Pediatrician', 5, 'available');
 
 use hospital_queue_management_db;
+select * from admins;
+select * from patients;
+select * from users;
+select * from doctors;
+select * from user_profiles;

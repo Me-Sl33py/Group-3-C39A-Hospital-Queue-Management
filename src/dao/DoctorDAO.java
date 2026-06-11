@@ -103,10 +103,11 @@ public class DoctorDAO {
             c.setAutoCommit(false);
             
             // 1. insert user
-            String uSql = "INSERT INTO users (username, password, role) VALUES (?, 'doc123', 'doctor')";
+            String username = "doc_" + System.currentTimeMillis() % 10000;
+            String uSql = "INSERT INTO users (username, password) VALUES (?, 'doc123')";
             int uId = 0;
             try (PreparedStatement ps = c.prepareStatement(uSql, Statement.RETURN_GENERATED_KEYS)) {
-                ps.setString(1, "doc_" + System.currentTimeMillis() % 10000);
+                ps.setString(1, username);
                 ps.executeUpdate();
                 try(ResultSet rs = ps.getGeneratedKeys()){
                     if(rs.next()) uId = rs.getInt(1);
@@ -114,7 +115,7 @@ public class DoctorDAO {
             }
             
             // 2. insert profile
-            String pSql = "INSERT INTO user_profiles (user_id, full_name, contact_number) VALUES (?, ?, ?)";
+            String pSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, role) VALUES (?, ?, ?, 'doctor')";
             try(PreparedStatement ps = c.prepareStatement(pSql)){
                 ps.setInt(1, uId);
                 ps.setString(2, fullName);
@@ -123,13 +124,15 @@ public class DoctorDAO {
             }
             
             // 3. insert doctor
-            String dSql = "INSERT INTO doctors (doctor_id, user_id, specialization, department_id, availability) VALUES (?, ?, ?, ?, ?)";
+            String dSql = "INSERT INTO doctors (doctor_id, user_id, full_name, username, specialization, department_id, availability) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try(PreparedStatement ps = c.prepareStatement(dSql)){
                 ps.setString(1, generateDoctorId(c));
                 ps.setInt(2, uId);
-                ps.setString(3, specialization);
-                ps.setInt(4, deptId);
-                ps.setString(5, availability);
+                ps.setString(3, fullName);
+                ps.setString(4, username);
+                ps.setString(5, specialization);
+                ps.setInt(6, deptId);
+                ps.setString(7, availability);
                 ps.executeUpdate();
             }
             
