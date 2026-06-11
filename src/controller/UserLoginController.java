@@ -166,13 +166,13 @@ public class UserLoginController {
 
         // If BOTH username and phone are empty, show a popup and stop
         if (username.isEmpty() && phone.isEmpty()) {
-            JOptionPane.showMessageDialog(view, "please enter your username or phone number");
+            JOptionPane.showMessageDialog(view, "Please enter your username or phone number.", "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // If password is empty (or is the placeholder), show a popup and stop
         if (password.isEmpty() || password.equals("Enter password")) {
-            JOptionPane.showMessageDialog(view, "please enter your password");
+            JOptionPane.showMessageDialog(view, "Please enter your password.", "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -187,7 +187,7 @@ public class UserLoginController {
             handleRememberMe(username, phone, password);
             showWelcomePopup(role, username, phone, password);
         } else {
-            JOptionPane.showMessageDialog(view, "invalid credentials please try again");
+            JOptionPane.showMessageDialog(view, "Invalid credentials. Please try again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
 
