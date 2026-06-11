@@ -106,7 +106,7 @@ public class PatientDao {
      * @param address       patient's home address
      * @return true if the insert was successful, false if it failed
      */
-    public boolean insertPatient(String patientId, int userId, String fullName,
+    public boolean insertPatient(String patientId, int userId, String fullName, String username,
                                  java.sql.Date dob, int age, String gender,
                                  String contactNumber, String address) {
         Connection conn = null;
@@ -120,29 +120,42 @@ public class PatientDao {
             }
 
             // Step 2: Write the SQL INSERT statement
-            // Column order: patient_id, user_id, full_name, dob, age, gender, contact_number, address
             String sql = "INSERT INTO patients " +
-                         "(patient_id, user_id, full_name, dob, age, " +
+                         "(patient_id, user_id, full_name, username, dob, age, " +
                          "gender, contact_number, address) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             // Step 3: Set the values (? placeholders in the same order as the columns above)
             ps.setString(1, patientId);     // 1st ? = patient_id   (e.g., "P-001")
             ps.setInt   (2, userId);        // 2nd ? = user_id      (foreign key)
             ps.setString(3, fullName);      // 3rd ? = full_name
-            ps.setDate  (4, dob);           // 4th ? = dob          (java.sql.Date from JDateChooser)
-            ps.setInt   (5, age);           // 5th ? = age          (auto-calculated from dob)
-            ps.setString(6, gender);        // 6th ? = gender
-            ps.setString(7, contactNumber); // 7th ? = contact_number
-            ps.setString(8, address);       // 8th ? = address
+            ps.setString(4, username);      // 4th ? = username
+            ps.setDate  (5, dob);           // 5th ? = dob          (java.sql.Date from JDateChooser)
+            ps.setInt   (6, age);           // 6th ? = age          (auto-calculated from dob)
+            ps.setString(7, gender);        // 7th ? = gender
+            ps.setString(8, contactNumber); // 8th ? = contact_number
+            ps.setString(9, address);       // 9th ? = address
 
-            // Step 4: Execute the INSERT
+            // Step 4: Execute the INSERT into patients
             int rowsAffected = ps.executeUpdate();
 
-            // Step 5: Return true if at least 1 row was inserted
-            if (rowsAffected > 0) {
-                System.out.println("[PatientDao] insertPatient: Patient " + patientId + " registered.");
+            // Step 5: ALSO INSERT INTO user_profiles
+            String profileSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, dob, age, gender, role, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement psProfile = conn.prepareStatement(profileSql);
+            psProfile.setInt(1, userId);
+            psProfile.setString(2, fullName);
+            psProfile.setString(3, contactNumber);
+            psProfile.setDate(4, dob);
+            psProfile.setInt(5, age);
+            psProfile.setString(6, gender);
+            psProfile.setString(7, "patient");
+            psProfile.setString(8, address);
+            int profileRows = psProfile.executeUpdate();
+
+            // Step 6: Return true if both inserts were successful
+            if (rowsAffected > 0 && profileRows > 0) {
+                System.out.println("[PatientDao] insertPatient: Patient " + patientId + " registered in patients and user_profiles.");
                 return true;
             }
 

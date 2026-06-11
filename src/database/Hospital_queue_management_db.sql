@@ -41,6 +41,7 @@ create table user_profiles (
 create table admins (
     admin_id varchar(10) primary key,
     user_id int not null,
+    username varchar(50) not null,
     created_at timestamp default current_timestamp
 );
 
@@ -48,6 +49,14 @@ create table admins (
 create table patients (
     patient_id varchar(10) primary key,
     user_id int not null,
+    full_name varchar(100) not null,
+    username varchar(50) not null,
+    dob date null,
+    age int default 0,
+    blood_group enum('A+','A-','B+','B-','O+','O-','AB+','AB-','Unknown') default 'Unknown',
+    gender enum('male','female','others','prefer not to say') default 'prefer not to say',
+    contact_number varchar(15),
+    address varchar(255),
     created_at timestamp default current_timestamp
 );
 
@@ -249,18 +258,18 @@ insert into user_profiles (user_id, full_name, dob, age, blood_group, gender, ro
 (11, 'Dr. Rupa Joshi', null, 0, 'Unknown', 'prefer not to say', 'doctor', '9811111114', 'Biratnagar'),
 (12, 'Dr. Deepak Giri', null, 0, 'Unknown', 'prefer not to say', 'doctor', '9811111115', 'Butwal');
 
-insert into admins (admin_id, user_id) values
-('A-001', 1),
-('A-002', 2);
+insert into admins (admin_id, user_id, username) values
+('A-001', 1, 'super_admin'),
+('A-002', 2, 'system_admin');
 
 insert into receptionists (receptionist_id, user_id, full_name, username, shift) values
 ('R-001', 3, 'Ram Receptionist', 'ram_receptionist', 'morning'),
 ('R-002', 4, 'Gita Receptionist', 'gita_receptionist', 'afternoon');
 
-insert into patients (patient_id, user_id) values
-('P-001', 5),
-('P-002', 6),
-('P-003', 7);
+insert into patients (patient_id, user_id, full_name, username, dob, age, blood_group, gender, contact_number, address) values
+('P-001', 5, 'Sita Sharma', 'sita_sharma', '1995-04-12', 31, 'A+', 'female', '9800000001', 'Kathmandu'),
+('P-002', 6, 'Hari Thapa', 'hari_thapa', '1988-07-20', 38, 'O-', 'male', '9800000002', 'Pokhara'),
+('P-003', 7, 'Anil Koirala', 'anil_koirala', '2000-01-15', 26, 'B+', 'male', '9800000004', 'Bhaktapur');
 
 insert into doctors (doctor_id, user_id, full_name, username, specialization, department_id, availability) values
 ('D-101', 8, 'Dr. Anil Khatiwada', 'doc_anil', 'Cardiologist', 1, 'available'),

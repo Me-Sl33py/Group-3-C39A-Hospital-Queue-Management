@@ -184,76 +184,96 @@ public class UserLoginController {
         // If login is successful (role is found), show welcome popup. Else show error.
         if (role != null) {
             handleRememberMe(username, phone, password);
-            showWelcomePopup(role);
+            showWelcomePopup(role, username, phone);
         } else {
             JOptionPane.showMessageDialog(view, "invalid credentials please try again");
         }
     }
 
-    private void showWelcomePopup(String role) {
-        JDialog dialog = new JDialog();
-        dialog.setUndecorated(true);
-        dialog.setSize(350, 200);
-        dialog.setLocationRelativeTo(view);
-        dialog.getContentPane().setBackground(Color.WHITE);
-        dialog.setLayout(new BorderLayout());
+    private void showWelcomePopup(String role, String username, String phone) {
+        // Immediately close the login view and route
+        view.dispose();
 
-        JPanel centerPanel = new JPanel();
-        centerPanel.setBackground(Color.WHITE);
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        String identifier = !username.isEmpty() ? username : phone;
+        int userId = -1;
+        String fullName = "";
+        String actualUsername = "";
 
-        JLabel checkmark = new JLabel("✓");
-        checkmark.setForeground(Color.GREEN);
-        checkmark.setFont(new Font("Arial", Font.BOLD, 50));
-        checkmark.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JLabel title = new JLabel("Welcome Back!");
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JLabel text = new JLabel("You are logged in as " + role);
-        text.setFont(new Font("Arial", Font.PLAIN, 14));
-        text.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(checkmark);
-        centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(title);
-        centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(text);
-
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setBackground(Color.WHITE);
-
-        JButton continueButton = new JButton("Continue");
-        continueButton.setBackground(new Color(33, 97, 172));
-        continueButton.setForeground(Color.WHITE);
-        continueButton.setFocusPainted(false);
-        
-        continueButton.addActionListener(e -> {
-            dialog.dispose();
-            view.dispose(); // close Login window
-            switch (role.toLowerCase()) {
-                case "patient":
-                    // new PatientDashboard().setVisible(true);
-                    break;
-                case "doctor":
-                    // new DoctorDashboard().setVisible(true);
-                    break;
-                case "receptionist":
-                    // new ReceptionistDashboard().setVisible(true);
-                    break;
-                case "admin":
-                    // new AdminDashboard().setVisible(true);
-                    break;
+        // Query user_profiles to get shared data
+        try {
+            database.Db db = new database.MySqlConnection();
+            java.sql.Connection conn = db.openConnection();
+            java.sql.PreparedStatement ps = conn.prepareStatement(
+                "SELECT up.user_id, up.full_name, u.username FROM user_profiles up " +
+                "JOIN users u ON up.user_id = u.user_id " +
+                "WHERE LOWER(u.username) = LOWER(?) OR up.contact_number = ? OR LOWER(up.full_name) = LOWER(?)");
+            ps.setString(1, identifier);
+            ps.setString(2, identifier);
+            ps.setString(3, identifier);
+            java.sql.ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userId = rs.getInt("user_id");
+                fullName = rs.getString("full_name");
+                actualUsername = rs.getString("username");
             }
-        });
+            db.closeConnection(conn);
+        } catch (Exception ex) { ex.printStackTrace(); }
 
-        bottomPanel.add(continueButton);
+        switch (role.toLowerCase()) {
+            case "patient":
+                if (userId != -1) {
+                    // Let's get patient_id
+                    String patientId = null;
+                    try {
+                        database.Db db = new database.MySqlConnection();
+                        java.sql.Connection conn = db.openConnection();
+                        java.sql.PreparedStatement ps = conn.prepareStatement("SELECT patient_id FROM patients WHERE user_id = ?");
+                        ps.setInt(1, userId);
+                        java.sql.ResultSet rs = ps.executeQuery();
+                        if (rs.next()) patientId = rs.getString("patient_id");
+                        db.closeConnection(conn);
+                    } catch (Exception ex) {}
 
-        dialog.add(centerPanel, BorderLayout.CENTER);
-        dialog.add(bottomPanel, BorderLayout.SOUTH);
-        dialog.setVisible(true);
+                    if (patientId != null) {
+                        JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
+                        JOptionPane.showMessageDialog(null, "Launching Patient Dashboard...\n(Note: Dashboard frame files will be integrated as you progress)");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Patient Profile not found.");
+                    }
+                }
+                break;
+            case "doctor":
+                if (userId != -1) {
+                    String doctorId = null;
+                    try {
+                        database.Db db = new database.MySqlConnection();
+                        java.sql.Connection conn = db.openConnection();
+                        java.sql.PreparedStatement ps = conn.prepareStatement("SELECT doctor_id FROM doctors WHERE user_id = ?");
+                        ps.setInt(1, userId);
+                        java.sql.ResultSet rs = ps.executeQuery();
+                        if (rs.next()) doctorId = rs.getString("doctor_id");
+                        db.closeConnection(conn);
+                    } catch (Exception ex) {}
+
+                    if (doctorId != null) {
+                        JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
+                        JOptionPane.showMessageDialog(null, "Launching Doctor Dashboard...\n(Note: Dashboard frame files will be integrated as you progress)");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Doctor Profile not found.");
+                    }
+                }
+                break;
+            case "receptionist":
+                if (userId != -1) {
+                    JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
+                    JOptionPane.showMessageDialog(null, "Launching Receptionist Dashboard...\n(Note: Dashboard frame files will be integrated as you progress)");
+                }
+                break;
+            case "admin":
+                JOptionPane.showMessageDialog(null, "Welcome Admin!");
+                new view.admin().setVisible(true);
+                break;
+        }
     }
 
     /**
