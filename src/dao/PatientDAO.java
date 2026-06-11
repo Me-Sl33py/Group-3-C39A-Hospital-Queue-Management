@@ -338,7 +338,7 @@ public class PatientDAO {
 
     public Patient getNextWaitingPatient() {
         String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
-                     "p.contact_number, p.address, p.blood_group, p.created_at, p.updated_at FROM patients p " +
+                     "p.contact_number, p.address, p.blood_group, p.created_at FROM patients p " +
                      "JOIN queue q ON p.patient_id = q.patient_id " +
                      "WHERE q.status = 'waiting' " +
                      "ORDER BY q.token_number ASC LIMIT 1";
