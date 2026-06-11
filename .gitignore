@@ -14,16 +14,16 @@
 *.class
 
 # Package Files
-*.jar
-*.war
-*.ear
+# *.jar (Commented out so project libraries sync correctly)
+# *.war
+# *.ear
 
 # Log files
 *.log
 
 # OS Specific
-.DS_Store
+# .DS_Store
 Thumbs.db
 
 #database ignore
-# src/database
+# src/database (Commented out so Db.java and MySqlConnection.java sync correctly)
