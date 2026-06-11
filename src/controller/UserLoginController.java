@@ -1,4 +1,3 @@
-// Force Rebuild
 package controller;
 
 import dao.UserDAO;
@@ -176,123 +175,103 @@ public class UserLoginController {
             return;
         }
 
-        // Try logging in with username first
-        String role = null;
-        String successfulIdentifier = "";
-        
-        if (!username.isEmpty()) {
-            role = userDAO.checkLogin(username, password);
-            if (role != null) {
-                successfulIdentifier = username;
-            }
-        }
-        
-        // If username login failed (or was empty), try logging in with phone
-        if (role == null && !phone.isEmpty()) {
-            role = userDAO.checkLogin(phone, password);
-            if (role != null) {
-                successfulIdentifier = phone;
-            }
-        }
+        // Decide which identifier to use (if username is not empty, use it, else use phone)
+        String identifier = !username.isEmpty() ? username : phone;
+
+        // Call the DAO checkLogin method using the identifier and password
+        String role = userDAO.checkLogin(identifier, password);
 
         // If login is successful (role is found), show welcome popup. Else show error.
         if (role != null) {
             handleRememberMe(username, phone, password);
-            showWelcomePopup(role, username, phone, password, successfulIdentifier);
+            showWelcomePopup(role, username, phone);
         } else {
             JOptionPane.showMessageDialog(view, "invalid credentials please try again");
         }
     }
 
-    private void showWelcomePopup(String role, String username, String phone, String password, String successfulIdentifier) {
+    private void showWelcomePopup(String role, String username, String phone) {
         // Immediately close the login view and route
         view.dispose();
 
+        String identifier = !username.isEmpty() ? username : phone;
+        int userId = -1;
+        String fullName = "";
+        String actualUsername = "";
+
+        // Query user_profiles to get shared data
+        try {
+            database.Db db = new database.MySqlConnection();
+            java.sql.Connection conn = db.openConnection();
+            java.sql.PreparedStatement ps = conn.prepareStatement(
+                "SELECT up.user_id, up.full_name, u.username FROM user_profiles up " +
+                "JOIN users u ON up.user_id = u.user_id " +
+                "WHERE LOWER(u.username) = LOWER(?) OR up.contact_number = ? OR LOWER(up.full_name) = LOWER(?)");
+            ps.setString(1, identifier);
+            ps.setString(2, identifier);
+            ps.setString(3, identifier);
+            java.sql.ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userId = rs.getInt("user_id");
+                fullName = rs.getString("full_name");
+                actualUsername = rs.getString("username");
+            }
+            db.closeConnection(conn);
+        } catch (Exception ex) { ex.printStackTrace(); }
+
         switch (role.toLowerCase()) {
             case "patient":
-                String patientId = null;
-                int userId = -1;
-                String patName = "";
-                String actualUsername = "";
-                
-                try {
-                    database.MySqlConnection db = new database.MySqlConnection();
-                    java.sql.Connection conn = db.openConnection();
-                    java.sql.PreparedStatement ps = conn.prepareStatement(
-                        "SELECT p.patient_id, p.full_name, u.user_id, u.username FROM patients p " +
-                        "JOIN users u ON p.user_id = u.user_id " +
-                        "WHERE LOWER(u.username) = LOWER(?) OR p.contact_number = ? OR LOWER(p.full_name) = LOWER(?)");
-                    ps.setString(1, successfulIdentifier);
-                    ps.setString(2, successfulIdentifier);
-                    ps.setString(3, successfulIdentifier);
-                    java.sql.ResultSet rs = ps.executeQuery();
-                    if (rs.next()) {
-                        patientId = rs.getString("patient_id");
-                        patName = rs.getString("full_name");
-                        userId = rs.getInt("user_id");
-                        actualUsername = rs.getString("username");
-                        
-                        // Session logic removed as per patient_integration branch
+                if (userId != -1) {
+                    // Let's get patient_id
+                    String patientId = null;
+                    try {
+                        database.Db db = new database.MySqlConnection();
+                        java.sql.Connection conn = db.openConnection();
+                        java.sql.PreparedStatement ps = conn.prepareStatement("SELECT patient_id FROM patients WHERE user_id = ?");
+                        ps.setInt(1, userId);
+                        java.sql.ResultSet rs = ps.executeQuery();
+                        if (rs.next()) patientId = rs.getString("patient_id");
+                        db.closeConnection(conn);
+                    } catch (Exception ex) {}
+
+                    if (patientId != null) {
+                        JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
+                        JOptionPane.showMessageDialog(null, "Launching Patient Dashboard...\n(Note: Dashboard frame files will be integrated as you progress)");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Patient Profile not found.");
                     }
-                    db.closeConnection(conn);
-                } catch (Exception ex) { ex.printStackTrace(); }
-                
-                if (patientId != null) {
-                    JOptionPane.showMessageDialog(null, "Welcome, " + patName + "!\n(Patient Dashboard UI is not available on this branch)");
-                    // view.Patients patientView = new view.Patients();
-                    // patientView.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Could not find Patient profile for this user!");
                 }
                 break;
             case "doctor":
-                // We need to find the specific Doctor ID for this logged in user
-                String doctorId = null;
-                String docName = "";
-                
-                try {
-                    database.MySqlConnection db = new database.MySqlConnection();
-                    java.sql.Connection conn = db.openConnection();
-                    
-                    // 1. Try to fetch existing doctor
-                    java.sql.PreparedStatement ps = conn.prepareStatement(
-                        "SELECT d.doctor_id, d.full_name, u.user_id FROM doctors d " +
-                        "JOIN users u ON d.user_id = u.user_id " +
-                        "WHERE LOWER(u.username) = LOWER(?) OR d.contact_number = ? OR LOWER(d.full_name) = LOWER(?)");
-                    ps.setString(1, successfulIdentifier);
-                    ps.setString(2, successfulIdentifier);
-                    ps.setString(3, successfulIdentifier);
-                    java.sql.ResultSet rs = ps.executeQuery();
-                    if (rs.next()) {
-                        doctorId = rs.getString("doctor_id");
-                        docName = rs.getString("full_name");
+                if (userId != -1) {
+                    String doctorId = null;
+                    try {
+                        database.Db db = new database.MySqlConnection();
+                        java.sql.Connection conn = db.openConnection();
+                        java.sql.PreparedStatement ps = conn.prepareStatement("SELECT doctor_id FROM doctors WHERE user_id = ?");
+                        ps.setInt(1, userId);
+                        java.sql.ResultSet rs = ps.executeQuery();
+                        if (rs.next()) doctorId = rs.getString("doctor_id");
+                        db.closeConnection(conn);
+                    } catch (Exception ex) {}
+
+                    if (doctorId != null) {
+                        JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
+                        JOptionPane.showMessageDialog(null, "Launching Doctor Dashboard...\n(Note: Dashboard frame files will be integrated as you progress)");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Doctor Profile not found.");
                     }
-                    
-                    // Doctors should be created by Receptionists or Admins.
-                    // We do NOT auto-create doctors here.
-                    
-                    db.closeConnection(conn);
-                } catch (Exception ex) { ex.printStackTrace(); }
-                
-                if (doctorId != null) {
-                    view.DoctorPanel dp = new view.DoctorPanel();
-                    controller.DoctorController dc = new controller.DoctorController(dp);
-                    
-                    model.Doctor loggedInDoctor = new model.Doctor();
-                    loggedInDoctor.setDoctorId(doctorId);
-                    loggedInDoctor.setFullName(docName);
-                    
-                    dc.setCurrentDoctor(loggedInDoctor);
-                    dp.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Could not find Doctor profile for this user!");
                 }
                 break;
             case "receptionist":
-                // new ReceptionistDashboard().setVisible(true);
+                if (userId != -1) {
+                    JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
+                    JOptionPane.showMessageDialog(null, "Launching Receptionist Dashboard...\n(Note: Dashboard frame files will be integrated as you progress)");
+                }
                 break;
             case "admin":
-                // new AdminDashboard().setVisible(true);
+                JOptionPane.showMessageDialog(null, "Welcome Admin!");
+                new view.admin().setVisible(true);
                 break;
         }
     }
