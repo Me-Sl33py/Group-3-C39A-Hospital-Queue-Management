@@ -17,35 +17,60 @@ public class DoctorDAO {
              ResultSet rs = ps.executeQuery()) {
 
             if (rs.next()) {
-                String lastId = rs.getString("doctor_id"); // e.g. "D-105"
-                int num = Integer.parseInt(lastId.substring(2)); // extracts 105
-                return "D-" + (num + 1); // returns "D-106"
+                String lastId = rs.getString("doctor_id");
+                int num = Integer.parseInt(lastId.substring(2));
+                return "D-" + (num + 1);
             } else {
-                return "D-101"; // first doctor
+                return "D-101";
             }
         }
     }
 
-    public List<String[]> searchDoctors(String keyword) {
+    public List<String[]> searchDoctors(String keyword, String deptFilter, String availFilter, String statusFilter) {
         List<String[]> list = new ArrayList<>();
 
-        String sql = "SELECT d.doctor_id, d.full_name, d.contact_number, " +
-                     "d.specialization, dept.department_name, " +
-                     "d.availability, d.status " +
-                     "FROM doctors d " +
-                     "JOIN departments dept ON d.department_id = dept.department_id " +
-                     "WHERE d.full_name LIKE ? " +
-                     "OR d.specialization LIKE ? " +
-                     "OR dept.department_name LIKE ?";
+        StringBuilder sql = new StringBuilder(
+            "SELECT d.doctor_id, up.full_name, up.contact_number, " +
+            "d.specialization, dept.department_name, " +
+            "d.availability, u.status " +
+            "FROM doctors d " +
+            "JOIN user_profiles up ON d.user_id = up.user_id " +
+            "JOIN users u ON d.user_id = u.user_id " +
+            "JOIN departments dept ON d.department_id = dept.department_id " +
+            "WHERE (up.full_name LIKE ? " +
+            "OR d.specialization LIKE ? " +
+            "OR dept.department_name LIKE ?) "
+        );
+
+        if (deptFilter != null && !deptFilter.equalsIgnoreCase("All")) {
+            sql.append(" AND dept.department_name = ? ");
+        }
+        if (availFilter != null && !availFilter.equalsIgnoreCase("All")) {
+            sql.append(" AND d.availability = ? ");
+        }
+        if (statusFilter != null && !statusFilter.equalsIgnoreCase("All")) {
+            sql.append(" AND u.status = ? ");
+        }
 
         try (Connection c = getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+             PreparedStatement ps = c.prepareStatement(sql.toString())) {
 
             String kw = "%" + keyword + "%";
 
             ps.setString(1, kw);
             ps.setString(2, kw);
             ps.setString(3, kw);
+            
+            int paramIndex = 4;
+            if (deptFilter != null && !deptFilter.equalsIgnoreCase("All")) {
+                ps.setString(paramIndex++, deptFilter);
+            }
+            if (availFilter != null && !availFilter.equalsIgnoreCase("All")) {
+                ps.setString(paramIndex++, availFilter.toLowerCase()); // 'available' / 'unavailable'
+            }
+            if (statusFilter != null && !statusFilter.equalsIgnoreCase("All")) {
+                ps.setString(paramIndex++, statusFilter.toLowerCase());
+            }
 
             ResultSet rs = ps.executeQuery();
 
@@ -74,30 +99,45 @@ public class DoctorDAO {
                              int deptId,
                              String availability) {
 
-        String sql = "INSERT INTO doctors " +
-                     "(doctor_id, user_id, full_name, contact_number, specialization, department_id, availability, status) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, 'active')";
-
-        try (Connection c = getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-
-            String doctorId = generateDoctorId(c);
-            int userId = 3; // temporary value
-
-            ps.setString(1, doctorId);
-            ps.setInt(2, userId);
-            ps.setString(3, fullName);
-            ps.setString(4, phone);
-            ps.setString(5, specialization);
-            ps.setInt(6, deptId);
-            ps.setString(7, availability);
-
-            return ps.executeUpdate() > 0;
-
+        try (Connection c = getConnection()) {
+            c.setAutoCommit(false);
+            
+            // 1. insert user
+            String uSql = "INSERT INTO users (username, password, role) VALUES (?, 'doc123', 'doctor')";
+            int uId = 0;
+            try (PreparedStatement ps = c.prepareStatement(uSql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, "doc_" + System.currentTimeMillis() % 10000);
+                ps.executeUpdate();
+                try(ResultSet rs = ps.getGeneratedKeys()){
+                    if(rs.next()) uId = rs.getInt(1);
+                }
+            }
+            
+            // 2. insert profile
+            String pSql = "INSERT INTO user_profiles (user_id, full_name, contact_number) VALUES (?, ?, ?)";
+            try(PreparedStatement ps = c.prepareStatement(pSql)){
+                ps.setInt(1, uId);
+                ps.setString(2, fullName);
+                ps.setString(3, phone);
+                ps.executeUpdate();
+            }
+            
+            // 3. insert doctor
+            String dSql = "INSERT INTO doctors (doctor_id, user_id, specialization, department_id, availability) VALUES (?, ?, ?, ?, ?)";
+            try(PreparedStatement ps = c.prepareStatement(dSql)){
+                ps.setString(1, generateDoctorId(c));
+                ps.setInt(2, uId);
+                ps.setString(3, specialization);
+                ps.setInt(4, deptId);
+                ps.setString(5, availability);
+                ps.executeUpdate();
+            }
+            
+            c.commit();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
@@ -108,51 +148,59 @@ public class DoctorDAO {
                                 int deptId,
                                 String availability,
                                 String status) {
-
-        String sql = "UPDATE doctors SET " +
-                     "full_name=?, " +
-                     "contact_number=?, " +
-                     "specialization=?, " +
-                     "department_id=?, " +
-                     "availability=?, " +
-                     "status=? " +
-                     "WHERE doctor_id=?";
-
-        try (Connection c = getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-
-            ps.setString(1, fullName);
-            ps.setString(2, phone);
-            ps.setString(3, specialization);
-            ps.setInt(4, deptId);
-            ps.setString(5, availability);
-            ps.setString(6, status);
-            ps.setString(7, doctorId);
-
-            return ps.executeUpdate() > 0;
-
+        try (Connection c = getConnection()) {
+            c.setAutoCommit(false);
+            
+            // Get user_id from doctors
+            int uId = -1;
+            try(PreparedStatement ps = c.prepareStatement("SELECT user_id FROM doctors WHERE doctor_id=?")){
+                ps.setString(1, doctorId);
+                try(ResultSet rs = ps.executeQuery()){
+                    if(rs.next()) uId = rs.getInt("user_id");
+                }
+            }
+            if (uId == -1) return false;
+            
+            // Update profile
+            try(PreparedStatement ps = c.prepareStatement("UPDATE user_profiles SET full_name=?, contact_number=? WHERE user_id=?")){
+                ps.setString(1, fullName);
+                ps.setString(2, phone);
+                ps.setInt(3, uId);
+                ps.executeUpdate();
+            }
+            
+            // Update user status
+            try(PreparedStatement ps = c.prepareStatement("UPDATE users SET status=? WHERE user_id=?")){
+                ps.setString(1, status);
+                ps.setInt(2, uId);
+                ps.executeUpdate();
+            }
+            
+            // Update doctor
+            try(PreparedStatement ps = c.prepareStatement("UPDATE doctors SET specialization=?, department_id=?, availability=? WHERE doctor_id=?")){
+                ps.setString(1, specialization);
+                ps.setInt(2, deptId);
+                ps.setString(3, availability);
+                ps.setString(4, doctorId);
+                ps.executeUpdate();
+            }
+            
+            c.commit();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
-    public boolean removeDoctor(String doctorId) {
-
-        String sql = "DELETE FROM doctors WHERE doctor_id=?";
-
-        try (Connection c = getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-
+    public boolean deactivateDoctor(String doctorId) {
+        String sql = "UPDATE users SET status = 'deactive' WHERE user_id = (SELECT user_id FROM doctors WHERE doctor_id=?)";
+        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, doctorId);
-
             return ps.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) { 
+            e.printStackTrace(); 
         }
-
         return false;
     }
 }

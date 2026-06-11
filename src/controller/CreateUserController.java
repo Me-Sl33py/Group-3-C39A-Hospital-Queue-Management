@@ -72,7 +72,7 @@ public class CreateUserController {
             clearForm();
         } else {
             JOptionPane.showMessageDialog(parentFrame,
-                "Failed to create user.\nEmail may already exist.",
+                "Failed to create user.\nPlease ensure the name is unique and all fields are correct.",
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

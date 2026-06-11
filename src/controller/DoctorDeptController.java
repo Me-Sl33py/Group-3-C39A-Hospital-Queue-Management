@@ -29,20 +29,31 @@ public class DoctorDeptController {
 
     private void setupTables() {
         DefaultTableModel doctorModel = new DefaultTableModel(
-            new String[]{"ID", "Full Name", "Phone", "Specialty", "Department", "Availability", "Status"}, 0
+            new String[]{"Doctor ID", "Full Name", "Phone", "Specialty", "Department", "Availability", "Status"}, 0
         ) { public boolean isCellEditable(int r, int c) { return false; } };
         panel.getTblDoctors().setModel(doctorModel);
 
         DefaultTableModel deptModel = new DefaultTableModel(
-            new String[]{"ID", "Department Name", "Head Doctor"}, 0
+            new String[]{"Department ID", "Department Name", "Head Doctor"}, 0
         ) { public boolean isCellEditable(int r, int c) { return false; } };
         panel.getTblDepartments().setModel(deptModel);
     }
 
     private void initListeners() {
         // Doctor listeners
-        panel.getBtnSearchDoc().addActionListener(e ->
-            loadDoctors(panel.getTxtSearchDoc().getText().trim()));
+        panel.getBtnSearchDoc().addActionListener(e -> triggerDoctorSearch());
+        
+        // Add document listener to search text field
+        panel.getTxtSearchDoc().getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { triggerDoctorSearch(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { triggerDoctorSearch(); }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { triggerDoctorSearch(); }
+        });
+
+        // Add action listeners to filter combo boxes
+        panel.getCmbFilterDepartment().addActionListener(e -> triggerDoctorSearch());
+        panel.getCmbFilterAvailability().addActionListener(e -> triggerDoctorSearch());
+        panel.getCmbFilterStatus().addActionListener(e -> triggerDoctorSearch());
 
         panel.getTblDoctors().getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) onDoctorRowSelected();
@@ -53,6 +64,9 @@ public class DoctorDeptController {
         panel.getBtnRemoveDoc().addActionListener(e -> removeDoctor());
         panel.getBtnRefreshDoc().addActionListener(e -> {
             panel.getTxtSearchDoc().setText("");
+            panel.getCmbFilterDepartment().setSelectedIndex(0);
+            panel.getCmbFilterAvailability().setSelectedIndex(0);
+            panel.getCmbFilterStatus().setSelectedIndex(0);
             loadAllDoctors();
             clearDocFields();
         });
@@ -167,20 +181,33 @@ public class DoctorDeptController {
                 "No Selection", JOptionPane.WARNING_MESSAGE); return;
         }
         int confirm = JOptionPane.showConfirmDialog(parentFrame,
-            "Are you sure you want to remove this doctor?",
+            "Are you sure you want to deactivate this doctor?",
             "Confirm", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            boolean ok = doctorDAO.removeDoctor(selectedDoctorId);
+            boolean ok = doctorDAO.deactivateDoctor(selectedDoctorId);
             JOptionPane.showMessageDialog(parentFrame,
-                ok ? "Doctor removed!" : "Failed to remove.",
+                ok ? "Doctor deactivated!" : "Failed to deactivate.",
                 ok ? "Success" : "Error",
                 ok ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
             if (ok) { loadAllDoctors(); clearDocFields(); }
         }
     }
 
+    public void triggerDoctorSearch() {
+        String keyword = panel.getTxtSearchDoc().getText().trim();
+        String deptFilter = panel.getCmbFilterDepartment().getSelectedItem().toString();
+        String availFilter = panel.getCmbFilterAvailability().getSelectedItem().toString();
+        String statusFilter = panel.getCmbFilterStatus().getSelectedItem().toString();
+
+        List<String[]> doctors = doctorDAO.searchDoctors(keyword, deptFilter, availFilter, statusFilter);
+        DefaultTableModel model = (DefaultTableModel) panel.getTblDoctors().getModel();
+        model.setRowCount(0);
+        for (String[] row : doctors) model.addRow(row);
+    }
+
     private void loadDoctors(String keyword) {
-        List<String[]> doctors = doctorDAO.searchDoctors(keyword);
+        // Fallback for initial load
+        List<String[]> doctors = doctorDAO.searchDoctors(keyword, "All", "All", "All");
         DefaultTableModel model = (DefaultTableModel) panel.getTblDoctors().getModel();
         model.setRowCount(0);
         for (String[] row : doctors) model.addRow(row);
@@ -251,12 +278,12 @@ public class DoctorDeptController {
                 "No Selection", JOptionPane.WARNING_MESSAGE); return;
         }
         int confirm = JOptionPane.showConfirmDialog(parentFrame,
-            "Are you sure? This will fail if doctors are assigned to this department.",
+            "Are you sure you want to deactivate this department?",
             "Confirm", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             boolean ok = deptDAO.removeDepartment(selectedDeptId);
             JOptionPane.showMessageDialog(parentFrame,
-                ok ? "Department removed!" : "Failed. Department may have doctors assigned.",
+                ok ? "Department deactivated!" : "Failed to deactivate.",
                 ok ? "Success" : "Error",
                 ok ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
             if (ok) { loadAllDepartments(); clearDeptFields(); }

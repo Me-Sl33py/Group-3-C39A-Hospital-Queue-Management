@@ -36,7 +36,11 @@ public class ManageUserController {
             if (!e.getValueIsAdjusting()) onRowSelected();
         });
 
-        panel.getBtnSearch().addActionListener(e -> triggerSearch());
+        panel.getTxtSearch().getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { triggerSearch(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { triggerSearch(); }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { triggerSearch(); }
+        });
         
         panel.getCmbFilterRole().addActionListener(e -> triggerSearch());
         panel.getCmbFilterStatus().addActionListener(e -> triggerSearch());
@@ -48,6 +52,9 @@ public class ManageUserController {
 
         panel.getBtnRefresh().addActionListener(e -> {
             panel.getTxtSearch().setText("");
+            panel.getCmbFilterRole().setSelectedIndex(0);
+            panel.getCmbFilterStatus().setSelectedIndex(0);
+            panel.getCmbFilterAge().setSelectedIndex(0);
             loadAllUsers();
             clearFields();
             resetDeactivateButton();

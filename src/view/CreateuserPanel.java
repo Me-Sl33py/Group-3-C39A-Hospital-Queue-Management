@@ -27,8 +27,8 @@ public class CreateuserPanel extends javax.swing.JPanel {
         centerWrapper.setBackground(new java.awt.Color(235, 240, 251)); // Same as dashboard
         
         // Ensure formCardPanel doesn't demand huge width that breaks GridBagLayout centering
-        formCardPanel.setPreferredSize(new java.awt.Dimension(700, 750));
-        formCardPanel.setMinimumSize(new java.awt.Dimension(600, 700));
+        formCardPanel.setPreferredSize(new java.awt.Dimension(700, 850));
+        formCardPanel.setMinimumSize(new java.awt.Dimension(600, 850));
         centerWrapper.add(formCardPanel);
         
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(centerWrapper);
@@ -134,7 +134,7 @@ public class CreateuserPanel extends javax.swing.JPanel {
         shiftlabel.setText("Shift");
 
         shiftcombobox.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        shiftcombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Morning", "Afternoon", "Night", " " }));
+        shiftcombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Morning", "Afternoon", "Evening" }));
         shiftcombobox.addActionListener(this::shiftcomboboxActionPerformed);
 
         javax.swing.GroupLayout formCardPanelLayout = new javax.swing.GroupLayout(formCardPanel);
