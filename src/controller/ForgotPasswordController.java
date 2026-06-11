@@ -56,15 +56,25 @@ public class ForgotPasswordController {
         java.util.Date selectedDate = view.getDobField().getDate();
 
         // Simple validation: check required fields
-        if (fullName.isEmpty() || phone.isEmpty() || selectedDate == null) {
+        if (fullName.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(view,
-                    "Full Name, Phone Number, and DOB (Date of Birth) are required for identity verification.",
+                    "Full Name is required for identity verification.",
+                    "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (phone.isEmpty() && selectedDate == null) {
+            javax.swing.JOptionPane.showMessageDialog(view,
+                    "Please provide either your Phone Number or Date of Birth to verify your identity.",
                     "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Convert java.util.Date to java.sql.Date
-        java.sql.Date dob = new java.sql.Date(selectedDate.getTime());
+        java.sql.Date dob = null;
+        if (selectedDate != null) {
+            dob = new java.sql.Date(selectedDate.getTime());
+        }
 
         // Call DAO to search if user exists with matching patient details
         int userId = userDAO.searchUserForReset(fullName, phone, dob, location);

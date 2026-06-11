@@ -262,4 +262,169 @@ public class UserDAO {
         } catch (SQLException e) { e.printStackTrace(); }
         return false;
     }
+
+    public String checkLogin(String identifier, String password) {
+        String query = 
+            "select p.role, u.user_id from users u " +
+            "left join user_profiles p " +
+            "on u.user_id = p.user_id " +
+            "where (LOWER(u.username) = LOWER(?) " +
+            "or p.contact_number = ? " +
+            "or LOWER(p.full_name) = LOWER(?)) " +
+            "and u.password = ?";
+            
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, identifier);
+            ps.setString(2, identifier);
+            ps.setString(3, identifier);
+            ps.setString(4, password);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("role");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("checkLogin error: " + e);
+        }
+        return null;
+    }
+
+    public int getUserId(String identifier) {
+        String query = 
+            "select u.user_id from users u " +
+            "left join user_profiles p " +
+            "on u.user_id = p.user_id " +
+            "where u.username = ? " +
+            "or p.contact_number = ?";
+            
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, identifier);
+            ps.setString(2, identifier);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("user_id");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("getUserId error: " + e);
+        }
+        return -1;
+    }
+
+    public int searchUserForReset(String fullName, String phone, java.sql.Date dob, String location) {
+        // Primary search: Full Name AND Phone
+        if (phone != null && !phone.trim().isEmpty()) {
+            String sqlPhone = "SELECT user_id FROM user_profiles WHERE LOWER(full_name) = LOWER(?) AND contact_number = ?";
+            try (Connection conn = getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sqlPhone)) {
+                ps.setString(1, fullName.trim());
+                ps.setString(2, phone.trim());
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("user_id");
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("searchUserForReset (Phone) error: " + e);
+            }
+        }
+        
+        // Fallback search: Full Name AND DOB (if DOB is provided)
+        if (dob != null) {
+            String sqlDob = "SELECT user_id FROM user_profiles WHERE LOWER(full_name) = LOWER(?) AND dob = ?";
+            try (Connection conn = getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sqlDob)) {
+                ps.setString(1, fullName.trim());
+                ps.setDate(2, dob);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("user_id");
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("searchUserForReset (DOB) error: " + e);
+            }
+        }
+        
+        return -1;
+    }
+
+    public boolean updatePassword(int userId, String newPassword) {
+        return changePassword(userId, newPassword);
+    }
+
+    public boolean isUsernameExists(String username) {
+        String sql = "SELECT user_id FROM users WHERE username = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (Exception e) {
+            System.out.println("isUsernameExists error: " + e);
+        }
+        return false;
+    }
+
+    public int registerUser(String username, String password, String role) {
+        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+            if (ps.executeUpdate() > 0) {
+                try (ResultSet keys = ps.getGeneratedKeys()) {
+                    if (keys.next()) return keys.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("registerUser error: " + e);
+        }
+        return -1;
+    }
+
+    public boolean registerPatient(String patientId, int userId, String fullName, int age, String gender, String contactNumber, String address) {
+        String profileSql = "INSERT INTO user_profiles (user_id, full_name, age, gender, contact_number, address, role) VALUES (?, ?, ?, ?, ?, ?, 'patient')";
+        String patientSql = "INSERT INTO patients (patient_id, user_id) VALUES (?, ?)";
+        try (Connection conn = getConnection()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement ps1 = conn.prepareStatement(profileSql);
+                 PreparedStatement ps2 = conn.prepareStatement(patientSql)) {
+                
+                ps1.setInt(1, userId);
+                ps1.setString(2, fullName);
+                ps1.setInt(3, age);
+                ps1.setString(4, gender);
+                ps1.setString(5, contactNumber);
+                ps1.setString(6, address);
+                ps1.executeUpdate();
+
+                ps2.setString(1, patientId);
+                ps2.setInt(2, userId);
+                ps2.executeUpdate();
+
+                conn.commit();
+                return true;
+            } catch (Exception e) {
+                conn.rollback();
+                System.out.println("registerPatient error: " + e);
+            }
+        } catch (Exception e) {
+            System.out.println("registerPatient connection error: " + e);
+        }
+        return false;
+    }
+
+    public String generatePatientId() {
+        try (Connection conn = getConnection()) {
+            return generateId(conn, "patients", "patient_id", "P");
+        } catch (Exception e) {
+            return "P-001";
+        }
+    }
 }
