@@ -29,6 +29,7 @@ public class DoctorPanel extends javax.swing.JFrame {
     // =====================================================================
 // GETTERS — expose UI components to the controller
 // =====================================================================
+    public javax.swing.JLabel getLblTitle4() { return lblTitle4; }
     public javax.swing.JLabel getLblQueueName1() { return lblQueueName1; }
 public javax.swing.JLabel getLblQueueName2() { return lblQueueName2; }
 public javax.swing.JLabel getLblQueueDesc1() { return lblQueueDesc1; }

@@ -257,7 +257,17 @@ public class UserLoginController {
 
                     if (doctorId != null) {
                         JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
-                        JOptionPane.showMessageDialog(null, "Launching Doctor Dashboard...\n(Note: Dashboard frame files will be integrated as you progress)");
+                        
+                        // Fetch the full doctor model
+                        dao.DoctorDAO docDao = new dao.DoctorDAO();
+                        model.Doctor doc = docDao.getDoctorById(doctorId);
+                        
+                        view.DoctorPanel dp = new view.DoctorPanel();
+                        controller.DoctorController dc = new controller.DoctorController(dp);
+                        if (doc != null) {
+                            dc.setCurrentDoctor(doc);
+                        }
+                        dp.setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Doctor Profile not found.");
                     }
@@ -271,7 +281,9 @@ public class UserLoginController {
                 break;
             case "admin":
                 JOptionPane.showMessageDialog(null, "Welcome Admin!");
-                new view.admin().setVisible(true);
+                view.admin adminView = new view.admin();
+                new controller.AdminController(adminView);
+                adminView.setVisible(true);
                 break;
         }
     }
