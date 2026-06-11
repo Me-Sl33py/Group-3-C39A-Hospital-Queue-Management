@@ -106,6 +106,11 @@ public class ManageUserController {
     String bloodGroup = panel.getCmbBloodGroup().getSelectedItem().toString();
     String newPass = panel.getTxtChangePassword().getText().trim();
 
+    if (!newPass.isEmpty() && newPass.length() < 6) {
+        JOptionPane.showMessageDialog(parentFrame, "New password must be at least 6 characters long.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
     boolean ok = dao.updateUser(selectedUserId, fullName, dob, status, gender, phone, bloodGroup);
 
     if (ok && !newPass.isEmpty()) {

@@ -21,16 +21,16 @@ public class UserDAO {
             "up.blood_group AS blood_group, " +
             "up.dob AS dob, " +
             "up.age AS age, " +
-            "u.role, u.status " +
+            "up.role, u.status " +
             "FROM users u " +
             "JOIN user_profiles up ON u.user_id = up.user_id " +
             "WHERE (up.full_name LIKE ? " +
-            "OR u.role LIKE ? " +
+            "OR up.role LIKE ? " +
             "OR CAST(up.dob AS CHAR) LIKE ?) "
         );
 
         if (roleFilter != null && !roleFilter.equalsIgnoreCase("All")) {
-            sql.append(" AND u.role = ? ");
+            sql.append(" AND up.role = ? ");
         }
         if (statusFilter != null && !statusFilter.equalsIgnoreCase("All")) {
             sql.append(" AND u.status = ? ");
@@ -75,23 +75,20 @@ public class UserDAO {
     }
 
     // ─── Create User ────────────────────────────────────────────────────────
-   public boolean createUser(String fullName, String phone, String gender,
+   public boolean createUser(String username, String fullName, String phone, String gender,
                           String dob, String role, String password, String shift) {
         Connection c = null;
         try {
             c = getConnection();
             c.setAutoCommit(false);
 
-            // Step 1: build username from full name
-            String username = fullName.toLowerCase().replace(" ", "_");
 
             // Step 2: insert into users
-            String userSql = "INSERT INTO users (username, password, role, status) VALUES (?, ?, ?, 'active')";
+            String userSql = "INSERT INTO users (username, password, status) VALUES (?, ?, 'active')";
             int userId;
             try (PreparedStatement ps = c.prepareStatement(userSql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, username);
                 ps.setString(2, password);         // ⚠ hash this before storing in production
-                ps.setString(3, role.toLowerCase());
                 ps.executeUpdate();
                 try (ResultSet keys = ps.getGeneratedKeys()) {
                     if (!keys.next()) { c.rollback(); return false; }
@@ -100,7 +97,7 @@ public class UserDAO {
             }
             
             // Step 3: insert into user_profiles
-            String profileSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, dob, age, gender) VALUES (?, ?, ?, ?, ?, ?)";
+            String profileSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, dob, age, gender, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = c.prepareStatement(profileSql)) {
                 ps.setInt(1, userId);
                 ps.setString(2, fullName);
@@ -109,14 +106,15 @@ public class UserDAO {
                 ps.setString(4, dob);
                 ps.setInt(5, calculateAge(dob));
                 ps.setString(6, gender != null ? gender.toLowerCase() : "prefer not to say");
+                ps.setString(7, role.toLowerCase());
                 ps.executeUpdate();
             }
 
             // Step 4: insert into role-specific table
             boolean ok = switch (role.toLowerCase()) {
                 case "admin"        -> insertAdmin(c, userId);
-                case "receptionist" -> insertReceptionist(c, userId, shift);
-                case "doctor"       -> insertDoctor(c, userId);
+                case "receptionist" -> insertReceptionist(c, userId, fullName, username, shift);
+                case "doctor"       -> insertDoctor(c, userId, fullName, username);
                 case "patient"      -> insertPatient(c, userId);
                 default             -> false;
             };
@@ -198,23 +196,25 @@ public class UserDAO {
     }
 
     // ─── Insert Receptionist ────────────────────────────────────────────────
-   private boolean insertReceptionist(Connection c, int userId, String shift) throws SQLException {
+   private boolean insertReceptionist(Connection c, int userId, String fullName, String username, String shift) throws SQLException {
         String id = generateId(c, "receptionists", "receptionist_id", "R");
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO receptionists (receptionist_id, user_id, shift) VALUES (?, ?, ?)")) {
+                "INSERT INTO receptionists (receptionist_id, user_id, full_name, username, shift) VALUES (?, ?, ?, ?, ?)")) {
             ps.setString(1, id);
             ps.setInt(2, userId);
-            ps.setString(3, shift);
+            ps.setString(3, fullName);
+            ps.setString(4, username);
+            ps.setString(5, shift);
             return ps.executeUpdate() > 0;
         }
     }
 
     // ─── Insert Doctor ──────────────────────────────────────────────────────
-    private boolean insertDoctor(Connection c, int userId) throws SQLException {
+    private boolean insertDoctor(Connection c, int userId, String fullName, String username) throws SQLException {
         String id = generateId(c, "doctors", "doctor_id", "D");
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO doctors (doctor_id, user_id, specialization, department_id) VALUES (?, ?, 'General', 1)")) {
-            ps.setString(1, id); ps.setInt(2, userId);
+                "INSERT INTO doctors (doctor_id, user_id, full_name, username, specialization, department_id) VALUES (?, ?, ?, ?, 'General', 1)")) {
+            ps.setString(1, id); ps.setInt(2, userId); ps.setString(3, fullName); ps.setString(4, username);
             return ps.executeUpdate() > 0;
         }
     }
