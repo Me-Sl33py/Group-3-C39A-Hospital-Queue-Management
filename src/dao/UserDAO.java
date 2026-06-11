@@ -15,21 +15,18 @@ public class UserDAO {
         List<String[]> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
             "SELECT u.user_id, " +
-            "COALESCE(a.full_name, r.full_name, d.full_name, p.full_name) AS full_name, " +
-            "COALESCE(a.contact_number, r.contact_number, d.contact_number, p.contact_number) AS phone, " +
-            "COALESCE(p.gender, 'N/A') AS gender, " +
-            "COALESCE(p.blood_group, 'N/A') AS blood_group, " +
-            "COALESCE(p.dob, NULL) AS dob, " +
-            "COALESCE(p.age, 'N/A') AS age, " +
+            "up.full_name AS full_name, " +
+            "up.contact_number AS phone, " +
+            "up.gender AS gender, " +
+            "up.blood_group AS blood_group, " +
+            "up.dob AS dob, " +
+            "up.age AS age, " +
             "u.role, u.status " +
             "FROM users u " +
-            "LEFT JOIN admins a ON u.user_id = a.user_id " +
-            "LEFT JOIN receptionists r ON u.user_id = r.user_id " +
-            "LEFT JOIN doctors d ON u.user_id = d.user_id " +
-            "LEFT JOIN patients p ON u.user_id = p.user_id " +
-            "WHERE (COALESCE(a.full_name, r.full_name, d.full_name, p.full_name) LIKE ? " +
+            "JOIN user_profiles up ON u.user_id = up.user_id " +
+            "WHERE (up.full_name LIKE ? " +
             "OR u.role LIKE ? " +
-            "OR CAST(p.dob AS CHAR) LIKE ?) "
+            "OR CAST(up.dob AS CHAR) LIKE ?) "
         );
 
         if (roleFilter != null && !roleFilter.equalsIgnoreCase("All")) {
@@ -39,10 +36,10 @@ public class UserDAO {
             sql.append(" AND u.status = ? ");
         }
         if (ageFilter != null && !ageFilter.equalsIgnoreCase("All")) {
-            if (ageFilter.equals("Under 18")) sql.append(" AND p.age < 18 ");
-            else if (ageFilter.equals("18-35")) sql.append(" AND p.age BETWEEN 18 AND 35 ");
-            else if (ageFilter.equals("36-50")) sql.append(" AND p.age BETWEEN 36 AND 50 ");
-            else if (ageFilter.equals("50+")) sql.append(" AND p.age >= 51 ");
+            if (ageFilter.equals("Under 18")) sql.append(" AND up.age < 18 ");
+            else if (ageFilter.equals("18-35")) sql.append(" AND up.age BETWEEN 18 AND 35 ");
+            else if (ageFilter.equals("36-50")) sql.append(" AND up.age BETWEEN 36 AND 50 ");
+            else if (ageFilter.equals("50+")) sql.append(" AND up.age >= 51 ");
         }
 
         try (Connection c = getConnection();
@@ -101,15 +98,28 @@ public class UserDAO {
                     userId = keys.getInt(1);
                 }
             }
+            
+            // Step 3: insert into user_profiles
+            String profileSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, dob, age, gender) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement ps = c.prepareStatement(profileSql)) {
+                ps.setInt(1, userId);
+                ps.setString(2, fullName);
+                ps.setString(3, phone);
+                if (dob != null && dob.trim().isEmpty()) dob = null;
+                ps.setString(4, dob);
+                ps.setInt(5, calculateAge(dob));
+                ps.setString(6, gender != null ? gender.toLowerCase() : "prefer not to say");
+                ps.executeUpdate();
+            }
 
-            // Step 3: insert into role-specific table
+            // Step 4: insert into role-specific table
             boolean ok = switch (role.toLowerCase()) {
-    case "admin"        -> insertAdmin(c, userId, fullName, phone);
-    case "receptionist" -> insertReceptionist(c, userId, fullName, phone, shift);
-    case "doctor"       -> insertDoctor(c, userId, fullName, phone);
-    case "patient"      -> insertPatient(c, userId, fullName, phone, gender, dob);
-    default             -> false;
-};
+                case "admin"        -> insertAdmin(c, userId);
+                case "receptionist" -> insertReceptionist(c, userId, shift);
+                case "doctor"       -> insertDoctor(c, userId);
+                case "patient"      -> insertPatient(c, userId);
+                default             -> false;
+            };
 
             if (ok) { c.commit(); return true; }
             else    { c.rollback(); return false; }
@@ -138,52 +148,17 @@ public class UserDAO {
                 ps.executeUpdate();
             }
 
-            // Get role so we know which table to update phone/gender in
-            String role;
+            // Update user_profiles table
             try (PreparedStatement ps = c.prepareStatement(
-                    "SELECT role FROM users WHERE user_id=?")) {
-                ps.setInt(1, userId);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) { c.rollback(); return false; }
-                    role = rs.getString("role");
-                }
-            }
-
-            // Update contact_number, full_name (and gender/dob if patient) in role table
-            switch (role.toLowerCase()) {
-                case "admin" -> {
-                    try (PreparedStatement ps = c.prepareStatement(
-                            "UPDATE admins SET contact_number=?, full_name=? WHERE user_id=?")) {
-                        ps.setString(1, phone); ps.setString(2, fullName); ps.setInt(3, userId);
-                        ps.executeUpdate();
-                    }
-                }
-                case "receptionist" -> {
-                    try (PreparedStatement ps = c.prepareStatement(
-                            "UPDATE receptionists SET contact_number=?, full_name=? WHERE user_id=?")) {
-                        ps.setString(1, phone); ps.setString(2, fullName); ps.setInt(3, userId);
-                        ps.executeUpdate();
-                    }
-                }
-                case "doctor" -> {
-                    try (PreparedStatement ps = c.prepareStatement(
-                            "UPDATE doctors SET contact_number=?, full_name=? WHERE user_id=?")) {
-                        ps.setString(1, phone); ps.setString(2, fullName); ps.setInt(3, userId);
-                        ps.executeUpdate();
-                    }
-                }
-                case "patient" -> {
-                    try (PreparedStatement ps = c.prepareStatement(
-                            "UPDATE patients SET contact_number=?, gender=?, full_name=?, dob=?, blood_group=? WHERE user_id=?")) {
-                        ps.setString(1, phone); ps.setString(2, gender); 
-                        ps.setString(3, fullName); 
-                        if(dob != null && dob.trim().isEmpty()) dob = null;
-                        ps.setString(4, dob);
-                        ps.setString(5, bloodGroup);
-                        ps.setInt(6, userId);
-                        ps.executeUpdate();
-                    }
-                }
+                    "UPDATE user_profiles SET contact_number=?, full_name=?, gender=?, dob=?, blood_group=? WHERE user_id=?")) {
+                ps.setString(1, phone);
+                ps.setString(2, fullName);
+                ps.setString(3, gender != null ? gender.toLowerCase() : "prefer not to say");
+                if(dob != null && dob.trim().isEmpty()) dob = null;
+                ps.setString(4, dob);
+                ps.setString(5, bloodGroup);
+                ps.setInt(6, userId);
+                ps.executeUpdate();
             }
 
             c.commit();
@@ -213,57 +188,43 @@ public class UserDAO {
     }
 
     // ─── Insert Admin ───────────────────────────────────────────────────────
-    private boolean insertAdmin(Connection c, int userId, String fullName, String phone) throws SQLException {
+    private boolean insertAdmin(Connection c, int userId) throws SQLException {
         String id = generateId(c, "admins", "admin_id", "A");
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO admins (admin_id, user_id, full_name, contact_number) VALUES (?, ?, ?, ?)")) {
+                "INSERT INTO admins (admin_id, user_id) VALUES (?, ?)")) {
             ps.setString(1, id); ps.setInt(2, userId);
-            ps.setString(3, fullName); ps.setString(4, phone);
             return ps.executeUpdate() > 0;
         }
     }
 
     // ─── Insert Receptionist ────────────────────────────────────────────────
-   private boolean insertReceptionist(Connection c, int userId, String fullName,
-                                   String phone, String shift) throws SQLException {
-    String id = generateId(c, "receptionists", "receptionist_id", "R");
-    try (PreparedStatement ps = c.prepareStatement(
-            "INSERT INTO receptionists (receptionist_id, user_id, full_name, contact_number, shift) " +
-            "VALUES (?, ?, ?, ?, ?)")) {
-        ps.setString(1, id);
-        ps.setInt(2, userId);
-        ps.setString(3, fullName);
-        ps.setString(4, phone);
-        ps.setString(5, shift);
-        return ps.executeUpdate() > 0;
+   private boolean insertReceptionist(Connection c, int userId, String shift) throws SQLException {
+        String id = generateId(c, "receptionists", "receptionist_id", "R");
+        try (PreparedStatement ps = c.prepareStatement(
+                "INSERT INTO receptionists (receptionist_id, user_id, shift) VALUES (?, ?, ?)")) {
+            ps.setString(1, id);
+            ps.setInt(2, userId);
+            ps.setString(3, shift);
+            return ps.executeUpdate() > 0;
+        }
     }
-}
 
     // ─── Insert Doctor ──────────────────────────────────────────────────────
-    // departmentId defaults to 1 (General Medicine) — update the method signature
-    // if your UI collects department at registration time
-    private boolean insertDoctor(Connection c, int userId, String fullName, String phone) throws SQLException {
+    private boolean insertDoctor(Connection c, int userId) throws SQLException {
         String id = generateId(c, "doctors", "doctor_id", "D");
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO doctors (doctor_id, user_id, full_name, specialization, department_id, contact_number) " +
-                "VALUES (?, ?, ?, 'General', 1, ?)")) {
+                "INSERT INTO doctors (doctor_id, user_id, specialization, department_id) VALUES (?, ?, 'General', 1)")) {
             ps.setString(1, id); ps.setInt(2, userId);
-            ps.setString(3, fullName); ps.setString(4, phone);
             return ps.executeUpdate() > 0;
         }
     }
 
     // ─── Insert Patient ─────────────────────────────────────────────────────
-    private boolean insertPatient(Connection c, int userId, String fullName,
-                                  String phone, String gender, String dob) throws SQLException {
+    private boolean insertPatient(Connection c, int userId) throws SQLException {
         String id = generateId(c, "patients", "patient_id", "P");
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO patients (patient_id, user_id, full_name, dob, age, gender, contact_number) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+                "INSERT INTO patients (patient_id, user_id) VALUES (?, ?)")) {
             ps.setString(1, id); ps.setInt(2, userId);
-            ps.setString(3, fullName); ps.setString(4, dob);
-            ps.setInt(5, calculateAge(dob));
-            ps.setString(6, gender.toLowerCase()); ps.setString(7, phone);
             return ps.executeUpdate() > 0;
         }
     }
@@ -284,19 +245,21 @@ public class UserDAO {
 
     // ─── Calculate Age ──────────────────────────────────────────────────────
     private int calculateAge(String dob) {
+        if (dob == null || dob.trim().isEmpty()) return 0;
         try {
             java.time.LocalDate birth = java.time.LocalDate.parse(dob);
             return java.time.Period.between(birth, java.time.LocalDate.now()).getYears();
         } catch (Exception e) { return 0; }
     }
-public boolean changePassword(int userId, String newPassword) {
-    String sql = "UPDATE users SET password=? WHERE user_id=?";
-    try (Connection c = getConnection();
-         PreparedStatement ps = c.prepareStatement(sql)) {
-        ps.setString(1, newPassword);
-        ps.setInt(2, userId);
-        return ps.executeUpdate() > 0;
-    } catch (SQLException e) { e.printStackTrace(); }
-    return false;
-}
+    
+    public boolean changePassword(int userId, String newPassword) {
+        String sql = "UPDATE users SET password=? WHERE user_id=?";
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, newPassword);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) { e.printStackTrace(); }
+        return false;
+    }
 }

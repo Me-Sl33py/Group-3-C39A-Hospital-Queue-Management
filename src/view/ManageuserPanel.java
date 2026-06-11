@@ -34,7 +34,6 @@ public class ManageuserPanel extends javax.swing.JPanel {
         searchPanel.add(lblSearch);
         txtSearch.setPreferredSize(new java.awt.Dimension(150, 30));
         searchPanel.add(txtSearch);
-        searchPanel.add(btnSearch);
         
         searchPanel.add(lblFilterRole);
         searchPanel.add(cmbFilterRole);
@@ -169,13 +168,13 @@ public class ManageuserPanel extends javax.swing.JPanel {
         pnlDetails.add(lblFullName);
         lblFullName.setBounds(20, 30, 70, 20);
         pnlDetails.add(password);
-        password.setBounds(120, 160, 200, 26);
+        password.setBounds(140, 160, 200, 26);
 
         DOB.setText("Date of birth");
         pnlDetails.add(DOB);
-        DOB.setBounds(350, 30, 100, 20);
+        DOB.setBounds(450, 30, 100, 20);
         pnlDetails.add(txtEmail);
-        txtEmail.setBounds(460, 30, 200, 26);
+        txtEmail.setBounds(560, 30, 200, 26);
 
         changepassword.setText("Change Password");
         pnlDetails.add(changepassword);
@@ -185,20 +184,20 @@ public class ManageuserPanel extends javax.swing.JPanel {
         cmbBloodGroup = new javax.swing.JComboBox<>();
         lblBloodGroup.setText("Blood Group");
         pnlDetails.add(lblBloodGroup);
-        lblBloodGroup.setBounds(350, 160, 100, 20);
+        lblBloodGroup.setBounds(450, 160, 100, 20);
         cmbBloodGroup.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-", "Unknown" }));
         pnlDetails.add(cmbBloodGroup);
-        cmbBloodGroup.setBounds(460, 160, 200, 26);
+        cmbBloodGroup.setBounds(560, 160, 200, 26);
         pnlDetails.add(txtPhone);
-        txtPhone.setBounds(100, 70, 200, 26);
+        txtPhone.setBounds(140, 70, 200, 26);
 
         lblRole.setText("System Role");
         pnlDetails.add(lblRole);
-        lblRole.setBounds(350, 70, 100, 20);
+        lblRole.setBounds(450, 70, 100, 20);
 
         cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Receptionist", "Patient" }));
         pnlDetails.add(cmbRole);
-        cmbRole.setBounds(460, 70, 200, 26);
+        cmbRole.setBounds(560, 70, 200, 26);
 
         lblGender.setText("Gender");
         pnlDetails.add(lblGender);
@@ -206,17 +205,17 @@ public class ManageuserPanel extends javax.swing.JPanel {
 
         cmbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Other" }));
         pnlDetails.add(cmbGender);
-        cmbGender.setBounds(100, 110, 200, 26);
+        cmbGender.setBounds(140, 110, 200, 26);
 
         lblStatus.setText("Status");
         pnlDetails.add(lblStatus);
-        lblStatus.setBounds(350, 110, 100, 20);
+        lblStatus.setBounds(450, 110, 100, 20);
 
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
         pnlDetails.add(cmbStatus);
-        cmbStatus.setBounds(460, 110, 200, 26);
+        cmbStatus.setBounds(560, 110, 200, 26);
         pnlDetails.add(txtFullName1);
-        txtFullName1.setBounds(100, 30, 200, 26);
+        txtFullName1.setBounds(140, 30, 200, 26);
 
         lblPhone1.setText("Phone");
         pnlDetails.add(lblPhone1);
