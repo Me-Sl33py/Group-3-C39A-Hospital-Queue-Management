@@ -8,6 +8,9 @@ public class Patient {
     private String gender;
     private String contactNumber;
     private String address;
+    private java.sql.Date dob;
+    private String bloodGroup;
+    private String username;
 
     public Patient() {}
 
@@ -42,4 +45,13 @@ public class Patient {
 
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
+
+    public java.sql.Date getDob() { return dob; }
+    public void setDob(java.sql.Date dob) { this.dob = dob; }
+
+    public String getBloodGroup() { return bloodGroup; }
+    public void setBloodGroup(String bloodGroup) { this.bloodGroup = bloodGroup; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 }
