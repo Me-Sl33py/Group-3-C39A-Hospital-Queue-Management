@@ -18,13 +18,13 @@ import javax.swing.DefaultComboBoxModel;
 public class PatientController {
 
     private Patients mainView;
-    private HomePanel homePanel;
+    private PatientHomePanel homePanel;
     private AppointmentPanel appointmentPanel;
     private QueuePanel queuePanel;
     private MedicalRecordPanel medicalRecordPanel;
     private RatingPanel ratingPanel;
     private AccountPanel accountPanel;
-    private LogoutPanel logoutPanel;
+    private PatientLogoutPanel logoutPanel;
     private javax.swing.JScrollPane accountScrollPane;
     
     private PatientDao patientDAO = new PatientDao();
@@ -39,13 +39,13 @@ public class PatientController {
     public PatientController(Patients mainView) {
         this.mainView = mainView;
         
-        homePanel = new HomePanel();
+        homePanel = new PatientHomePanel();
         appointmentPanel = new AppointmentPanel();
         queuePanel = new QueuePanel();
         medicalRecordPanel = new MedicalRecordPanel();
         ratingPanel = new RatingPanel();
         accountPanel = new AccountPanel();
-        logoutPanel = new LogoutPanel();
+        logoutPanel = new PatientLogoutPanel();
         accountScrollPane = new javax.swing.JScrollPane(accountPanel);
         accountScrollPane.setBorder(null);
         accountScrollPane.getVerticalScrollBar().setUnitIncrement(16);
