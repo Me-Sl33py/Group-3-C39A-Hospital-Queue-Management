@@ -333,10 +333,9 @@ public class RegistrationController {
         java.util.Date selectedDate = view.getDobField().getDate();
 
         if (selectedDate == null) {
-            // No date selected — show a warning and stop
             JOptionPane.showMessageDialog(view,
-                "please select your date of birth",
-                "missing field", JOptionPane.WARNING_MESSAGE);
+                "Please select your date of birth.",
+                "Missing Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -351,16 +350,16 @@ public class RegistrationController {
         // Validate age is a sensible value (0–120). Age 0 means infant (< 1 year old) or testing with today's date
         if (age < 0 || age > 120) {
             JOptionPane.showMessageDialog(view,
-                "please enter a valid date of birth",
-                "invalid date", JOptionPane.WARNING_MESSAGE);
+                "Please enter a valid date of birth.",
+                "Invalid Date", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // full name check
         if (fullName.isEmpty()) {
             JOptionPane.showMessageDialog(view,
-                "please enter your full name",
-                "missing field", JOptionPane.WARNING_MESSAGE);
+                "Please enter your full name.",
+                "Missing Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
@@ -368,79 +367,79 @@ public class RegistrationController {
         if (fullName.split("\\s+").length < 2) {
             JOptionPane.showMessageDialog(view,
                 "Please enter your complete full name (at least two words).",
-                "invalid input", JOptionPane.WARNING_MESSAGE);
+                "Invalid Input", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // gender check
         if (gender.equals("Select Gender")) {
             JOptionPane.showMessageDialog(view,
-                "please select your gender",
-                "missing field", JOptionPane.WARNING_MESSAGE);
+                "Please select your gender.",
+                "Missing Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // phone number check
         if (contactNumber.isEmpty()) {
             JOptionPane.showMessageDialog(view,
-                "please enter your phone number",
-                "missing field", JOptionPane.WARNING_MESSAGE);
+                "Please enter your phone number.",
+                "Missing Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // phone number length check
         if (contactNumber.length() != 10) {
             JOptionPane.showMessageDialog(view,
-                "phone number must be exactly 10 digits",
-                "invalid input", JOptionPane.WARNING_MESSAGE);
+                "Phone number must be exactly 10 digits.",
+                "Invalid Input", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // phone number digits only check
         if (!contactNumber.matches("\\d+")) {
             JOptionPane.showMessageDialog(view,
-                "phone number must contain numbers only",
-                "invalid input", JOptionPane.WARNING_MESSAGE);
+                "Phone number must contain numbers only.",
+                "Invalid Input", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // location check
         if (address.isEmpty()) {
             JOptionPane.showMessageDialog(view,
-                "please enter your location",
-                "missing field", JOptionPane.WARNING_MESSAGE);
+                "Please enter your location.",
+                "Missing Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // password check
         if (password.isEmpty()) {
             JOptionPane.showMessageDialog(view,
-                "please create a password",
-                "missing field", JOptionPane.WARNING_MESSAGE);
+                "Please create a password.",
+                "Missing Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // password length check
         if (password.length() < 6) {
             JOptionPane.showMessageDialog(view,
-                "password must be at least 6 characters",
-                "invalid input", JOptionPane.WARNING_MESSAGE);
+                "Password must be at least 6 characters.",
+                "Invalid Input", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // confirm password check
         if (confirmPwd.isEmpty()) {
             JOptionPane.showMessageDialog(view,
-                "please confirm your password",
-                "missing field", JOptionPane.WARNING_MESSAGE);
+                "Please confirm your password.",
+                "Missing Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // password match check
         if (!password.equals(confirmPwd)) {
             JOptionPane.showMessageDialog(view,
-                "passwords do not match please try again",
-                "invalid input", JOptionPane.WARNING_MESSAGE);
+                "Passwords do not match. Please try again.",
+                "Invalid Input", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

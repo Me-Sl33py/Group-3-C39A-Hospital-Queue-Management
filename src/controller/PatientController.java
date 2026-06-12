@@ -363,7 +363,11 @@ public class PatientController {
         }
 
         String bg = accountPanel.getCmbBloodGroup().getSelectedItem().toString();
-        patientDAO.updatePatientProfile(p.getPatientId(), dob, age, finalPhone, p.getAddress(), bg);
+        boolean profileUpdated = patientDAO.updatePatientProfile(p.getPatientId(), dob, age, finalPhone, p.getAddress(), bg);
+        if (!profileUpdated) {
+            JOptionPane.showMessageDialog(mainView, "Failed to update profile details in the database.", "Database Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         String a1 = accountPanel.getTxtQ1().getText().trim();
         String a2 = accountPanel.getTxtQ2().getText().trim();
@@ -381,25 +385,41 @@ public class PatientController {
         }
         
         if (!a1.isEmpty() || !a2.isEmpty() || !a3.isEmpty() || !a4.isEmpty() || !a5.isEmpty()) {
-            securityDAO.updateSecurityQuestions(PatientSession.getUserId(),
+            boolean sqUpdated = securityDAO.updateSecurityQuestions(PatientSession.getUserId(),
                 "Your Favourite food?", a1,
                 "Your First pet's name?", a2,
                 "Your Favourite game?", a3,
                 "Your Best Friend's name?", a4,
                 "Your Favourite Place to visit?", a5);
+            if (!sqUpdated) {
+                JOptionPane.showMessageDialog(mainView, "Failed to update security questions.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
 
+        boolean credentialsUpdated = true;
         if (!email.isEmpty() && !email.startsWith("Enter")) {
+            if (!email.equalsIgnoreCase(PatientSession.getUsername()) && new UserDAO().isUsernameExists(email)) {
+                JOptionPane.showMessageDialog(mainView, "Username already exists. Please choose a different one.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (!newPass.isEmpty() && !newPass.startsWith("Enter")) {
-                patientDAO.updateUsernameAndPassword(PatientSession.getUserId(), email, newPass);
+                credentialsUpdated = patientDAO.updateUsernameAndPassword(PatientSession.getUserId(), email, newPass);
             } else {
-                patientDAO.updateUsername(PatientSession.getUserId(), email);
+                credentialsUpdated = patientDAO.updateUsername(PatientSession.getUserId(), email);
             }
         } else if (!newPass.isEmpty() && !newPass.startsWith("Enter")) {
-            patientDAO.updateUsernameAndPassword(PatientSession.getUserId(), PatientSession.getUsername(), newPass);
+            credentialsUpdated = patientDAO.updateUsernameAndPassword(PatientSession.getUserId(), PatientSession.getUsername(), newPass);
         }
 
-        JOptionPane.showMessageDialog(mainView, "Profile updated successfully!");
+        if (credentialsUpdated) {
+            if (!email.isEmpty() && !email.startsWith("Enter")) {
+                PatientSession.setUsername(email);
+            }
+            JOptionPane.showMessageDialog(mainView, "Profile updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(mainView, "Failed to update login credentials. The username might already be taken.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         loadAccountData(); // Refresh UI
     }
 }

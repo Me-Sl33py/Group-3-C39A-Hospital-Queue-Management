@@ -18,6 +18,8 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
     public javax.swing.JLabel getLblWelcome() { return lblWelcome; }
     public javax.swing.JLabel getLblFullNameVal() { return lblFullNameVal; }
     public javax.swing.JLabel getLblPhoneVal() { return lblPhoneVal; }
+    public javax.swing.JLabel getLblEmpIdVal() { return lblEmpIdVal; }
+    public javax.swing.JTextField getTxtWorkEmpId() { return txtWorkEmpId; }
 
     private javax.swing.JComboBox<String> cbSecurityQuestion;
     private javax.swing.JTextField txtSecurityAnswer;
@@ -33,7 +35,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         lblSq.setForeground(new java.awt.Color(128, 128, 128));
         java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         gbc.anchor = java.awt.GridBagConstraints.WEST;
         gbc.weightx = 0.5;
         gbc.insets = new java.awt.Insets(0, 10, 5, 0);
@@ -44,7 +46,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         lblSa.setForeground(new java.awt.Color(128, 128, 128));
         gbc = new java.awt.GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         gbc.anchor = java.awt.GridBagConstraints.WEST;
         gbc.weightx = 0.5;
@@ -61,7 +63,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         }));
         gbc = new java.awt.GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gbc.anchor = java.awt.GridBagConstraints.WEST;
         gbc.weightx = 0.5;
@@ -72,7 +74,7 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
         txtSecurityAnswer.setMargin(new java.awt.Insets(5, 10, 5, 10));
         gbc = new java.awt.GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gbc.anchor = java.awt.GridBagConstraints.WEST;
