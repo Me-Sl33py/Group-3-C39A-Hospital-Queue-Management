@@ -22,7 +22,70 @@ import model.Patient;
  *
  * @author Group 3 C39A
  */
-public class PatientDao {
+public class PatientDAO {
+
+    public int getTotalPatientsCount() {
+        int count = 0;
+        try {
+            java.sql.Connection conn = db.openConnection();
+            java.sql.PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM patients");
+            java.sql.ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            db.closeConnection(conn);
+        } catch (Exception e) {
+            System.out.println("getTotalPatientsCount error: " + e);
+        }
+        return count;
+    }
+
+    public String insertPatient(model.Patient p) {
+        try {
+            java.sql.Connection conn = db.openConnection();
+            conn.setAutoCommit(false);
+            
+            // 1. Create a dummy user
+            String username = p.getFullName().replaceAll("\\s+", "").toLowerCase() + System.currentTimeMillis() % 1000;
+            java.sql.PreparedStatement psUser = conn.prepareStatement("INSERT INTO users (username, password, role) VALUES (?, 'walkin123', 'patient')", java.sql.Statement.RETURN_GENERATED_KEYS);
+            psUser.setString(1, username);
+            psUser.executeUpdate();
+            java.sql.ResultSet rsUser = psUser.getGeneratedKeys();
+            int userId = -1;
+            if (rsUser.next()) {
+                userId = rsUser.getInt(1);
+            }
+            
+            // 2. Insert into user_profiles
+            java.sql.PreparedStatement psProfile = conn.prepareStatement("INSERT INTO user_profiles (user_id, full_name, dob, age, gender, contact_number, address, blood_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            psProfile.setInt(1, userId);
+            psProfile.setString(2, p.getFullName());
+            if (p.getDob() != null) {
+                psProfile.setDate(3, new java.sql.Date(p.getDob().getTime()));
+            } else {
+                psProfile.setNull(3, java.sql.Types.DATE);
+            }
+            psProfile.setInt(4, p.getAge());
+            psProfile.setString(5, p.getGender());
+            psProfile.setString(6, p.getContactNumber());
+            psProfile.setString(7, p.getAddress());
+            psProfile.setString(8, p.getBloodGroup());
+            psProfile.executeUpdate();
+            
+            // 3. Insert into patients
+            java.sql.PreparedStatement psPatient = conn.prepareStatement("INSERT INTO patients (patient_id, user_id) VALUES (?, ?)");
+            psPatient.setString(1, p.getPatientId());
+            psPatient.setInt(2, userId);
+            psPatient.executeUpdate();
+            
+            conn.commit();
+            db.closeConnection(conn);
+            return p.getPatientId();
+        } catch (Exception e) {
+            System.out.println("insertPatient(model.Patient) error: " + e);
+            return null;
+        }
+    }
 
     // The database connection helper
     private MySqlConnection db;
@@ -30,7 +93,7 @@ public class PatientDao {
     /**
      * Constructor — creates a MySqlConnection instance for this DAO to use.
      */
-    public PatientDao() {
+    public PatientDAO() {
         this.db = new MySqlConnection();
     }
 
