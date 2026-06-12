@@ -43,12 +43,12 @@ public class PatientHomePanel extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel1.setText("Welcome, Patient ≡ƒæï");
+        jLabel1.setText("Welcome, Patient \uD83D\uDC4B");
         add(jLabel1);
         jLabel1.setBounds(30, 30, 300, 30);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel2.setText("≡ƒöö");
+        jLabel2.setText("\uD83C\uDFE5");
         add(jLabel2);
         jLabel2.setBounds(690, 30, 30, 30);
 
@@ -58,7 +58,7 @@ public class PatientHomePanel extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("≡ƒôà Book New Appointment");
+        jLabel3.setText("\uD83D\uDCC5 Book New Appointment");
         jPanel1.add(jLabel3);
         jLabel3.setBounds(30, 20, 250, 25);
 
@@ -83,7 +83,7 @@ public class PatientHomePanel extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel5.setText("≡ƒôì View My Queue");
+        jLabel5.setText("\uD83D\uDCCD View My Queue");
         jPanel2.add(jLabel5);
         jLabel5.setBounds(30, 20, 220, 25);
 
