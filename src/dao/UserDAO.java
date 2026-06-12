@@ -319,11 +319,17 @@ public class UserDAO {
             "select u.role, u.user_id from users u " +
             "left join patients p on u.user_id = p.user_id " +
             "left join doctors d on u.user_id = d.user_id " +
+            "left join receptionists r on u.user_id = r.user_id " +
+            "left join admins a on u.user_id = a.user_id " +
             "where (LOWER(u.username) = LOWER(?) " +
             "or p.contact_number = ? " +
             "or LOWER(p.full_name) = LOWER(?) " +
             "or d.contact_number = ? " +
-            "or LOWER(d.full_name) = LOWER(?)) " +
+            "or LOWER(d.full_name) = LOWER(?) " +
+            "or r.contact_number = ? " +
+            "or LOWER(r.full_name) = LOWER(?) " +
+            "or a.contact_number = ? " +
+            "or LOWER(a.full_name) = LOWER(?)) " +
             "and u.password = ?";
             
         Connection conn = null;
@@ -335,7 +341,11 @@ public class UserDAO {
             ps.setString(3, identifier);
             ps.setString(4, identifier);
             ps.setString(5, identifier);
-            ps.setString(6, password);
+            ps.setString(6, identifier);
+            ps.setString(7, identifier);
+            ps.setString(8, identifier);
+            ps.setString(9, identifier);
+            ps.setString(10, password);
             
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
