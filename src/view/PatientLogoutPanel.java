@@ -40,7 +40,7 @@ public class PatientLogoutPanel extends javax.swing.JPanel {
         setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel2.setText("≡ƒöö");
+        jLabel2.setText("\uD83C\uDFE5");
         add(jLabel2);
         jLabel2.setBounds(690, 30, 30, 30);
 
@@ -82,7 +82,7 @@ public class PatientLogoutPanel extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(220, 53, 69));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Γå¬∩╕Å");
+        jLabel1.setText("\uD83D\uDEAA");
         jPanel2.add(jLabel1);
         jLabel1.setBounds(0, 0, 90, 80);
 

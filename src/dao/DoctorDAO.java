@@ -72,7 +72,6 @@ public class DoctorDAO {
         d.setDepartmentName(rs.getString("department_name")); // ADD THIS
         return d;
     }
-}
 
     private String generateDoctorId(Connection c) throws SQLException {
         String sql = "SELECT doctor_id FROM doctors ORDER BY doctor_id DESC LIMIT 1";
@@ -115,7 +114,7 @@ public class DoctorDAO {
             sql.append(" AND u.status = ? ");
         }
 
-        try (Connection c = DatabaseConnection.getConnection();
+        try (Connection c = database.MySqlConnection.getConnection();
              PreparedStatement ps = c.prepareStatement(sql.toString())) {
 
             String kw = "%" + keyword + "%";
@@ -162,7 +161,7 @@ public class DoctorDAO {
                              int deptId,
                              String availability) {
 
-        try (Connection c = DatabaseConnection.getConnection()) {
+        try (Connection c = database.MySqlConnection.getConnection()) {
             c.setAutoCommit(false);
             
             // 1. insert user
@@ -214,7 +213,7 @@ public class DoctorDAO {
                                 int deptId,
                                 String availability,
                                 String status) {
-        try (Connection c = DatabaseConnection.getConnection()) {
+        try (Connection c = database.MySqlConnection.getConnection()) {
             c.setAutoCommit(false);
             
             // Get user_id from doctors
@@ -261,7 +260,7 @@ public class DoctorDAO {
 
     public boolean deactivateDoctor(String doctorId) {
         String sql = "UPDATE users SET status = 'deactive' WHERE user_id = (SELECT user_id FROM doctors WHERE doctor_id=?)";
-        try (Connection c = DatabaseConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection c = database.MySqlConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, doctorId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) { 
