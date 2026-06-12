@@ -1,29 +1,23 @@
 package model;
 
-/**
- * Model class for Patient — maps to the 'patients' table
- * Contains constructor, getters and setters
- */
-public class Patient {
+import java.util.Date;
 
-    // Fields matching the patients table columns
-    private String patientId;   // e.g., "p-001"
-    private int userId;         // foreign key to users table
+public class Patient {
+    private String patientId;
+    private int userId;
     private String fullName;
     private int age;
-    private String gender;      // male, female, other
+    private String gender;
     private String contactNumber;
     private String address;
-    private java.util.Date dob;
+    private Date dob;
     private String bloodGroup;
+    private String username;
 
-    // Default constructor
-    public Patient() {
-    }
+    public Patient() {}
 
-    // Full constructor (when reading from database)
-    public Patient(String patientId, int userId, String fullName, int age,
-                   String gender, String contactNumber, String address) {
+    public Patient(String patientId, int userId, String fullName,
+                   int age, String gender, String contactNumber, String address) {
         this.patientId = patientId;
         this.userId = userId;
         this.fullName = fullName;
@@ -33,77 +27,33 @@ public class Patient {
         this.address = address;
     }
 
-    // ==================== Getters ====================
-    public String getPatientId() {
-        return patientId;
-    }
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
 
-    public int getUserId() {
-        return userId;
-    }
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
-    public String getFullName() {
-        return fullName;
-    }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
-    public int getAge() {
-        return age;
-    }
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
 
-    public String getGender() {
-        return gender;
-    }
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
 
-    public String getContactNumber() {
-        return contactNumber;
-    }
+    public String getContactNumber() { return contactNumber; }
+    public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public java.util.Date getDob() {
-        return dob;
-    }
+    public Date getDob() { return dob; }
+    public void setDob(Date dob) { this.dob = dob; }
 
-    // ==================== Setters ====================
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
-    }
+    public String getBloodGroup() { return bloodGroup; }
+    public void setBloodGroup(String bloodGroup) { this.bloodGroup = bloodGroup; }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setDob(java.util.Date dob) {
-        this.dob = dob;
-    }
-
-    public String getBloodGroup() {
-        return bloodGroup;
-    }
-
-    public void setBloodGroup(String bloodGroup) {
-        this.bloodGroup = bloodGroup;
-    }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 }
