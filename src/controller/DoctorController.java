@@ -334,6 +334,31 @@ public class DoctorController {
         this.currentDoctor = doctor;
         loadAccountData();
         loadQueueTable();
+        updateGreeting();
+    }
+
+    private void updateGreeting() {
+        if (currentDoctor == null) return;
+        
+        java.time.LocalTime time = java.time.LocalTime.now();
+        int hour = time.getHour();
+        String greeting;
+        if (hour >= 5 && hour < 12) {
+            greeting = "Good Morning";
+        } else if (hour >= 12 && hour < 17) {
+            greeting = "Good Afternoon";
+        } else {
+            greeting = "Good Evening";
+        }
+        
+        String fullName = currentDoctor.getFullName();
+        if (fullName != null && !fullName.toLowerCase().startsWith("dr.")) {
+            fullName = "Dr. " + fullName;
+        }
+        
+        if (view.getLblTitle4() != null) {
+            view.getLblTitle4().setText(greeting + ", " + fullName);
+        }
     }
 
     public Doctor getCurrentDoctor() {
