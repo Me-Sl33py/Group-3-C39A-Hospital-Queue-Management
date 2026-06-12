@@ -29,6 +29,7 @@ public class DoctorPanel extends javax.swing.JFrame {
     // =====================================================================
 // GETTERS — expose UI components to the controller
 // =====================================================================
+    public javax.swing.JLabel getLblTitle4() { return lblTitle4; }
     public javax.swing.JLabel getLblQueueName1() { return lblQueueName1; }
 public javax.swing.JLabel getLblQueueName2() { return lblQueueName2; }
 public javax.swing.JLabel getLblQueueDesc1() { return lblQueueDesc1; }
@@ -738,8 +739,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
 
         jTableSessionHistory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"09:15 AM", "John Doe", "COMPLETED", "View File"},
-                {"09:40 AM", "Sarah Williams", "COMPLETED", "View File"}
+
             },
             new String [] {
                 "TIME", "PATIENT NAME", "STATUS", "ACTION"

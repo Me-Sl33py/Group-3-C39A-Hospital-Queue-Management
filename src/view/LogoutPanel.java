@@ -6,7 +6,7 @@ package view;
 
 /**
  *
- * @author Aakash Das
+ * @author aanishparajuli
  */
 public class LogoutPanel extends javax.swing.JPanel {
 
@@ -26,84 +26,179 @@ public class LogoutPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        btnCancel = new javax.swing.JButton();
-        btnLogout = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        logoutCardPanel = new javax.swing.JPanel();
+        logoutQuestionLabel = new javax.swing.JLabel();
+        logoutSubLabel = new javax.swing.JLabel();
+        logoutButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        logoutIconLabel = new javax.swing.JLabel();
+        topBarPanel = new javax.swing.JPanel();
+        pageTitleLabel = new javax.swing.JLabel();
+        adminCircleLabel = new javax.swing.JLabel();
+        adminNameLabel = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(750, 700));
-        setLayout(null);
+        setMinimumSize(new java.awt.Dimension(1200, 800));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel2.setText("🔔");
-        add(jLabel2);
-        jLabel2.setBounds(690, 30, 30, 30);
+        logoutCardPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(null);
+        logoutQuestionLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        logoutQuestionLabel.setForeground(new java.awt.Color(22, 54, 120));
+        logoutQuestionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoutQuestionLabel.setText("Are you sure you want to logout?");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Are you sure you want to logout?");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(0, 110, 400, 30);
+        logoutSubLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        logoutSubLabel.setForeground(new java.awt.Color(100, 100, 100));
+        logoutSubLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoutSubLabel.setText("You will be returned to the login screen.");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(120, 120, 120));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("You will be redirected to the login page.");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(0, 150, 400, 20);
+        logoutButton.setBackground(new java.awt.Color(0, 102, 204));
+        logoutButton.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        logoutButton.setForeground(new java.awt.Color(255, 255, 255));
+        logoutButton.setText("Logout");
+        logoutButton.setBorderPainted(false);
+        logoutButton.setPreferredSize(new java.awt.Dimension(140, 40));
+        logoutButton.addActionListener(this::logoutButtonActionPerformed);
 
-        btnCancel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnCancel.setForeground(new java.awt.Color(51, 51, 51));
-        btnCancel.setText("Cancel");
-        btnCancel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
-        jPanel1.add(btnCancel);
-        btnCancel.setBounds(110, 190, 80, 35);
+        cancelButton.setBackground(new java.awt.Color(220, 228, 245));
+        cancelButton.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        cancelButton.setForeground(new java.awt.Color(22, 54, 120));
+        cancelButton.setText("Cancel");
+        cancelButton.setBorderPainted(false);
+        cancelButton.setPreferredSize(new java.awt.Dimension(140, 40));
+        cancelButton.addActionListener(this::cancelButtonActionPerformed);
 
-        btnLogout.setBackground(new java.awt.Color(220, 53, 69));
-        btnLogout.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnLogout.setForeground(new java.awt.Color(255, 255, 255));
-        btnLogout.setText("Logout");
-        btnLogout.setBorderPainted(false);
-        jPanel1.add(btnLogout);
-        btnLogout.setBounds(210, 190, 80, 35);
+        logoutIconLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 60)); // NOI18N
+        logoutIconLabel.setForeground(new java.awt.Color(0, 102, 204));
+        logoutIconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoutIconLabel.setText("ΓÜ¬");
 
-        jPanel2.setBackground(new java.awt.Color(253, 228, 228));
-        jPanel2.setLayout(null);
+        javax.swing.GroupLayout logoutCardPanelLayout = new javax.swing.GroupLayout(logoutCardPanel);
+        logoutCardPanel.setLayout(logoutCardPanelLayout);
+        logoutCardPanelLayout.setHorizontalGroup(
+            logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                .addGroup(logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                        .addGap(216, 216, 216)
+                        .addGroup(logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(logoutQuestionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37))))
+                    .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                        .addGap(307, 307, 307)
+                        .addComponent(logoutSubLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                        .addGap(341, 341, 341)
+                        .addComponent(logoutIconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(308, Short.MAX_VALUE))
+        );
+        logoutCardPanelLayout.setVerticalGroup(
+            logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logoutCardPanelLayout.createSequentialGroup()
+                .addGap(189, 189, 189)
+                .addComponent(logoutIconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(logoutQuestionLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(logoutSubLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(logoutCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(215, Short.MAX_VALUE))
+        );
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(220, 53, 69));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("↪️");
-        jPanel2.add(jLabel1);
-        jLabel1.setBounds(0, 0, 90, 80);
+        topBarPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.add(jPanel2);
-        jPanel2.setBounds(155, 10, 90, 80);
+        pageTitleLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 22)); // NOI18N
+        pageTitleLabel.setForeground(new java.awt.Color(0, 102, 204));
+        pageTitleLabel.setText("Logout");
 
-        add(jPanel1);
-        jPanel1.setBounds(175, 180, 400, 250);
+        adminCircleLabel.setBackground(new java.awt.Color(0, 102, 204));
+        adminCircleLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        adminCircleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        adminCircleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        adminCircleLabel.setText("Ad");
+        adminCircleLabel.setOpaque(true);
+        adminCircleLabel.setPreferredSize(new java.awt.Dimension(38, 38));
+
+        adminNameLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        adminNameLabel.setForeground(new java.awt.Color(51, 51, 51));
+        adminNameLabel.setText("Admin");
+
+        javax.swing.GroupLayout topBarPanelLayout = new javax.swing.GroupLayout(topBarPanel);
+        topBarPanel.setLayout(topBarPanelLayout);
+        topBarPanelLayout.setHorizontalGroup(
+            topBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topBarPanelLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(pageTitleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1001, Short.MAX_VALUE)
+                .addComponent(adminCircleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(adminNameLabel)
+                .addGap(24, 24, 24))
+        );
+        topBarPanelLayout.setVerticalGroup(
+            topBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topBarPanelLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(topBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pageTitleLabel)
+                    .addComponent(adminCircleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(adminNameLabel))
+                .addGap(14, 14, 14))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(topBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(logoutCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(topBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(logoutCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(133, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnLogout;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
-    public javax.swing.JButton getBtnLogout() { return btnLogout; }
-    public javax.swing.JButton getBtnCancel() { return btnCancel; }
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel adminCircleLabel;
+    private javax.swing.JLabel adminNameLabel;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton logoutButton;
+    private javax.swing.JPanel logoutCardPanel;
+    private javax.swing.JLabel logoutIconLabel;
+    private javax.swing.JLabel logoutQuestionLabel;
+    private javax.swing.JLabel logoutSubLabel;
+    private javax.swing.JLabel pageTitleLabel;
+    private javax.swing.JPanel topBarPanel;
     // End of variables declaration//GEN-END:variables
+
+public javax.swing.JButton getLogoutButton() { return logoutButton; }
+public javax.swing.JButton getCancelButton()  { return cancelButton; }
+
 }

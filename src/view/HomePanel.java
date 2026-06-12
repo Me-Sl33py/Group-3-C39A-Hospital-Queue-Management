@@ -6,7 +6,7 @@ package view;
 
 /**
  *
- * @author Aakash Das
+ * @author aanishparajuli
  */
 public class HomePanel extends javax.swing.JPanel {
 
@@ -26,112 +26,347 @@ public class HomePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        btnBookNow = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        btnViewQueue = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        mainContentPanel = new javax.swing.JPanel();
+        welcomeCardPanel = new javax.swing.JPanel();
+        welcomeTitleLabel = new javax.swing.JLabel();
+        welcomeSubLabel = new javax.swing.JLabel();
+        weatherLabel = new javax.swing.JLabel();
+        cardsRowPanel = new javax.swing.JPanel();
+        card1Panel = new javax.swing.JPanel();
+        card1NumberLabel = new javax.swing.JLabel();
+        card1TextLabel = new javax.swing.JLabel();
+        card2Panel = new javax.swing.JPanel();
+        card2NumberLabel = new javax.swing.JLabel();
+        card2TextLabel = new javax.swing.JLabel();
+        card3Panel = new javax.swing.JPanel();
+        card3NumberLabel = new javax.swing.JLabel();
+        card3TextLabel = new javax.swing.JLabel();
+        card4Panel = new javax.swing.JPanel();
+        card4NumberLabel = new javax.swing.JLabel();
+        card4TextLabel = new javax.swing.JLabel();
+        topBarPanel = new javax.swing.JPanel();
+        pageTitleLabel = new javax.swing.JLabel();
+        adminCircleLabel = new javax.swing.JLabel();
+        adminNameLabel = new javax.swing.JLabel();
 
-        setPreferredSize(new java.awt.Dimension(750, 700));
-        setLayout(null);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel1.setText("Welcome, Patient 👋");
-        add(jLabel1);
-        jLabel1.setBounds(30, 30, 300, 30);
+        mainContentPanel.setBackground(new java.awt.Color(235, 240, 251));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel2.setText("🔔");
-        add(jLabel2);
-        jLabel2.setBounds(690, 30, 30, 30);
+        welcomeCardPanel.setBackground(new java.awt.Color(255, 255, 255));
+        welcomeCardPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
-        jPanel1.setLayout(null);
+        welcomeTitleLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 22)); // NOI18N
+        welcomeTitleLabel.setForeground(new java.awt.Color(22, 54, 120));
+        welcomeTitleLabel.setText("Welcome Again");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("📅 Book New Appointment");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(30, 20, 250, 25);
+        welcomeSubLabel.setForeground(new java.awt.Color(0, 102, 204));
+        welcomeSubLabel.setText("Hospital Queue Management System");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(120, 120, 120));
-        jLabel4.setText("Schedule a new appointment with a doctor.");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(30, 50, 270, 20);
+        weatherLabel.setForeground(new java.awt.Color(60, 60, 60));
+        weatherLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        weatherLabel.setText("30┬░C  Kathmandu");
 
-        btnBookNow.setBackground(new java.awt.Color(30, 100, 180));
-        btnBookNow.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnBookNow.setText("Book Now");
-        jPanel1.add(btnBookNow);
-        btnBookNow.setBounds(30, 90, 120, 35);
+        javax.swing.GroupLayout welcomeCardPanelLayout = new javax.swing.GroupLayout(welcomeCardPanel);
+        welcomeCardPanel.setLayout(welcomeCardPanelLayout);
+        welcomeCardPanelLayout.setHorizontalGroup(
+            welcomeCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(welcomeCardPanelLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(welcomeCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(welcomeTitleLabel)
+                    .addComponent(welcomeSubLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(weatherLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
+        );
+        welcomeCardPanelLayout.setVerticalGroup(
+            welcomeCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(welcomeCardPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(welcomeCardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(welcomeCardPanelLayout.createSequentialGroup()
+                        .addComponent(welcomeTitleLabel)
+                        .addGap(6, 6, 6)
+                        .addComponent(welcomeSubLabel))
+                    .addComponent(weatherLabel))
+                .addGap(20, 20, 20))
+        );
 
-        add(jPanel1);
-        jPanel1.setBounds(30, 90, 320, 150);
+        cardsRowPanel.setBackground(new java.awt.Color(235, 240, 251));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
-        jPanel2.setLayout(null);
+        card1Panel.setBackground(new java.awt.Color(30, 90, 200));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel5.setText("📍 View My Queue");
-        jPanel2.add(jLabel5);
-        jLabel5.setBounds(30, 20, 220, 25);
+        card1NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        card1NumberLabel.setForeground(new java.awt.Color(255, 255, 255));
+        card1NumberLabel.setText("2");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(120, 120, 120));
-        jLabel6.setText("Check your current queue status.");
-        jPanel2.add(jLabel6);
-        jLabel6.setBounds(30, 50, 250, 20);
+        card1TextLabel.setForeground(new java.awt.Color(210, 228, 255));
+        card1TextLabel.setText("Total Patients");
 
-        btnViewQueue.setBackground(new java.awt.Color(34, 139, 34));
-        btnViewQueue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnViewQueue.setText("View Queue");
-        jPanel2.add(btnViewQueue);
-        btnViewQueue.setBounds(30, 90, 120, 35);
+        javax.swing.GroupLayout card1PanelLayout = new javax.swing.GroupLayout(card1Panel);
+        card1Panel.setLayout(card1PanelLayout);
+        card1PanelLayout.setHorizontalGroup(
+            card1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card1PanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(card1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(card1NumberLabel)
+                    .addComponent(card1TextLabel))
+                .addContainerGap(167, Short.MAX_VALUE))
+        );
+        card1PanelLayout.setVerticalGroup(
+            card1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card1PanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(card1NumberLabel)
+                .addGap(8, 8, 8)
+                .addComponent(card1TextLabel)
+                .addGap(22, 22, 22))
+        );
 
-        add(jPanel2);
-        jPanel2.setBounds(380, 90, 320, 150);
+        card2Panel.setBackground(new java.awt.Color(30, 120, 220));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(180, 180, 180));
-        jLabel7.setText("Home");
-        add(jLabel7);
-        jLabel7.setBounds(5, 5, 50, 14);
+        card2NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        card2NumberLabel.setForeground(new java.awt.Color(255, 255, 255));
+        card2NumberLabel.setText("9");
+
+        card2TextLabel.setForeground(new java.awt.Color(210, 228, 255));
+        card2TextLabel.setText("Total Doctors");
+
+        javax.swing.GroupLayout card2PanelLayout = new javax.swing.GroupLayout(card2Panel);
+        card2Panel.setLayout(card2PanelLayout);
+        card2PanelLayout.setHorizontalGroup(
+            card2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card2PanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(card2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(card2NumberLabel)
+                    .addComponent(card2TextLabel))
+                .addContainerGap(167, Short.MAX_VALUE))
+        );
+        card2PanelLayout.setVerticalGroup(
+            card2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card2PanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(card2NumberLabel)
+                .addGap(8, 8, 8)
+                .addComponent(card2TextLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        card3Panel.setBackground(new java.awt.Color(51, 153, 255));
+
+        card3NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        card3NumberLabel.setForeground(new java.awt.Color(255, 255, 255));
+        card3NumberLabel.setText("5");
+
+        card3TextLabel.setForeground(new java.awt.Color(210, 228, 255));
+        card3TextLabel.setText("Schedules");
+
+        javax.swing.GroupLayout card3PanelLayout = new javax.swing.GroupLayout(card3Panel);
+        card3Panel.setLayout(card3PanelLayout);
+        card3PanelLayout.setHorizontalGroup(
+            card3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card3PanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(card3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(card3NumberLabel)
+                    .addComponent(card3TextLabel))
+                .addContainerGap(173, Short.MAX_VALUE))
+        );
+        card3PanelLayout.setVerticalGroup(
+            card3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card3PanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(card3NumberLabel)
+                .addGap(8, 8, 8)
+                .addComponent(card3TextLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        card4Panel.setBackground(new java.awt.Color(100, 180, 255));
+
+        card4NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        card4NumberLabel.setForeground(new java.awt.Color(255, 255, 255));
+        card4NumberLabel.setText("1");
+
+        card4TextLabel.setForeground(new java.awt.Color(210, 228, 255));
+        card4TextLabel.setText("Receptionist");
+
+        javax.swing.GroupLayout card4PanelLayout = new javax.swing.GroupLayout(card4Panel);
+        card4Panel.setLayout(card4PanelLayout);
+        card4PanelLayout.setHorizontalGroup(
+            card4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card4PanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(card4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(card4NumberLabel)
+                    .addComponent(card4TextLabel))
+                .addContainerGap(166, Short.MAX_VALUE))
+        );
+        card4PanelLayout.setVerticalGroup(
+            card4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card4PanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(card4NumberLabel)
+                .addGap(8, 8, 8)
+                .addComponent(card4TextLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout cardsRowPanelLayout = new javax.swing.GroupLayout(cardsRowPanel);
+        cardsRowPanel.setLayout(cardsRowPanelLayout);
+        cardsRowPanelLayout.setHorizontalGroup(
+            cardsRowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardsRowPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(card1Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(card2Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
+                .addComponent(card3Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
+                .addComponent(card4Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        cardsRowPanelLayout.setVerticalGroup(
+            cardsRowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardsRowPanelLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(cardsRowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(card4Panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(card3Panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(card2Panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(cardsRowPanelLayout.createSequentialGroup()
+                        .addComponent(card1Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+        );
+
+        javax.swing.GroupLayout mainContentPanelLayout = new javax.swing.GroupLayout(mainContentPanel);
+        mainContentPanel.setLayout(mainContentPanelLayout);
+        mainContentPanelLayout.setHorizontalGroup(
+            mainContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainContentPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(mainContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(welcomeCardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cardsRowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
+        );
+        mainContentPanelLayout.setVerticalGroup(
+            mainContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainContentPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(welcomeCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(cardsRowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(243, Short.MAX_VALUE))
+        );
+
+        topBarPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        pageTitleLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 22)); // NOI18N
+        pageTitleLabel.setForeground(new java.awt.Color(0, 102, 204));
+        pageTitleLabel.setText("Home");
+
+        adminCircleLabel.setBackground(new java.awt.Color(0, 102, 204));
+        adminCircleLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        adminCircleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        adminCircleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        adminCircleLabel.setText("Ad");
+        adminCircleLabel.setOpaque(true);
+        adminCircleLabel.setPreferredSize(new java.awt.Dimension(38, 38));
+
+        adminNameLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        adminNameLabel.setForeground(new java.awt.Color(51, 51, 51));
+        adminNameLabel.setText("Admin");
+
+        javax.swing.GroupLayout topBarPanelLayout = new javax.swing.GroupLayout(topBarPanel);
+        topBarPanel.setLayout(topBarPanelLayout);
+        topBarPanelLayout.setHorizontalGroup(
+            topBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topBarPanelLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(pageTitleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(adminCircleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(adminNameLabel)
+                .addGap(24, 24, 24))
+        );
+        topBarPanelLayout.setVerticalGroup(
+            topBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topBarPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(topBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pageTitleLabel)
+                    .addComponent(adminCircleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(adminNameLabel))
+                .addGap(14, 14, 14))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mainContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(topBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(topBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(mainContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBookNow;
-    private javax.swing.JButton btnViewQueue;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel adminCircleLabel;
+    private javax.swing.JLabel adminNameLabel;
+    private javax.swing.JLabel card1NumberLabel;
+    private javax.swing.JPanel card1Panel;
+    private javax.swing.JLabel card1TextLabel;
+    private javax.swing.JLabel card2NumberLabel;
+    private javax.swing.JPanel card2Panel;
+    private javax.swing.JLabel card2TextLabel;
+    private javax.swing.JLabel card3NumberLabel;
+    private javax.swing.JPanel card3Panel;
+    private javax.swing.JLabel card3TextLabel;
+    private javax.swing.JLabel card4NumberLabel;
+    private javax.swing.JPanel card4Panel;
+    private javax.swing.JLabel card4TextLabel;
+    private javax.swing.JPanel cardsRowPanel;
+    private javax.swing.JPanel mainContentPanel;
+    private javax.swing.JLabel pageTitleLabel;
+    private javax.swing.JPanel topBarPanel;
+    private javax.swing.JLabel weatherLabel;
+    private javax.swing.JPanel welcomeCardPanel;
+    private javax.swing.JLabel welcomeSubLabel;
+    private javax.swing.JLabel welcomeTitleLabel;
     // End of variables declaration//GEN-END:variables
 
-    public javax.swing.JButton getBtnBookNow() {
-        return btnBookNow;
-    }
+public javax.swing.JLabel getPatientLabel() {
+    return card1NumberLabel;
+}
 
-    public javax.swing.JButton getBtnViewQueue() {
-        return btnViewQueue;
-    }
+public javax.swing.JLabel getDoctorLabel() {
+    return card2NumberLabel;
+}
 
-    public void setWelcomeName(String name) {
-        jLabel1.setText("Welcome, " + name + " \uD83D\uDC4B");
-    }
+public javax.swing.JLabel getDepartmentLabel() {
+    return card3NumberLabel;
+}
+
+public javax.swing.JLabel getReceptionistLabel() {
+    return card4NumberLabel;
+}
+
 }
