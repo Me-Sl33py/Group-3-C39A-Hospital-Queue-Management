@@ -16,6 +16,8 @@ public class Appointment {
     // For display purposes
     private String doctorName;
     private String departmentName;
+    private String patientName;
+    private String patientPhone;
 
     public int getAppointmentId() { return appointmentId; }
     public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }
@@ -46,6 +48,12 @@ public class Appointment {
 
     public String getDepartmentName() { return departmentName; }
     public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
+
+    public String getPatientName() { return patientName; }
+    public void setPatientName(String patientName) { this.patientName = patientName; }
+
+    public String getPatientPhone() { return patientPhone; }
+    public void setPatientPhone(String patientPhone) { this.patientPhone = patientPhone; }
 
     @Override
     public String toString() {

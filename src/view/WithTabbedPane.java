@@ -27,12 +27,40 @@ public class WithTabbedPane extends javax.swing.JFrame {
                 return 0;
             }
         });
+        
+        injectAppointmentConfirmationTab();
+    }
+    
+    private javax.swing.JButton btnAppointmentConfirmation;
+    private view.AppointmentConfirmationView jPanel6;
+    
+    private void injectAppointmentConfirmationTab() {
+        btnAppointmentConfirmation = new javax.swing.JButton();
+        btnAppointmentConfirmation.setBackground(new java.awt.Color(22, 137, 176));
+        btnAppointmentConfirmation.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        btnAppointmentConfirmation.setForeground(new java.awt.Color(255, 255, 255));
+        btnAppointmentConfirmation.setText("Appointments");
+        btnAppointmentConfirmation.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
+        btnAppointmentConfirmation.setBorderPainted(false);
+        btnAppointmentConfirmation.setContentAreaFilled(false);
+        btnAppointmentConfirmation.setFocusPainted(false);
+        btnAppointmentConfirmation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnAppointmentConfirmation.setOpaque(true);
+        btnAppointmentConfirmation.addActionListener(e -> switchToTab(5));
+        
+        // Add to sidebar at absolute constraints
+        // Using AbsoluteConstraints is tricky without importing, so use full class name
+        sidebarPanel.add(btnAppointmentConfirmation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 240, 50));
+        
+        jPanel6 = new view.AppointmentConfirmationView();
+        jTabbedPane1.addTab("Appointment Confirmation", jPanel6);
     }
 
     private controller.DashboardController dashboardController;
     private controller.RegisterWalkinController registerWalkinController;
     private controller.GenerateTokenController generateTokenController;
     private controller.AssignToDoctorController assignToDoctorController;
+    private controller.AppointmentConfirmationController appointmentConfirmationController;
 
     public controller.DashboardController getDashboardController() { return dashboardController; }
 
@@ -40,6 +68,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
     public void setRegisterWalkinController(controller.RegisterWalkinController rc) { this.registerWalkinController = rc; }
     public void setGenerateTokenController(controller.GenerateTokenController gc) { this.generateTokenController = gc; }
     public void setAssignToDoctorController(controller.AssignToDoctorController ac) { this.assignToDoctorController = ac; }
+    public void setAppointmentConfirmationController(controller.AppointmentConfirmationController ac) { this.appointmentConfirmationController = ac; }
 
     public controller.RegisterWalkinController getRegisterWalkinController() { return registerWalkinController; }
     public controller.GenerateTokenController getGenerateTokenController() { return generateTokenController; }
@@ -52,12 +81,14 @@ public class WithTabbedPane extends javax.swing.JFrame {
     public javax.swing.JButton getBtnManageWaitlist1() { return btnManageWaitlist1; }
     public javax.swing.JButton getBtnAccounts() { return btnAccounts; }
     public javax.swing.JButton getBtnLogout() { return btnLogout; }
+    public javax.swing.JButton getBtnAppointmentConfirmation() { return btnAppointmentConfirmation; }
     
     public view.DashboardView getDashboardView() { return jPanel1; }
     public view.RegisterWalkinView getRegisterWalkinView() { return jPanel2; }
     public view.GenerateTokenView getGenerateTokenView() { return jPanel3; }
     public view.AssignToDoctorView getAssignToDoctorView() { return jPanel4; }
     public view.ReceptionistAccountSettingsView getReceptionistAccountSettingsView() { return jPanel5; }
+    public view.AppointmentConfirmationView getAppointmentConfirmationView() { return jPanel6; }
 
 
     public void switchToTab(int index) { jTabbedPane1.setSelectedIndex(index); }
