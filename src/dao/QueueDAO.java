@@ -63,4 +63,63 @@ public class QueueDAO {
         }
         return false;
     }
+
+    public int getCurrentlyServingToken(int departmentId) {
+        String sql = "SELECT MIN(q.token_number) AS min_token FROM queue q " +
+                     "JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                     "WHERE d.department_id = ? AND q.status IN ('waiting', 'in consultation')";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, departmentId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int token = rs.getInt("min_token");
+                    if (!rs.wasNull()) return token;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public int getPatientQueueToken(String patientId, int departmentId) {
+        String sql = "SELECT q.token_number FROM queue q " +
+                     "JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                     "WHERE q.patient_id = ? AND d.department_id = ? " +
+                     "AND q.status IN ('waiting', 'in consultation') LIMIT 1";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, patientId);
+            pstmt.setInt(2, departmentId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("token_number");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public int getPeopleAheadCount(int departmentId, int patientToken) {
+        String sql = "SELECT COUNT(*) AS count FROM queue q " +
+                     "JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                     "WHERE d.department_id = ? AND q.token_number < ? " +
+                     "AND q.status IN ('waiting', 'in consultation')";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, departmentId);
+            pstmt.setInt(2, patientToken);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("count");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

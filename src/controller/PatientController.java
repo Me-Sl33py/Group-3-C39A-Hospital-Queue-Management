@@ -90,6 +90,10 @@ public class PatientController {
 
         mainView.btnLogout.addActionListener(e -> showPanel(logoutPanel));
         
+        queuePanel.getCmbDepartment().addActionListener(e -> {
+            updateQueueMetrics();
+        });
+        
         logoutPanel.getBtnCancel().addActionListener(e -> {
             loadHomeData();
             showPanel(homePanel);
@@ -230,11 +234,37 @@ public class PatientController {
     }
 
     private void loadQueueData() {
+        if (queuePanel.getCmbDepartment().getItemCount() == 0) {
+            List<Department> deps = departmentDAO.getAllDepartments();
+            for (Department d : deps) {
+                queuePanel.getCmbDepartment().addItem(d);
+            }
+        }
         QueueItem q = queueDAO.getCurrentQueueForPatient(PatientSession.getPatientId());
         if (q != null) {
             queuePanel.displayQueue(q);
         } else {
             queuePanel.displayNoQueue();
+        }
+        updateQueueMetrics();
+    }
+
+    private void updateQueueMetrics() {
+        Department selectedDept = (Department) queuePanel.getCmbDepartment().getSelectedItem();
+        if (selectedDept != null) {
+            int deptId = selectedDept.getDepartmentId();
+            
+            int servingToken = queueDAO.getCurrentlyServingToken(deptId);
+            String servingStr = (servingToken != -1) ? String.valueOf(servingToken) : "0";
+            
+            int myToken = queueDAO.getPatientQueueToken(PatientSession.getPatientId(), deptId);
+            
+            if (myToken != -1) {
+                int aheadCount = queueDAO.getPeopleAheadCount(deptId, myToken);
+                queuePanel.setQueueMetrics(servingStr, String.valueOf(aheadCount));
+            } else {
+                queuePanel.setQueueMetrics(servingStr, "0");
+            }
         }
     }
 
