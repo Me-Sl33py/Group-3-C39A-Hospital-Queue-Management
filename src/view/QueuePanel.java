@@ -39,6 +39,8 @@ public class QueuePanel extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         btnCancel = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        cmbDepartment = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(750, 700));
         setLayout(null);
@@ -53,6 +55,16 @@ public class QueuePanel extends javax.swing.JPanel {
         jLabel2.setText("🔔");
         add(jLabel2);
         jLabel2.setBounds(690, 30, 30, 30);
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(100, 100, 100));
+        jLabel10.setText("Department:");
+        add(jLabel10);
+        jLabel10.setBounds(450, 30, 90, 30);
+
+        cmbDepartment.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        add(cmbDepartment);
+        cmbDepartment.setBounds(540, 30, 140, 30);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
@@ -146,7 +158,13 @@ public class QueuePanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JComboBox<model.Department> cmbDepartment;
     // End of variables declaration//GEN-END:variables
+
+    public javax.swing.JComboBox<model.Department> getCmbDepartment() {
+        return cmbDepartment;
+    }
 
     public javax.swing.JButton getBtnCancel() {
         return btnCancel;
@@ -156,19 +174,18 @@ public class QueuePanel extends javax.swing.JPanel {
         jLabel4.setText(String.valueOf(item.getTokenNumber()));
         jLabel5.setText("Status: " + item.getStatus());
         
-        // We might not know exact currently serving or people ahead without more complex queries,
-        // so for simplicity based on the UI provided, we just set currently serving as same or less.
-        jLabel7.setText("?"); 
-        jLabel9.setText("?");
-        
+        // The actual numbers will be updated by the Controller dynamically.
         btnCancel.setVisible(true);
     }
 
     public void displayNoQueue() {
         jLabel4.setText("-");
         jLabel5.setText("You are not currently in any queue.");
-        jLabel7.setText("-");
-        jLabel9.setText("-");
         btnCancel.setVisible(false);
+    }
+    
+    public void setQueueMetrics(String serving, String ahead) {
+        jLabel7.setText(serving);
+        jLabel9.setText(ahead);
     }
 }
