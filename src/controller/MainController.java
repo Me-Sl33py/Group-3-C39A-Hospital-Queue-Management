@@ -15,6 +15,7 @@ public class MainController {
     private GenerateTokenController generateTokenController;
     private AssignToDoctorController assignToDoctorController;
     private ReceptionistAccountSettingsController receptionistAccountSettingsController;
+    private AppointmentConfirmationController appointmentConfirmationController;
 
     public MainController(WithTabbedPane mainFrame, int currentUserId) {
         this.mainFrame = mainFrame;
@@ -35,12 +36,14 @@ public class MainController {
         this.generateTokenController = new GenerateTokenController(mainFrame.getGenerateTokenView(), mainFrame);
         this.assignToDoctorController = new AssignToDoctorController(mainFrame.getAssignToDoctorView(), mainFrame);
         this.receptionistAccountSettingsController = new ReceptionistAccountSettingsController(mainFrame.getReceptionistAccountSettingsView(), mainFrame, currentUserId);
+        this.appointmentConfirmationController = new AppointmentConfirmationController(mainFrame.getAppointmentConfirmationView(), mainFrame);
         
         // Pass sub-controllers to main frame just in case other parts of the application need them
         mainFrame.setDashboardController(this.dashboardController);
         mainFrame.setRegisterWalkinController(this.registerWalkinController);
         mainFrame.setGenerateTokenController(this.generateTokenController);
         mainFrame.setAssignToDoctorController(this.assignToDoctorController);
+        mainFrame.setAppointmentConfirmationController(this.appointmentConfirmationController);
     }
 
     private void initEventHandlers() {
@@ -69,6 +72,11 @@ public class MainController {
             updateSidebarSelection(mainFrame.getBtnAccounts());
         });
         
+        mainFrame.getBtnAppointmentConfirmation().addActionListener(e -> {
+            mainFrame.getJTabbedPane1().setSelectedIndex(5);
+            updateSidebarSelection(mainFrame.getBtnAppointmentConfirmation());
+        });
+        
         mainFrame.getBtnLogout().addActionListener(e -> {
             int option = JOptionPane.showConfirmDialog(
                     mainFrame,
@@ -89,7 +97,8 @@ public class MainController {
             mainFrame.getBtnGenerateToken(), 
             mainFrame.getBtnAssignDoctor(), 
             mainFrame.getBtnManageWaitlist1(), 
-            mainFrame.getBtnAccounts()
+            mainFrame.getBtnAccounts(),
+            mainFrame.getBtnAppointmentConfirmation()
         };
         for (JButton btn : btns) {
             if (btn == selectedBtn) {

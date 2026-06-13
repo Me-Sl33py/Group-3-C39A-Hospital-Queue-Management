@@ -111,4 +111,86 @@ public class AppointmentDAO {
             return false;
         }
     }
+
+    public List<Appointment> searchPendingAppointments(String keyword) {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "SELECT a.*, p.full_name AS patient_name, p.contact_number AS patient_phone, d.full_name AS doctor_name " +
+                     "FROM appointments a " +
+                     "JOIN patients p ON a.patient_id = p.patient_id " +
+                     "JOIN doctors d ON a.doctor_id = d.doctor_id " +
+                     "WHERE a.status = 'pending' ";
+        
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql += "AND (p.full_name LIKE ? OR p.patient_id LIKE ?) ";
+        }
+        sql += "ORDER BY a.appointment_date ASC, a.appointment_time ASC";
+                     
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                pstmt.setString(1, "%" + keyword + "%");
+                pstmt.setString(2, "%" + keyword + "%");
+            }
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Appointment a = new Appointment();
+                    a.setAppointmentId(rs.getInt("appointment_id"));
+                    a.setPatientId(rs.getString("patient_id"));
+                    a.setDoctorId(rs.getString("doctor_id"));
+                    a.setAppointmentDate(rs.getDate("appointment_date"));
+                    a.setAppointmentTime(rs.getTime("appointment_time"));
+                    a.setReason(rs.getString("reason"));
+                    a.setStatus(rs.getString("status"));
+                    a.setType(rs.getString("type"));
+                    a.setDoctorName(rs.getString("doctor_name"));
+                    a.setPatientName(rs.getString("patient_name"));
+                    a.setPatientPhone(rs.getString("patient_phone"));
+                    list.add(a);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public boolean confirmArrival(int appointmentId, String patientId, String doctorId) {
+        String updateAppt = "UPDATE appointments SET status = 'confirmed' WHERE appointment_id = ?";
+        String insertQueue = "INSERT INTO queue (appointment_id, patient_id, doctor_id, token_number, status) VALUES (?, ?, ?, ?, 'waiting')";
+        
+        Connection conn = database.MySqlConnection.getConnection();
+        if (conn == null) return false;
+        
+        try {
+            conn.setAutoCommit(false);
+            
+            try (PreparedStatement pstmtAppt = conn.prepareStatement(updateAppt)) {
+                pstmtAppt.setInt(1, appointmentId);
+                pstmtAppt.executeUpdate();
+            }
+            
+            int tokenNum = 100 + (int)(Math.random() * 900);
+            try (PreparedStatement pstmtQueue = conn.prepareStatement(insertQueue)) {
+                pstmtQueue.setInt(1, appointmentId);
+                pstmtQueue.setString(2, patientId);
+                pstmtQueue.setString(3, doctorId);
+                pstmtQueue.setInt(4, tokenNum);
+                pstmtQueue.executeUpdate();
+            }
+            
+            conn.commit();
+            return true;
+        } catch (Exception e) {
+            try { conn.rollback(); } catch (Exception ex) {}
+            e.printStackTrace();
+            return false;
+        } finally {
+            try { 
+                conn.setAutoCommit(true);
+                conn.close(); 
+            } catch (Exception ex) {}
+        }
+    }
 }

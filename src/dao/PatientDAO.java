@@ -47,7 +47,7 @@ public class PatientDAO {
             
             // 1. Create a dummy user
             String username = p.getFullName().replaceAll("\\s+", "").toLowerCase() + System.currentTimeMillis() % 1000;
-            java.sql.PreparedStatement psUser = conn.prepareStatement("INSERT INTO users (username, password, role) VALUES (?, 'walkin123', 'patient')", java.sql.Statement.RETURN_GENERATED_KEYS);
+            java.sql.PreparedStatement psUser = conn.prepareStatement("INSERT INTO users (username, password) VALUES (?, 'walkin123')", java.sql.Statement.RETURN_GENERATED_KEYS);
             psUser.setString(1, username);
             psUser.executeUpdate();
             java.sql.ResultSet rsUser = psUser.getGeneratedKeys();
@@ -57,7 +57,7 @@ public class PatientDAO {
             }
             
             // 2. Insert into user_profiles
-            java.sql.PreparedStatement psProfile = conn.prepareStatement("INSERT INTO user_profiles (user_id, full_name, dob, age, gender, contact_number, address, blood_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            java.sql.PreparedStatement psProfile = conn.prepareStatement("INSERT INTO user_profiles (user_id, full_name, dob, age, gender, role, contact_number, address, blood_group) VALUES (?, ?, ?, ?, ?, 'patient', ?, ?, ?)");
             psProfile.setInt(1, userId);
             psProfile.setString(2, p.getFullName());
             if (p.getDob() != null) {
@@ -73,9 +73,21 @@ public class PatientDAO {
             psProfile.executeUpdate();
             
             // 3. Insert into patients
-            java.sql.PreparedStatement psPatient = conn.prepareStatement("INSERT INTO patients (patient_id, user_id) VALUES (?, ?)");
+            java.sql.PreparedStatement psPatient = conn.prepareStatement("INSERT INTO patients (patient_id, user_id, full_name, username, dob, age, gender, contact_number, address, blood_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             psPatient.setString(1, p.getPatientId());
             psPatient.setInt(2, userId);
+            psPatient.setString(3, p.getFullName());
+            psPatient.setString(4, username);
+            if (p.getDob() != null) {
+                psPatient.setDate(5, new java.sql.Date(p.getDob().getTime()));
+            } else {
+                psPatient.setNull(5, java.sql.Types.DATE);
+            }
+            psPatient.setInt(6, p.getAge());
+            psPatient.setString(7, p.getGender());
+            psPatient.setString(8, p.getContactNumber());
+            psPatient.setString(9, p.getAddress());
+            psPatient.setString(10, p.getBloodGroup());
             psPatient.executeUpdate();
             
             conn.commit();
@@ -121,13 +133,12 @@ public class PatientDAO {
             }
 
             // Step 2: Write the SQL — RETURN_GENERATED_KEYS tells MySQL to give us the new user_id
-            String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             // Step 3: Set the values (? placeholders replaced in order)
             ps.setString(1, username);  // 1st ? = username
             ps.setString(2, password);  // 2nd ? = password
-            ps.setString(3, role);      // 3rd ? = role
 
             // Step 4: Execute the INSERT
             int rowsAffected = ps.executeUpdate();
@@ -378,8 +389,8 @@ public class PatientDAO {
     // Get all patients
     public List<Patient> getAllPatients() {
         List<Patient> list = new ArrayList<>();
-        String sql = "SELECT patient_id, user_id, full_name, age, gender, " +
-                     "contact_number, address FROM patients";
+        String sql = "SELECT patient_id, user_id, full_name, dob, age, gender, " +
+                     "contact_number, address, blood_group FROM patients";
         try (Connection conn = database.MySqlConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {

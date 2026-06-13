@@ -8,9 +8,10 @@ public class ReceptionistDAO {
     // Get the receptionist details and user details using user_id
     public Object[] getReceptionistProfile(int userId) {
         Object[] profile = new Object[6]; // {fullName, contactNumber, currentPassword, receptionistId, securityQuestion, securityAnswer}
-        String query = "SELECT r.full_name, r.contact_number, u.password, r.receptionist_id, sq.question_1, sq.answer_1 " +
+        String query = "SELECT r.full_name, up.contact_number, u.password, r.receptionist_id, sq.question_1, sq.answer_1 " +
                        "FROM receptionists r " +
                        "JOIN users u ON r.user_id = u.user_id " +
+                       "LEFT JOIN user_profiles up ON u.user_id = up.user_id " +
                        "LEFT JOIN security_questions sq ON u.user_id = sq.user_id " +
                        "WHERE u.user_id = ?";
 
@@ -36,7 +37,8 @@ public class ReceptionistDAO {
 
     // Update receptionist profile (full name, contact number) and password
     public boolean updateReceptionistProfile(int userId, String fullName, String contactNumber, String newPassword, String securityQuestion, String securityAnswer) {
-        String updateReceptionist = "UPDATE receptionists SET full_name = ?, contact_number = ? WHERE user_id = ?";
+        String updateReceptionist = "UPDATE receptionists SET full_name = ? WHERE user_id = ?";
+        String updateProfile = "UPDATE user_profiles SET full_name = ?, contact_number = ? WHERE user_id = ?";
         String updateUser = "UPDATE users SET password = ? WHERE user_id = ?";
         
         Connection conn = null;
@@ -47,9 +49,16 @@ public class ReceptionistDAO {
             // Update Receptionist
             try (PreparedStatement stmtRec = conn.prepareStatement(updateReceptionist)) {
                 stmtRec.setString(1, fullName);
-                stmtRec.setString(2, contactNumber);
-                stmtRec.setInt(3, userId);
+                stmtRec.setInt(2, userId);
                 stmtRec.executeUpdate();
+            }
+            
+            // Update User Profiles
+            try (PreparedStatement stmtProf = conn.prepareStatement(updateProfile)) {
+                stmtProf.setString(1, fullName);
+                stmtProf.setString(2, contactNumber);
+                stmtProf.setInt(3, userId);
+                stmtProf.executeUpdate();
             }
             
             // Update User

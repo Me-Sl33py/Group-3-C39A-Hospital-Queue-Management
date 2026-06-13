@@ -15,9 +15,10 @@ public class DoctorDAO {
 
     public Doctor getDoctorById(String doctorId) {
         String sql = "SELECT d.doctor_id, d.user_id, d.full_name, d.specialization, " +
-                     "d.department_id, dep.department_name, d.contact_number, d.availability " +
+                     "d.department_id, dep.department_name, up.contact_number, d.availability " +
                      "FROM doctors d " +
                      "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
+                     "LEFT JOIN user_profiles up ON d.user_id = up.user_id " +
                      "WHERE d.doctor_id = ?";
         try (Connection conn = MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -32,27 +33,45 @@ public class DoctorDAO {
     }
 
     public boolean updateDoctorProfile(Doctor doctor) {
-        String sql = "UPDATE doctors SET full_name = ?, specialization = ?, " +
-                     "contact_number = ? WHERE doctor_id = ?";
-        try (Connection conn = MySqlConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, doctor.getFullName());
-            ps.setString(2, doctor.getSpecialization());
-            ps.setString(3, doctor.getContactNumber());
-            ps.setString(4, doctor.getDoctorId());
-            return ps.executeUpdate() > 0;
+        Connection conn = null;
+        try {
+            conn = MySqlConnection.getConnection();
+            conn.setAutoCommit(false);
+            
+            String updateDoctors = "UPDATE doctors SET full_name = ?, specialization = ? WHERE doctor_id = ?";
+            try (PreparedStatement ps1 = conn.prepareStatement(updateDoctors)) {
+                ps1.setString(1, doctor.getFullName());
+                ps1.setString(2, doctor.getSpecialization());
+                ps1.setString(3, doctor.getDoctorId());
+                ps1.executeUpdate();
+            }
+            
+            String updateProfile = "UPDATE user_profiles SET full_name = ?, contact_number = ? WHERE user_id = ?";
+            try (PreparedStatement ps2 = conn.prepareStatement(updateProfile)) {
+                ps2.setString(1, doctor.getFullName());
+                ps2.setString(2, doctor.getContactNumber());
+                ps2.setInt(3, doctor.getUserId());
+                ps2.executeUpdate();
+            }
+            
+            conn.commit();
+            return true;
         } catch (SQLException e) {
             System.err.println("updateDoctorProfile error: " + e.getMessage());
+            if (conn != null) try { conn.rollback(); } catch(Exception ex) {}
             return false;
+        } finally {
+            if (conn != null) try { conn.setAutoCommit(true); conn.close(); } catch(Exception ex) {}
         }
     }
 
     public List<Doctor> getAvailableDoctorsByDepartment(int departmentId) {
         List<Doctor> list = new ArrayList<>();
         String sql = "SELECT d.doctor_id, d.user_id, d.full_name, d.specialization, " +
-                     "d.department_id, dep.department_name, d.contact_number, d.availability " +
+                     "d.department_id, dep.department_name, up.contact_number, d.availability " +
                      "FROM doctors d " +
                      "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
+                     "LEFT JOIN user_profiles up ON d.user_id = up.user_id " +
                      "WHERE d.department_id = ? AND d.availability = 'available'";
         try (Connection conn = MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -292,11 +311,12 @@ public class DoctorDAO {
             }
             
             // Update doctor
-            try(PreparedStatement ps = c.prepareStatement("UPDATE doctors SET specialization=?, department_id=?, availability=? WHERE doctor_id=?")){
-                ps.setString(1, specialization);
-                ps.setInt(2, deptId);
-                ps.setString(3, availability);
-                ps.setString(4, doctorId);
+            try(PreparedStatement ps = c.prepareStatement("UPDATE doctors SET full_name=?, specialization=?, department_id=?, availability=? WHERE doctor_id=?")){
+                ps.setString(1, fullName);
+                ps.setString(2, specialization);
+                ps.setInt(3, deptId);
+                ps.setString(4, availability);
+                ps.setString(5, doctorId);
                 ps.executeUpdate();
             }
             
