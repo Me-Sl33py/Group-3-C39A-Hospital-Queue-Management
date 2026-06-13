@@ -200,148 +200,172 @@ public class AccountPanel extends javax.swing.JPanel {
         add(jPanel6);
         jPanel6.setBounds(480, 170, 230, 60);
 
+        javax.swing.JPanel jPanel7 = new javax.swing.JPanel();
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
+        jPanel7.setLayout(null);
+
+        javax.swing.JLabel jLabel100 = new javax.swing.JLabel();
+        jLabel100.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel100.setForeground(new java.awt.Color(150, 150, 150));
+        jLabel100.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel100.setText("BLOOD GROUP");
+        jPanel7.add(jLabel100);
+        jLabel100.setBounds(0, 10, 210, 20);
+
+        lblBloodGroupDisplay = new javax.swing.JLabel();
+        lblBloodGroupDisplay.setFont(new java.awt.Font("Tahoma", 1, 14));
+        lblBloodGroupDisplay.setForeground(new java.awt.Color(51, 51, 51));
+        lblBloodGroupDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBloodGroupDisplay.setText("Unknown");
+        jPanel7.add(lblBloodGroupDisplay);
+        lblBloodGroupDisplay.setBounds(0, 30, 210, 20);
+
+        add(jPanel7);
+        jPanel7.setBounds(30, 250, 210, 60);
+
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(51, 51, 51));
         jLabel15.setText("✏️ Edit Profile Information");
         add(jLabel15);
-        jLabel15.setBounds(30, 270, 250, 20);
+        jLabel15.setBounds(30, 350, 250, 20);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(150, 150, 150));
         jLabel16.setText("CHANGE DATE OF BIRTH");
         add(jLabel16);
-        jLabel16.setBounds(30, 310, 150, 20);
+        jLabel16.setBounds(30, 390, 150, 20);
 
         txtDob.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtDob.setForeground(new java.awt.Color(150, 150, 150));
         add(txtDob);
-        txtDob.setBounds(30, 335, 230, 35);
+        txtDob.setBounds(30, 415, 230, 35);
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(150, 150, 150));
         jLabel17.setText("CHANGE PHONE NO.");
         add(jLabel17);
-        jLabel17.setBounds(420, 310, 150, 20);
+        jLabel17.setBounds(420, 390, 150, 20);
 
         txtPhone.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtPhone.setForeground(new java.awt.Color(150, 150, 150));
         txtPhone.setText("Enter new phone number");
         add(txtPhone);
-        txtPhone.setBounds(420, 335, 290, 35);
+        txtPhone.setBounds(420, 415, 290, 35);
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(150, 150, 150));
         jLabel18.setText("CHANGE USERNAME");
         add(jLabel18);
-        jLabel18.setBounds(30, 390, 150, 20);
+        jLabel18.setBounds(30, 470, 150, 20);
 
         txtEmail.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtEmail.setForeground(new java.awt.Color(150, 150, 150));
         txtEmail.setText("Enter new username");
         add(txtEmail);
-        txtEmail.setBounds(30, 415, 230, 35);
+        txtEmail.setBounds(30, 495, 230, 35);
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(150, 150, 150));
         jLabel19.setText("CHANGE PASSWORD");
         add(jLabel19);
-        jLabel19.setBounds(420, 390, 150, 20);
+        jLabel19.setBounds(420, 470, 150, 20);
 
         txtPassword.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(150, 150, 150));
         txtPassword.setText("Enter new password");
         add(txtPassword);
-        txtPassword.setBounds(420, 415, 290, 35);
+        txtPassword.setBounds(420, 495, 290, 35);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(150, 150, 150));
         jLabel20.setText("CURRENT PASSWORD (REQUIRED TO CONFIRM)");
         add(jLabel20);
-        jLabel20.setBounds(30, 480, 280, 20);
+        jLabel20.setBounds(30, 560, 280, 20);
 
         txtCurrentPassword.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtCurrentPassword.setForeground(new java.awt.Color(150, 150, 150));
         txtCurrentPassword.setText("Enter current password");
         add(txtCurrentPassword);
-        txtCurrentPassword.setBounds(30, 505, 230, 35);
+        txtCurrentPassword.setBounds(30, 585, 230, 35);
 
         javax.swing.JLabel jLabelBlood = new javax.swing.JLabel();
         jLabelBlood.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBlood.setForeground(new java.awt.Color(150, 150, 150));
         jLabelBlood.setText("CHANGE BLOOD GROUP");
         add(jLabelBlood);
-        jLabelBlood.setBounds(420, 480, 280, 20);
+        jLabelBlood.setBounds(420, 560, 280, 20);
 
         cmbBloodGroup = new javax.swing.JComboBox<>();
         cmbBloodGroup.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cmbBloodGroup.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-", "Unknown" }));
         add(cmbBloodGroup);
-        cmbBloodGroup.setBounds(420, 505, 290, 35);
+        cmbBloodGroup.setBounds(420, 585, 290, 35);
 
         javax.swing.JLabel lblSecTitle = new javax.swing.JLabel("🔒 Security Questions (Required for Password Recovery)");
         lblSecTitle.setFont(new java.awt.Font("Tahoma", 1, 14));
         lblSecTitle.setForeground(new java.awt.Color(51, 51, 51));
         add(lblSecTitle);
-        lblSecTitle.setBounds(30, 560, 450, 20);
+        lblSecTitle.setBounds(30, 640, 450, 20);
 
         javax.swing.JLabel lblQ1 = new javax.swing.JLabel("1. In what city were you born?");
         lblQ1.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblQ1.setForeground(new java.awt.Color(150, 150, 150));
         add(lblQ1);
-        lblQ1.setBounds(30, 600, 300, 20);
+        lblQ1.setBounds(30, 680, 300, 20);
         txtQ1 = new javax.swing.JTextField();
         add(txtQ1);
-        txtQ1.setBounds(30, 625, 300, 35);
+        txtQ1.setBounds(30, 705, 300, 35);
 
         javax.swing.JLabel lblQ2 = new javax.swing.JLabel("2. What is the name of your favorite pet?");
         lblQ2.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblQ2.setForeground(new java.awt.Color(150, 150, 150));
         add(lblQ2);
-        lblQ2.setBounds(420, 600, 300, 20);
+        lblQ2.setBounds(420, 680, 300, 20);
         txtQ2 = new javax.swing.JTextField();
         add(txtQ2);
-        txtQ2.setBounds(420, 625, 290, 35);
+        txtQ2.setBounds(420, 705, 290, 35);
 
         javax.swing.JLabel lblQ3 = new javax.swing.JLabel("3. What is your mother's maiden name?");
         lblQ3.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblQ3.setForeground(new java.awt.Color(150, 150, 150));
         add(lblQ3);
-        lblQ3.setBounds(30, 680, 300, 20);
+        lblQ3.setBounds(30, 760, 300, 20);
         txtQ3 = new javax.swing.JTextField();
         add(txtQ3);
-        txtQ3.setBounds(30, 705, 300, 35);
+        txtQ3.setBounds(30, 785, 300, 35);
 
         javax.swing.JLabel lblQ4 = new javax.swing.JLabel("4. What high school did you attend?");
         lblQ4.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblQ4.setForeground(new java.awt.Color(150, 150, 150));
         add(lblQ4);
-        lblQ4.setBounds(420, 680, 300, 20);
+        lblQ4.setBounds(420, 760, 300, 20);
         txtQ4 = new javax.swing.JTextField();
         add(txtQ4);
-        txtQ4.setBounds(420, 705, 290, 35);
+        txtQ4.setBounds(420, 785, 290, 35);
 
         javax.swing.JLabel lblQ5 = new javax.swing.JLabel("5. What is your favorite food?");
         lblQ5.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblQ5.setForeground(new java.awt.Color(150, 150, 150));
         add(lblQ5);
-        lblQ5.setBounds(30, 760, 300, 20);
+        lblQ5.setBounds(30, 840, 300, 20);
         txtQ5 = new javax.swing.JTextField();
         add(txtQ5);
-        txtQ5.setBounds(30, 785, 300, 35);
+        txtQ5.setBounds(30, 865, 300, 35);
 
         btnCancel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnCancel.setForeground(new java.awt.Color(30, 100, 180));
         btnCancel.setText("Cancel");
         btnCancel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 100, 180)));
         add(btnCancel);
-        btnCancel.setBounds(30, 860, 110, 35);
+        btnCancel.setBounds(30, 940, 110, 35);
 
         btnConfirm.setBackground(new java.awt.Color(30, 100, 180));
         btnConfirm.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnConfirm.setForeground(new java.awt.Color(51, 51, 51));
         btnConfirm.setText("Confirm");
         add(btnConfirm);
-        btnConfirm.setBounds(160, 860, 110, 35);
+        btnConfirm.setBounds(160, 940, 110, 35);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -384,6 +408,7 @@ public class AccountPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPhone;
+    private javax.swing.JLabel lblBloodGroupDisplay;
     // End of variables declaration//GEN-END:variables
 
     public void displayPatientProfile(model.Patient p, String username) {
@@ -395,6 +420,11 @@ public class AccountPanel extends javax.swing.JPanel {
         jLabel10.setText(p.getAddress());
         jLabel12.setText(p.getContactNumber());
         jLabel14.setText(username);
+        if (p.getBloodGroup() != null && !p.getBloodGroup().trim().isEmpty()) {
+            lblBloodGroupDisplay.setText(p.getBloodGroup());
+        } else {
+            lblBloodGroupDisplay.setText("Unknown");
+        }
     }
 
     public com.toedter.calendar.JDateChooser getTxtDob() {

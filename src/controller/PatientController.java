@@ -303,8 +303,8 @@ public class PatientController {
         accountPanel.getTxtQ4().setText("");
         accountPanel.getTxtQ5().setText("");
         
-        accountPanel.getTxtPhone().setText("");
-        accountPanel.getTxtEmail().setText("");
+        accountPanel.getTxtPhone().setText(p != null ? p.getContactNumber() : "");
+        accountPanel.getTxtEmail().setText(username != null ? username : "");
         accountPanel.getTxtPassword().setText("");
         accountPanel.getTxtCurrentPassword().setText("");
     }
