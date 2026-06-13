@@ -41,6 +41,9 @@ public class QueuePanel extends javax.swing.JPanel {
         btnCancel = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         cmbDepartment = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(750, 700));
         setLayout(null);
@@ -92,7 +95,29 @@ public class QueuePanel extends javax.swing.JPanel {
         jLabel5.setBounds(0, 140, 300, 20);
 
         add(jPanel1);
-        jPanel1.setBounds(225, 150, 300, 180);
+        jPanel1.setBounds(60, 150, 280, 180);
+
+        // Waitlist No. panel (to the right of YOUR NUMBER)
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
+        jPanel4.setLayout(null);
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(120, 120, 120));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("WAITLIST NO.");
+        jPanel4.add(jLabel11);
+        jLabel11.setBounds(0, 20, 280, 20);
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 72)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(200, 100, 30));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("-");
+        jPanel4.add(jLabel12);
+        jLabel12.setBounds(0, 50, 280, 80);
+
+        add(jPanel4);
+        jPanel4.setBounds(360, 150, 280, 180);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
@@ -158,7 +183,10 @@ public class QueuePanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JComboBox<model.Department> cmbDepartment;
     // End of variables declaration//GEN-END:variables
 
@@ -187,5 +215,9 @@ public class QueuePanel extends javax.swing.JPanel {
     public void setQueueMetrics(String serving, String ahead) {
         jLabel7.setText(serving);
         jLabel9.setText(ahead);
+    }
+
+    public void setWaitlistNumber(String waitlistNo) {
+        jLabel12.setText(waitlistNo);
     }
 }
