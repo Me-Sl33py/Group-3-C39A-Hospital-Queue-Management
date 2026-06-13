@@ -8,24 +8,26 @@ package view;
  *
  * @author flexx
  */
+
 public class DoctorPanel extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DoctorPanel.class.getName());
-
+private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DoctorPanel.class.getName());
+private controller.LogoutController logoutController;
     /**
      * Creates new form DoctorPanel
      */
     public DoctorPanel() {
-        initComponents();     
-        addTextAreaPlaceholder(taMessage1, "Enter detailed clinical notes, patient history update, and recommended next steps...");
-        
-        jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
-            @Override
-            protected int calculateTabAreaHeight(int tabPlacement, int runCount, int maxTabHeight) {
-               return 0;
-            }
-        });
-    }
+    initComponents();     
+    addTextAreaPlaceholder(taMessage1, "Enter detailed clinical notes, patient history update, and recommended next steps...");
+    
+    jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
+        @Override
+        protected int calculateTabAreaHeight(int tabPlacement, int runCount, int maxTabHeight) {
+           return 0;
+        }
+    });
+    logoutController = new controller.LogoutController(null, this, null, null);
+}
     // =====================================================================
 // GETTERS — expose UI components to the controller
 // =====================================================================
@@ -1148,6 +1150,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+         if (logoutController != null) {
+        logoutController.handleLogout();
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
