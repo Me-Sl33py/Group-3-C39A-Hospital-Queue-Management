@@ -58,13 +58,12 @@ public class PatientDao {
             }
 
             // Step 2: Write the SQL — RETURN_GENERATED_KEYS tells MySQL to give us the new user_id
-            String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             // Step 3: Set the values (? placeholders replaced in order)
             ps.setString(1, username);  // 1st ? = username
             ps.setString(2, password);  // 2nd ? = password
-            ps.setString(3, role);      // 3rd ? = role
 
             // Step 4: Execute the INSERT
             int rowsAffected = ps.executeUpdate();
