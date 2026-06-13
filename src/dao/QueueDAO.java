@@ -122,4 +122,25 @@ public class QueueDAO {
         }
         return 0;
     }
+
+    public int getWaitlistPosition(String patientId, int departmentId) {
+        // Returns the patient's waitlist slot number for the given department, -1 if not on waitlist
+        String sql = "SELECT w.waitlist_id FROM waitlist w " +
+                     "JOIN doctors d ON w.doctor_id = d.doctor_id " +
+                     "WHERE w.patient_id = ? AND d.department_id = ? " +
+                     "AND w.status = 'waiting' ORDER BY w.waitlist_id ASC LIMIT 1";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, patientId);
+            pstmt.setInt(2, departmentId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("waitlist_id");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }

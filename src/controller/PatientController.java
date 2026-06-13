@@ -160,6 +160,16 @@ public class PatientController {
         mainView.contentPanel.add(panel, java.awt.BorderLayout.CENTER);
         mainView.contentPanel.revalidate();
         mainView.contentPanel.repaint();
+        
+        java.awt.Color defaultColor = new java.awt.Color(40, 110, 190);
+        java.awt.Color activeColor = new java.awt.Color(20, 90, 170);
+        
+        mainView.btnHome.setBackground(panel == homePanel ? activeColor : defaultColor);
+        mainView.btnBookAppointment.setBackground(panel == appointmentPanel ? activeColor : defaultColor);
+        mainView.btnQueue.setBackground(panel == queuePanel ? activeColor : defaultColor);
+        mainView.btnMedicalRecord.setBackground(panel == medicalRecordPanel ? activeColor : defaultColor);
+        mainView.btnRating.setBackground(panel == ratingPanel ? activeColor : defaultColor);
+        mainView.btnAccount.setBackground(panel == accountScrollPane ? activeColor : defaultColor);
     }
 
     private void loadHomeData() {
@@ -265,6 +275,10 @@ public class PatientController {
             } else {
                 queuePanel.setQueueMetrics(servingStr, "0");
             }
+            
+            // Waitlist number
+            int waitlistNo = queueDAO.getWaitlistPosition(PatientSession.getPatientId(), deptId);
+            queuePanel.setWaitlistNumber(waitlistNo != -1 ? String.valueOf(waitlistNo) : "-");
         }
     }
 

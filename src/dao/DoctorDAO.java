@@ -8,7 +8,7 @@ public class DoctorDAO {
 
     public Doctor getDoctorById(String doctorId) {
         String sql = "SELECT d.doctor_id, d.user_id, d.full_name, d.specialization, " +
-                     "d.department_id, dep.department_name, d.contact_number, d.availability " +
+                     "d.department_id, dep.department_name, d.availability " +
                      "FROM doctors d " +
                      "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
                      "WHERE d.doctor_id = ?";
@@ -25,14 +25,13 @@ public class DoctorDAO {
     }
 
     public boolean updateDoctorProfile(Doctor doctor) {
-        String sql = "UPDATE doctors SET full_name = ?, specialization = ?, " +
-                     "contact_number = ? WHERE doctor_id = ?";
+        String sql = "UPDATE doctors SET full_name = ?, specialization = ? " +
+                     "WHERE doctor_id = ?";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, doctor.getFullName());
             ps.setString(2, doctor.getSpecialization());
-            ps.setString(3, doctor.getContactNumber());
-            ps.setString(4, doctor.getDoctorId());
+            ps.setString(3, doctor.getDoctorId());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("updateDoctorProfile error: " + e.getMessage());
@@ -43,7 +42,7 @@ public class DoctorDAO {
     public java.util.List<Doctor> getAvailableDoctorsByDepartment(int departmentId) {
         java.util.List<Doctor> list = new java.util.ArrayList<>();
         String sql = "SELECT d.doctor_id, d.user_id, d.full_name, d.specialization, " +
-                     "d.department_id, dep.department_name, d.contact_number, d.availability " +
+                     "d.department_id, dep.department_name, d.availability " +
                      "FROM doctors d " +
                      "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
                      "WHERE d.department_id = ? AND d.availability = 'available'";
@@ -66,7 +65,7 @@ public class DoctorDAO {
             rs.getString("full_name"),
             rs.getString("specialization"),
             rs.getInt("department_id"),
-            rs.getString("contact_number"),
+            "", // contact_number is no longer in the doctors table
             rs.getString("availability")
         );
         d.setDepartmentName(rs.getString("department_name")); // ADD THIS
