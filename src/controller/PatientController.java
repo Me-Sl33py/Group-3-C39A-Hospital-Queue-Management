@@ -161,15 +161,28 @@ public class PatientController {
         mainView.contentPanel.revalidate();
         mainView.contentPanel.repaint();
         
-        java.awt.Color defaultColor = new java.awt.Color(40, 110, 190);
-        java.awt.Color activeColor = new java.awt.Color(20, 90, 170);
+        java.awt.Color defaultBgColor = new java.awt.Color(30, 100, 180); // Original sidebar blue color
+        java.awt.Color activeBgColor = new java.awt.Color(15, 60, 130); // Darker blue for active tab
+        java.awt.Color defaultFgColor = java.awt.Color.WHITE;
+        java.awt.Color activeFgColor = java.awt.Color.WHITE;
+
+        mainView.btnHome.setBackground(panel == homePanel ? activeBgColor : defaultBgColor);
+        mainView.btnHome.setForeground(panel == homePanel ? activeFgColor : defaultFgColor);
         
-        mainView.btnHome.setBackground(panel == homePanel ? activeColor : defaultColor);
-        mainView.btnBookAppointment.setBackground(panel == appointmentPanel ? activeColor : defaultColor);
-        mainView.btnQueue.setBackground(panel == queuePanel ? activeColor : defaultColor);
-        mainView.btnMedicalRecord.setBackground(panel == medicalRecordPanel ? activeColor : defaultColor);
-        mainView.btnRating.setBackground(panel == ratingPanel ? activeColor : defaultColor);
-        mainView.btnAccount.setBackground(panel == accountScrollPane ? activeColor : defaultColor);
+        mainView.btnBookAppointment.setBackground(panel == appointmentPanel ? activeBgColor : defaultBgColor);
+        mainView.btnBookAppointment.setForeground(panel == appointmentPanel ? activeFgColor : defaultFgColor);
+        
+        mainView.btnQueue.setBackground(panel == queuePanel ? activeBgColor : defaultBgColor);
+        mainView.btnQueue.setForeground(panel == queuePanel ? activeFgColor : defaultFgColor);
+        
+        mainView.btnMedicalRecord.setBackground(panel == medicalRecordPanel ? activeBgColor : defaultBgColor);
+        mainView.btnMedicalRecord.setForeground(panel == medicalRecordPanel ? activeFgColor : defaultFgColor);
+        
+        mainView.btnRating.setBackground(panel == ratingPanel ? activeBgColor : defaultBgColor);
+        mainView.btnRating.setForeground(panel == ratingPanel ? activeFgColor : defaultFgColor);
+        
+        mainView.btnAccount.setBackground(panel == accountScrollPane ? activeBgColor : defaultBgColor);
+        mainView.btnAccount.setForeground(panel == accountScrollPane ? activeFgColor : defaultFgColor);
     }
 
     private void loadHomeData() {
@@ -276,9 +289,9 @@ public class PatientController {
                 queuePanel.setQueueMetrics(servingStr, "0");
             }
             
-            // Waitlist number
-            int waitlistNo = queueDAO.getWaitlistPosition(PatientSession.getPatientId(), deptId);
-            queuePanel.setWaitlistNumber(waitlistNo != -1 ? String.valueOf(waitlistNo) : "-");
+            // Total in queue
+            int totalQueue = queueDAO.getTotalQueueCount(deptId);
+            queuePanel.setWaitlistNumber(String.valueOf(totalQueue));
         }
     }
 

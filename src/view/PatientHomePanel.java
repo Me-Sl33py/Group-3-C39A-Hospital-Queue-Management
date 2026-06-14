@@ -37,6 +37,7 @@ public class PatientHomePanel extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         btnViewQueue = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        lblNotificationBell = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(750, 700));
         setLayout(null);
@@ -47,10 +48,16 @@ public class PatientHomePanel extends javax.swing.JPanel {
         add(jLabel1);
         jLabel1.setBounds(30, 30, 300, 30);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 20)); // NOI18N
         jLabel2.setText("\uD83C\uDFE5");
         add(jLabel2);
         jLabel2.setBounds(690, 30, 30, 30);
+
+        lblNotificationBell.setFont(new java.awt.Font("Segoe UI Emoji", 0, 24)); // NOI18N
+        lblNotificationBell.setText("\uD83D\uDD14");
+        lblNotificationBell.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add(lblNotificationBell);
+        lblNotificationBell.setBounds(650, 28, 40, 40);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
@@ -119,6 +126,7 @@ public class PatientHomePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel lblNotificationBell;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
@@ -133,5 +141,9 @@ public class PatientHomePanel extends javax.swing.JPanel {
 
     public void setWelcomeName(String name) {
         jLabel1.setText("Welcome, " + name + " \uD83D\uDC4B");
+    }
+
+    public javax.swing.JLabel getLblNotificationBell() {
+        return lblNotificationBell;
     }
 }

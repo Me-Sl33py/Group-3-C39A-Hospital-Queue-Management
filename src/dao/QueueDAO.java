@@ -143,4 +143,22 @@ public class QueueDAO {
         }
         return -1;
     }
+
+    public int getTotalQueueCount(int departmentId) {
+        String sql = "SELECT COUNT(*) AS total_count FROM queue q " +
+                     "JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                     "WHERE d.department_id = ? AND q.status = 'waiting'";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, departmentId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("total_count");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

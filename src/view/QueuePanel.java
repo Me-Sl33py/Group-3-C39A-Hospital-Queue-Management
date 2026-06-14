@@ -54,7 +54,7 @@ public class QueuePanel extends javax.swing.JPanel {
         add(jLabel1);
         jLabel1.setBounds(30, 30, 250, 30);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 20)); // NOI18N
         jLabel2.setText("🔔");
         add(jLabel2);
         jLabel2.setBounds(690, 30, 30, 30);
@@ -63,11 +63,11 @@ public class QueuePanel extends javax.swing.JPanel {
         jLabel10.setForeground(new java.awt.Color(100, 100, 100));
         jLabel10.setText("Department:");
         add(jLabel10);
-        jLabel10.setBounds(450, 30, 90, 30);
+        jLabel10.setBounds(450, 100, 90, 30);
 
         cmbDepartment.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(cmbDepartment);
-        cmbDepartment.setBounds(540, 30, 140, 30);
+        cmbDepartment.setBounds(540, 100, 140, 30);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
@@ -105,7 +105,7 @@ public class QueuePanel extends javax.swing.JPanel {
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(120, 120, 120));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("WAITLIST NO.");
+        jLabel11.setText("TOTAL IN QUEUE");
         jPanel4.add(jLabel11);
         jLabel11.setBounds(0, 20, 280, 20);
 
