@@ -62,7 +62,7 @@ public class RatingPanel extends javax.swing.JPanel {
         add(jLabel1);
         jLabel1.setBounds(30, 30, 200, 30);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 20)); // NOI18N
         jLabel2.setText("🔔");
         add(jLabel2);
         jLabel2.setBounds(690, 30, 30, 30);
