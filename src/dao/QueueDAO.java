@@ -83,6 +83,22 @@ public class QueueDAO {
         return -1;
     }
 
+    public int getDoctorCurrentlyServingToken(String doctorId) {
+        String sql = "SELECT token_number FROM queue WHERE doctor_id = ? AND status = 'in consultation' LIMIT 1";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, doctorId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("token_number");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public int getPatientQueueToken(String patientId, int departmentId) {
         String sql = "SELECT q.token_number FROM queue q " +
                      "JOIN doctors d ON q.doctor_id = d.doctor_id " +

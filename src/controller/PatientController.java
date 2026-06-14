@@ -27,6 +27,10 @@ public class PatientController {
     private PatientLogoutPanel logoutPanel;
     private javax.swing.JScrollPane accountScrollPane;
     
+    // Notification Fields
+    private javax.swing.Timer notificationTimer;
+    private String lastNotificationState = "none";
+    
     private PatientDao patientDAO = new PatientDao();
     private DepartmentDAO departmentDAO = new DepartmentDAO();
     private DoctorDAO doctorDAO = new DoctorDAO();
@@ -54,6 +58,87 @@ public class PatientController {
         
         loadHomeData();
         showPanel(homePanel);
+        
+        startNotificationPoller();
+    }
+
+    private void startNotificationPoller() {
+        // Trigger every 5 seconds (5000 ms) automatically
+        notificationTimer = new javax.swing.Timer(5000, e -> {
+            String patientId = session.PatientSession.getPatientId();
+            if (patientId == null) return;
+            
+            // Get patient's current active queue
+            QueueItem q = queueDAO.getCurrentQueueForPatient(patientId);
+            if (q == null || "completed".equals(q.getStatus())) {
+                // Stop notifications if completed
+                lastNotificationState = "none";
+                return;
+            }
+            
+            int myToken = q.getTokenNumber();
+            int servingToken = queueDAO.getDoctorCurrentlyServingToken(q.getDoctorId());
+            
+            if (servingToken == -1) {
+                // Doctor hasn't started serving or no active consultation
+                return;
+            }
+            
+            String currentState = "waiting";
+            if (myToken == servingToken) {
+                currentState = "now";
+            } else if (myToken == servingToken + 1) {
+                currentState = "next";
+            }
+            
+            // Only play sound if state ACTUALLY changes
+            if (!currentState.equals(lastNotificationState)) {
+                if (currentState.equals("now") || currentState.equals("next")) {
+                    playNotificationSound();
+                    
+                    // Show a quick visual notification dialog
+                    String msg = currentState.equals("now") ? "Your turn is NOW! Please proceed to the doctor." : "Your turn is NEXT! Please get ready.";
+                    JOptionPane.showMessageDialog(mainView, msg, "Queue Notification", JOptionPane.INFORMATION_MESSAGE);
+                }
+                lastNotificationState = currentState;
+            }
+        });
+        notificationTimer.start();
+    }
+    
+    public void playNotificationSound() {
+        // Run in a background thread so we don't freeze the UI for 3 seconds
+        new Thread(() -> {
+            try {
+                // Synthesize a pulsed 880Hz "buzz" alarm tone for 3 seconds
+                int sampleRate = 8000;
+                int durationSeconds = 3;
+                byte[] buf = new byte[sampleRate * durationSeconds];
+                for (int i = 0; i < buf.length; i++) {
+                    // Pulsing logic: 200ms ON, 100ms OFF (300ms period)
+                    int periodSamples = (int)(sampleRate * 0.3); 
+                    int onSamples = (int)(sampleRate * 0.2); 
+                    
+                    if ((i % periodSamples) < onSamples) {
+                        double angle = i / (sampleRate / 880.0) * 2.0 * Math.PI;
+                        // Square wave makes it sound more like an electronic buzzer
+                        buf[i] = (byte) (Math.signum(Math.sin(angle)) * 100.0);
+                    } else {
+                        buf[i] = 0;
+                    }
+                }
+                
+                javax.sound.sampled.AudioFormat af = new javax.sound.sampled.AudioFormat(sampleRate, 8, 1, true, false);
+                javax.sound.sampled.SourceDataLine sdl = javax.sound.sampled.AudioSystem.getSourceDataLine(af);
+                sdl.open(af);
+                sdl.start();
+                sdl.write(buf, 0, buf.length);
+                sdl.drain();
+                sdl.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void setupListeners() {
@@ -166,23 +251,16 @@ public class PatientController {
         java.awt.Color defaultFgColor = java.awt.Color.WHITE;
         java.awt.Color activeFgColor = java.awt.Color.WHITE;
 
-        mainView.btnHome.setBackground(panel == homePanel ? activeBgColor : defaultBgColor);
-        mainView.btnHome.setForeground(panel == homePanel ? activeFgColor : defaultFgColor);
-        
-        mainView.btnBookAppointment.setBackground(panel == appointmentPanel ? activeBgColor : defaultBgColor);
-        mainView.btnBookAppointment.setForeground(panel == appointmentPanel ? activeFgColor : defaultFgColor);
-        
-        mainView.btnQueue.setBackground(panel == queuePanel ? activeBgColor : defaultBgColor);
-        mainView.btnQueue.setForeground(panel == queuePanel ? activeFgColor : defaultFgColor);
-        
-        mainView.btnMedicalRecord.setBackground(panel == medicalRecordPanel ? activeBgColor : defaultBgColor);
-        mainView.btnMedicalRecord.setForeground(panel == medicalRecordPanel ? activeFgColor : defaultFgColor);
-        
-        mainView.btnRating.setBackground(panel == ratingPanel ? activeBgColor : defaultBgColor);
-        mainView.btnRating.setForeground(panel == ratingPanel ? activeFgColor : defaultFgColor);
-        
-        mainView.btnAccount.setBackground(panel == accountScrollPane ? activeBgColor : defaultBgColor);
-        mainView.btnAccount.setForeground(panel == accountScrollPane ? activeFgColor : defaultFgColor);
+        javax.swing.JButton[] buttons = { mainView.btnHome, mainView.btnBookAppointment, mainView.btnQueue, mainView.btnMedicalRecord, mainView.btnRating, mainView.btnAccount };
+        javax.swing.JComponent[] panels = { homePanel, appointmentPanel, queuePanel, medicalRecordPanel, ratingPanel, accountScrollPane };
+
+        for (int i = 0; i < buttons.length; i++) {
+            boolean isActive = (panel == panels[i]);
+            buttons[i].setBackground(isActive ? activeBgColor : defaultBgColor);
+            buttons[i].setForeground(isActive ? activeFgColor : defaultFgColor);
+            buttons[i].setOpaque(isActive);
+            buttons[i].setContentAreaFilled(isActive);
+        }
     }
 
     private void loadHomeData() {
