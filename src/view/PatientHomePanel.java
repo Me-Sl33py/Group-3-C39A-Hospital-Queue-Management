@@ -38,6 +38,7 @@ public class PatientHomePanel extends javax.swing.JPanel {
         btnViewQueue = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         lblNotificationBell = new javax.swing.JLabel();
+        lblNotificationText = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(750, 700));
         setLayout(null);
@@ -58,6 +59,13 @@ public class PatientHomePanel extends javax.swing.JPanel {
         lblNotificationBell.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         add(lblNotificationBell);
         lblNotificationBell.setBounds(650, 28, 40, 40);
+
+        lblNotificationText.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblNotificationText.setForeground(new java.awt.Color(220, 50, 50)); // Red attention color
+        lblNotificationText.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNotificationText.setText(""); // Initially empty
+        add(lblNotificationText);
+        lblNotificationText.setBounds(340, 35, 300, 25);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
@@ -127,6 +135,7 @@ public class PatientHomePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblNotificationBell;
+    private javax.swing.JLabel lblNotificationText;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
@@ -145,5 +154,9 @@ public class PatientHomePanel extends javax.swing.JPanel {
 
     public javax.swing.JLabel getLblNotificationBell() {
         return lblNotificationBell;
+    }
+
+    public javax.swing.JLabel getLblNotificationText() {
+        return lblNotificationText;
     }
 }
