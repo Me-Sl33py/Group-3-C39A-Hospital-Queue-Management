@@ -42,6 +42,7 @@ public javax.swing.JLabel getLblRemainingCount() { return jLabel2; }
 public javax.swing.JLabel getLblWaitingCount() { return jLabel12; }
 public javax.swing.JLabel getLblConfirmedCount() { return jLabel15; }
 public javax.swing.JLabel getLblNoShowCount() { return jLabel19; }
+public javax.swing.JLabel getLblCompletedCount() { return jLabelCompletedCount; }
 public javax.swing.JTextField getTxtPatientIdField()   { return jTextField1; }
 public javax.swing.JTextField getTxtPatientNameField() { return jTextField2; }
 public javax.swing.JButton getBtnMyQueue()        { return MyQueue;          }
@@ -53,8 +54,9 @@ public javax.swing.JTable getQueueTable()            { return jTable2;}
 public javax.swing.JButton getBtnCallNextDashboard() { return jButton6;}
 public javax.swing.JLabel getLblActivePatientName()  { return lblPatientName1;}
 public javax.swing.JLabel getLblActivePatientId()    { return lblPatientId1;}
-public javax.swing.JButton getBtnCallNext()          { return CallNext;      }
-public javax.swing.JButton getBtnEndSession()        { return EndSession;    }
+    public javax.swing.JButton getBtnCallNext()        { return CallNext;      }
+    public javax.swing.JButton getBtnEndSession()        { return EndSession;    }
+    public javax.swing.JButton getBtnSkipPatient()       { return SkipPatient;   }
 public javax.swing.JButton getBtnViewFullQueue()     { return ViewFullQueue; }
 public javax.swing.JTable getSessionHistoryTable()   { return jTableSessionHistory;}
 public javax.swing.JLabel getLblRecordPatientId()    { return lblPatientId;     }
@@ -149,6 +151,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         jPanel12 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        jLabelCompleted = new javax.swing.JLabel();
+        jLabelCompletedCount = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         lblTitle4 = new javax.swing.JLabel();
@@ -163,6 +168,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         lblPatientId1 = new javax.swing.JLabel();
         CallNext = new javax.swing.JButton();
         EndSession = new javax.swing.JButton();
+        SkipPatient = new javax.swing.JButton();
         jPanelUpNext = new javax.swing.JPanel();
         lblUpNextINQueue = new javax.swing.JLabel();
         jPatientQueue = new javax.swing.JPanel();
@@ -366,10 +372,13 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
+        jLabel12.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 36)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 153, 255));
-        jLabel12.setText("08");
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("00");
 
         jLabel13.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Waiting");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -399,10 +408,13 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
+        jLabel15.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 36)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 153, 255));
-        jLabel15.setText("12");
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("00");
 
         jLabel16.setFont(new java.awt.Font("SansSerif", 0, 13)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("Confirmed");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -433,11 +445,13 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         jLabel18.setFont(new java.awt.Font("SansSerif", 0, 13)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setText("No Show");
 
-        jLabel19.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 36)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel19.setText("02");
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("00");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -459,7 +473,41 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addGap(39, 39, 39)
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel19)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        // ── Completed card (jPanel13) ──────────────────────────────────────
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+
+        jLabelCompleted.setFont(new java.awt.Font("SansSerif", 0, 13)); // NOI18N
+        jLabelCompleted.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelCompleted.setText("Completed");
+
+        jLabelCompletedCount.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 36)); // NOI18N
+        jLabelCompletedCount.setForeground(new java.awt.Color(0, 180, 90));
+        jLabelCompletedCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelCompletedCount.setText("00");
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabelCompleted)
+                    .addComponent(jLabelCompletedCount))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabelCompleted)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelCompletedCount)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -494,13 +542,15 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
+                        .addGap(20, 20, 20)
                         .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
+                        .addGap(20, 20, 20)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addGap(20, 20, 20)
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addContainerGap())
@@ -519,7 +569,8 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(67, 67, 67)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
@@ -559,9 +610,11 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
 
         lblPatientId1.setText("#HOSP-8829");
 
-        CallNext.setText("Call Next");
+        CallNext.setText("Call Next Patient");
 
         EndSession.setText("End Session");
+
+        SkipPatient.setText("Skip / Not Present");
 
         javax.swing.GroupLayout jPanelActiveConsultationLayout = new javax.swing.GroupLayout(jPanelActiveConsultation);
         jPanelActiveConsultation.setLayout(jPanelActiveConsultationLayout);
@@ -586,7 +639,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                             .addGroup(jPanelActiveConsultationLayout.createSequentialGroup()
                                 .addComponent(CallNext, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(EndSession, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(EndSession, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(SkipPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(65, Short.MAX_VALUE))))
         );
         jPanelActiveConsultationLayout.setVerticalGroup(
@@ -605,7 +660,8 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addGap(28, 28, 28)
                 .addGroup(jPanelActiveConsultationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CallNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EndSession, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(EndSession, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SkipPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1190,6 +1246,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JButton CallNextPatient;
     private javax.swing.JLabel DoctorPanel;
     private javax.swing.JButton EndSession;
+    private javax.swing.JButton SkipPatient;
     private javax.swing.JLabel HospitalManagement;
     private javax.swing.JButton MyQueue;
     private javax.swing.JButton ViewFullQueue;
@@ -1214,6 +1271,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JLabel jLabelCompleted;
+    private javax.swing.JLabel jLabelCompletedCount;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
