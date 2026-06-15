@@ -344,20 +344,65 @@ public class PatientDao {
     }
 
     // Get next waiting patient from queue table
-    public Patient getNextWaitingPatient() {
+    public Patient getNextWaitingPatient(String doctorId) {
         String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
                      "p.contact_number, p.address FROM patients p " +
                      "JOIN queue q ON p.patient_id = q.patient_id " +
-                     "WHERE q.status = 'waiting' " +
+                     "WHERE q.status = 'waiting' AND q.doctor_id = ? " +
                      "ORDER BY q.token_number ASC LIMIT 1";
         try (Connection conn = new database.MySqlConnection().openConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) return mapRow(rs);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, doctorId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapRow(rs);
+            }
         } catch (SQLException e) {
             System.err.println("getNextWaitingPatient error: " + e.getMessage());
         }
         return null;
+    }
+
+    public Patient getNextSkippedPatient(String doctorId) {
+        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
+                     "p.contact_number, p.address FROM patients p " +
+                     "JOIN queue q ON p.patient_id = q.patient_id " +
+                     "WHERE q.status = 'skipped' AND q.doctor_id = ? " +
+                     "ORDER BY q.token_number ASC LIMIT 1";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, doctorId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapRow(rs);
+            }
+        } catch (SQLException e) {
+            System.err.println("getNextSkippedPatient error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public void incrementSkipCount(String patientId) {
+        String sql = "UPDATE queue SET skip_count = skip_count + 1 WHERE patient_id = ? AND status != 'completed'";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, patientId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getSkipCount(String patientId) {
+        String sql = "SELECT skip_count FROM queue WHERE patient_id = ? AND status != 'completed' LIMIT 1";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, patientId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("skip_count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     // Update queue status

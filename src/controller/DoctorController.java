@@ -27,6 +27,7 @@ public class DoctorController {
     // ── Session state ─────────────────────────────────────────────────────────
     private Doctor  currentDoctor;
     private Patient activePatient;
+    private javax.swing.Timer refreshTimer;
 
     // =========================================================================
     // Constructor — wires all buttons
@@ -43,6 +44,10 @@ public class DoctorController {
 
         attachListeners();
         loadQueueTable();
+
+        // Auto-refresh the dashboard stats every 5 seconds
+        refreshTimer = new javax.swing.Timer(5000, e -> loadQueueTable());
+        refreshTimer.start();
     }
 
     // =========================================================================
@@ -62,6 +67,7 @@ public class DoctorController {
         // ── Tab 2 : active consultation ───────────────────────────────────────
         view.getBtnCallNext().addActionListener(e -> callNextPatient());
         view.getBtnEndSession().addActionListener(e -> endSession());
+        view.getBtnSkipPatient().addActionListener(e -> skipPatient());
         view.getBtnViewFullQueue().addActionListener(e -> {
             loadQueueTable();
             view.getTabbedPane().setSelectedIndex(0);
@@ -92,6 +98,8 @@ public class DoctorController {
         int waiting = 0;
         int confirmed = 0;
         int noShow = 0;
+        int skipped = 0;
+        int inConsultation = 0;
 
         for (Object[] row : rows) {
             model.addRow(row);
@@ -102,14 +110,18 @@ public class DoctorController {
                 confirmed++;
             } else if (status.equals("no show") || status.equals("noshow")) {
                 noShow++;
+            } else if (status.equals("skipped")) {
+                skipped++;
+            } else if (status.equals("in consultation")) {
+                inConsultation++;
             }
         }
         
-        // Update Dashboard Cards
+        // Update Dashboard Cards with live data from DB
         view.getLblWaitingCount().setText(String.format("%02d", waiting));
-        view.getLblConfirmedCount().setText(String.format("%02d", confirmed));
+        view.getLblConfirmedCount().setText(String.format("%02d", confirmed + inConsultation));
         view.getLblNoShowCount().setText(String.format("%02d", noShow));
-        view.getLblRemainingCount().setText("You have " + (waiting + confirmed) + " patients remaining");
+        view.getLblRemainingCount().setText("You have " + (waiting + skipped + inConsultation) + " patients remaining in your daily queue");
         
         updateQueueLabels(rows);
     }
@@ -144,7 +156,15 @@ public class DoctorController {
     // Tab 2 — Call Next Patient
     // =========================================================================
     public void callNextPatient() {
-        Patient next = patientDAO.getNextWaitingPatient();
+        if (currentDoctor == null) return;
+        String docId = currentDoctor.getDoctorId();
+        
+        Patient next = patientDAO.getNextWaitingPatient(docId);
+
+        // Auto-recall skipped patients if waiting queue is empty
+        if (next == null) {
+            next = patientDAO.getNextSkippedPatient(docId);
+        }
 
         if (next == null) {
             JOptionPane.showMessageDialog(view,
@@ -189,6 +209,43 @@ public class DoctorController {
         addRowToHistory(activePatient);
         activePatient = null;
 
+        view.getLblActivePatientName().setText("—");
+        view.getLblActivePatientId().setText("—");
+        loadQueueTable();
+    }
+
+    public void skipPatient() {
+        if (activePatient == null) {
+            JOptionPane.showMessageDialog(view,
+                    "No active consultation to skip.",
+                    "No Session",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String pId = activePatient.getPatientId();
+        patientDAO.incrementSkipCount(pId);
+        int skips = patientDAO.getSkipCount(pId);
+
+        if (skips >= 2) {
+            // Reached max skips, mark as no show and cancel consultation
+            patientDAO.updateQueueStatus(pId, "no show");
+            addRowToHistory(activePatient);
+            JOptionPane.showMessageDialog(view,
+                    "Patient " + activePatient.getFullName() + " skipped twice. Marked as NO SHOW and Receptionist notified.",
+                    "Patient Skipped - Limit Reached",
+                    JOptionPane.WARNING_MESSAGE);
+            // TODO: In a full system, you would send a notification to the receptionist queue here.
+        } else {
+            // Mark as skipped but keep them around for later
+            patientDAO.updateQueueStatus(pId, "skipped");
+            JOptionPane.showMessageDialog(view,
+                    "Patient " + activePatient.getFullName() + " skipped. They will be recalled after the waiting queue empties.",
+                    "Patient Skipped",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        activePatient = null;
         view.getLblActivePatientName().setText("—");
         view.getLblActivePatientId().setText("—");
         loadQueueTable();
