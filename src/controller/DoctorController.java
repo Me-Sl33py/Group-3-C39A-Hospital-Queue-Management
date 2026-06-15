@@ -83,6 +83,36 @@ public class DoctorController {
 
         // ── Sidebar : logout ──────────────────────────────────────────────────
         view.getBtnLogout().addActionListener(e -> logout());
+
+        // ── Tab 2 : No Show table — click a row to recall the patient ─────────
+        view.getNoShowTable().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                int row = view.getNoShowTable().getSelectedRow();
+                if (row < 0) return;
+                String patientId = view.getNoShowTable().getValueAt(row, 2).toString();
+                String patientName = view.getNoShowTable().getValueAt(row, 1).toString();
+                int confirm = JOptionPane.showConfirmDialog(view,
+                        "Recall " + patientName + " (" + patientId + ") back to the waiting queue?",
+                        "Recall No-Show Patient",
+                        JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    boolean ok = patientDAO.recallNoShowPatient(patientId);
+                    if (ok) {
+                        JOptionPane.showMessageDialog(view,
+                                patientName + " has been moved back to the waiting queue.",
+                                "Patient Recalled",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        loadQueueTable();
+                    } else {
+                        JOptionPane.showMessageDialog(view,
+                                "Failed to recall patient. Please try again.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
     }
 
     // =========================================================================
@@ -100,10 +130,11 @@ public class DoctorController {
         int noShow = 0;
         int skipped = 0;
         int inConsultation = 0;
+        int completed = 0;
 
         for (Object[] row : rows) {
             model.addRow(row);
-            String status = row[2] != null ? row[2].toString().toLowerCase() : "";
+            String status = row[6] != null ? row[6].toString().toLowerCase() : "";
             if (status.equals("waiting")) {
                 waiting++;
             } else if (status.equals("confirmed")) {
@@ -114,6 +145,8 @@ public class DoctorController {
                 skipped++;
             } else if (status.equals("in consultation")) {
                 inConsultation++;
+            } else if (status.equals("completed")) {
+                completed++;
             }
         }
         
@@ -121,9 +154,24 @@ public class DoctorController {
         view.getLblWaitingCount().setText(String.format("%02d", waiting));
         view.getLblConfirmedCount().setText(String.format("%02d", confirmed + inConsultation));
         view.getLblNoShowCount().setText(String.format("%02d", noShow));
+        view.getLblCompletedCount().setText(String.format("%02d", completed));
         view.getLblRemainingCount().setText("You have " + (waiting + skipped + inConsultation) + " patients remaining in your daily queue");
         
         updateQueueLabels(rows);
+        loadNoShowTable();
+    }
+
+    /**
+     * Loads the No Show patients table on Tab 2 from the database.
+     */
+    private void loadNoShowTable() {
+        if (currentDoctor == null) return;
+        List<Object[]> noShowRows = patientDAO.getNoShowPatientsByDoctor(currentDoctor.getDoctorId());
+        DefaultTableModel noShowModel = (DefaultTableModel) view.getNoShowTable().getModel();
+        noShowModel.setRowCount(0);
+        for (Object[] row : noShowRows) {
+            noShowModel.addRow(row);
+        }
     }
 
     private void updateQueueLabels(List<Object[]> upcoming) {
@@ -189,8 +237,7 @@ public class DoctorController {
         view.getLblActivePatientId().setText(next.getPatientId());
 
         // Update Tab 3 patient info fields
-        view.getTxtPatientIdField().setText(next.getPatientId());
-        view.getTxtPatientNameField().setText(next.getFullName());
+        updateMedicalRecordTab();
 
         // Refresh the queue table and update the upcoming labels
         loadQueueTable();
@@ -211,6 +258,7 @@ public class DoctorController {
 
         view.getLblActivePatientName().setText("—");
         view.getLblActivePatientId().setText("—");
+        updateMedicalRecordTab();
         loadQueueTable();
     }
 
@@ -248,6 +296,7 @@ public class DoctorController {
         activePatient = null;
         view.getLblActivePatientName().setText("—");
         view.getLblActivePatientId().setText("—");
+        updateMedicalRecordTab();
         loadQueueTable();
     }
 
@@ -291,15 +340,8 @@ public class DoctorController {
 
         String doctorId = (currentDoctor != null) ? currentDoctor.getDoctorId() : "";
 
-        MedicalRecord record = new MedicalRecord();
-        record.setPatientId(activePatient.getPatientId());
-        record.setDoctorId(doctorId);
-        record.setNotes(notes);
-        record.setDiagnosis("");
-        record.setPrescription("");
-        record.setAppointmentId(0);
-
-        boolean saved = recordDAO.insertRecord(record);
+        // Use PatientDao to save it because it looks up the correct appointment_id from the queue
+        boolean saved = patientDAO.saveMedicalRecord(activePatient.getPatientId(), doctorId, notes);
 
         if (saved) {
             JOptionPane.showMessageDialog(view,
@@ -319,6 +361,18 @@ public class DoctorController {
         view.getTaMessage().setText(
             "Enter detailed clinical notes, patient history update, " +
             "and recommended next steps...");
+    }
+
+    public void updateMedicalRecordTab() {
+        if (activePatient != null) {
+            view.getTxtPatientIdField().setText(activePatient.getPatientId());
+            view.getTxtPatientNameField().setText(activePatient.getFullName());
+            view.getTxtPatientIdField().setEditable(false);
+            view.getTxtPatientNameField().setEditable(false);
+        } else {
+            view.getTxtPatientIdField().setText("");
+            view.getTxtPatientNameField().setText("");
+        }
     }
 
     // =========================================================================

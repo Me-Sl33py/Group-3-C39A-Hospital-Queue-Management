@@ -61,6 +61,7 @@ public javax.swing.JLabel getLblActivePatientId()    { return lblPatientId1;}
     public javax.swing.JButton getBtnSkipPatient()       { return SkipPatient;   }
 public javax.swing.JButton getBtnViewFullQueue()     { return ViewFullQueue; }
 public javax.swing.JTable getSessionHistoryTable()   { return jTableSessionHistory;}
+public javax.swing.JTable getNoShowTable()            { return jTableNoShow;}
 public javax.swing.JLabel getLblRecordPatientId()    { return lblPatientId;     }
 public javax.swing.JLabel getLblRecordPatientName()  { return lblPatientName;   }
 public javax.swing.JTextArea getTaMessage()          { return taMessage1;       }
@@ -157,6 +158,11 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         jLabelCompleted = new javax.swing.JLabel();
         jLabelCompletedCount = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
+        jLabelQueueHeader = new javax.swing.JLabel();
+        jPanelNoShowList = new javax.swing.JPanel();
+        lblNoShowHeader = new javax.swing.JLabel();
+        jScrollPaneNoShow = new javax.swing.JScrollPane();
+        jTableNoShow = new javax.swing.JTable();
         jTable2 = new javax.swing.JTable();
         lblTitle4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -404,7 +410,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, 20))
         );
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
@@ -440,7 +446,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, 20))
         );
 
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
@@ -476,7 +482,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel19)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, 20))
         );
 
         // ── Completed card (jPanel13) ──────────────────────────────────────
@@ -510,23 +516,39 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addComponent(jLabelCompleted)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelCompletedCount)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, 20))
         );
 
-        jTable2.setAutoCreateColumnsFromModel(false);
+        jTable2.setAutoCreateColumnsFromModel(true);
         jTable2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"1", "Ram", "Waiting", "View File"},
-                {"2", "Shyam", "Confirming", "View File"},
-                {"3", "Hari", "Waiting", "View File"},
-                {"4", "Sita", "No Show", "View File"}
-            },
+            new Object [][] {},
             new String [] {
-                "PATIENT ID", "NAME", "STATUS", "ACTION"
+                "Token #", "Patient Name", "Age", "Gender", "Type", "Reason", "Status", "Action"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.getColumnModel().getColumn(0).setPreferredWidth(60);
+        jTable2.getColumnModel().getColumn(1).setPreferredWidth(130);
+        jTable2.getColumnModel().getColumn(2).setPreferredWidth(40);
+        jTable2.getColumnModel().getColumn(3).setPreferredWidth(60);
+        jTable2.getColumnModel().getColumn(4).setPreferredWidth(90);
+        jTable2.getColumnModel().getColumn(5).setPreferredWidth(150);
+        jTable2.getColumnModel().getColumn(6).setPreferredWidth(90);
+        jTable2.getColumnModel().getColumn(7).setPreferredWidth(70);
+        jTable2.setRowHeight(24);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setViewportView(jTable2);
+
+        jLabelQueueHeader.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14)); // NOI18N
+        jLabelQueueHeader.setForeground(new java.awt.Color(30, 41, 59));
+        jLabelQueueHeader.setText("Queue List");
 
         lblTitle4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTitle4.setForeground(new java.awt.Color(30, 41, 59));
@@ -544,18 +566,21 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
+                        .addGap(40, 40, 40)
                         .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
+                        .addGap(43, 43, 43)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addGap(38, 38, 38)
                         .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabelQueueHeader)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblTitle4)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -568,17 +593,23 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addComponent(jLabel6)
                 .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(67, 67, 67)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabelQueueHeader)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addGap(8, 8, 8))
         );
 
-        jTabbedPane1.addTab("tab1", jPanel2);
+        javax.swing.JScrollPane jScrollPaneTab1 = new javax.swing.JScrollPane(jPanel2);
+        jScrollPaneTab1.setBorder(null);
+        jScrollPaneTab1.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPaneTab1.getVerticalScrollBar().setUnitIncrement(16);
+        jTabbedPane1.addTab("tab1", jScrollPaneTab1);
 
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 0, 10)); // NOI18N
         jLabel9.setText("Manage the current consultation flow and patient transitions.");
@@ -606,11 +637,11 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addGap(2, 2, 2))
         );
 
-        lblPatientName1.setText("Mr. Ram");
+        lblPatientName1.setText("");
 
         lblPatientIdLabel.setText("Patient ID:");
 
-        lblPatientId1.setText("#HOSP-8829");
+        lblPatientId1.setText("");
 
         CallNext.setText("Call Next Patient");
 
@@ -671,7 +702,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
 
         lblUpNextINQueue.setText("UP NEXT IN QUEUE");
 
-        lblPatientQueueNum1.setText("2");
+        lblPatientQueueNum1.setText("-");
 
         javax.swing.GroupLayout jPanelNumContainer1Layout = new javax.swing.GroupLayout(jPanelNumContainer1);
         jPanelNumContainer1.setLayout(jPanelNumContainer1Layout);
@@ -684,9 +715,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
             .addComponent(lblPatientQueueNum1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
         );
 
-        lblQueueName1.setText("Ms. Anita Sharma");
+        lblQueueName1.setText("");
 
-        lblQueueDesc1.setText("Follow-up • 10:45 AM");
+        lblQueueDesc1.setText("");
 
         javax.swing.GroupLayout jPatientQueueLayout = new javax.swing.GroupLayout(jPatientQueue);
         jPatientQueue.setLayout(jPatientQueueLayout);
@@ -714,7 +745,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblPatientQueueNum2.setText("3");
+        lblPatientQueueNum2.setText("-");
 
         javax.swing.GroupLayout jPanelNumContainer2Layout = new javax.swing.GroupLayout(jPanelNumContainer2);
         jPanelNumContainer2.setLayout(jPanelNumContainer2Layout);
@@ -727,9 +758,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
             .addComponent(lblPatientQueueNum2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
         );
 
-        lblQueueName2.setText("David Chen");
+        lblQueueName2.setText("");
 
-        lblQueueDesc2.setText("General Checkup • 11:00 AM");
+        lblQueueDesc2.setText("");
 
         javax.swing.GroupLayout jPatientQueue1Layout = new javax.swing.GroupLayout(jPatientQueue1);
         jPatientQueue1.setLayout(jPatientQueue1Layout);
@@ -836,6 +867,52 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addGap(20, 20, 20))
         );
 
+        // ── No Show Patients panel ────────────────────────────────────────────
+        jPanelNoShowList.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblNoShowHeader.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        lblNoShowHeader.setForeground(new java.awt.Color(220, 38, 38));
+        lblNoShowHeader.setText("No Show Patients (Click to Recall)");
+
+        jTableNoShow.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {},
+            new String [] {
+                "TOKEN", "PATIENT NAME", "PATIENT ID", "ACTION"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableNoShow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jScrollPaneNoShow.setViewportView(jTableNoShow);
+
+        javax.swing.GroupLayout jPanelNoShowListLayout = new javax.swing.GroupLayout(jPanelNoShowList);
+        jPanelNoShowList.setLayout(jPanelNoShowListLayout);
+        jPanelNoShowListLayout.setHorizontalGroup(
+            jPanelNoShowListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelNoShowListLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanelNoShowListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneNoShow)
+                    .addGroup(jPanelNoShowListLayout.createSequentialGroup()
+                        .addComponent(lblNoShowHeader)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(24, 24, 24))
+        );
+        jPanelNoShowListLayout.setVerticalGroup(
+            jPanelNoShowListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelNoShowListLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lblNoShowHeader)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPaneNoShow, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
+        );
+
         lblCallNextPatient.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblCallNextPatient.setForeground(new java.awt.Color(30, 41, 59));
         lblCallNextPatient.setText("Call Next Patient");
@@ -847,6 +924,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelNoShowList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelSessionHistory1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -871,10 +949,16 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                     .addComponent(jPanelActiveConsultation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanelSessionHistory1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jPanelNoShowList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
 
-        jTabbedPane1.addTab("tab2", jPanel3);
+        javax.swing.JScrollPane jScrollPaneTab2 = new javax.swing.JScrollPane(jPanel3);
+        jScrollPaneTab2.setBorder(null);
+        jScrollPaneTab2.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPaneTab2.getVerticalScrollBar().setUnitIncrement(16);
+        jTabbedPane1.addTab("tab2", jScrollPaneTab2);
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(30, 41, 59));
@@ -1202,6 +1286,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         );
 
         pack();
+        setResizable(false);
+        setSize(getWidth(), 700);
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1302,6 +1389,10 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableSessionHistory;
+    private javax.swing.JTable jTableNoShow;
+    private javax.swing.JPanel jPanelNoShowList;
+    private javax.swing.JLabel lblNoShowHeader;
+    private javax.swing.JScrollPane jScrollPaneNoShow;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblAccountStatus;
@@ -1316,6 +1407,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JLabel lblFullName;
     private javax.swing.JLabel lblHistoryHeader1;
     private javax.swing.JLabel lblLastLogin;
+    private javax.swing.JLabel jLabelQueueHeader;
     private javax.swing.JLabel lblLastLoginVal;
     private javax.swing.JLabel lblLiveSession;
     private javax.swing.JLabel lblMessage1;

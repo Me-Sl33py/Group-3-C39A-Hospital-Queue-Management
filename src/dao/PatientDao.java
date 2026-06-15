@@ -423,8 +423,15 @@ public class PatientDao {
     // Get all queue patients for a specific doctor
     public List<Object[]> getQueueByDoctor(String doctorId) {
         List<Object[]> list = new ArrayList<>();
-        String sql = "SELECT q.token_number, p.full_name, q.status " +
-                     "FROM queue q JOIN patients p ON q.patient_id = p.patient_id " +
+        String sql = "SELECT q.token_number, p.full_name, " +
+                     "COALESCE(p.age, '-') as age, " +
+                     "COALESCE(p.gender, '-') as gender, " +
+                     "COALESCE(a.type, '-') as type, " +
+                     "COALESCE(a.reason, '-') as reason, " +
+                     "q.status " +
+                     "FROM queue q " +
+                     "JOIN patients p ON q.patient_id = p.patient_id " +
+                     "LEFT JOIN appointments a ON q.appointment_id = a.appointment_id " +
                      "WHERE q.doctor_id = ? ORDER BY q.token_number ASC";
         try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -434,6 +441,10 @@ public class PatientDao {
                     list.add(new Object[]{
                         rs.getInt("token_number"),
                         rs.getString("full_name"),
+                        rs.getString("age"),
+                        rs.getString("gender"),
+                        rs.getString("type"),
+                        rs.getString("reason"),
                         rs.getString("status"),
                         "View File"
                     });
@@ -534,6 +545,76 @@ public class PatientDao {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("updateUsername error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // =========================================================================
+    // No Show patient methods for Doctor Panel
+    // =========================================================================
+
+    /**
+     * Returns all no-show patients for a given doctor.
+     * Each row: [token_number, full_name, patient_id]
+     */
+    public List<Object[]> getNoShowPatientsByDoctor(String doctorId) {
+        List<Object[]> list = new ArrayList<>();
+        String sql = "SELECT q.token_number, p.full_name, p.patient_id " +
+                     "FROM queue q JOIN patients p ON q.patient_id = p.patient_id " +
+                     "WHERE q.doctor_id = ? AND q.status = 'no show' " +
+                     "ORDER BY q.token_number ASC";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, doctorId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new Object[]{
+                        rs.getInt("token_number"),
+                        rs.getString("full_name"),
+                        rs.getString("patient_id"),
+                        "Click to Recall"
+                    });
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("getNoShowPatientsByDoctor error: " + e.getMessage());
+        }
+        return list;
+    }
+
+    /**
+     * Recalls a no-show patient back into the waiting queue
+     * by resetting status to 'waiting' and skip_count to 0.
+     */
+    public boolean recallNoShowPatient(String patientId) {
+        String sql = "UPDATE queue SET status = 'waiting', skip_count = 0 " +
+                     "WHERE patient_id = ? AND status = 'no show'";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, patientId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("recallNoShowPatient error: " + e.getMessage());
+            return false;
+        }
+    }
+    /**
+     * Saves a medical record for a given patient, looking up their current appointment_id from the queue.
+     */
+    public boolean saveMedicalRecord(String patientId, String doctorId, String notes) {
+        String sql = "INSERT INTO medical_records (appointment_id, patient_id, doctor_id, notes) " +
+                     "SELECT appointment_id, ?, ?, ? FROM queue " +
+                     "WHERE patient_id = ? AND doctor_id = ? ORDER BY queue_id DESC LIMIT 1";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, patientId);
+            ps.setString(2, doctorId);
+            ps.setString(3, notes);
+            ps.setString(4, patientId);
+            ps.setString(5, doctorId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("saveMedicalRecord error: " + e.getMessage());
             return false;
         }
     }

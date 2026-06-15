@@ -28,7 +28,7 @@ public class CreateuserPanel extends javax.swing.JPanel {
         
         // Ensure formCardPanel doesn't demand huge width that breaks GridBagLayout centering
         formCardPanel.setPreferredSize(new java.awt.Dimension(700, 850));
-        formCardPanel.setMinimumSize(new java.awt.Dimension(600, 850));
+        formCardPanel.setMinimumSize(new java.awt.Dimension(700, 850));
         centerWrapper.add(formCardPanel);
         
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(centerWrapper);
