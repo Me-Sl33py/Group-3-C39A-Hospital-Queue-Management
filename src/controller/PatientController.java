@@ -85,20 +85,31 @@ public class PatientController {
             }
             
             String currentState = "waiting";
+            String uiMessage = "";
+            
             if (myToken == servingToken) {
                 currentState = "now";
+                uiMessage = "Your turn is now!";
             } else if (myToken == servingToken + 1) {
                 currentState = "next";
+                uiMessage = "Your turn is next!";
+            } else if (myToken == servingToken + 2) {
+                currentState = "after next";
+                uiMessage = "Your turn is after next person!";
+            } else {
+                uiMessage = "Waiting in queue... (" + (myToken - servingToken) + " ahead)";
             }
             
-            // Only play sound if state ACTUALLY changes
+            // Update the home panel label
+            homePanel.getLblNotificationText().setText(uiMessage);
+            
+            // Only play sound and show popup if state ACTUALLY changes
             if (!currentState.equals(lastNotificationState)) {
-                if (currentState.equals("now") || currentState.equals("next")) {
+                if (currentState.equals("now") || currentState.equals("next") || currentState.equals("after next")) {
                     playNotificationSound();
                     
                     // Show a quick visual notification dialog
-                    String msg = currentState.equals("now") ? "Your turn is NOW! Please proceed to the doctor." : "Your turn is NEXT! Please get ready.";
-                    JOptionPane.showMessageDialog(mainView, msg, "Queue Notification", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(mainView, "Queue Notification: " + uiMessage, "Queue Update", JOptionPane.INFORMATION_MESSAGE);
                 }
                 lastNotificationState = currentState;
             }
@@ -107,25 +118,27 @@ public class PatientController {
     }
     
     public void playNotificationSound() {
-        // Run in a background thread so we don't freeze the UI for 3 seconds
+        // Run in a background thread so we don't freeze the UI for 2 seconds
         new Thread(() -> {
             try {
-                // Synthesize a pulsed 880Hz "buzz" alarm tone for 3 seconds
+                // Synthesize a double "bell ring" (ding-ding!) for 2 seconds
                 int sampleRate = 8000;
-                int durationSeconds = 3;
+                int durationSeconds = 2;
                 byte[] buf = new byte[sampleRate * durationSeconds];
                 for (int i = 0; i < buf.length; i++) {
-                    // Pulsing logic: 200ms ON, 100ms OFF (300ms period)
-                    int periodSamples = (int)(sampleRate * 0.3); 
-                    int onSamples = (int)(sampleRate * 0.2); 
+                    double t = i / (double) sampleRate;
                     
-                    if ((i % periodSamples) < onSamples) {
-                        double angle = i / (sampleRate / 880.0) * 2.0 * Math.PI;
-                        // Square wave makes it sound more like an electronic buzzer
-                        buf[i] = (byte) (Math.signum(Math.sin(angle)) * 100.0);
-                    } else {
-                        buf[i] = 0;
-                    }
+                    // Two bell strikes with fast exponential decay
+                    double env1 = t < 0.5 ? Math.exp(-t * 8.0) : 0;
+                    double env2 = t >= 0.5 ? Math.exp(-(t - 0.5) * 8.0) : 0;
+                    double env = env1 + env2;
+                    
+                    // C6 note (1046.5 Hz) + an overtone for a bell-like timbre
+                    double angle1 = t * 1046.5 * 2.0 * Math.PI;
+                    double angle2 = t * 2093.0 * 2.0 * Math.PI; 
+                    
+                    double val = (Math.sin(angle1) + 0.5 * Math.sin(angle2)) * env;
+                    buf[i] = (byte) (val * 85.0); // Volume control
                 }
                 
                 javax.sound.sampled.AudioFormat af = new javax.sound.sampled.AudioFormat(sampleRate, 8, 1, true, false);
