@@ -28,3 +28,5 @@ Thumbs.db
 #database ignore
 # src/database (Commented out so Db.java and MySqlConnection.java sync correctly)
 .DS_Store
+.DS_Store
+**/.DS_Store
