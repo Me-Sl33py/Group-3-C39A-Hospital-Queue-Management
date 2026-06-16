@@ -8,6 +8,9 @@ public class Doctor {
     private String departmentName;   // ADD THIS
     private String contactNumber;
     private String availability;
+    private String username;
+    private String address;
+    private String bloodGroup;
 
     public Doctor() {}
 
@@ -40,4 +43,10 @@ public class Doctor {
     public void setDepartmentName(String departmentName) { this.departmentName = departmentName; } // ADD THIS
     public void setContactNumber(String contactNumber)   { this.contactNumber  = contactNumber;  }
     public void setAvailability(String availability)     { this.availability   = availability;   }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    public String getBloodGroup() { return bloodGroup; }
+    public void setBloodGroup(String bloodGroup) { this.bloodGroup = bloodGroup; }
 }

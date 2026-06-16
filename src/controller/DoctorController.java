@@ -84,8 +84,8 @@ public class DoctorController {
         view.getBtnCancelRecord().addActionListener(e -> clearRecordForm());
 
         // ── Tab 4 : account settings ──────────────────────────────────────────
-        view.getBtnSave().addActionListener(e -> saveAccountChanges());
-        view.getBtnCancelAccount().addActionListener(e -> loadAccountData());
+        view.getBtnUpdateProfile().addActionListener(e -> saveAccountChanges());
+        view.getBtnChangePassword().addActionListener(e -> changePassword());
 
         // ── Sidebar : logout ──────────────────────────────────────────────────
         view.getBtnLogout().addActionListener(e -> logout());
@@ -385,46 +385,84 @@ public class DoctorController {
     // Tab 4 — Account Settings
     // =========================================================================
     public void loadAccountData() {
-    if (currentDoctor == null) return;
+        if (currentDoctor == null) return;
+        Doctor d = doctorDAO.getDoctorById(currentDoctor.getDoctorId());
+        if (d == null) return;
+        currentDoctor = d;
 
-    Doctor d = doctorDAO.getDoctorById(currentDoctor.getDoctorId());
-    if (d == null) return;
+        view.getLblTopName().setText(d.getFullName());
+        view.getLblTopSpecialization().setText(d.getSpecialization());
+        view.getLblDoctorIdVal().setText("Doctor ID: " + d.getDoctorId());
 
-    currentDoctor = d;
-
-    view.getTxtFullName().setText(d.getFullName());
-    view.getTxtPhone().setText(d.getContactNumber());
-    view.getTxtSpecialization().setText(d.getSpecialization());
-    view.getTxtRoom().setText(d.getDepartmentName() != null ? d.getDepartmentName() : ""); // ADD THIS
-    view.getLblDoctorIdVal().setText(d.getDoctorId());
-    view.getLblAccountStatusVal().setText(d.getAvailability());
-}
+        view.getTxtFullName().setText(d.getFullName());
+        view.getTxtAccountUsername().setText(d.getUsername() != null ? d.getUsername() : "");
+        view.getTxtSpecialization().setText(d.getSpecialization());
+        view.getTxtAccountDepartment().setText(d.getDepartmentName() != null ? d.getDepartmentName() : "");
+        
+        view.getTxtPhone().setText(d.getContactNumber() != null ? d.getContactNumber() : "");
+        view.getCmbAvailability().setSelectedItem(d.getAvailability() != null ? d.getAvailability() : "available");
+        view.getTxtAccountAddress().setText(d.getAddress() != null ? d.getAddress() : "");
+        view.getCmbBloodGroup().setSelectedItem(d.getBloodGroup() != null ? d.getBloodGroup() : "Unknown");
+    }
 
     public void saveAccountChanges() {
         if (currentDoctor == null) {
-            JOptionPane.showMessageDialog(view,
-                    "No doctor session found.",
-                    "Session Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "No doctor session found.", "Session Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        currentDoctor.setFullName(view.getTxtFullName().getText().trim());
+        javax.swing.JPasswordField pwd = new javax.swing.JPasswordField(10);
+        int action = JOptionPane.showConfirmDialog(view, pwd, "Enter Current Password to Update Profile", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        
+        if (action != JOptionPane.OK_OPTION) {
+            return;
+        }
+        
+        String currentPwd = new String(pwd.getPassword());
+        if (!doctorDAO.verifyPassword(currentDoctor.getUserId(), currentPwd)) {
+            JOptionPane.showMessageDialog(view, "Incorrect password. Profile not updated.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         currentDoctor.setContactNumber(view.getTxtPhone().getText().trim());
-        currentDoctor.setSpecialization(view.getTxtSpecialization().getText().trim());
+        currentDoctor.setAvailability((String) view.getCmbAvailability().getSelectedItem());
+        currentDoctor.setAddress(view.getTxtAccountAddress().getText().trim());
+        currentDoctor.setBloodGroup((String) view.getCmbBloodGroup().getSelectedItem());
 
         boolean updated = doctorDAO.updateDoctorProfile(currentDoctor);
 
         if (updated) {
-            JOptionPane.showMessageDialog(view,
-                    "Profile updated successfully.",
-                    "Saved",
-                    JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Profile updated successfully.", "Saved", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(view,
-                    "Failed to update profile. Please try again.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Failed to update profile. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void changePassword() {
+        if (currentDoctor == null) return;
+        
+        String oldPwd = new String(view.getPwdCurrent().getPassword());
+        String newPwd = new String(view.getPwdNew().getPassword());
+        String confirmPwd = new String(view.getPwdConfirm().getPassword());
+        
+        if (oldPwd.isEmpty() || newPwd.isEmpty() || confirmPwd.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "All password fields are required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (!newPwd.equals(confirmPwd)) {
+            JOptionPane.showMessageDialog(view, "New Password and Confirm Password do not match.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        boolean updated = doctorDAO.changePassword(currentDoctor.getUserId(), oldPwd, newPwd);
+        if (updated) {
+            JOptionPane.showMessageDialog(view, "Password changed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            view.getPwdCurrent().setText("");
+            view.getPwdNew().setText("");
+            view.getPwdConfirm().setText("");
+        } else {
+            JOptionPane.showMessageDialog(view, "Failed to change password. Please check your current password.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
