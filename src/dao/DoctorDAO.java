@@ -8,9 +8,12 @@ public class DoctorDAO {
 
     public Doctor getDoctorById(String doctorId) {
         String sql = "SELECT d.doctor_id, d.user_id, d.full_name, d.specialization, " +
-                     "d.department_id, dep.department_name, d.contact_number, d.availability " +
+                     "d.department_id, dep.department_name, up.contact_number, d.availability, " +
+                     "u.username, up.address, up.blood_group " +
                      "FROM doctors d " +
                      "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
+                     "LEFT JOIN users u ON d.user_id = u.user_id " +
+                     "LEFT JOIN user_profiles up ON d.user_id = up.user_id " +
                      "WHERE d.doctor_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -25,19 +28,72 @@ public class DoctorDAO {
     }
 
     public boolean updateDoctorProfile(Doctor doctor) {
-        String sql = "UPDATE doctors SET full_name = ?, specialization = ?, " +
-                     "contact_number = ? WHERE doctor_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, doctor.getFullName());
-            ps.setString(2, doctor.getSpecialization());
-            ps.setString(3, doctor.getContactNumber());
-            ps.setString(4, doctor.getDoctorId());
-            return ps.executeUpdate() > 0;
+        String sql = "UPDATE doctors SET availability = ? WHERE doctor_id = ?";
+        String sqlProfile = "UPDATE user_profiles SET contact_number = ?, address = ?, blood_group = ? WHERE user_id = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement ps = conn.prepareStatement(sql);
+                 PreparedStatement psProfile = conn.prepareStatement(sqlProfile)) {
+                
+                ps.setString(1, doctor.getAvailability());
+                ps.setString(2, doctor.getDoctorId());
+                ps.executeUpdate();
+                
+                psProfile.setString(1, doctor.getContactNumber());
+                psProfile.setString(2, doctor.getAddress());
+                psProfile.setString(3, doctor.getBloodGroup());
+                psProfile.setInt(4, doctor.getUserId());
+                psProfile.executeUpdate();
+                
+                conn.commit();
+                return true;
+            } catch (SQLException ex) {
+                conn.rollback();
+                throw ex;
+            }
         } catch (SQLException e) {
             System.err.println("updateDoctorProfile error: " + e.getMessage());
             return false;
         }
+    }
+    
+    public boolean verifyPassword(int userId, String password) {
+        String verifySql = "SELECT password FROM users WHERE user_id = ? AND password = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement verifyPs = conn.prepareStatement(verifySql)) {
+            verifyPs.setInt(1, userId);
+            verifyPs.setString(2, password);
+            try (ResultSet rs = verifyPs.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.err.println("verifyPassword error: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean changePassword(int userId, String oldPassword, String newPassword) {
+        String verifySql = "SELECT password FROM users WHERE user_id = ? AND password = ?";
+        String updateSql = "UPDATE users SET password = ? WHERE user_id = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement verifyPs = conn.prepareStatement(verifySql)) {
+            verifyPs.setInt(1, userId);
+            verifyPs.setString(2, oldPassword);
+            try (ResultSet rs = verifyPs.executeQuery()) {
+                if (rs.next()) {
+                    try (PreparedStatement updatePs = conn.prepareStatement(updateSql)) {
+                        updatePs.setString(1, newPassword);
+                        updatePs.setInt(2, userId);
+                        return updatePs.executeUpdate() > 0;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("changePassword error: " + e.getMessage());
+        }
+        return false;
     }
 
     private Doctor mapRow(ResultSet rs) throws SQLException {
@@ -51,6 +107,15 @@ public class DoctorDAO {
             rs.getString("availability")
         );
         d.setDepartmentName(rs.getString("department_name")); // ADD THIS
+        
+        try {
+            d.setUsername(rs.getString("username"));
+            d.setAddress(rs.getString("address"));
+            d.setBloodGroup(rs.getString("blood_group"));
+        } catch (SQLException ignored) {
+            // Some queries might not join these columns
+        }
+        
         return d;
     }
 
