@@ -26,7 +26,7 @@ private controller.LogoutController logoutController;
      */
     public DoctorPanel() {
         initComponents();     
-        
+        System.out.println("DEBUG: Tab count after initComponents = " + jTabbedPane1.getTabCount());
                 buildClinicalDocForm();
         buildPatientInfoForm();
         jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
@@ -39,23 +39,27 @@ private controller.LogoutController logoutController;
         // Make "Add Medical Records" page scrollable
         int tabIndex4 = jTabbedPane1.indexOfComponent(jPanel4);
         if (tabIndex4 != -1) {
+            String title = jTabbedPane1.getTitleAt(tabIndex4);
+            jTabbedPane1.remove(tabIndex4);
             javax.swing.JScrollPane sp4 = new javax.swing.JScrollPane(jPanel4);
             sp4.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
             sp4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             sp4.getVerticalScrollBar().setUnitIncrement(16);
             sp4.setBorder(null);
-            jTabbedPane1.setComponentAt(tabIndex4, sp4);
+            jTabbedPane1.insertTab(title, null, sp4, null, tabIndex4);
         }
         
         // Make the other settings/profile page scrollable
         int tabIndex5 = jTabbedPane1.indexOfComponent(jPanel5);
         if (tabIndex5 != -1) {
+            String title = jTabbedPane1.getTitleAt(tabIndex5);
+            jTabbedPane1.remove(tabIndex5);
             javax.swing.JScrollPane sp5 = new javax.swing.JScrollPane(jPanel5);
             sp5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
             sp5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             sp5.getVerticalScrollBar().setUnitIncrement(16);
             sp5.setBorder(null);
-            jTabbedPane1.setComponentAt(tabIndex5, sp5);
+            jTabbedPane1.insertTab(title, null, sp5, null, tabIndex5);
         }
 
         logoutController = new controller.LogoutController(null, this, null, null);
@@ -313,7 +317,11 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         Account.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         Account.setText("Account");
         Account.setBorder(null);
-        Account.addActionListener(this::AccountActionPerformed);
+        Account.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AccountActionPerformed(evt);
+            }
+        });
 
         DoctorPanel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         DoctorPanel.setText("Doctor Panel");
@@ -1393,7 +1401,12 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void AccountActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        jTabbedPane1.setSelectedIndex(3);
+        System.out.println("Account button clicked! Switching to tab 4 (index 3).");
+        try {
+            jTabbedPane1.setSelectedIndex(3);
+        } catch (Exception ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error switching tabs: " + ex.getMessage());
+        }
     }                                       
 
     private void MyQueueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyQueueActionPerformed

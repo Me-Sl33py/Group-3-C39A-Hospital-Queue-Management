@@ -59,8 +59,14 @@ public class DoctorController {
         view.getBtnMyQueue().addActionListener(e -> view.getTabbedPane().setSelectedIndex(0));
         view.getBtnCallNextPatient().addActionListener(e -> view.getTabbedPane().setSelectedIndex(1));
         view.getBtnAddRecords().addActionListener(e -> view.getTabbedPane().setSelectedIndex(2));
-        view.getBtnAccount().addActionListener(e -> view.getTabbedPane().setSelectedIndex(3));
-
+        view.getBtnAccount().addActionListener(e -> {
+        int tabCount = view.getTabbedPane().getTabCount();
+        int accountTabIndex = tabCount - 1; // Account tab is always the last one
+        if (accountTabIndex >= 0) {
+           view.getTabbedPane().setSelectedIndex(accountTabIndex);
+        }
+    loadAccountData();
+});
         // ── Tab 1 : dashboard "Call Next Patient" card button ─────────────────
         view.getBtnCallNextDashboard().addActionListener(e -> callNextPatient());
 
