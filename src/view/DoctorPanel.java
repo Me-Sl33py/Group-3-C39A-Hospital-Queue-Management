@@ -1556,25 +1556,44 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     }
 
     private void showRecordDetailsDialog(int row) {
-        if (row < 0 || row >= currentPatientRecords.size()) return;
-        
-        MedicalRecord record = currentPatientRecords.get(row);
-        
-        String recordIdStr = "MR-" + String.format("%03d", record.getRecordId());
-        String patientName = jTextField2.getText();
+        String recordIdStr = "";
+        String patientName = "";
+        String dateStr = "";
+        String doctorName = "Dr. Anil";
+        String diagnosis = "";
+        String prescription = "Amlodipine 5mg once";
+        String notes = "Follow up in 2 weeks";
+
+        if (currentPatientRecords != null && !currentPatientRecords.isEmpty() && row < currentPatientRecords.size()) {
+            // Use real data from DB
+            MedicalRecord record = currentPatientRecords.get(row);
+            recordIdStr = "MR-" + String.format("%03d", record.getRecordId());
+            patientName = jTextField2.getText();
+            dateStr = record.getCreatedAt();
+            doctorName = record.getDoctorName();
+            diagnosis = record.getDiagnosis();
+            prescription = record.getPrescription();
+            notes = record.getNotes();
+        } else {
+            // Use dummy data from table so user can test popup
+            recordIdStr = (String) tblMedicalHistory.getValueAt(row, 0);
+            patientName = (String) tblMedicalHistory.getValueAt(row, 1);
+            dateStr = (String) tblMedicalHistory.getValueAt(row, 2);
+            diagnosis = (String) tblMedicalHistory.getValueAt(row, 3);
+        }
         
         String details = "<html><body style='width: 300px; font-family: sans-serif;'>" +
                 "<h2>Medical Record Details</h2>" +
                 "<p><b>Record ID:</b> " + recordIdStr + "<br/>" +
                 "<b>Patient:</b> " + patientName + "<br/>" +
-                "<b>Date:</b> " + record.getCreatedAt() + "<br/>" +
-                "<b>Doctor:</b> " + record.getDoctorName() + "</p>" +
+                "<b>Date:</b> " + dateStr + "<br/>" +
+                "<b>Doctor:</b> " + doctorName + "</p>" +
                 "<p><b>Diagnosis:</b><br/>" +
-                "<div style='border: 1px solid #aaa; padding: 5px; margin-top: 2px;'>" + record.getDiagnosis() + "</div></p>" +
+                "<div style='border: 1px solid #aaa; padding: 5px; margin-top: 2px;'>" + diagnosis + "</div></p>" +
                 "<p><b>Prescription:</b><br/>" +
-                "<div style='border: 1px solid #aaa; padding: 5px; margin-top: 2px;'>" + record.getPrescription() + "</div></p>" +
+                "<div style='border: 1px solid #aaa; padding: 5px; margin-top: 2px;'>" + prescription + "</div></p>" +
                 "<p><b>Notes:</b><br/>" +
-                "<div style='border: 1px solid #aaa; padding: 5px; margin-top: 2px;'>" + record.getNotes() + "</div></p>" +
+                "<div style='border: 1px solid #aaa; padding: 5px; margin-top: 2px;'>" + notes + "</div></p>" +
                 "</body></html>";
                 
         javax.swing.JOptionPane.showMessageDialog(this, details, "Medical Record Details", javax.swing.JOptionPane.PLAIN_MESSAGE);
