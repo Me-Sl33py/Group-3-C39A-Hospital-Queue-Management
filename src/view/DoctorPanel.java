@@ -26,8 +26,9 @@ private controller.LogoutController logoutController;
      */
     public DoctorPanel() {
         initComponents();     
-        addTextAreaPlaceholder(taMessage1, "Enter detailed clinical notes, patient history update, and recommended next steps...");
         
+                buildClinicalDocForm();
+        buildPatientInfoForm();
         jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
             @Override
             protected int calculateTabAreaHeight(int tabPlacement, int runCount, int maxTabHeight) {
@@ -95,7 +96,6 @@ public javax.swing.JTable getSessionHistoryTable()   { return jTableSessionHisto
 public javax.swing.JTable getNoShowTable()            { return jTableNoShow;}
 public javax.swing.JLabel getLblRecordPatientId()    { return lblPatientId;     }
 public javax.swing.JLabel getLblRecordPatientName()  { return lblPatientName;   }
-public javax.swing.JTextArea getTaMessage()          { return taMessage1;       }
 public javax.swing.JButton getBtnSubmitRecord()      { return btnSubmit1;       }
 public javax.swing.JButton getBtnCancelRecord()      { return btnCancel1;       }
 public javax.swing.JTextField getTxtFullName()       { return txtFullName;      }
@@ -110,6 +110,12 @@ public javax.swing.JLabel getLblLastLoginVal()       { return lblLastLoginVal;  
 public javax.swing.JButton getBtnSave()              { return btnSave;          }
 public javax.swing.JButton getBtnCancelAccount()     { return btnCancel2;       }
 public javax.swing.JButton getBtnLogout()            { return jButton5;         }
+
+    public javax.swing.JTextArea getTaDiagnosis() { return taDiagnosis; }
+    public javax.swing.JTextArea getTaPrescription() { return taPrescription; }
+    public javax.swing.JTextArea getTaNotes() { return taNotes; }
+    public javax.swing.JTextField getTxtDocPatientId() { return txtDocPatientId; }
+
 
 private void addPlaceholder(javax.swing.JTextField field, String placeholder) {
     field.setForeground(java.awt.Color.GRAY);
@@ -241,8 +247,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         panelDoc1 = new javax.swing.JPanel();
         lblDocTitle1 = new javax.swing.JLabel();
         lblMessage1 = new javax.swing.JLabel();
-        scrollPane1 = new javax.swing.JScrollPane();
-        taMessage1 = new javax.swing.JTextArea();
         btnCancel1 = new javax.swing.JButton();
         btnSubmit1 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
@@ -1104,8 +1108,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         lblMessage1.setForeground(new java.awt.Color(100, 116, 139));
         lblMessage1.setText("MESSAGE");
 
-        taMessage1.setText("Enter detailed clinical notes, patient history update, and recommended next steps...");
-        scrollPane1.setViewportView(taMessage1);
 
         btnCancel1.setText("Cancel");
 
@@ -1123,7 +1125,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addGap(20, 20, 20)
                 .addGroup(panelDoc1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator5)
-                    .addComponent(scrollPane1)
                     .addGroup(panelDoc1Layout.createSequentialGroup()
                         .addGroup(panelDoc1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDoc1Layout.createSequentialGroup()
@@ -1145,7 +1146,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMessage1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
@@ -1392,10 +1392,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void AccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccountActionPerformed
-        // TODO add your handling code here:
-         
-    }//GEN-LAST:event_AccountActionPerformed
+    private void AccountActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        jTabbedPane1.setSelectedIndex(3);
+    }                                       
 
     private void MyQueueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyQueueActionPerformed
        
@@ -1493,6 +1492,25 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JLabel lblCallNextPatient;
     private javax.swing.JLabel lblContactNumber;
     private javax.swing.JLabel lblDocTitle1;
+    private javax.swing.JLabel lblDocPatientId;
+    private javax.swing.JTextField txtDocPatientId;
+    private javax.swing.JLabel lblDocPatientName;
+    private javax.swing.JTextField txtDocPatientName;
+    private javax.swing.JLabel lblDocApptDate;
+    private javax.swing.JTextField txtDocApptDate;
+    private javax.swing.JLabel lblDocApptTime;
+    private javax.swing.JTextField txtDocApptTime;
+    private javax.swing.JLabel lblDocDiagnosis;
+    private javax.swing.JScrollPane scrollPaneDiagnosis;
+    private javax.swing.JTextArea taDiagnosis;
+    private javax.swing.JLabel lblDocPrescription;
+    private javax.swing.JScrollPane scrollPanePrescription;
+    private javax.swing.JTextArea taPrescription;
+    private javax.swing.JLabel lblDocNotes;
+    private javax.swing.JScrollPane scrollPaneNotes;
+    private javax.swing.JTextArea taNotes;
+    private javax.swing.JLabel lblDocFollowUp;
+    private javax.swing.JComponent jDateChooserFollowUp;
     private javax.swing.JLabel lblDoctorId;
     private javax.swing.JLabel lblDoctorIdVal;
     private javax.swing.JLabel lblFullName;
@@ -1529,8 +1547,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JLabel lblUpNextINQueue;
     private javax.swing.JPanel panelDoc1;
     private javax.swing.JPanel panelPatientInfo;
-    private javax.swing.JScrollPane scrollPane1;
-    private javax.swing.JTextArea taMessage1;
     private javax.swing.JTextField txtFullName;
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtRoom;
@@ -1538,6 +1554,12 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     public void loadMedicalHistory(String patientId, String patientName) {
         jTextField1.setText(patientId);
         jTextField2.setText(patientName);
+        
+        // Auto-fill clinical doc forms
+        txtDocPatientId.setText(patientId);
+        txtDocPatientName.setText(patientName);
+        txtDocApptDate.setText(new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()));
+        txtDocApptTime.setText(new java.text.SimpleDateFormat("hh:mm a").format(new java.util.Date()));
         
         currentPatientRecords = medicalRecordDAO.getRecordsByPatient(patientId);
         
@@ -1607,4 +1629,206 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     }
 
     // End of variables declaration//GEN-END:variables
+
+    private void buildClinicalDocForm() {
+        panelDoc1.removeAll();
+        panelDoc1.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gbc.insets = new java.awt.Insets(5, 5, 5, 5);
+        gbc.anchor = java.awt.GridBagConstraints.WEST;
+
+        // Title
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 4;
+        javax.swing.JLabel title = new javax.swing.JLabel("Add Medical Record");
+        title.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        title.setForeground(new java.awt.Color(30, 41, 59));
+        
+        // Add weightx to force left alignment of the whole GridBag block
+        gbc.weightx = 1.0;
+        panelDoc1.add(title, gbc);
+        gbc.weightx = 0.0;
+
+        // Separator
+        gbc.gridy++;
+        panelDoc1.add(new javax.swing.JSeparator(), gbc);
+
+        // Row 1: Patient ID and Name
+        gbc.gridy++; gbc.gridwidth = 1;
+        
+        gbc.gridx = 0;
+        javax.swing.JLabel lblId = new javax.swing.JLabel("Patient ID:");
+        lblId.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        panelDoc1.add(lblId, gbc);
+        
+        gbc.gridx = 1;
+        txtDocPatientId = new javax.swing.JTextField(10);
+        txtDocPatientId.setEditable(false);
+        txtDocPatientId.setFocusable(false);
+        txtDocPatientId.setBackground(new java.awt.Color(240, 240, 240));
+        panelDoc1.add(txtDocPatientId, gbc);
+
+        gbc.gridx = 2;
+        javax.swing.JLabel lblName = new javax.swing.JLabel("Patient Name:");
+        lblName.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        panelDoc1.add(lblName, gbc);
+
+        gbc.gridx = 3;
+        txtDocPatientName = new javax.swing.JTextField(20);
+        txtDocPatientName.setEditable(false);
+        txtDocPatientName.setFocusable(false);
+        txtDocPatientName.setBackground(new java.awt.Color(240, 240, 240));
+        panelDoc1.add(txtDocPatientName, gbc);
+
+        // Row 2: Date and Time
+        gbc.gridy++;
+        
+        gbc.gridx = 0;
+        javax.swing.JLabel lblDate = new javax.swing.JLabel("Appointment Date:");
+        lblDate.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        panelDoc1.add(lblDate, gbc);
+
+        gbc.gridx = 1;
+        txtDocApptDate = new javax.swing.JTextField(10);
+        txtDocApptDate.setEditable(false);
+        txtDocApptDate.setFocusable(false);
+        txtDocApptDate.setBackground(new java.awt.Color(240, 240, 240));
+        panelDoc1.add(txtDocApptDate, gbc);
+
+        gbc.gridx = 2;
+        javax.swing.JLabel lblTime = new javax.swing.JLabel("Appointment Time:");
+        lblTime.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        panelDoc1.add(lblTime, gbc);
+
+        gbc.gridx = 3;
+        txtDocApptTime = new javax.swing.JTextField(10);
+        txtDocApptTime.setEditable(false);
+        txtDocApptTime.setFocusable(false);
+        txtDocApptTime.setBackground(new java.awt.Color(240, 240, 240));
+        panelDoc1.add(txtDocApptTime, gbc);
+
+        // Text Areas
+        gbc.gridwidth = 4; gbc.gridx = 0;
+        
+        // Diagnosis
+        gbc.gridy++;
+        javax.swing.JLabel lblDiag = new javax.swing.JLabel("Diagnosis:");
+        lblDiag.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        panelDoc1.add(lblDiag, gbc);
+        
+        gbc.gridy++;
+        taDiagnosis = new javax.swing.JTextArea(3, 20);
+        panelDoc1.add(new javax.swing.JScrollPane(taDiagnosis), gbc);
+
+        // Prescription
+        gbc.gridy++;
+        javax.swing.JLabel lblPresc = new javax.swing.JLabel("Prescription:");
+        lblPresc.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        panelDoc1.add(lblPresc, gbc);
+        
+        gbc.gridy++;
+        taPrescription = new javax.swing.JTextArea(3, 20);
+        panelDoc1.add(new javax.swing.JScrollPane(taPrescription), gbc);
+
+        // Notes
+        gbc.gridy++;
+        javax.swing.JLabel lblNotes = new javax.swing.JLabel("Notes (Optional):");
+        lblNotes.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        panelDoc1.add(lblNotes, gbc);
+        
+        gbc.gridy++;
+        taNotes = new javax.swing.JTextArea(3, 20);
+        panelDoc1.add(new javax.swing.JScrollPane(taNotes), gbc);
+
+        // Follow Up date removed as requested
+
+        // Separator
+        gbc.gridy++; gbc.gridx = 0; gbc.gridwidth = 4;
+        panelDoc1.add(new javax.swing.JSeparator(), gbc);
+
+        // Buttons
+        gbc.gridy++;
+        javax.swing.JPanel btnPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        btnCancel1 = new javax.swing.JButton("Cancel");
+        btnSubmit1 = new javax.swing.JButton("Submit Record");
+        btnSubmit1.setBackground(new java.awt.Color(0, 102, 255));
+        btnSubmit1.setForeground(java.awt.Color.WHITE);
+        btnPanel.add(btnCancel1);
+        btnPanel.add(btnSubmit1);
+        panelDoc1.add(btnPanel, gbc);
+        
+        panelDoc1.revalidate();
+        panelDoc1.repaint();
+    }
+
+
+    private javax.swing.JButton btnSearchPatient;
+    
+    private void buildPatientInfoForm() {
+        panelPatientInfo.removeAll();
+        panelPatientInfo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 15));
+        
+        javax.swing.JLabel lblId = new javax.swing.JLabel("Patient ID:");
+        lblId.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        lblId.setForeground(new java.awt.Color(30, 41, 59));
+        
+        javax.swing.JLabel lblName = new javax.swing.JLabel("Patient Name:");
+        lblName.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        lblName.setForeground(new java.awt.Color(30, 41, 59));
+        
+        jTextField1.setPreferredSize(new java.awt.Dimension(150, 30));
+        jTextField2.setPreferredSize(new java.awt.Dimension(250, 30));
+        
+        btnSearchPatient = new javax.swing.JButton("Search");
+        btnSearchPatient.setBackground(new java.awt.Color(0, 102, 255));
+        btnSearchPatient.setForeground(java.awt.Color.WHITE);
+        btnSearchPatient.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        btnSearchPatient.addActionListener(this::btnSearchPatientActionPerformed);
+        
+        panelPatientInfo.add(lblId);
+        panelPatientInfo.add(jTextField1);
+        panelPatientInfo.add(lblName);
+        panelPatientInfo.add(jTextField2);
+        panelPatientInfo.add(btnSearchPatient);
+        
+        panelPatientInfo.revalidate();
+        panelPatientInfo.repaint();
+    }
+    
+    private void btnSearchPatientActionPerformed(java.awt.event.ActionEvent evt) {
+        String id = jTextField1.getText().trim();
+        String name = jTextField2.getText().trim();
+        
+        if (!name.isEmpty() && id.isEmpty()) {
+            dao.PatientDao pDao = new dao.PatientDao();
+            java.util.List<model.Patient> all = pDao.getAllPatients();
+            model.Patient found = null;
+            for (model.Patient p : all) {
+                if (p.getFullName().equalsIgnoreCase(name)) {
+                    found = p; break;
+                }
+            }
+            if (found == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Patient doesn't exist!");
+                return;
+            }
+            id = found.getPatientId();
+            name = found.getFullName();
+            jTextField1.setText(id);
+        } else if (!id.isEmpty()) {
+            dao.PatientDao pDao = new dao.PatientDao();
+            model.Patient p = pDao.getPatientById(id);
+            if (p == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Patient doesn't exist!");
+                return;
+            }
+            name = p.getFullName();
+            jTextField2.setText(name);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter Patient ID or Name to search.");
+            return;
+        }
+        loadMedicalHistory(id, name);
+    }
+
 }
