@@ -37,22 +37,35 @@ public class MedicalRecordDAO {
 
     public List<MedicalRecord> getRecordsByPatient(String patientId) {
         List<MedicalRecord> list = new ArrayList<>();
-        String sql = "SELECT record_id, appointment_id, patient_id, doctor_id, " +
-                     "diagnosis, prescription, notes FROM medical_records " +
-                     "WHERE patient_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT m.record_id, m.appointment_id, m.patient_id, m.doctor_id, " +
+                     "u.full_name as doctor_name, " +
+                     "m.diagnosis, m.prescription, m.notes, m.created_at " +
+                     "FROM medical_records m " +
+                     "LEFT JOIN users u ON m.doctor_id = u.user_id " +
+                     "WHERE m.patient_id = ? ORDER BY m.created_at DESC";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    String doctorName = rs.getString("doctor_name");
+                    if (doctorName == null) doctorName = "Unknown Doctor";
+                    
+                    String createdAt = "";
+                    if (rs.getTimestamp("created_at") != null) {
+                        createdAt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(rs.getTimestamp("created_at"));
+                    }
+
                     list.add(new MedicalRecord(
                         rs.getInt("record_id"),
                         rs.getInt("appointment_id"),
                         rs.getString("patient_id"),
                         rs.getString("doctor_id"),
+                        doctorName,
                         rs.getString("diagnosis"),
                         rs.getString("prescription"),
-                        rs.getString("notes")
+                        rs.getString("notes"),
+                        createdAt
                     ));
                 }
             }

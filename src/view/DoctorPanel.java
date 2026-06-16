@@ -4,6 +4,11 @@
  */
 package view;
 
+import model.MedicalRecord;
+import dao.MedicalRecordDAO;
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  *
  * @author flexx
@@ -11,23 +16,49 @@ package view;
 
 public class DoctorPanel extends javax.swing.JFrame {
     
+    private List<MedicalRecord> currentPatientRecords = new ArrayList<>();
+    private MedicalRecordDAO medicalRecordDAO = new MedicalRecordDAO();
+    
 private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DoctorPanel.class.getName());
 private controller.LogoutController logoutController;
     /**
      * Creates new form DoctorPanel
      */
     public DoctorPanel() {
-    initComponents();     
-    addTextAreaPlaceholder(taMessage1, "Enter detailed clinical notes, patient history update, and recommended next steps...");
-    
-    jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
-        @Override
-        protected int calculateTabAreaHeight(int tabPlacement, int runCount, int maxTabHeight) {
-           return 0;
+        initComponents();     
+        addTextAreaPlaceholder(taMessage1, "Enter detailed clinical notes, patient history update, and recommended next steps...");
+        
+        jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
+            @Override
+            protected int calculateTabAreaHeight(int tabPlacement, int runCount, int maxTabHeight) {
+               return 0;
+            }
+        });
+
+        // Make "Add Medical Records" page scrollable
+        int tabIndex4 = jTabbedPane1.indexOfComponent(jPanel4);
+        if (tabIndex4 != -1) {
+            javax.swing.JScrollPane sp4 = new javax.swing.JScrollPane(jPanel4);
+            sp4.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+            sp4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            sp4.getVerticalScrollBar().setUnitIncrement(16);
+            sp4.setBorder(null);
+            jTabbedPane1.setComponentAt(tabIndex4, sp4);
         }
-    });
-    logoutController = new controller.LogoutController(null, this, null, null);
-}
+        
+        // Make the other settings/profile page scrollable
+        int tabIndex5 = jTabbedPane1.indexOfComponent(jPanel5);
+        if (tabIndex5 != -1) {
+            javax.swing.JScrollPane sp5 = new javax.swing.JScrollPane(jPanel5);
+            sp5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+            sp5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            sp5.getVerticalScrollBar().setUnitIncrement(16);
+            sp5.setBorder(null);
+            jTabbedPane1.setComponentAt(tabIndex5, sp5);
+        }
+
+        logoutController = new controller.LogoutController(null, this, null, null);
+    }
     // =====================================================================
 // GETTERS — expose UI components to the controller
 // =====================================================================
@@ -203,6 +234,10 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         lblPatientName = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
+        panelMedicalHistory = new javax.swing.JPanel();
+        lblMedicalHistoryTitle = new javax.swing.JLabel();
+        scrollPaneMedicalHistory = new javax.swing.JScrollPane();
+        tblMedicalHistory = new javax.swing.JTable();
         panelDoc1 = new javax.swing.JPanel();
         lblDocTitle1 = new javax.swing.JLabel();
         lblMessage1 = new javax.swing.JLabel();
@@ -1006,6 +1041,58 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        panelMedicalHistory.setBackground(new java.awt.Color(255, 255, 255));
+        panelMedicalHistory.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+
+        lblMedicalHistoryTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblMedicalHistoryTitle.setForeground(new java.awt.Color(30, 41, 59));
+        lblMedicalHistoryTitle.setText("Medical History");
+
+        tblMedicalHistory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"MR-001", "Sita Sharma", "2026-05-01", "Hypertension", "View Details"},
+                {"MR-002", "Ram Thapa", "2026-05-15", "Diabetes Type II", "View Details"}
+            },
+            new String [] {
+                "Record ID", "Patient Name", "Date", "Diagnosis", "Action"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblMedicalHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMedicalHistoryMouseClicked(evt);
+            }
+        });
+        scrollPaneMedicalHistory.setViewportView(tblMedicalHistory);
+
+        javax.swing.GroupLayout panelMedicalHistoryLayout = new javax.swing.GroupLayout(panelMedicalHistory);
+        panelMedicalHistory.setLayout(panelMedicalHistoryLayout);
+        panelMedicalHistoryLayout.setHorizontalGroup(
+            panelMedicalHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMedicalHistoryLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(panelMedicalHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMedicalHistoryTitle)
+                    .addComponent(scrollPaneMedicalHistory, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelMedicalHistoryLayout.setVerticalGroup(
+            panelMedicalHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMedicalHistoryLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(lblMedicalHistoryTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrollPaneMedicalHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+
         panelDoc1.setBackground(new java.awt.Color(255, 255, 255));
         panelDoc1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
@@ -1081,6 +1168,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                             .addComponent(lblSubtitle))
                         .addGap(0, 104, Short.MAX_VALUE))
                     .addComponent(panelDoc1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelMedicalHistory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelPatientInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1091,11 +1179,13 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
                 .addComponent(lblTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSubtitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(panelPatientInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(18, 18, 18)
+                .addComponent(panelMedicalHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(panelDoc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addGap(20, 20, 20))
         );
 
         jTabbedPane1.addTab("tab3", jPanel4);
@@ -1395,6 +1485,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JScrollPane jScrollPaneNoShow;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel panelMedicalHistory;
     private javax.swing.JLabel lblAccountStatus;
     private javax.swing.JLabel lblAccountStatusVal;
     private javax.swing.JLabel lblActiveConsultation;
@@ -1415,6 +1506,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JLabel lblPatientId1;
     private javax.swing.JLabel lblPatientIdLabel;
     private javax.swing.JLabel lblPatientName;
+    private javax.swing.JLabel lblMedicalHistoryTitle;
+    private javax.swing.JScrollPane scrollPaneMedicalHistory;
+    private javax.swing.JTable tblMedicalHistory;
     private javax.swing.JLabel lblPatientName1;
     private javax.swing.JLabel lblPatientQueueNum1;
     private javax.swing.JLabel lblPatientQueueNum2;
@@ -1441,6 +1535,57 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtRoom;
     private javax.swing.JTextField txtSpecialization;
-    // End of variables declaration//GEN-END:variables
+    public void loadMedicalHistory(String patientId, String patientName) {
+        jTextField1.setText(patientId);
+        jTextField2.setText(patientName);
+        
+        currentPatientRecords = medicalRecordDAO.getRecordsByPatient(patientId);
+        
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblMedicalHistory.getModel();
+        model.setRowCount(0); // Clear existing rows
+        
+        for (MedicalRecord record : currentPatientRecords) {
+            model.addRow(new Object[]{
+                "MR-" + String.format("%03d", record.getRecordId()),
+                patientName,
+                record.getCreatedAt(),
+                record.getDiagnosis(),
+                "View Details"
+            });
+        }
+    }
 
+    private void showRecordDetailsDialog(int row) {
+        if (row < 0 || row >= currentPatientRecords.size()) return;
+        
+        MedicalRecord record = currentPatientRecords.get(row);
+        
+        String recordIdStr = "MR-" + String.format("%03d", record.getRecordId());
+        String patientName = jTextField2.getText();
+        
+        String details = "<html><body style='width: 300px; font-family: sans-serif;'>" +
+                "<h2>Medical Record Details</h2>" +
+                "<p><b>Record ID:</b> " + recordIdStr + "<br/>" +
+                "<b>Patient:</b> " + patientName + "<br/>" +
+                "<b>Date:</b> " + record.getCreatedAt() + "<br/>" +
+                "<b>Doctor:</b> " + record.getDoctorName() + "</p>" +
+                "<p><b>Diagnosis:</b><br/>" +
+                "<div style='border: 1px solid #aaa; padding: 5px; margin-top: 2px;'>" + record.getDiagnosis() + "</div></p>" +
+                "<p><b>Prescription:</b><br/>" +
+                "<div style='border: 1px solid #aaa; padding: 5px; margin-top: 2px;'>" + record.getPrescription() + "</div></p>" +
+                "<p><b>Notes:</b><br/>" +
+                "<div style='border: 1px solid #aaa; padding: 5px; margin-top: 2px;'>" + record.getNotes() + "</div></p>" +
+                "</body></html>";
+                
+        javax.swing.JOptionPane.showMessageDialog(this, details, "Medical Record Details", javax.swing.JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private void tblMedicalHistoryMouseClicked(java.awt.event.MouseEvent evt) {                                               
+        int row = tblMedicalHistory.rowAtPoint(evt.getPoint());
+        if (row >= 0) {
+            showRecordDetailsDialog(row);
+        }
+    }
+
+    // End of variables declaration//GEN-END:variables
 }
