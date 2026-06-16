@@ -327,7 +327,7 @@ public class DoctorController {
             return;
         }
 
-        String notes = view.getTaMessage().getText().trim();
+        String notes = view.getTaDiagnosis().getText().trim(); // Temporarily using diagnosis for now
         if (notes.isEmpty() ||
             notes.equals("Enter detailed clinical notes, patient history update, " +
                          "and recommended next steps...")) {
@@ -358,7 +358,7 @@ public class DoctorController {
     }
 
     public void clearRecordForm() {
-        view.getTaMessage().setText(
+        view.getTaDiagnosis().setText(
             "Enter detailed clinical notes, patient history update, " +
             "and recommended next steps...");
     }
