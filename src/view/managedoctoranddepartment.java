@@ -97,7 +97,7 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Doctor ID", "Full Name", "Phone", "Specialty", "Department", "Availability", "Status"
+                "ID", "Full Name", "Phone", "Specialty", "Department", "Availability", "Status"
             }
         ));
         jspDoctors.setViewportView(tblDoctors);
@@ -117,9 +117,9 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
 
         lblDocPhone.setText("Phone");
         pnlDoctorDetails.add(lblDocPhone);
-        lblDocPhone.setBounds(450, 30, 80, 20);
+        lblDocPhone.setBounds(350, 30, 80, 20);
         pnlDoctorDetails.add(txtDocPhone);
-        txtDocPhone.setBounds(550, 30, 200, 26);
+        txtDocPhone.setBounds(450, 30, 200, 26);
 
         lblDocSpecialty.setText("Specialty");
         pnlDoctorDetails.add(lblDocSpecialty);
@@ -129,9 +129,9 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
 
         lblDocDepartment.setText("Department");
         pnlDoctorDetails.add(lblDocDepartment);
-        lblDocDepartment.setBounds(450, 70, 80, 20);
+        lblDocDepartment.setBounds(350, 70, 80, 20);
         pnlDoctorDetails.add(txtDocDepartment);
-        txtDocDepartment.setBounds(550, 70, 200, 26);
+        txtDocDepartment.setBounds(450, 70, 200, 26);
 
         lblDocAvailability.setText("Availability");
         pnlDoctorDetails.add(lblDocAvailability);
@@ -143,11 +143,11 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
 
         lblDocStatus.setText("Status");
         pnlDoctorDetails.add(lblDocStatus);
-        lblDocStatus.setBounds(450, 110, 80, 20);
+        lblDocStatus.setBounds(350, 110, 80, 20);
 
-        cmbDocStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
+        cmbDocStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive" }));
         pnlDoctorDetails.add(cmbDocStatus);
-        cmbDocStatus.setBounds(550, 110, 200, 26);
+        cmbDocStatus.setBounds(450, 110, 200, 26);
 
         pnlDoctors.add(pnlDoctorDetails);
         pnlDoctorDetails.setBounds(80, 350, 800, 160);
@@ -156,24 +156,24 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         btnAddDoc.setForeground(new java.awt.Color(255, 255, 255));
         btnAddDoc.setText("Add Doctor");
         pnlDoctors.add(btnAddDoc);
-        btnAddDoc.setBounds(130, 530, 110, 30);
+        btnAddDoc.setBounds(130, 550, 120, 40);
 
         btnUpdateDoc.setBackground(new java.awt.Color(13, 110, 253));
         btnUpdateDoc.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdateDoc.setText("Update Doctor");
         pnlDoctors.add(btnUpdateDoc);
-        btnUpdateDoc.setBounds(290, 530, 120, 30);
+        btnUpdateDoc.setBounds(290, 550, 120, 40);
 
         btnRemoveDoc.setBackground(new java.awt.Color(220, 53, 69));
         btnRemoveDoc.setForeground(new java.awt.Color(255, 255, 255));
-        btnRemoveDoc.setText("Deactivate Doctor");
+        btnRemoveDoc.setText("Remove Doctor");
         pnlDoctors.add(btnRemoveDoc);
-        btnRemoveDoc.setBounds(460, 530, 140, 30);
+        btnRemoveDoc.setBounds(450, 550, 120, 40);
 
         btnRefreshDoc.setBackground(new java.awt.Color(224, 224, 224));
         btnRefreshDoc.setText("Refresh");
         pnlDoctors.add(btnRefreshDoc);
-        btnRefreshDoc.setBounds(650, 530, 100, 30);
+        btnRefreshDoc.setBounds(610, 550, 110, 40);
 
         tabbedPane.addTab("Doctors", pnlDoctors);
 
@@ -197,7 +197,7 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Department ID", "Department Name", "Head Doctor", "Total Doctors", "Status"
+                "Dept ID", "Department Name", "Head Doctor", "Total Doctors", "Status"
             }
         ));
         jspDepartments.setViewportView(tblDepartments);
@@ -225,7 +225,7 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         pnlDeptDetails.add(lblDeptStatus);
         lblDeptStatus.setBounds(20, 70, 120, 20);
 
-        cmbDeptStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
+        cmbDeptStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive" }));
         pnlDeptDetails.add(cmbDeptStatus);
         cmbDeptStatus.setBounds(140, 70, 200, 26);
 
@@ -236,25 +236,25 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         btnAddDept.setForeground(new java.awt.Color(255, 255, 255));
         btnAddDept.setText("Add Department");
         pnlDepartments.add(btnAddDept);
-        btnAddDept.setBounds(160, 540, 140, 40);
+        btnAddDept.setBounds(160, 540, 140, 50);
 
         btnUpdateDept.setBackground(new java.awt.Color(13, 110, 253));
         btnUpdateDept.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdateDept.setText("Update Department");
         pnlDepartments.add(btnUpdateDept);
-        btnUpdateDept.setBounds(310, 550, 150, 30);
+        btnUpdateDept.setBounds(330, 540, 160, 50);
 
         btnRemoveDept.setBackground(new java.awt.Color(220, 53, 69));
         btnRemoveDept.setForeground(new java.awt.Color(255, 255, 255));
-        btnRemoveDept.setText("Deactivate Department");
+        btnRemoveDept.setText("Remove Department");
         pnlDepartments.add(btnRemoveDept);
-        btnRemoveDept.setBounds(490, 550, 150, 30);
+        btnRemoveDept.setBounds(520, 540, 160, 50);
 
         btnRefreshDept.setBackground(new java.awt.Color(224, 224, 224));
         btnRefreshDept.setText("Refresh");
         btnRefreshDept.addActionListener(this::btnRefreshDeptActionPerformed);
         pnlDepartments.add(btnRefreshDept);
-        btnRefreshDept.setBounds(720, 540, 100, 40);
+        btnRefreshDept.setBounds(720, 540, 120, 50);
 
         tabbedPane.addTab("Departments", pnlDepartments);
 
