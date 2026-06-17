@@ -30,3 +30,10 @@ Thumbs.db
 .DS_Store
 .DS_Store
 **/.DS_Store
+
+# Ignore extra txt and db
+sources.txt
+sources_mac.txt
+src/sources.txt
+hospital.db
+*.db
