@@ -31,6 +31,9 @@ Thumbs.db
 .DS_Store
 **/.DS_Store
 
+# Local DB credentials — each developer keeps their own copy
+db.properties
+
 # Ignore extra txt and db
 sources.txt
 sources_mac.txt

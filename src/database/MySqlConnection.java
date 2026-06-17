@@ -1,30 +1,48 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Hospital Queue Management System
+ * MySqlConnection — reads credentials from db.properties
  */
 package database;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DriverManager;
+import java.util.Properties;
 
 /**
  * MySqlConnection — implements the Db interface to handle all MySQL connections.
- * s
+ *
  * IMPORTANT: openConnection() opens a connection, and closeConnection() closes it.
  * Every DAO method must call closeConnection() in its finally block to avoid leaks.
- * 
- * @author User
  */
 public class MySqlConnection implements Db {
 
-    // ==================== Database Configuration ====================
-    private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "nishant123";
-    private static final String DB_NAME     = "hospital_queue_management_db";
-    private static final String DB_URL      = "jdbc:mysql://localhost:3306/" + DB_NAME;
+    private static Properties loadProperties() {
+        Properties props = new Properties();
+        File f = new File("db.properties");
+        if (f.exists()) {
+            try (InputStream in = new FileInputStream(f)) {
+                props.load(in);
+                return props;
+            } catch (IOException e) {
+                System.err.println("[DB] Could not read db.properties: " + e.getMessage());
+            }
+        }
+        try (InputStream in = MySqlConnection.class.getClassLoader()
+                .getResourceAsStream("db.properties")) {
+            if (in != null) { props.load(in); return props; }
+        } catch (IOException e) {
+            System.err.println("[DB] Could not read classpath db.properties: " + e.getMessage());
+        }
+        System.err.println("[DB] WARNING: db.properties not found! Copy db.properties.example and fill in your password.");
+        return props;
+    }
 
     /**
      * Opens and returns a MySQL database connection.
@@ -33,23 +51,26 @@ public class MySqlConnection implements Db {
     @Override
     public Connection openConnection() {
         try {
-            // Load the MySQL JDBC driver (needed for older JDK/JDBC versions)
+            Properties p = loadProperties();
+            String host     = p.getProperty("db.host",     "localhost");
+            String port     = p.getProperty("db.port",     "3306");
+            String dbName   = p.getProperty("db.name",     "hospital_queue_management_db");
+            String user     = p.getProperty("db.user",     "root");
+            String password = p.getProperty("db.password", "");
+            String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName +
+                         "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
             Class.forName("com.mysql.cj.jdbc.Driver");
-
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-
+            Connection conn = DriverManager.getConnection(url, user, password);
             if (conn == null) {
                 System.out.println("[DB] Connection NOT successful.");
             } else {
                 System.out.println("[DB] Connection successful.");
             }
             return conn;
-
         } catch (ClassNotFoundException e) {
-            // Driver JAR not found — add mysql-connector-j to your project libraries
             System.out.println("[DB] MySQL driver not found: " + e.getMessage());
         } catch (SQLException e) {
-            // Wrong credentials, database doesn't exist, or MySQL not running
             System.out.println("[DB] Connection failed: " + e.getMessage());
         }
         return null;
