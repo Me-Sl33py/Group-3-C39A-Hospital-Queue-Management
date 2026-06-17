@@ -82,6 +82,7 @@ public class DoctorController {
         // ── Tab 3 : medical record form ───────────────────────────────────────
         view.getBtnSubmitRecord().addActionListener(e -> submitMedicalRecord());
         view.getBtnCancelRecord().addActionListener(e -> clearRecordForm());
+        view.getBtnSearchPatient().addActionListener(e -> searchPatient());
 
         // ── Tab 4 : account settings ──────────────────────────────────────────
         view.getBtnUpdateProfile().addActionListener(e -> saveAccountChanges());
@@ -161,7 +162,7 @@ public class DoctorController {
         view.getLblConfirmedCount().setText(String.format("%02d", confirmed + inConsultation));
         view.getLblNoShowCount().setText(String.format("%02d", noShow));
         view.getLblCompletedCount().setText(String.format("%02d", completed));
-        view.getLblRemainingCount().setText("You have " + (waiting + skipped + inConsultation) + " patients remaining in your daily queue");
+        view.getLblRemainingCount().setText("You have " + (waiting + skipped + inConsultation) + " patients remaining");
         
         updateQueueLabels(rows);
         loadNoShowTable();
@@ -518,5 +519,44 @@ public class DoctorController {
 
     public Doctor getCurrentDoctor() {
         return currentDoctor;
+    }
+
+    private void searchPatient() {
+        String id = view.getTxtPatientIdField().getText().trim();
+        String name = view.getTxtPatientNameField().getText().trim();
+        
+        dao.PatientDao pDao = new dao.PatientDao();
+        
+        if (!name.isEmpty() && id.isEmpty()) {
+            java.util.List<model.Patient> all = pDao.getAllPatients();
+            model.Patient found = null;
+            for (model.Patient p : all) {
+                if (p.getFullName().equalsIgnoreCase(name)) {
+                    found = p; break;
+                }
+            }
+            if (found == null) {
+                javax.swing.JOptionPane.showMessageDialog(view, "Patient doesn't exist!");
+                return;
+            }
+            id = found.getPatientId();
+            name = found.getFullName();
+            view.getTxtPatientIdField().setText(id);
+        } else if (!id.isEmpty()) {
+            model.Patient p = pDao.getPatientById(id);
+            if (p == null) {
+                javax.swing.JOptionPane.showMessageDialog(view, "Patient doesn't exist!");
+                return;
+            }
+            name = p.getFullName();
+            view.getTxtPatientNameField().setText(name);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(view, "Please enter Patient ID or Name to search.");
+            return;
+        }
+        
+        dao.MedicalRecordDAO mrDao = new dao.MedicalRecordDAO();
+        java.util.List<model.MedicalRecord> records = mrDao.getRecordsByPatient(id);
+        view.loadMedicalHistory(id, name, records);
     }
 }

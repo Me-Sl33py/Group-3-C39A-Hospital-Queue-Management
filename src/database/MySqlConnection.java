@@ -56,7 +56,7 @@ public class MySqlConnection implements Db {
             String port     = p.getProperty("db.port",     "3306");
             String dbName   = p.getProperty("db.name",     "hospital_queue_management_db");
             String user     = p.getProperty("db.user",     "root");
-            String password = p.getProperty("db.password", "");
+            String password = p.getProperty("db.password", "I_1t_Relax!");
             String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName +
                          "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
