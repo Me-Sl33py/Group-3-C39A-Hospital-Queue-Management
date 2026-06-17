@@ -1,0 +1,14 @@
+# ============================================================
+# Hospital Queue Management - Database Configuration TEMPLATE
+# ============================================================
+# Copy this file, rename it to "db.properties" (in the
+# project root folder), and fill in YOUR own MySQL details.
+# The db.properties file is gitignored and will NOT be
+# shared — every developer needs their own copy.
+# ============================================================
+
+db.host=localhost
+db.port=3306
+db.name=hospital_queue_management_db
+db.user=root
+db.password=YOUR_MYSQL_PASSWORD_HERE
