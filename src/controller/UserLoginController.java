@@ -201,22 +201,13 @@ public class UserLoginController {
 
         // Query user_profiles to get shared data
         try {
-            database.Db db = new database.MySqlConnection();
-            java.sql.Connection conn = db.openConnection();
-            java.sql.PreparedStatement ps = conn.prepareStatement(
-                "SELECT up.user_id, up.full_name, u.username FROM user_profiles up " +
-                "JOIN users u ON up.user_id = u.user_id " +
-                "WHERE LOWER(u.username) = LOWER(?) OR up.contact_number = ? OR LOWER(up.full_name) = LOWER(?)");
-            ps.setString(1, identifier);
-            ps.setString(2, identifier);
-            ps.setString(3, identifier);
-            java.sql.ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                userId = rs.getInt("user_id");
-                fullName = rs.getString("full_name");
-                actualUsername = rs.getString("username");
+            dao.UserDAO userDAO = new dao.UserDAO();
+            String[] userDetails = userDAO.getUserDetailsByIdentifier(identifier);
+            if (userDetails != null) {
+                userId = Integer.parseInt(userDetails[0]);
+                fullName = userDetails[1];
+                actualUsername = userDetails[2];
             }
-            db.closeConnection(conn);
         } catch (Exception ex) { ex.printStackTrace(); }
 
         switch (role.toLowerCase()) {
@@ -225,13 +216,8 @@ public class UserLoginController {
                     // Let's get patient_id
                     String patientId = null;
                     try {
-                        database.Db db = new database.MySqlConnection();
-                        java.sql.Connection conn = db.openConnection();
-                        java.sql.PreparedStatement ps = conn.prepareStatement("SELECT patient_id FROM patients WHERE user_id = ?");
-                        ps.setInt(1, userId);
-                        java.sql.ResultSet rs = ps.executeQuery();
-                        if (rs.next()) patientId = rs.getString("patient_id");
-                        db.closeConnection(conn);
+                        dao.PatientDao pDao = new dao.PatientDao();
+                        patientId = pDao.getPatientIdByUserId(userId);
                     } catch (Exception ex) {}
 
                     if (patientId != null) {
@@ -246,13 +232,8 @@ public class UserLoginController {
                 if (userId != -1) {
                     String doctorId = null;
                     try {
-                        database.Db db = new database.MySqlConnection();
-                        java.sql.Connection conn = db.openConnection();
-                        java.sql.PreparedStatement ps = conn.prepareStatement("SELECT doctor_id FROM doctors WHERE user_id = ?");
-                        ps.setInt(1, userId);
-                        java.sql.ResultSet rs = ps.executeQuery();
-                        if (rs.next()) doctorId = rs.getString("doctor_id");
-                        db.closeConnection(conn);
+                        dao.DoctorDAO dDao = new dao.DoctorDAO();
+                        doctorId = dDao.getDoctorIdByUserId(userId);
                     } catch (Exception ex) {}
 
                     if (doctorId != null) {

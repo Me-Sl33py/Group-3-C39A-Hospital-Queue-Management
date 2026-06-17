@@ -5,7 +5,7 @@
 package view;
 
 import model.MedicalRecord;
-import dao.MedicalRecordDAO;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class DoctorPanel extends javax.swing.JFrame {
     
     private List<MedicalRecord> currentPatientRecords = new ArrayList<>();
-    private MedicalRecordDAO medicalRecordDAO = new MedicalRecordDAO();
+
     
 private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DoctorPanel.class.getName());
 private controller.LogoutController logoutController;
@@ -1565,7 +1565,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtRoom;
     private javax.swing.JTextField txtSpecialization;
-    public void loadMedicalHistory(String patientId, String patientName) {
+    public void loadMedicalHistory(String patientId, String patientName, java.util.List<model.MedicalRecord> records) {
         jTextField1.setText(patientId);
         jTextField2.setText(patientName);
         
@@ -1575,7 +1575,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         txtDocApptDate.setText(new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()));
         txtDocApptTime.setText(new java.text.SimpleDateFormat("hh:mm a").format(new java.util.Date()));
         
-        currentPatientRecords = medicalRecordDAO.getRecordsByPatient(patientId);
+        currentPatientRecords = records;
         
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblMedicalHistory.getModel();
         model.setRowCount(0); // Clear existing rows
@@ -1791,13 +1791,14 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         lblName.setForeground(new java.awt.Color(30, 41, 59));
         
         jTextField1.setPreferredSize(new java.awt.Dimension(150, 30));
+        jTextField1.setText("P-00");
         jTextField2.setPreferredSize(new java.awt.Dimension(250, 30));
         
         btnSearchPatient = new javax.swing.JButton("Search");
         btnSearchPatient.setBackground(new java.awt.Color(0, 102, 255));
         btnSearchPatient.setForeground(java.awt.Color.WHITE);
         btnSearchPatient.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
-        btnSearchPatient.addActionListener(this::btnSearchPatientActionPerformed);
+        btnSearchPatient.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
         
         panelPatientInfo.add(lblId);
         panelPatientInfo.add(jTextField1);
@@ -1807,42 +1808,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         
         panelPatientInfo.revalidate();
         panelPatientInfo.repaint();
-    }
-    
-    private void btnSearchPatientActionPerformed(java.awt.event.ActionEvent evt) {
-        String id = jTextField1.getText().trim();
-        String name = jTextField2.getText().trim();
-        
-        if (!name.isEmpty() && id.isEmpty()) {
-            dao.PatientDao pDao = new dao.PatientDao();
-            java.util.List<model.Patient> all = pDao.getAllPatients();
-            model.Patient found = null;
-            for (model.Patient p : all) {
-                if (p.getFullName().equalsIgnoreCase(name)) {
-                    found = p; break;
-                }
-            }
-            if (found == null) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Patient doesn't exist!");
-                return;
-            }
-            id = found.getPatientId();
-            name = found.getFullName();
-            jTextField1.setText(id);
-        } else if (!id.isEmpty()) {
-            dao.PatientDao pDao = new dao.PatientDao();
-            model.Patient p = pDao.getPatientById(id);
-            if (p == null) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Patient doesn't exist!");
-                return;
-            }
-            name = p.getFullName();
-            jTextField2.setText(name);
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter Patient ID or Name to search.");
-            return;
-        }
-        loadMedicalHistory(id, name);
     }
 
     private javax.swing.JTextField txtAccountUsername;
@@ -1858,6 +1823,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
     private javax.swing.JLabel lblTopName;
     private javax.swing.JLabel lblTopSpecialization;
 
+    public javax.swing.JButton getBtnSearchPatient() { return btnSearchPatient; }
     public javax.swing.JTextField getTxtAccountUsername() { return txtAccountUsername; }
     public javax.swing.JTextField getTxtAccountAddress() { return txtAccountAddress; }
     public javax.swing.JComboBox<String> getCmbAvailability() { return cmbAvailability; }

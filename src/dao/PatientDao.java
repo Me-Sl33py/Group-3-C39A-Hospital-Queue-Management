@@ -618,4 +618,19 @@ public class PatientDao {
             return false;
         }
     }
+    public String getPatientIdByUserId(int userId) {
+        String sql = "SELECT patient_id FROM patients WHERE user_id = ?";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("patient_id");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("getPatientIdByUserId error: " + e.getMessage());
+        }
+        return null;
+    }
 }

@@ -1,6 +1,7 @@
 package dao;
 import model.Doctor;
 import java.sql.*;
+import database.MySqlConnection;
 
 public class DoctorDAO {
 
@@ -15,7 +16,7 @@ public class DoctorDAO {
                      "LEFT JOIN users u ON d.user_id = u.user_id " +
                      "LEFT JOIN user_profiles up ON d.user_id = up.user_id " +
                      "WHERE d.doctor_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = new MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, doctorId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -31,7 +32,7 @@ public class DoctorDAO {
         String sql = "UPDATE doctors SET availability = ? WHERE doctor_id = ?";
         String sqlProfile = "UPDATE user_profiles SET contact_number = ?, address = ?, blood_group = ? WHERE user_id = ?";
         
-        try (Connection conn = DatabaseConnection.getConnection()) {
+        try (Connection conn = new MySqlConnection().openConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement ps = conn.prepareStatement(sql);
                  PreparedStatement psProfile = conn.prepareStatement(sqlProfile)) {
@@ -60,7 +61,7 @@ public class DoctorDAO {
     
     public boolean verifyPassword(int userId, String password) {
         String verifySql = "SELECT password FROM users WHERE user_id = ? AND password = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = new MySqlConnection().openConnection();
              PreparedStatement verifyPs = conn.prepareStatement(verifySql)) {
             verifyPs.setInt(1, userId);
             verifyPs.setString(2, password);
@@ -77,7 +78,7 @@ public class DoctorDAO {
         String verifySql = "SELECT password FROM users WHERE user_id = ? AND password = ?";
         String updateSql = "UPDATE users SET password = ? WHERE user_id = ?";
         
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = new MySqlConnection().openConnection();
              PreparedStatement verifyPs = conn.prepareStatement(verifySql)) {
             verifyPs.setInt(1, userId);
             verifyPs.setString(2, oldPassword);
@@ -160,7 +161,7 @@ public class DoctorDAO {
             sql.append(" AND u.status = ? ");
         }
 
-        try (Connection c = DatabaseConnection.getConnection();
+        try (Connection c = new MySqlConnection().openConnection();
              PreparedStatement ps = c.prepareStatement(sql.toString())) {
 
             String kw = "%" + keyword + "%";
@@ -207,7 +208,7 @@ public class DoctorDAO {
                              int deptId,
                              String availability) {
 
-        try (Connection c = DatabaseConnection.getConnection()) {
+        try (Connection c = new MySqlConnection().openConnection()) {
             c.setAutoCommit(false);
             
             // 1. insert user
@@ -259,7 +260,7 @@ public class DoctorDAO {
                                 int deptId,
                                 String availability,
                                 String status) {
-        try (Connection c = DatabaseConnection.getConnection()) {
+        try (Connection c = new MySqlConnection().openConnection()) {
             c.setAutoCommit(false);
             
             // Get user_id from doctors
@@ -306,12 +307,28 @@ public class DoctorDAO {
 
     public boolean deactivateDoctor(String doctorId) {
         String sql = "UPDATE users SET status = 'deactive' WHERE user_id = (SELECT user_id FROM doctors WHERE doctor_id=?)";
-        try (Connection c = DatabaseConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection c = new MySqlConnection().openConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, doctorId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) { 
             e.printStackTrace(); 
         }
         return false;
+    }
+
+    public String getDoctorIdByUserId(int userId) {
+        String sql = "SELECT doctor_id FROM doctors WHERE user_id = ?";
+        try (Connection c = new MySqlConnection().openConnection(); 
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("doctor_id");
+                }
+            }
+        } catch (SQLException e) { 
+            e.printStackTrace(); 
+        }
+        return null;
     }
 }

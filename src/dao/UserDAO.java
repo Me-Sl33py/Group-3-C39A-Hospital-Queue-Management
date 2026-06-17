@@ -427,4 +427,30 @@ public class UserDAO {
             return "P-001";
         }
     }
+    public String[] getUserDetailsByIdentifier(String identifier) {
+        String query = 
+            "SELECT up.user_id, up.full_name, u.username FROM user_profiles up " +
+            "JOIN users u ON up.user_id = u.user_id " +
+            "WHERE LOWER(u.username) = LOWER(?) OR up.contact_number = ? OR LOWER(up.full_name) = LOWER(?)";
+            
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, identifier);
+            ps.setString(2, identifier);
+            ps.setString(3, identifier);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new String[]{
+                        String.valueOf(rs.getInt("user_id")),
+                        rs.getString("full_name"),
+                        rs.getString("username")
+                    };
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("getUserDetailsByIdentifier error: " + e);
+        }
+        return null;
+    }
 }
