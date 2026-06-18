@@ -24,17 +24,18 @@ import model.Patient;
  */
 public class PatientDao {
 
-    // The database connection helper
-    private MySqlConnection db;
+    // ==================== METHOD 1: insertUser ====================
 
     /**
-     * Constructor — creates a MySqlConnection instance for this DAO to use.
+     * Inserts a new row into the 'users' table.
+     *
+     * SQL: INSERT INTO users (username, password) VALUES (?, ?)
+     *
+     * @param username the patient's login username
+     * @param password the patient's password
+     * @param role     unused (kept for API compatibility)
+     * @return the auto-generated user_id (int) if successful, or -1 if it failed
      */
-    public PatientDao() {
-        this.db = new MySqlConnection();
-    }
-
-    // ==================== METHOD 1: insertUser ====================
 
     /**
      * Inserts a new row into the 'users' table.
@@ -47,46 +48,27 @@ public class PatientDao {
      * @return the auto-generated user_id (int) if successful, or -1 if it failed
      */
     public int insertUser(String username, String password, String role) {
-        Connection conn = null;  // We declare conn outside so we can close it in finally
-        try {
-            // Step 1: Open the database connection
-            conn = db.openConnection();
+        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        try (Connection conn = MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            if (conn == null) {
-                System.out.println("[PatientDao] insertUser: Could not open DB connection.");
-                return -1;
-            }
+            ps.setString(1, username);
+            ps.setString(2, password);
 
-            // Step 2: Write the SQL — RETURN_GENERATED_KEYS tells MySQL to give us the new user_id
-            String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-            PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            // Step 3: Set the values (? placeholders replaced in order)
-            ps.setString(1, username);  // 1st ? = username
-            ps.setString(2, password);  // 2nd ? = password
-
-            // Step 4: Execute the INSERT
             int rowsAffected = ps.executeUpdate();
-
-            // Step 5: If at least 1 row was inserted, get the auto-generated user_id
             if (rowsAffected > 0) {
-                ResultSet generatedKeys = ps.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int newUserId = generatedKeys.getInt(1); // get the first generated key
-                    System.out.println("[PatientDao] insertUser: New user_id = " + newUserId);
-                    return newUserId;
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int newUserId = generatedKeys.getInt(1);
+                        System.out.println("[PatientDao] insertUser: New user_id = " + newUserId);
+                        return newUserId;
+                    }
                 }
             }
-
         } catch (SQLException e) {
-            // Print the error — SQL error details are shown in console
             System.out.println("[PatientDao] insertUser error: " + e.getMessage());
-        } finally {
-            // Always close the connection — even if an error happened
-            db.closeConnection(conn);
         }
-
-        return -1; // Return -1 to signal that the insert failed
+        return -1;
     }
 
     /**
@@ -111,64 +93,49 @@ public class PatientDao {
     public boolean insertPatient(String patientId, int userId, String fullName, String username,
                                  java.sql.Date dob, int age, String gender,
                                  String contactNumber, String address) {
-        Connection conn = null;
-        try {
-            // Step 1: Open the database connection
-            conn = db.openConnection();
+        String sql = "INSERT INTO patients " +
+                     "(patient_id, user_id, full_name, username, dob, age, " +
+                     "gender, contact_number, address) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String profileSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, dob, age, gender, role, address) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            if (conn == null) {
-                System.out.println("[PatientDao] insertPatient: Could not open DB connection.");
-                return false;
+        try (Connection conn = MySqlConnection.getConnection()) {
+            // Insert into patients table
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, patientId);
+                ps.setInt   (2, userId);
+                ps.setString(3, fullName);
+                ps.setString(4, username);
+                ps.setDate  (5, dob);
+                ps.setInt   (6, age);
+                ps.setString(7, gender);
+                ps.setString(8, contactNumber);
+                ps.setString(9, address);
+                int rowsAffected = ps.executeUpdate();
+
+                // Insert into user_profiles table
+                try (PreparedStatement psProfile = conn.prepareStatement(profileSql)) {
+                    psProfile.setInt   (1, userId);
+                    psProfile.setString(2, fullName);
+                    psProfile.setString(3, contactNumber);
+                    psProfile.setDate  (4, dob);
+                    psProfile.setInt   (5, age);
+                    psProfile.setString(6, gender);
+                    psProfile.setString(7, "patient");
+                    psProfile.setString(8, address);
+                    int profileRows = psProfile.executeUpdate();
+
+                    if (rowsAffected > 0 && profileRows > 0) {
+                        System.out.println("[PatientDao] insertPatient: Patient " + patientId + " registered.");
+                        return true;
+                    }
+                }
             }
-
-            // Step 2: Write the SQL INSERT statement
-            String sql = "INSERT INTO patients " +
-                         "(patient_id, user_id, full_name, username, dob, age, " +
-                         "gender, contact_number, address) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            // Step 3: Set the values (? placeholders in the same order as the columns above)
-            ps.setString(1, patientId);     // 1st ? = patient_id   (e.g., "P-001")
-            ps.setInt   (2, userId);        // 2nd ? = user_id      (foreign key)
-            ps.setString(3, fullName);      // 3rd ? = full_name
-            ps.setString(4, username);      // 4th ? = username
-            ps.setDate  (5, dob);           // 5th ? = dob          (java.sql.Date from JDateChooser)
-            ps.setInt   (6, age);           // 6th ? = age          (auto-calculated from dob)
-            ps.setString(7, gender);        // 7th ? = gender
-            ps.setString(8, contactNumber); // 8th ? = contact_number
-            ps.setString(9, address);       // 9th ? = address
-
-            // Step 4: Execute the INSERT into patients
-            int rowsAffected = ps.executeUpdate();
-
-            // Step 5: ALSO INSERT INTO user_profiles
-            String profileSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, dob, age, gender, role, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement psProfile = conn.prepareStatement(profileSql);
-            psProfile.setInt(1, userId);
-            psProfile.setString(2, fullName);
-            psProfile.setString(3, contactNumber);
-            psProfile.setDate(4, dob);
-            psProfile.setInt(5, age);
-            psProfile.setString(6, gender);
-            psProfile.setString(7, "patient");
-            psProfile.setString(8, address);
-            int profileRows = psProfile.executeUpdate();
-
-            // Step 6: Return true if both inserts were successful
-            if (rowsAffected > 0 && profileRows > 0) {
-                System.out.println("[PatientDao] insertPatient: Patient " + patientId + " registered in patients and user_profiles.");
-                return true;
-            }
-
         } catch (SQLException e) {
             System.out.println("[PatientDao] insertPatient error: " + e.getMessage());
-        } finally {
-            // Always close the connection
-            db.closeConnection(conn);
         }
-
-        return false; // Return false to signal failure
+        return false;
     }
 
     // ==================== METHOD 3: checkUsernameExists ====================
@@ -184,68 +151,37 @@ public class PatientDao {
      * @return true if the username already exists, false if it is available
      */
     public boolean checkUsernameExists(String username) {
-        Connection conn = null;
-        try {
-            // Step 1: Open connection
-            conn = db.openConnection();
-
-            if (conn == null) {
-                System.out.println("[PatientDao] checkUsernameExists: Could not open DB connection.");
-                return false; // Assume not exists if connection fails
-            }
-
-            // Step 2: Query the users table
-            String sql = "SELECT user_id FROM users WHERE username = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
+        String sql = "SELECT user_id FROM users WHERE username = ?";
+        try (Connection conn = MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
-
-            // Step 3: Execute the query
-            ResultSet rs = ps.executeQuery();
-
-            // Step 4: If rs.next() is true, a row was found — username is taken
-            boolean exists = rs.next();
-            System.out.println("[PatientDao] checkUsernameExists '" + username + "': " + exists);
-            return exists;
-
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean exists = rs.next();
+                System.out.println("[PatientDao] checkUsernameExists '" + username + "': " + exists);
+                return exists;
+            }
         } catch (SQLException e) {
             System.out.println("[PatientDao] checkUsernameExists error: " + e.getMessage());
-        } finally {
-            db.closeConnection(conn);
         }
-
-        return false; // Default: assume not exists if there was an error
+        return false;
     }
 
     // ==================== METHOD 4: generateUsername ====================
 
     public String generateUsername(String fullName) {
-        // get first word and make lowercase
         String firstWord = fullName.trim().split("\\s+")[0].toLowerCase();
-        int count = 0;
-
-        Connection conn = null;
-        try {
-            conn = db.openConnection();
-            if (conn != null) {
-                // count how many usernames start with firstword
-                String countQuery = "SELECT count(*) FROM users WHERE username LIKE ?";
-                PreparedStatement ps = conn.prepareStatement(countQuery);
-                // pass firstWord + "%" as parameter
-                ps.setString(1, firstWord + "%");
-                
-                ResultSet rs = ps.executeQuery();
-                if (rs.next()) {
-                    // count = result of query
-                    count = rs.getInt(1);
-                }
+        String sql = "SELECT COUNT(*) FROM users WHERE username LIKE ?";
+        try (Connection conn = MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, firstWord + "%");
+            try (ResultSet rs = ps.executeQuery()) {
+                int count = rs.next() ? rs.getInt(1) : 0;
+                return firstWord + (count + 1);
             }
         } catch (SQLException e) {
             System.out.println("[PatientDao] generateUsername error: " + e.getMessage());
-        } finally {
-            db.closeConnection(conn);
         }
-
-        return firstWord + (count + 1);
+        return firstWord + "1";
     }
 
     // ==================== METHOD 5: generatePatientId ====================
@@ -261,46 +197,25 @@ public class PatientDao {
      * @return the next patient ID string, e.g. "P-001", "P-002", "P-003"
      */
     public String generatePatientId() {
-        Connection conn = null;
-        try {
-            // Step 1: Open connection
-            conn = db.openConnection();
-
-            if (conn == null) {
-                System.out.println("[PatientDao] generatePatientId: Could not open DB connection.");
-                return "P-001"; // Fallback to first ID
-            }
-
-            // Step 2: Get the last patient_id (sorted Z-A, take top 1)
-            String sql = "SELECT patient_id FROM patients ORDER BY patient_id DESC LIMIT 1";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
+        String sql = "SELECT patient_id FROM patients ORDER BY patient_id DESC LIMIT 1";
+        try (Connection conn = MySqlConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
-                // Step 3: Extract the number from the last ID
-                // Example: "P-007" -> split by "-" -> ["P", "007"] -> take index [1] -> 7
-                String lastId = rs.getString("patient_id"); // e.g., "P-007"
-                String[] parts = lastId.split("-");          // split into ["P", "007"]
-                int lastNumber = Integer.parseInt(parts[1]); // parse "007" to integer 7
-
-                // Step 4: Increment and format with leading zeros (P-001 format)
+                String lastId = rs.getString("patient_id");
+                String[] parts = lastId.split("-");
+                int lastNumber = Integer.parseInt(parts[1]);
                 String nextId = String.format("P-%03d", lastNumber + 1);
                 System.out.println("[PatientDao] generatePatientId: Next ID = " + nextId);
                 return nextId;
             }
-
-            // If table is empty, start from P-001
             System.out.println("[PatientDao] generatePatientId: Table empty, starting at P-001.");
         } catch (SQLException e) {
             System.out.println("[PatientDao] generatePatientId SQL error: " + e.getMessage());
         } catch (NumberFormatException e) {
-            // This happens if patient_id in DB doesn't follow "P-000" format
             System.out.println("[PatientDao] generatePatientId: Could not parse last ID: " + e.getMessage());
-        } finally {
-            db.closeConnection(conn);
         }
-
-        return "P-001"; // Safe fallback
+        return "P-001";
     }
 
     // =========================================================================

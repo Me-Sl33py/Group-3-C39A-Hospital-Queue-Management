@@ -427,4 +427,84 @@ public class UserDAO {
             return "P-001";
         }
     }
+
+    // ─── Session Loader Methods ──────────────────────────────────────────────
+
+    /**
+     * Retrieves a user's profile data (user_id, full_name, username) by matching
+     * against username, phone number, or full name. Used by UserLoginController
+     * to populate PatientSession after a successful login.
+     *
+     * @param identifier the login identifier (username or phone)
+     * @return Object[] { Integer userId, String fullName, String username } or null if not found
+     */
+    public Object[] getUserProfileByIdentifier(String identifier) {
+        String sql = "SELECT up.user_id, up.full_name, u.username " +
+                     "FROM user_profiles up " +
+                     "JOIN users u ON up.user_id = u.user_id " +
+                     "WHERE LOWER(u.username) = LOWER(?) " +
+                     "   OR up.contact_number = ? " +
+                     "   OR LOWER(up.full_name) = LOWER(?)";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, identifier);
+            ps.setString(2, identifier);
+            ps.setString(3, identifier);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Object[]{
+                        rs.getInt("user_id"),
+                        rs.getString("full_name"),
+                        rs.getString("username")
+                    };
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("[UserDAO] getUserProfileByIdentifier error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Returns the patient_id for a given user_id.
+     * Used during login routing to set PatientSession.
+     *
+     * @param userId the user_id from the users table
+     * @return patient_id string (e.g. "P-001") or null if not found
+     */
+    public String getPatientIdByUserId(int userId) {
+        String sql = "SELECT patient_id FROM patients WHERE user_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getString("patient_id");
+            }
+        } catch (SQLException e) {
+            System.err.println("[UserDAO] getPatientIdByUserId error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Returns the doctor_id for a given user_id.
+     * Used during login routing to set doctor session state.
+     *
+     * @param userId the user_id from the users table
+     * @return doctor_id string (e.g. "D-001") or null if not found
+     */
+    public String getDoctorIdByUserId(int userId) {
+        String sql = "SELECT doctor_id FROM doctors WHERE user_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getString("doctor_id");
+            }
+        } catch (SQLException e) {
+            System.err.println("[UserDAO] getDoctorIdByUserId error: " + e.getMessage());
+        }
+        return null;
+    }
 }
+
