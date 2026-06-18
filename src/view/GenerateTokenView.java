@@ -16,7 +16,7 @@ public class GenerateTokenView extends javax.swing.JPanel {
     
 
     
-    public JComboBox<String> getCbDepartment() { return cbDepartment; }
+    public JComboBox<model.Department> getCbDepartment() { return cbDepartment; }
     public JComboBox<model.Doctor> getCbDoctor() { return cbDoctor; }
     public JButton getBtnGenerateTokenSubmit() { return btnGenerateTokenSubmit; }
     public JTable getTblLiveQueue() { return tblLiveQueue; }
@@ -50,16 +50,13 @@ public class GenerateTokenView extends javax.swing.JPanel {
         btnGenerateToken.setBackground(new java.awt.Color(18, 116, 210));
         btnGenerateToken.setBorderPainted(false);
         btnGenerateToken.setOpaque(true);
-        btnAssignDoctor = new javax.swing.JButton();
-        btnAssignDoctor.setForeground(new java.awt.Color(255, 255, 255));
-        btnAssignDoctor.setBorderPainted(false);
-        btnAssignDoctor.setContentAreaFilled(false);
+
         btnManageWaitlist = new javax.swing.JButton();
         btnManageWaitlist.setForeground(new java.awt.Color(255, 255, 255));
         btnManageWaitlist.setBorderPainted(false);
         btnManageWaitlist.setContentAreaFilled(false);
         btnLogout = new javax.swing.JButton();
-        btnLogout.setForeground(new java.awt.Color(255, 100, 100));
+        btnLogout.setForeground(new java.awt.Color(255, 0, 0));
         btnLogout.setBorderPainted(false);
         btnLogout.setContentAreaFilled(false);
         mainPanel = new javax.swing.JPanel();
@@ -118,7 +115,7 @@ public class GenerateTokenView extends javax.swing.JPanel {
         lblGenSubtitle = new javax.swing.JLabel();
         lblDeptLabel = new javax.swing.JLabel();
         lblDeptLabel.setForeground(new java.awt.Color(80, 80, 80));
-        cbDepartment = new javax.swing.JComboBox();
+        cbDepartment = new javax.swing.JComboBox<>();
         tipPanel = new javax.swing.JPanel();
         tipPanel.setBackground(new java.awt.Color(236, 253, 245));
         tipPanel.setOpaque(true);
@@ -138,6 +135,8 @@ public class GenerateTokenView extends javax.swing.JPanel {
         lblLiveQueueTitle = new javax.swing.JLabel();
         lblLiveQueueTitle.setForeground(new java.awt.Color(80, 80, 80));
         tableScroll = new javax.swing.JScrollPane();
+        tableScroll.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        tableScroll.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         tblLiveQueue = new javax.swing.JTable();
 
         setPreferredSize(new java.awt.Dimension(1024, 768));
@@ -183,19 +182,7 @@ public class GenerateTokenView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
         sidebarPanel.add(btnGenerateToken, gridBagConstraints);
 
-        btnAssignDoctor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnAssignDoctor.setText("Assign to Doctor");
-        btnAssignDoctor.setFocusPainted(false);
-        btnAssignDoctor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
-        sidebarPanel.add(btnAssignDoctor, gridBagConstraints);
+
 
         btnManageWaitlist.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnManageWaitlist.setText("Manage Waitlist");
@@ -203,7 +190,7 @@ public class GenerateTokenView extends javax.swing.JPanel {
         btnManageWaitlist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -502,7 +489,7 @@ public class GenerateTokenView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 20);
         genTokenCard.add(lblDeptLabel, gridBagConstraints);
 
-        cbDepartment.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Choose Department", "Cardiology", "Dermatology", "Pediatrics", "General Medicine" }));
+        cbDepartment.setModel(new javax.swing.DefaultComboBoxModel<>(new model.Department[]{ new model.Department(-1, "Choose Department", "") }));
         cbDepartment.setPreferredSize(new java.awt.Dimension(200, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -633,6 +620,13 @@ public class GenerateTokenView extends javax.swing.JPanel {
         });
         tblLiveQueue.setRowHeight(40);
         tblLiveQueue.setShowGrid(false);
+        tblLiveQueue.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        // Set minimum column widths so horizontal scroll activates
+        tblLiveQueue.getColumnModel().getColumn(0).setPreferredWidth(120); // TOKEN
+        tblLiveQueue.getColumnModel().getColumn(1).setPreferredWidth(180); // PATIENT
+        tblLiveQueue.getColumnModel().getColumn(2).setPreferredWidth(200); // DEPARTMENT
+        tblLiveQueue.getColumnModel().getColumn(3).setPreferredWidth(130); // STATUS
+        tblLiveQueue.getColumnModel().getColumn(4).setPreferredWidth(120); // TIME
         tableScroll.setViewportView(tblLiveQueue);
 
         bottomPanel.add(tableScroll, java.awt.BorderLayout.CENTER);
@@ -659,13 +653,13 @@ public class GenerateTokenView extends javax.swing.JPanel {
     private javax.swing.JPanel bodyPanel;
     private javax.swing.JScrollPane bodyScroll;
     private javax.swing.JPanel bottomPanel;
-    private javax.swing.JButton btnAssignDoctor;
+
     private javax.swing.JButton btnGenerateToken;
     private javax.swing.JButton btnGenerateTokenSubmit;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageWaitlist;
     private javax.swing.JButton btnRegisterWalkin;
-    private javax.swing.JComboBox cbDepartment;
+    private javax.swing.JComboBox<model.Department> cbDepartment;
     private javax.swing.JPanel genTokenCard;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel lblAgeGenTitle;

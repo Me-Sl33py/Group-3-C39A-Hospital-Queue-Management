@@ -32,7 +32,7 @@ public class GenerateTokenController {
                     model.addElement(d);
                 }
             }
-            view.getCbDepartment().setModel((DefaultComboBoxModel) model);
+            view.getCbDepartment().setModel(model);
         }
         
         if (view.getCbPatientSearch() != null) {
@@ -97,28 +97,29 @@ public class GenerateTokenController {
 
     private void loadDoctorsForSelectedDepartment() {
         if (view.getCbDoctor() == null) return;
-        Object selected = view.getCbDepartment().getSelectedItem();
-        if (selected == null || !(selected instanceof model.Department)) {
-            view.getCbDoctor().setModel(new DefaultComboBoxModel<>());
-            return;
-        }
-        model.Department dept = (model.Department) selected;
         
-        DefaultComboBoxModel<model.Doctor> model = new DefaultComboBoxModel<>();
-        if (dept.getDepartmentId() == -1) {
-            view.getCbDoctor().setModel(model);
-            return;
-        }
+        DefaultComboBoxModel<model.Doctor> doctorModel = new DefaultComboBoxModel<>();
+        view.getCbDoctor().setModel(doctorModel);
+        
+        Object selected = view.getCbDepartment().getSelectedItem();
+        if (!(selected instanceof model.Department)) return;
+        
+        model.Department dept = (model.Department) selected;
+        if (dept.getDepartmentId() == -1) return;
         
         dao.DoctorDAO doctorDAO = new dao.DoctorDAO();
         List<model.Doctor> doctors = doctorDAO.getDoctorsByDepartment(dept.getDepartmentId());
         
-        if (doctors != null) {
-            for (model.Doctor d : doctors) {
-                model.addElement(d);
-            }
+        if (doctors == null || doctors.isEmpty()) {
+            view.getLblTipText().setText("<html>No doctors found for <b>" + dept.getDepartmentName() + "</b>.</html>");
+            return;
         }
-        view.getCbDoctor().setModel(model);
+        
+        for (model.Doctor d : doctors) {
+            doctorModel.addElement(d);
+        }
+        view.getCbDoctor().setModel(doctorModel);
+        view.getCbDoctor().setEnabled(true);
     }
 
     private void startAutoRefreshTimer() {
