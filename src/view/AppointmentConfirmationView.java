@@ -59,7 +59,7 @@ public class AppointmentConfirmationView extends JPanel {
         tablePanel.setBackground(Color.WHITE);
         tablePanel.setBorder(BorderFactory.createTitledBorder("Pending Appointments"));
         
-        String[] columns = {"Appt ID", "Patient ID", "Name", "Phone", "Date & Time", "Doctor"};
+        String[] columns = {"Appointment ID", "Patient ID", "Patient Name", "Doctor", "Department", "Date", "Time", "Status"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {

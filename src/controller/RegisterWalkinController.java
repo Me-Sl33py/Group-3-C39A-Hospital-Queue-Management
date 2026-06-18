@@ -107,8 +107,11 @@ public class RegisterWalkinController {
         String savedId = patientDAO.insertPatient(patient);
 
         if (savedId != null) {
-            JOptionPane.showMessageDialog(view, "Account is created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            mainFrame.getGenerateTokenController().updatePatientDetails(savedId, name, String.valueOf(age), gender, phone);
+            dao.AppointmentDAO apptDAO = new dao.AppointmentDAO();
+            int appointmentId = apptDAO.createWalkinAppointment(savedId);
+            
+            JOptionPane.showMessageDialog(view, "Account created & Walk-in Appointment confirmed!\nPatient ID: " + savedId, "Success", JOptionPane.INFORMATION_MESSAGE);
+            mainFrame.getGenerateTokenController().updatePatientDetails(savedId, name, String.valueOf(age), gender, phone, appointmentId);
             mainFrame.switchToTab(2);
             resetFields();
         } else {

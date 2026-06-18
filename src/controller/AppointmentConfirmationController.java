@@ -54,14 +54,15 @@ public class AppointmentConfirmationController {
         model.setRowCount(0);
         
         for (Appointment a : currentAppointments) {
-            String dateTimeStr = a.getAppointmentDate() + " " + (a.getAppointmentTime() != null ? a.getAppointmentTime() : "");
             model.addRow(new Object[]{
                 a.getAppointmentId(),
                 a.getPatientId(),
                 a.getPatientName() != null ? a.getPatientName() : "N/A",
-                a.getPatientPhone() != null ? a.getPatientPhone() : "N/A",
-                dateTimeStr,
-                a.getDoctorName() != null ? a.getDoctorName() : "N/A"
+                a.getDoctorName() != null ? a.getDoctorName() : "N/A",
+                "Dept " + a.getDepartmentId(),
+                a.getAppointmentDate(),
+                a.getAppointmentTime() != null ? a.getAppointmentTime() : "N/A",
+                a.getStatus()
             });
         }
         
@@ -100,19 +101,21 @@ public class AppointmentConfirmationController {
                 "Confirm Arrival", JOptionPane.YES_NO_OPTION);
                 
         if (confirm == JOptionPane.YES_OPTION) {
-            boolean success = appointmentDAO.confirmArrival(
-                selectedAppointment.getAppointmentId(),
-                selectedAppointment.getPatientId(),
-                selectedAppointment.getDoctorId()
-            );
+            boolean success = appointmentDAO.confirmArrival(selectedAppointment.getAppointmentId());
             
             if (success) {
-                JOptionPane.showMessageDialog(view, "Patient arrival confirmed. Added to Queue successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dao.TokenDAO tokenDAO = new dao.TokenDAO();
+                int tokenNum = tokenDAO.createToken(selectedAppointment.getAppointmentId(), selectedAppointment.getPatientId(), selectedAppointment.getDepartmentId());
+                
+                JOptionPane.showMessageDialog(view, "Patient arrival confirmed. Added to Queue successfully.\nToken Number: " + tokenNum, "Success", JOptionPane.INFORMATION_MESSAGE);
                 loadPendingAppointments(view.getTxtSearch().getText());
                 
                 // Refresh dashboards if applicable
                 if (mainFrame.getDashboardController() != null) {
                     mainFrame.getDashboardController().refreshData();
+                }
+                if (mainFrame.getGenerateTokenController() != null) {
+                    mainFrame.getGenerateTokenController().refreshLiveQueue();
                 }
             } else {
                 JOptionPane.showMessageDialog(view, "Error confirming arrival.", "Database Error", JOptionPane.ERROR_MESSAGE);

@@ -12,6 +12,7 @@ public class Appointment {
     private String reason;
     private String status;
     private String type;
+    private int departmentId;
 
     // For display purposes
     private String doctorName;
@@ -42,6 +43,9 @@ public class Appointment {
 
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
+
+    public int getDepartmentId() { return departmentId; }
+    public void setDepartmentId(int departmentId) { this.departmentId = departmentId; }
 
     public String getDoctorName() { return doctorName; }
     public void setDoctorName(String doctorName) { this.doctorName = doctorName; }

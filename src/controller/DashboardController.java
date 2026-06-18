@@ -32,9 +32,9 @@ public class DashboardController {
         dao.TokenDAO tokenDAO = new dao.TokenDAO();
         dao.DoctorDAO doctorDAO = new dao.DoctorDAO();
         
-        int totalPatients = patientDAO.getTotalPatientsCount();
+        int confirmedToday = new dao.AppointmentDAO().countConfirmedToday();
         int waiting = tokenDAO.countTotalWaiting();
-        int totalTokens = tokenDAO.countTotalTokens();
+        int inConsultation = tokenDAO.countInConsultation();
         int availableDoctors = 0;
         
         List<model.Doctor> doctors = doctorDAO.getAllDoctors();
@@ -45,10 +45,10 @@ public class DashboardController {
                 }
             }
         }
-        view.getLblTotalVal().setText(String.valueOf(totalPatients));
+        view.getLblTotalVal().setText(String.valueOf(confirmedToday));
         view.getLblWaitingVal().setText(String.valueOf(waiting));
         view.getLblDoctorsVal().setText(String.valueOf(availableDoctors));
-        view.getLblTokensVal().setText(String.valueOf(totalTokens));
+        view.getLblTokensVal().setText(String.valueOf(inConsultation));
 
         List<model.Token> liveTokens = tokenDAO.getAllWaitingTokens();
         DefaultTableModel model = (DefaultTableModel) view.getTblWaitlist().getModel();

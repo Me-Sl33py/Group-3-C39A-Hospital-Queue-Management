@@ -92,7 +92,7 @@ create table security_questions (
 create table appointments (
     appointment_id int auto_increment primary key,
     patient_id varchar(10) not null,
-    doctor_id varchar(10) not null,
+    doctor_id varchar(10) null,
     appointment_date date not null,
     appointment_time time not null,
     reason varchar(255),
@@ -106,9 +106,10 @@ create table queue (
     queue_id int auto_increment primary key,
     appointment_id int not null,
     patient_id varchar(10) not null,
-    doctor_id varchar(10) not null,
+    department_id int not null,
+    doctor_id varchar(10) null,
     token_number int not null,
-    status enum('waiting','in consultation','completed') default 'waiting',
+    status enum('waiting','in consultation','completed','skipped') default 'waiting',
     created_at timestamp default current_timestamp
 );
 

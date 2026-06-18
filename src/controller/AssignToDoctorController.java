@@ -45,6 +45,14 @@ public class AssignToDoctorController {
                 view.getLblBloodGroupValue().setText(p.getBloodGroup() != null && !p.getBloodGroup().isEmpty() ? p.getBloodGroup() : "Not Specified");
                 view.getTaReason().setText(p.getReason() != null ? p.getReason() : "No reason specified.");
             }
+            
+            dao.DepartmentDAO deptDAO = new dao.DepartmentDAO();
+            model.Department dept = deptDAO.getDepartmentById(currentToken.getDepartmentId());
+            if (dept != null) {
+                view.getLblDeptValue().setText(dept.getDepartmentName());
+            } else {
+                view.getLblDeptValue().setText("Unknown");
+            }
 
             view.getBtnAssignPatient().setEnabled(true);
         } else {
@@ -54,6 +62,7 @@ public class AssignToDoctorController {
             view.getLblGenValue().setText("N/A");
             view.getLblContactValue().setText("N/A");
             view.getLblBloodGroupValue().setText("N/A");
+            view.getLblDeptValue().setText("N/A");
             view.getTaReason().setText("");
             view.getBtnAssignPatient().setEnabled(false);
         }
@@ -61,7 +70,11 @@ public class AssignToDoctorController {
 
     private void loadDoctors() {
         dao.DoctorDAO doctorDAO = new dao.DoctorDAO();
-        doctors = doctorDAO.getAllDoctors();
+        if (currentToken != null) {
+            doctors = doctorDAO.getDoctorsByDepartment(currentToken.getDepartmentId());
+        } else {
+            doctors = null;
+        }
         
         DefaultComboBoxModel<model.Doctor> model = new DefaultComboBoxModel<>();
         if (doctors != null && !doctors.isEmpty()) {
