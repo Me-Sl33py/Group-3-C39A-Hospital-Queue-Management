@@ -42,6 +42,7 @@ public class GenerateTokenController {
         }
 
         initEventHandlers();
+        startAutoRefreshTimer();
     }
 
     public void updatePatientDetails(String patientId, String name, String dob, String gender, String phone, int appointmentId) {
@@ -87,8 +88,46 @@ public class GenerateTokenController {
         if (view.getCbPatientSearch() != null) {
             view.getCbPatientSearch().addActionListener(e -> onPatientSelected());
         }
-        view.getCbDepartment().addActionListener(e -> updateEstimatedWaitTime());
+        view.getCbDepartment().addActionListener(e -> {
+            updateEstimatedWaitTime();
+            loadDoctorsForSelectedDepartment();
+        });
         view.getBtnGenerateTokenSubmit().addActionListener(e -> generateToken());
+    }
+
+    private void loadDoctorsForSelectedDepartment() {
+        if (view.getCbDoctor() == null) return;
+        Object selected = view.getCbDepartment().getSelectedItem();
+        if (selected == null || !(selected instanceof model.Department)) {
+            view.getCbDoctor().setModel(new DefaultComboBoxModel<>());
+            return;
+        }
+        model.Department dept = (model.Department) selected;
+        
+        DefaultComboBoxModel<model.Doctor> model = new DefaultComboBoxModel<>();
+        if (dept.getDepartmentId() == -1) {
+            view.getCbDoctor().setModel(model);
+            return;
+        }
+        
+        dao.DoctorDAO doctorDAO = new dao.DoctorDAO();
+        List<model.Doctor> doctors = doctorDAO.getDoctorsByDepartment(dept.getDepartmentId());
+        
+        if (doctors != null) {
+            for (model.Doctor d : doctors) {
+                model.addElement(d);
+            }
+        }
+        view.getCbDoctor().setModel(model);
+    }
+
+    private void startAutoRefreshTimer() {
+        Timer timer = new Timer(5000, e -> {
+            if (view.isShowing()) {
+                refreshLiveQueue();
+            }
+        });
+        timer.start();
     }
 
     private void onPatientSelected() {
@@ -128,6 +167,10 @@ public class GenerateTokenController {
         view.getCbDepartment().setSelectedIndex(0);
         view.getLblTipText().setText("<html>Please select a department to see estimated waiting times.</html>");
         
+        if (view.getCbDoctor() != null) {
+            view.getCbDoctor().setModel(new DefaultComboBoxModel<>());
+        }
+        
         refreshLiveQueue();
     }
 
@@ -142,7 +185,8 @@ public class GenerateTokenController {
                 if (t.getCreatedAt() != null) {
                     timeStr = new SimpleDateFormat("hh:mm a").format(t.getCreatedAt());
                 }
-                model.addRow(new Object[]{t.getTokenNumber(), t.getPatientName(), "N/A", t.getStatus(), timeStr});
+                String deptName = t.getDepartmentName() != null ? t.getDepartmentName() : "N/A";
+                model.addRow(new Object[]{t.getTokenNumber(), t.getPatientName(), deptName, t.getStatus(), timeStr});
             }
         }
     }
@@ -187,15 +231,18 @@ public class GenerateTokenController {
             return;
         }
 
+        String doctorId = null;
+        Object selectedDoctor = view.getCbDoctor() != null ? view.getCbDoctor().getSelectedItem() : null;
+        if (selectedDoctor != null && selectedDoctor instanceof model.Doctor) {
+            doctorId = ((model.Doctor) selectedDoctor).getDoctorId();
+        }
+
         dao.TokenDAO tokenDAO = new dao.TokenDAO();
-        int generatedTokenNumber = tokenDAO.createToken(appointment.getAppointmentId(), currentPatientId, dept.getDepartmentId());
+        int generatedTokenNumber = tokenDAO.createToken(appointment.getAppointmentId(), currentPatientId, dept.getDepartmentId(), doctorId);
 
         if (generatedTokenNumber != -1) {
             refreshLiveQueue();
             JOptionPane.showMessageDialog(view, "Token generated successfully!\nToken Number: " + generatedTokenNumber + " | Department: " + dept.getDepartmentName(), "Token Generated", JOptionPane.INFORMATION_MESSAGE);
-            if (mainFrame.getAssignToDoctorController() != null) {
-                mainFrame.getAssignToDoctorController().refreshData();
-            }
             if (mainFrame.getDashboardController() != null) {
                 mainFrame.getDashboardController().refreshData();
             }

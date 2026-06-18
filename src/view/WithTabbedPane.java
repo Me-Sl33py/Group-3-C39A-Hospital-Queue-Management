@@ -46,7 +46,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnAppointmentConfirmation.setFocusPainted(false);
         btnAppointmentConfirmation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnAppointmentConfirmation.setOpaque(true);
-        btnAppointmentConfirmation.addActionListener(e -> switchToTab(5));
+        btnAppointmentConfirmation.addActionListener(e -> switchToTab(4));
         
         // Add to sidebar at absolute constraints
         // Using AbsoluteConstraints is tricky without importing, so use full class name
@@ -59,20 +59,18 @@ public class WithTabbedPane extends javax.swing.JFrame {
     private controller.DashboardController dashboardController;
     private controller.RegisterWalkinController registerWalkinController;
     private controller.GenerateTokenController generateTokenController;
-    private controller.AssignToDoctorController assignToDoctorController;
     private controller.AppointmentConfirmationController appointmentConfirmationController;
+    private javax.swing.JButton btnAssignDoctor;
 
     public controller.DashboardController getDashboardController() { return dashboardController; }
 
     public void setDashboardController(controller.DashboardController dc) { this.dashboardController = dc; }
     public void setRegisterWalkinController(controller.RegisterWalkinController rc) { this.registerWalkinController = rc; }
     public void setGenerateTokenController(controller.GenerateTokenController gc) { this.generateTokenController = gc; }
-    public void setAssignToDoctorController(controller.AssignToDoctorController ac) { this.assignToDoctorController = ac; }
     public void setAppointmentConfirmationController(controller.AppointmentConfirmationController ac) { this.appointmentConfirmationController = ac; }
 
     public controller.RegisterWalkinController getRegisterWalkinController() { return registerWalkinController; }
     public controller.GenerateTokenController getGenerateTokenController() { return generateTokenController; }
-    public controller.AssignToDoctorController getAssignToDoctorController() { return assignToDoctorController; }
 
     public javax.swing.JTabbedPane getJTabbedPane1() { return jTabbedPane1; }
     public javax.swing.JButton getBtnRegisterWalkin() { return btnRegisterWalkin; }
@@ -86,7 +84,6 @@ public class WithTabbedPane extends javax.swing.JFrame {
     public view.DashboardView getDashboardView() { return jPanel1; }
     public view.RegisterWalkinView getRegisterWalkinView() { return jPanel2; }
     public view.GenerateTokenView getGenerateTokenView() { return jPanel3; }
-    public view.AssignToDoctorView getAssignToDoctorView() { return jPanel4; }
     public view.ReceptionistAccountSettingsView getReceptionistAccountSettingsView() { return jPanel5; }
     public view.AppointmentConfirmationView getAppointmentConfirmationView() { return jPanel6; }
 
@@ -107,13 +104,11 @@ public class WithTabbedPane extends javax.swing.JFrame {
         lblHospicare = new javax.swing.JLabel();
         btnRegisterWalkin = new javax.swing.JButton();
         btnGenerateToken = new javax.swing.JButton();
-        btnAssignDoctor = new javax.swing.JButton();
         btnAccounts = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         btnManageWaitlist1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new view.DashboardView();
-        jPanel4 = new view.AssignToDoctorView();
 
         jPanel2 = new view.RegisterWalkinView();
         jPanel3 = new view.GenerateTokenView();
@@ -153,6 +148,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnGenerateToken.setOpaque(true);
         sidebarPanel.add(btnGenerateToken, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 240, 50));
 
+        btnAssignDoctor = new javax.swing.JButton();
         btnAssignDoctor.setBackground(new java.awt.Color(22, 137, 176));
         btnAssignDoctor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAssignDoctor.setForeground(new java.awt.Color(255, 255, 255));
@@ -208,7 +204,6 @@ public class WithTabbedPane extends javax.swing.JFrame {
         jTabbedPane1.addTab("Waiting List", jPanel1);
         jTabbedPane1.addTab("Register Walk-in", jPanel2);
         jTabbedPane1.addTab("Generate Token", jPanel3);
-        jTabbedPane1.addTab("Assign Doctor", jPanel4);
         jTabbedPane1.addTab("Account Settings", jPanel5);
 
         getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
@@ -228,13 +223,11 @@ public class WithTabbedPane extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAccounts;
-    private javax.swing.JButton btnAssignDoctor;
     private javax.swing.JButton btnGenerateToken;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageWaitlist1;
     private javax.swing.JButton btnRegisterWalkin;
     private view.DashboardView jPanel1;
-    private view.AssignToDoctorView jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblHospicare;
     private javax.swing.JPanel sidebarPanel;
