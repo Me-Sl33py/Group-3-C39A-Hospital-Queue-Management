@@ -6,7 +6,7 @@ package controller;
 
 import dao.DoctorDAO;
 import dao.MedicalRecordDAO;
-import dao.PatientDao;
+import dao.PatientDAO;
 import model.Doctor;
 import model.MedicalRecord;
 import model.Patient;
@@ -20,7 +20,7 @@ public class DoctorController {
 
     // ── Dependencies ──────────────────────────────────────────────────────────
     private final DoctorPanel      view;
-    private final PatientDao       patientDAO;
+    private final PatientDAO       patientDAO;
     private final MedicalRecordDAO recordDAO;
     private final DoctorDAO        doctorDAO;
 
@@ -34,7 +34,7 @@ public class DoctorController {
     // =========================================================================
     public DoctorController(DoctorPanel view) {
         this.view       = view;
-        this.patientDAO = new PatientDao();
+        this.patientDAO = new PatientDAO();
         this.recordDAO  = new MedicalRecordDAO();
         this.doctorDAO  = new DoctorDAO();
 
@@ -347,7 +347,7 @@ public class DoctorController {
 
         String doctorId = (currentDoctor != null) ? currentDoctor.getDoctorId() : "";
 
-        // Use PatientDao to save it because it looks up the correct appointment_id from the queue
+        // Use PatientDAO to save it because it looks up the correct appointment_id from the queue
         boolean saved = patientDAO.saveMedicalRecord(activePatient.getPatientId(), doctorId, notes);
 
         if (saved) {
@@ -525,7 +525,7 @@ public class DoctorController {
         String id = view.getTxtPatientIdField().getText().trim();
         String name = view.getTxtPatientNameField().getText().trim();
         
-        dao.PatientDao pDao = new dao.PatientDao();
+        dao.PatientDAO pDao = new dao.PatientDAO();
         
         if (!name.isEmpty() && id.isEmpty()) {
             java.util.List<model.Patient> all = pDao.getAllPatients();

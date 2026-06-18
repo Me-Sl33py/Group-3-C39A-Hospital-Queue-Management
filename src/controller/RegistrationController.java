@@ -1,6 +1,6 @@
 package controller;
 
-import dao.PatientDao;
+import dao.PatientDAO;
 import view.SignUp;
 import view.UserLogin;
 import javax.swing.JOptionPane;
@@ -31,7 +31,7 @@ import java.awt.event.FocusEvent;
  * Responsibilities:
  *   - Gets input values from the SignUp view using its getter methods
  *   - Validates all fields (empty check, password match, digits, etc.)
- *   - Calls PatientDao to insert into 'users' then 'patients' tables
+ *   - Calls PatientDAO to insert into 'users' then 'patients' tables
  *   - Shows success or error messages to the user
  *   - Navigates to UserLogin frame after success
  *
@@ -45,8 +45,8 @@ public class RegistrationController {
     // Reference to the SignUp view — used to call getter methods
     private SignUp view;
 
-    // Reference to the PatientDao — used to perform all DB operations
-    private PatientDao patientDao;
+    // Reference to the PatientDAO — used to perform all DB operations
+    private PatientDAO patientDao;
 
     // ==================== Theme Colors ====================
     // (Moved from SignUp view — all styling logic belongs in the controller)
@@ -65,7 +65,7 @@ public class RegistrationController {
      */
     public RegistrationController(SignUp view) {
         this.view = view;
-        this.patientDao = new PatientDao();
+        this.patientDao = new PatientDAO();
 
         // Set up styles (borders, colours, images) — moved from SignUp view
         setupStyles();

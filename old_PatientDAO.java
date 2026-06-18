@@ -22,20 +22,19 @@ import model.Patient;
  *
  * @author Group 3 C39A
  */
-public class PatientDAO {
+public class PatientDao {
 
-    // ==================== METHOD 1: insertUser ====================
+    // The database connection helper
+    private MySqlConnection db;
 
     /**
-     * Inserts a new row into the 'users' table.
-     *
-     * SQL: INSERT INTO users (username, password) VALUES (?, ?)
-     *
-     * @param username the patient's login username
-     * @param password the patient's password
-     * @param role     unused (kept for API compatibility)
-     * @return the auto-generated user_id (int) if successful, or -1 if it failed
+     * Constructor — creates a MySqlConnection instance for this DAO to use.
      */
+    public PatientDao() {
+        this.db = new MySqlConnection();
+    }
+
+    // ==================== METHOD 1: insertUser ====================
 
     /**
      * Inserts a new row into the 'users' table.
@@ -48,27 +47,47 @@ public class PatientDAO {
      * @return the auto-generated user_id (int) if successful, or -1 if it failed
      */
     public int insertUser(String username, String password, String role) {
-        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-        try (Connection conn = MySqlConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        Connection conn = null;  // We declare conn outside so we can close it in finally
+        try {
+            // Step 1: Open the database connection
+            conn = db.openConnection();
 
-            ps.setString(1, username);
-            ps.setString(2, password);
+            if (conn == null) {
+                System.out.println("[PatientDao] insertUser: Could not open DB connection.");
+                return -1;
+            }
 
+            // Step 2: Write the SQL — RETURN_GENERATED_KEYS tells MySQL to give us the new user_id
+            String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            // Step 3: Set the values (? placeholders replaced in order)
+            ps.setString(1, username);  // 1st ? = username
+            ps.setString(2, password);  // 2nd ? = password
+            ps.setString(3, role);      // 3rd ? = role
+
+            // Step 4: Execute the INSERT
             int rowsAffected = ps.executeUpdate();
+
+            // Step 5: If at least 1 row was inserted, get the auto-generated user_id
             if (rowsAffected > 0) {
-                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        int newUserId = generatedKeys.getInt(1);
-                        System.out.println("[PatientDao] insertUser: New user_id = " + newUserId);
-                        return newUserId;
-                    }
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int newUserId = generatedKeys.getInt(1); // get the first generated key
+                    System.out.println("[PatientDao] insertUser: New user_id = " + newUserId);
+                    return newUserId;
                 }
             }
+
         } catch (SQLException e) {
+            // Print the error — SQL error details are shown in console
             System.out.println("[PatientDao] insertUser error: " + e.getMessage());
+        } finally {
+            // Always close the connection — even if an error happened
+            db.closeConnection(conn);
         }
-        return -1;
+
+        return -1; // Return -1 to signal that the insert failed
     }
 
     /**
@@ -93,49 +112,64 @@ public class PatientDAO {
     public boolean insertPatient(String patientId, int userId, String fullName, String username,
                                  java.sql.Date dob, int age, String gender,
                                  String contactNumber, String address) {
-        String sql = "INSERT INTO patients " +
-                     "(patient_id, user_id, full_name, username, dob, age, " +
-                     "gender, contact_number, address) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String profileSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, dob, age, gender, role, address) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        Connection conn = null;
+        try {
+            // Step 1: Open the database connection
+            conn = db.openConnection();
 
-        try (Connection conn = MySqlConnection.getConnection()) {
-            // Insert into patients table
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setString(1, patientId);
-                ps.setInt   (2, userId);
-                ps.setString(3, fullName);
-                ps.setString(4, username);
-                ps.setDate  (5, dob);
-                ps.setInt   (6, age);
-                ps.setString(7, gender);
-                ps.setString(8, contactNumber);
-                ps.setString(9, address);
-                int rowsAffected = ps.executeUpdate();
-
-                // Insert into user_profiles table
-                try (PreparedStatement psProfile = conn.prepareStatement(profileSql)) {
-                    psProfile.setInt   (1, userId);
-                    psProfile.setString(2, fullName);
-                    psProfile.setString(3, contactNumber);
-                    psProfile.setDate  (4, dob);
-                    psProfile.setInt   (5, age);
-                    psProfile.setString(6, gender);
-                    psProfile.setString(7, "patient");
-                    psProfile.setString(8, address);
-                    int profileRows = psProfile.executeUpdate();
-
-                    if (rowsAffected > 0 && profileRows > 0) {
-                        System.out.println("[PatientDao] insertPatient: Patient " + patientId + " registered.");
-                        return true;
-                    }
-                }
+            if (conn == null) {
+                System.out.println("[PatientDao] insertPatient: Could not open DB connection.");
+                return false;
             }
+
+            // Step 2: Write the SQL INSERT statement
+            String sql = "INSERT INTO patients " +
+                         "(patient_id, user_id, full_name, username, dob, age, " +
+                         "gender, contact_number, address) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            // Step 3: Set the values (? placeholders in the same order as the columns above)
+            ps.setString(1, patientId);     // 1st ? = patient_id   (e.g., "P-001")
+            ps.setInt   (2, userId);        // 2nd ? = user_id      (foreign key)
+            ps.setString(3, fullName);      // 3rd ? = full_name
+            ps.setString(4, username);      // 4th ? = username
+            ps.setDate  (5, dob);           // 5th ? = dob          (java.sql.Date from JDateChooser)
+            ps.setInt   (6, age);           // 6th ? = age          (auto-calculated from dob)
+            ps.setString(7, gender);        // 7th ? = gender
+            ps.setString(8, contactNumber); // 8th ? = contact_number
+            ps.setString(9, address);       // 9th ? = address
+
+            // Step 4: Execute the INSERT into patients
+            int rowsAffected = ps.executeUpdate();
+
+            // Step 5: ALSO INSERT INTO user_profiles
+            String profileSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, dob, age, gender, role, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement psProfile = conn.prepareStatement(profileSql);
+            psProfile.setInt(1, userId);
+            psProfile.setString(2, fullName);
+            psProfile.setString(3, contactNumber);
+            psProfile.setDate(4, dob);
+            psProfile.setInt(5, age);
+            psProfile.setString(6, gender);
+            psProfile.setString(7, "patient");
+            psProfile.setString(8, address);
+            int profileRows = psProfile.executeUpdate();
+
+            // Step 6: Return true if both inserts were successful
+            if (rowsAffected > 0 && profileRows > 0) {
+                System.out.println("[PatientDao] insertPatient: Patient " + patientId + " registered in patients and user_profiles.");
+                return true;
+            }
+
         } catch (SQLException e) {
             System.out.println("[PatientDao] insertPatient error: " + e.getMessage());
+        } finally {
+            // Always close the connection
+            db.closeConnection(conn);
         }
-        return false;
+
+        return false; // Return false to signal failure
     }
 
     // ==================== METHOD 3: checkUsernameExists ====================
@@ -151,37 +185,68 @@ public class PatientDAO {
      * @return true if the username already exists, false if it is available
      */
     public boolean checkUsernameExists(String username) {
-        String sql = "SELECT user_id FROM users WHERE username = ?";
-        try (Connection conn = MySqlConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, username);
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean exists = rs.next();
-                System.out.println("[PatientDao] checkUsernameExists '" + username + "': " + exists);
-                return exists;
+        Connection conn = null;
+        try {
+            // Step 1: Open connection
+            conn = db.openConnection();
+
+            if (conn == null) {
+                System.out.println("[PatientDao] checkUsernameExists: Could not open DB connection.");
+                return false; // Assume not exists if connection fails
             }
+
+            // Step 2: Query the users table
+            String sql = "SELECT user_id FROM users WHERE username = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+
+            // Step 3: Execute the query
+            ResultSet rs = ps.executeQuery();
+
+            // Step 4: If rs.next() is true, a row was found — username is taken
+            boolean exists = rs.next();
+            System.out.println("[PatientDao] checkUsernameExists '" + username + "': " + exists);
+            return exists;
+
         } catch (SQLException e) {
             System.out.println("[PatientDao] checkUsernameExists error: " + e.getMessage());
+        } finally {
+            db.closeConnection(conn);
         }
-        return false;
+
+        return false; // Default: assume not exists if there was an error
     }
 
     // ==================== METHOD 4: generateUsername ====================
 
     public String generateUsername(String fullName) {
+        // get first word and make lowercase
         String firstWord = fullName.trim().split("\\s+")[0].toLowerCase();
-        String sql = "SELECT COUNT(*) FROM users WHERE username LIKE ?";
-        try (Connection conn = MySqlConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, firstWord + "%");
-            try (ResultSet rs = ps.executeQuery()) {
-                int count = rs.next() ? rs.getInt(1) : 0;
-                return firstWord + (count + 1);
+        int count = 0;
+
+        Connection conn = null;
+        try {
+            conn = db.openConnection();
+            if (conn != null) {
+                // count how many usernames start with firstword
+                String countQuery = "SELECT count(*) FROM users WHERE username LIKE ?";
+                PreparedStatement ps = conn.prepareStatement(countQuery);
+                // pass firstWord + "%" as parameter
+                ps.setString(1, firstWord + "%");
+                
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    // count = result of query
+                    count = rs.getInt(1);
+                }
             }
         } catch (SQLException e) {
             System.out.println("[PatientDao] generateUsername error: " + e.getMessage());
+        } finally {
+            db.closeConnection(conn);
         }
-        return firstWord + "1";
+
+        return firstWord + (count + 1);
     }
 
     // ==================== METHOD 5: generatePatientId ====================
@@ -197,25 +262,46 @@ public class PatientDAO {
      * @return the next patient ID string, e.g. "P-001", "P-002", "P-003"
      */
     public String generatePatientId() {
-        String sql = "SELECT patient_id FROM patients ORDER BY patient_id DESC LIMIT 1";
-        try (Connection conn = MySqlConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        Connection conn = null;
+        try {
+            // Step 1: Open connection
+            conn = db.openConnection();
+
+            if (conn == null) {
+                System.out.println("[PatientDao] generatePatientId: Could not open DB connection.");
+                return "P-001"; // Fallback to first ID
+            }
+
+            // Step 2: Get the last patient_id (sorted Z-A, take top 1)
+            String sql = "SELECT patient_id FROM patients ORDER BY patient_id DESC LIMIT 1";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
-                String lastId = rs.getString("patient_id");
-                String[] parts = lastId.split("-");
-                int lastNumber = Integer.parseInt(parts[1]);
+                // Step 3: Extract the number from the last ID
+                // Example: "P-007" -> split by "-" -> ["P", "007"] -> take index [1] -> 7
+                String lastId = rs.getString("patient_id"); // e.g., "P-007"
+                String[] parts = lastId.split("-");          // split into ["P", "007"]
+                int lastNumber = Integer.parseInt(parts[1]); // parse "007" to integer 7
+
+                // Step 4: Increment and format with leading zeros (P-001 format)
                 String nextId = String.format("P-%03d", lastNumber + 1);
                 System.out.println("[PatientDao] generatePatientId: Next ID = " + nextId);
                 return nextId;
             }
+
+            // If table is empty, start from P-001
             System.out.println("[PatientDao] generatePatientId: Table empty, starting at P-001.");
         } catch (SQLException e) {
             System.out.println("[PatientDao] generatePatientId SQL error: " + e.getMessage());
         } catch (NumberFormatException e) {
+            // This happens if patient_id in DB doesn't follow "P-000" format
             System.out.println("[PatientDao] generatePatientId: Could not parse last ID: " + e.getMessage());
+        } finally {
+            db.closeConnection(conn);
         }
-        return "P-001";
+
+        return "P-001"; // Safe fallback
     }
 
     // =========================================================================
@@ -231,7 +317,7 @@ public class PatientDAO {
         List<Patient> list = new ArrayList<>();
         String sql = "SELECT patient_id, user_id, full_name, age, gender, " +
                      "contact_number, address FROM patients";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) list.add(mapRow(rs));
@@ -245,7 +331,7 @@ public class PatientDAO {
     public Patient getPatientById(String patientId) {
         String sql = "SELECT patient_id, user_id, full_name, dob, age, gender, " +
                      "contact_number, address, blood_group FROM patients WHERE patient_id = ?";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -257,13 +343,14 @@ public class PatientDAO {
         return null;
     }
 
+    // Get next waiting patient from queue table
     public Patient getNextWaitingPatient(String doctorId) {
         String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
                      "p.contact_number, p.address FROM patients p " +
                      "JOIN queue q ON p.patient_id = q.patient_id " +
                      "WHERE q.status = 'waiting' AND q.doctor_id = ? " +
                      "ORDER BY q.token_number ASC LIMIT 1";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, doctorId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -275,11 +362,54 @@ public class PatientDAO {
         return null;
     }
 
+    public Patient getNextSkippedPatient(String doctorId) {
+        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
+                     "p.contact_number, p.address FROM patients p " +
+                     "JOIN queue q ON p.patient_id = q.patient_id " +
+                     "WHERE q.status = 'skipped' AND q.doctor_id = ? " +
+                     "ORDER BY q.token_number ASC LIMIT 1";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, doctorId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapRow(rs);
+            }
+        } catch (SQLException e) {
+            System.err.println("getNextSkippedPatient error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public void incrementSkipCount(String patientId) {
+        String sql = "UPDATE queue SET skip_count = skip_count + 1 WHERE patient_id = ? AND status != 'completed'";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, patientId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getSkipCount(String patientId) {
+        String sql = "SELECT skip_count FROM queue WHERE patient_id = ? AND status != 'completed' LIMIT 1";
+        try (Connection conn = new database.MySqlConnection().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, patientId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("skip_count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     // Update queue status
     public boolean updateQueueStatus(String patientId, String newStatus) {
         String sql = "UPDATE queue SET status = ? WHERE patient_id = ? " +
                      "AND status != 'completed'";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newStatus);
             ps.setString(2, patientId);
@@ -293,10 +423,17 @@ public class PatientDAO {
     // Get all queue patients for a specific doctor
     public List<Object[]> getQueueByDoctor(String doctorId) {
         List<Object[]> list = new ArrayList<>();
-        String sql = "SELECT q.token_number, p.full_name, q.status " +
-                     "FROM queue q JOIN patients p ON q.patient_id = p.patient_id " +
+        String sql = "SELECT q.token_number, p.full_name, " +
+                     "COALESCE(p.age, '-') as age, " +
+                     "COALESCE(p.gender, '-') as gender, " +
+                     "COALESCE(a.type, '-') as type, " +
+                     "COALESCE(a.reason, '-') as reason, " +
+                     "q.status " +
+                     "FROM queue q " +
+                     "JOIN patients p ON q.patient_id = p.patient_id " +
+                     "LEFT JOIN appointments a ON q.appointment_id = a.appointment_id " +
                      "WHERE q.doctor_id = ? ORDER BY q.token_number ASC";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, doctorId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -304,6 +441,10 @@ public class PatientDAO {
                     list.add(new Object[]{
                         rs.getInt("token_number"),
                         rs.getString("full_name"),
+                        rs.getString("age"),
+                        rs.getString("gender"),
+                        rs.getString("type"),
+                        rs.getString("reason"),
                         rs.getString("status"),
                         "View File"
                     });
@@ -336,7 +477,7 @@ public class PatientDAO {
 
     public String getUsernameByUserId(int userId) {
         String sql = "SELECT username FROM users WHERE user_id = ?";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -350,7 +491,7 @@ public class PatientDAO {
 
     public boolean validateCurrentPassword(int userId, String currentPassword) {
         String sql = "SELECT 1 FROM users WHERE user_id = ? AND password = ?";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             ps.setString(2, currentPassword);
@@ -365,7 +506,7 @@ public class PatientDAO {
 
     public boolean updatePatientProfile(String patientId, java.util.Date dob, int age, String phone, String address, String bloodGroup) {
         String sql = "UPDATE patients SET dob = ?, age = ?, contact_number = ?, address = ?, blood_group = ? WHERE patient_id = ?";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             if (dob != null) ps.setDate(1, new java.sql.Date(dob.getTime()));
             else ps.setNull(1, java.sql.Types.DATE);
@@ -383,7 +524,7 @@ public class PatientDAO {
 
     public boolean updateUsernameAndPassword(int userId, String username, String password) {
         String sql = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setString(2, password);
@@ -397,7 +538,7 @@ public class PatientDAO {
 
     public boolean updateUsername(int userId, String username) {
         String sql = "UPDATE users SET username = ? WHERE user_id = ?";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setInt(2, userId);
@@ -408,56 +549,21 @@ public class PatientDAO {
         }
     }
 
-    public Patient getNextSkippedPatient(String doctorId) {
-        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
-                     "p.contact_number, p.address FROM patients p " +
-                     "JOIN queue q ON p.patient_id = q.patient_id " +
-                     "WHERE q.status = 'skipped' AND q.doctor_id = ? " +
-                     "ORDER BY q.token_number ASC LIMIT 1";
-        try (Connection conn = database.MySqlConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, doctorId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) return mapRow(rs);
-            }
-        } catch (SQLException e) {
-            System.err.println("getNextSkippedPatient error: " + e.getMessage());
-        }
-        return null;
-    }
+    // =========================================================================
+    // No Show patient methods for Doctor Panel
+    // =========================================================================
 
-    public void incrementSkipCount(String patientId) {
-        String sql = "UPDATE queue SET skip_count = skip_count + 1 WHERE patient_id = ? AND status != 'completed'";
-        try (Connection conn = database.MySqlConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, patientId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int getSkipCount(String patientId) {
-        String sql = "SELECT skip_count FROM queue WHERE patient_id = ? AND status != 'completed' LIMIT 1";
-        try (Connection conn = database.MySqlConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, patientId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) return rs.getInt("skip_count");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
+    /**
+     * Returns all no-show patients for a given doctor.
+     * Each row: [token_number, full_name, patient_id]
+     */
     public List<Object[]> getNoShowPatientsByDoctor(String doctorId) {
         List<Object[]> list = new ArrayList<>();
         String sql = "SELECT q.token_number, p.full_name, p.patient_id " +
                      "FROM queue q JOIN patients p ON q.patient_id = p.patient_id " +
                      "WHERE q.doctor_id = ? AND q.status = 'no show' " +
                      "ORDER BY q.token_number ASC";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, doctorId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -476,10 +582,14 @@ public class PatientDAO {
         return list;
     }
 
+    /**
+     * Recalls a no-show patient back into the waiting queue
+     * by resetting status to 'waiting' and skip_count to 0.
+     */
     public boolean recallNoShowPatient(String patientId) {
         String sql = "UPDATE queue SET status = 'waiting', skip_count = 0 " +
                      "WHERE patient_id = ? AND status = 'no show'";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
             return ps.executeUpdate() > 0;
@@ -488,12 +598,14 @@ public class PatientDAO {
             return false;
         }
     }
-
+    /**
+     * Saves a medical record for a given patient, looking up their current appointment_id from the queue.
+     */
     public boolean saveMedicalRecord(String patientId, String doctorId, String notes) {
         String sql = "INSERT INTO medical_records (appointment_id, patient_id, doctor_id, notes) " +
                      "SELECT appointment_id, ?, ?, ? FROM queue " +
                      "WHERE patient_id = ? AND doctor_id = ? ORDER BY queue_id DESC LIMIT 1";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
             ps.setString(2, doctorId);
@@ -506,10 +618,9 @@ public class PatientDAO {
             return false;
         }
     }
-
     public String getPatientIdByUserId(int userId) {
         String sql = "SELECT patient_id FROM patients WHERE user_id = ?";
-        try (Connection conn = database.MySqlConnection.getConnection();
+        try (Connection conn = new database.MySqlConnection().openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
