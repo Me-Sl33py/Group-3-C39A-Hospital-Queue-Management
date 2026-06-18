@@ -199,46 +199,26 @@ public class UserLoginController {
         String fullName = "";
         String actualUsername = "";
 
-        // Query user_profiles to get shared data
-        try {
-            java.sql.Connection conn = database.MySqlConnection.getConnection();
-            java.sql.PreparedStatement ps = conn.prepareStatement(
-                "SELECT up.user_id, up.full_name, u.username FROM user_profiles up " +
-                "JOIN users u ON up.user_id = u.user_id " +
-                "WHERE LOWER(u.username) = LOWER(?) OR up.contact_number = ? OR LOWER(up.full_name) = LOWER(?)");
-            ps.setString(1, identifier);
-            ps.setString(2, identifier);
-            ps.setString(3, identifier);
-            java.sql.ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                userId = rs.getInt("user_id");
-                fullName = rs.getString("full_name");
-                actualUsername = rs.getString("username");
-            }
-            conn.close();
-        } catch (Exception ex) { ex.printStackTrace(); }
+        // Query user_profiles via DAO (MVC-compliant — no raw SQL in controller)
+        Object[] profile = userDAO.getUserProfileByIdentifier(identifier);
+        if (profile != null) {
+            userId      = (Integer) profile[0];
+            fullName    = (String)  profile[1];
+            actualUsername = (String) profile[2];
+        }
 
         switch (role.toLowerCase()) {
             case "patient":
                 if (userId != -1) {
-                    // Let's get patient_id
-                    String patientId = null;
-                    try {
-                        
-                        java.sql.Connection conn = database.MySqlConnection.getConnection();
-                        java.sql.PreparedStatement ps = conn.prepareStatement("SELECT patient_id FROM patients WHERE user_id = ?");
-                        ps.setInt(1, userId);
-                        java.sql.ResultSet rs = ps.executeQuery();
-                        if (rs.next()) patientId = rs.getString("patient_id");
-                        conn.close();
-                    } catch (Exception ex) {}
+                    // Lookup patient_id via DAO — no raw SQL in controller
+                    String patientId = userDAO.getPatientIdByUserId(userId);
 
                     if (patientId != null) {
                         session.PatientSession.setPatientId(patientId);
                         session.PatientSession.setUserId(userId);
                         session.PatientSession.setUsername(actualUsername);
                         session.PatientSession.setRole("patient");
-                        
+
                         JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
                         view.Patients patientView = new view.Patients();
                         patientView.setVisible(true);
@@ -249,24 +229,16 @@ public class UserLoginController {
                 break;
             case "doctor":
                 if (userId != -1) {
-                    String doctorId = null;
-                    try {
-                        
-                        java.sql.Connection conn = database.MySqlConnection.getConnection();
-                        java.sql.PreparedStatement ps = conn.prepareStatement("SELECT doctor_id FROM doctors WHERE user_id = ?");
-                        ps.setInt(1, userId);
-                        java.sql.ResultSet rs = ps.executeQuery();
-                        if (rs.next()) doctorId = rs.getString("doctor_id");
-                        conn.close();
-                    } catch (Exception ex) {}
+                    // Lookup doctor_id via DAO — no raw SQL in controller
+                    String doctorId = userDAO.getDoctorIdByUserId(userId);
 
                     if (doctorId != null) {
                         JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
-                        
+
                         // Fetch the full doctor model
                         dao.DoctorDAO docDao = new dao.DoctorDAO();
                         model.Doctor doc = docDao.getDoctorById(doctorId);
-                        
+
                         view.DoctorPanel dp = new view.DoctorPanel();
                         controller.DoctorController dc = new controller.DoctorController(dp);
                         if (doc != null) {

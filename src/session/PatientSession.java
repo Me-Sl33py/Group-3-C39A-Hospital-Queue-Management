@@ -1,10 +1,10 @@
 package session;
 
 public class PatientSession {
-    private static String patientId = "P001"; // Fallback current patient_id
-    private static int userId = 1; // Fallback user_id
-    private static String username = "testuser";
-    private static String role = "patient";
+    private static String patientId = null;  // set by UserLoginController after login
+    private static int userId = -1;           // set by UserLoginController after login
+    private static String username = null;    // set by UserLoginController after login
+    private static String role = null;        // set by UserLoginController after login
 
     public static String getPatientId() {
         return patientId;
