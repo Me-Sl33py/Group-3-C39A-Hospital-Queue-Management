@@ -16,6 +16,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
 
     private javax.swing.JLabel lblBloodGroupLabel;
     private javax.swing.JComboBox<String> cbBloodGroup;
+    private javax.swing.JTextField tfLocation;
 
     private void initCustomComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -42,9 +43,36 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 10);
         formPanel.add(cbBloodGroup, gridBagConstraints);
 
+        // --- Location (right column, beside Blood Group) ---
+        javax.swing.JLabel lblLocationLabel = new javax.swing.JLabel();
+        lblLocationLabel.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        lblLocationLabel.setForeground(new java.awt.Color(80, 80, 80));
+        lblLocationLabel.setText("Location");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 20);
+        formPanel.add(lblLocationLabel, gridBagConstraints);
+
+        tfLocation = new javax.swing.JTextField();
+        tfLocation.setFont(new java.awt.Font("Segoe UI", 0, 13));
+        tfLocation.setPreferredSize(new java.awt.Dimension(150, 35));
+        tfLocation.setToolTipText("e.g. Kathmandu, Lalitpur");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 15, 20);
+        formPanel.add(tfLocation, gridBagConstraints);
+
         if (reasonScroll != null) {
             formPanel.remove(reasonScroll);
         }
+        formPanel.revalidate();
+        formPanel.repaint();
     }
 
     
@@ -55,6 +83,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
     public JComboBox<String> getCbGender() { return cbGender; }
     public JComboBox<String> getCbBloodGroup() { return cbBloodGroup; }
     public JTextField getTfPhone() { return tfPhone; }
+    public JTextField getTfLocation() { return tfLocation; }
 
     public JButton getBtnReset() { return btnReset; }
     public JButton getBtnSaveContinue() { return btnSaveContinue; }
@@ -254,15 +283,7 @@ public class RegisterWalkinView extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 15, 20);
         formPanel.add(tfPhone, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 20);
-        formPanel.add(reasonScroll, gridBagConstraints);
+
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
