@@ -69,17 +69,15 @@
                               <Component id="shiftcombobox" max="32767" attributes="0"/>
                               <Component id="roleLabel1" min="-2" pref="94" max="-2" attributes="0"/>
                               <Component id="nameLabel" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="roleComboBox" alignment="0" pref="378" max="32767" attributes="0"/>
-                                  <Component id="roleLabel" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
-                                  <Component id="nameField" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="saveButton" min="-2" pref="162" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="clearButton" min="-2" pref="174" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="GenderCombobox" alignment="0" pref="378" max="32767" attributes="0"/>
+                              <Component id="roleComboBox" alignment="0" pref="378" max="32767" attributes="0"/>
+                              <Component id="roleLabel" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                              <Component id="nameField" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="saveButton" min="-2" pref="162" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="clearButton" min="-2" pref="174" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="GenderCombobox" alignment="0" pref="378" max="32767" attributes="0"/>
                               <Component id="phone" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
                               <Component id="passwordField" alignment="0" pref="378" max="32767" attributes="0"/>
                               <Component id="passwordLabel" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
