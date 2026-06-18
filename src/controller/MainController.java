@@ -79,7 +79,7 @@ public class MainController {
             );
             if (option == JOptionPane.YES_OPTION) {
                 mainFrame.dispose();
-                System.exit(0);
+                new view.UserLogin().setVisible(true);
             }
         });
     }
