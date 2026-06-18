@@ -10,6 +10,9 @@ public class Token {
     private String status;
     private Timestamp createdAt;
     
+    private int appointmentId;
+    private int departmentId;
+
     // Join fields
     private String patientName;
     private String doctorName;
@@ -21,6 +24,17 @@ public class Token {
         this.doctorId = doctorId;
         this.status = status;
         this.createdAt = createdAt;
+    }
+
+    public Token(int queueId, int tokenNumber, String patientId, String doctorId, String status, Timestamp createdAt, int appointmentId, int departmentId) {
+        this.queueId = queueId;
+        this.tokenNumber = tokenNumber;
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.appointmentId = appointmentId;
+        this.departmentId = departmentId;
     }
 
     public int getQueueId() { return queueId; }
@@ -40,6 +54,12 @@ public class Token {
 
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
+    public int getAppointmentId() { return appointmentId; }
+    public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }
+
+    public int getDepartmentId() { return departmentId; }
+    public void setDepartmentId(int departmentId) { this.departmentId = departmentId; }
 
     public String getPatientName() { return patientName; }
     public void setPatientName(String patientName) { this.patientName = patientName; }

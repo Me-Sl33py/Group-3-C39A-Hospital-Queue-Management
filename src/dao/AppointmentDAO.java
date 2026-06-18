@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Date;
+import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,6 +13,73 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentDAO {
+
+    public int createWalkinAppointment(String patientId) {
+        String sql = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, reason, status, type) " +
+                     "VALUES (?, NULL, CURRENT_DATE, CURRENT_TIME, 'Walk-in', 'confirmed', 'walk-in')";
+        
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             
+            pstmt.setString(1, patientId);
+            
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getInt(1);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public Appointment getLatestConfirmedAppointment(String patientId) {
+        String sql = "SELECT a.*, d.department_id " +
+                     "FROM appointments a " +
+                     "LEFT JOIN doctors d ON a.doctor_id = d.doctor_id " +
+                     "WHERE a.patient_id = ? AND a.status = 'confirmed' " +
+                     "ORDER BY a.appointment_id DESC LIMIT 1";
+                     
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             
+            pstmt.setString(1, patientId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Appointment a = new Appointment();
+                    a.setAppointmentId(rs.getInt("appointment_id"));
+                    a.setPatientId(rs.getString("patient_id"));
+                    a.setDoctorId(rs.getString("doctor_id"));
+                    a.setAppointmentDate(rs.getDate("appointment_date"));
+                    a.setAppointmentTime(rs.getTime("appointment_time"));
+                    a.setReason(rs.getString("reason"));
+                    a.setStatus(rs.getString("status"));
+                    a.setType(rs.getString("type"));
+                    a.setDepartmentId(rs.getInt("department_id"));
+                    return a;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int countConfirmedToday() {
+        String sql = "SELECT COUNT(*) FROM appointments WHERE status = 'confirmed' AND appointment_date = CURDATE()";
+        try (Connection conn = database.MySqlConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public boolean createAppointment(String patientId, String doctorId, LocalDate date, LocalTime time, String reason) {
         String sql = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, reason, status, type) " +
@@ -114,7 +182,7 @@ public class AppointmentDAO {
 
     public List<Appointment> searchPendingAppointments(String keyword) {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT a.*, p.full_name AS patient_name, p.contact_number AS patient_phone, d.full_name AS doctor_name " +
+        String sql = "SELECT a.*, p.full_name AS patient_name, p.contact_number AS patient_phone, d.full_name AS doctor_name, d.department_id " +
                      "FROM appointments a " +
                      "JOIN patients p ON a.patient_id = p.patient_id " +
                      "JOIN doctors d ON a.doctor_id = d.doctor_id " +
@@ -147,6 +215,7 @@ public class AppointmentDAO {
                     a.setDoctorName(rs.getString("doctor_name"));
                     a.setPatientName(rs.getString("patient_name"));
                     a.setPatientPhone(rs.getString("patient_phone"));
+                    a.setDepartmentId(rs.getInt("department_id"));
                     list.add(a);
                 }
             }
@@ -156,41 +225,18 @@ public class AppointmentDAO {
         return list;
     }
 
-    public boolean confirmArrival(int appointmentId, String patientId, String doctorId) {
-        String updateAppt = "UPDATE appointments SET status = 'confirmed' WHERE appointment_id = ?";
-        String insertQueue = "INSERT INTO queue (appointment_id, patient_id, doctor_id, token_number, status) VALUES (?, ?, ?, ?, 'waiting')";
+    public boolean confirmArrival(int appointmentId) {
+        String sql = "UPDATE appointments SET status = 'confirmed' WHERE appointment_id = ?";
         
-        Connection conn = database.MySqlConnection.getConnection();
-        if (conn == null) return false;
-        
-        try {
-            conn.setAutoCommit(false);
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             
+            pstmt.setInt(1, appointmentId);
             
-            try (PreparedStatement pstmtAppt = conn.prepareStatement(updateAppt)) {
-                pstmtAppt.setInt(1, appointmentId);
-                pstmtAppt.executeUpdate();
-            }
-            
-            int tokenNum = 100 + (int)(Math.random() * 900);
-            try (PreparedStatement pstmtQueue = conn.prepareStatement(insertQueue)) {
-                pstmtQueue.setInt(1, appointmentId);
-                pstmtQueue.setString(2, patientId);
-                pstmtQueue.setString(3, doctorId);
-                pstmtQueue.setInt(4, tokenNum);
-                pstmtQueue.executeUpdate();
-            }
-            
-            conn.commit();
-            return true;
+            return pstmt.executeUpdate() > 0;
         } catch (Exception e) {
-            try { conn.rollback(); } catch (Exception ex) {}
             e.printStackTrace();
             return false;
-        } finally {
-            try { 
-                conn.setAutoCommit(true);
-                conn.close(); 
-            } catch (Exception ex) {}
         }
     }
 }

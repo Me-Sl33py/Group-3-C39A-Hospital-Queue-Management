@@ -44,7 +44,7 @@ public class GenerateTokenController {
         initEventHandlers();
     }
 
-    public void updatePatientDetails(String patientId, String name, String dob, String gender, String phone) {
+    public void updatePatientDetails(String patientId, String name, String dob, String gender, String phone, int appointmentId) {
         refreshPatientList(patientId);
     }
 
@@ -179,26 +179,20 @@ public class GenerateTokenController {
             return;
         }
 
-        int tokenNum = 100 + (int)(Math.random() * 900);
+        dao.AppointmentDAO apptDAO = new dao.AppointmentDAO();
+        model.Appointment appointment = apptDAO.getLatestConfirmedAppointment(currentPatientId);
         
-        dao.DoctorDAO doctorDAO = new dao.DoctorDAO();
-        java.util.List<model.Doctor> doctors = doctorDAO.getDoctorsByDepartment(dept.getDepartmentId());
-        String assignedDoctorId = "";
-        if (doctors != null && !doctors.isEmpty()) {
-            assignedDoctorId = doctors.get(0).getDoctorId();
-        } else {
-            JOptionPane.showMessageDialog(view, "No doctors available in this department to assign.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (appointment == null) {
+            JOptionPane.showMessageDialog(view, "No confirmed appointment found for this patient.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        model.Token token = new model.Token(-1, tokenNum, currentPatientId, assignedDoctorId, "Waiting", null);
-
         dao.TokenDAO tokenDAO = new dao.TokenDAO();
-        int queueId = tokenDAO.createToken(token);
+        int generatedTokenNumber = tokenDAO.createToken(appointment.getAppointmentId(), currentPatientId, dept.getDepartmentId());
 
-        if (queueId != -1) {
+        if (generatedTokenNumber != -1) {
             refreshLiveQueue();
-            JOptionPane.showMessageDialog(view, "Token generated successfully!\nToken Number: " + tokenNum, "Token Generated", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Token generated successfully!\nToken Number: " + generatedTokenNumber + " | Department: " + dept.getDepartmentName(), "Token Generated", JOptionPane.INFORMATION_MESSAGE);
             if (mainFrame.getAssignToDoctorController() != null) {
                 mainFrame.getAssignToDoctorController().refreshData();
             }

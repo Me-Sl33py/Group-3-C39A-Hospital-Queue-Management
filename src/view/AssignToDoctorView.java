@@ -20,6 +20,9 @@ public class AssignToDoctorView extends javax.swing.JPanel {
         lblBloodGroupLabel = new javax.swing.JLabel();
         lblBloodGroupValue = new javax.swing.JLabel();
         
+        lblDeptLabel = new javax.swing.JLabel();
+        lblDeptValue = new javax.swing.JLabel();
+        
         lblBloodGroupLabel.setFont(new java.awt.Font("Segoe UI", 1, 10));
         lblBloodGroupLabel.setForeground(new java.awt.Color(128, 128, 128));
         lblBloodGroupLabel.setText("BLOOD GROUP");
@@ -40,6 +43,27 @@ public class AssignToDoctorView extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 10);
         pnlPatientDetails.add(lblBloodGroupValue, gridBagConstraints);
+
+        lblDeptLabel.setFont(new java.awt.Font("Segoe UI", 1, 10));
+        lblDeptLabel.setForeground(new java.awt.Color(128, 128, 128));
+        lblDeptLabel.setText("DEPARTMENT");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 2, 20);
+        pnlPatientDetails.add(lblDeptLabel, gridBagConstraints);
+
+        lblDeptValue.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        lblDeptValue.setText("Unknown");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 15, 20);
+        pnlPatientDetails.add(lblDeptValue, gridBagConstraints);
 
         java.awt.GridBagLayout layout = (java.awt.GridBagLayout) pnlPatientDetails.getLayout();
         gridBagConstraints = layout.getConstraints(lblReasonLabel);
@@ -62,6 +86,7 @@ public class AssignToDoctorView extends javax.swing.JPanel {
     public JLabel getLblGenValue() { return lblGenValue; }
     public JLabel getLblContactValue() { return lblContactValue; }
     public JLabel getLblBloodGroupValue() { return lblBloodGroupValue; }
+    public JLabel getLblDeptValue() { return lblDeptValue; }
     public JTextArea getTaReason() { return taReason; }
     public JPanel getPnlWLGrid() { return pnlWLGrid; }
 
@@ -645,6 +670,8 @@ public class AssignToDoctorView extends javax.swing.JPanel {
     private javax.swing.JLabel lblAssignToLabel;
     private javax.swing.JLabel lblContactLabel;
     private javax.swing.JLabel lblContactValue;
+    private javax.swing.JLabel lblDeptLabel;
+    private javax.swing.JLabel lblDeptValue;
     private javax.swing.JLabel lblD1Dept;
     private javax.swing.JLabel lblD1Name;
     private javax.swing.JLabel lblD1Stat;

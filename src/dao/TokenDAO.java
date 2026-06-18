@@ -7,35 +7,28 @@ import java.util.List;
 
 public class TokenDAO {
 
-    public int createToken(Token token) {
-        String apptQuery = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, reason, status, type) VALUES (?, ?, CURRENT_DATE, CURRENT_TIME, 'Walk-in', 'pending', 'walk-in')";
-        String query = "INSERT INTO queue (appointment_id, patient_id, doctor_id, token_number, status) VALUES (?, ?, ?, ?, 'waiting')";
-        try (Connection conn = new MySqlConnection().openConnection();
-             PreparedStatement apptStmt = conn.prepareStatement(apptQuery, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            
-            // Insert Appointment
-            apptStmt.setString(1, token.getPatientId());
-            apptStmt.setString(2, token.getDoctorId());
-            apptStmt.executeUpdate();
-            
-            ResultSet rs = apptStmt.getGeneratedKeys();
-            int appointmentId = 1;
-            if (rs.next()) {
-                appointmentId = rs.getInt(1);
+    public int createToken(int appointmentId, String patientId, int departmentId) {
+        String tokenNumQuery = "SELECT COALESCE(MAX(token_number), 0) + 1 FROM queue WHERE department_id = ? AND DATE(created_at) = CURDATE()";
+        String insertQuery = "INSERT INTO queue (appointment_id, patient_id, department_id, doctor_id, token_number, status) VALUES (?, ?, ?, NULL, ?, 'waiting')";
+        
+        try (Connection conn = new MySqlConnection().openConnection()) {
+            int nextTokenNum = 1;
+            try (PreparedStatement pstmt1 = conn.prepareStatement(tokenNumQuery)) {
+                pstmt1.setInt(1, departmentId);
+                try (ResultSet rs = pstmt1.executeQuery()) {
+                    if (rs.next()) {
+                        nextTokenNum = rs.getInt(1);
+                    }
+                }
             }
-
-            // Insert Queue
-            pstmt.setInt(1, appointmentId);
-            pstmt.setString(2, token.getPatientId());
-            pstmt.setString(3, token.getDoctorId());
-            pstmt.setInt(4, token.getTokenNumber());
             
-            pstmt.executeUpdate();
-            
-            ResultSet queueRs = pstmt.getGeneratedKeys();
-            if (queueRs.next()) {
-                return queueRs.getInt(1);
+            try (PreparedStatement pstmt2 = conn.prepareStatement(insertQuery)) {
+                pstmt2.setInt(1, appointmentId);
+                pstmt2.setString(2, patientId);
+                pstmt2.setInt(3, departmentId);
+                pstmt2.setInt(4, nextTokenNum);
+                pstmt2.executeUpdate();
+                return nextTokenNum;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,6 +39,7 @@ public class TokenDAO {
     public List<Token> getAllWaitingTokens() {
         List<Token> tokens = new ArrayList<>();
         String query = "SELECT q.queue_id, q.token_number, q.status, q.created_at, q.patient_id, q.doctor_id, " +
+                       "q.appointment_id, q.department_id, " +
                        "p.full_name AS patient_name, d.full_name AS doctor_name " +
                        "FROM queue q " +
                        "JOIN patients p ON q.patient_id = p.patient_id " +
@@ -62,7 +56,9 @@ public class TokenDAO {
                     rs.getString("patient_id"),
                     rs.getString("doctor_id"),
                     rs.getString("status"),
-                    rs.getTimestamp("created_at")
+                    rs.getTimestamp("created_at"),
+                    rs.getInt("appointment_id"),
+                    rs.getInt("department_id")
                 );
                 t.setPatientName(rs.getString("patient_name"));
                 t.setDoctorName(rs.getString("doctor_name"));
@@ -90,7 +86,19 @@ public class TokenDAO {
     }
     
     public int countTotalWaiting() {
-        String query = "SELECT COUNT(*) FROM queue WHERE status = 'waiting'";
+        String query = "SELECT COUNT(*) FROM queue WHERE status = 'waiting' AND DATE(created_at) = CURDATE()";
+        try (Connection conn = new MySqlConnection().openConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int countInConsultation() {
+        String query = "SELECT COUNT(*) FROM queue WHERE status = 'in consultation' AND DATE(created_at) = CURDATE()";
         try (Connection conn = new MySqlConnection().openConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -128,11 +136,12 @@ public class TokenDAO {
 
     public Token getNextUnassignedToken() {
         String query = "SELECT q.queue_id, q.token_number, q.status, q.created_at, q.patient_id, q.doctor_id, " +
+                       "q.appointment_id, q.department_id, " +
                        "p.full_name AS patient_name, d.full_name AS doctor_name " +
                        "FROM queue q " +
                        "JOIN patients p ON q.patient_id = p.patient_id " +
                        "LEFT JOIN doctors d ON q.doctor_id = d.doctor_id " +
-                       "WHERE q.status = 'waiting' " +
+                       "WHERE q.status = 'waiting' AND q.doctor_id IS NULL " +
                        "ORDER BY q.created_at ASC LIMIT 1";
         try (Connection conn = new MySqlConnection().openConnection();
              Statement stmt = conn.createStatement();
@@ -144,7 +153,9 @@ public class TokenDAO {
                     rs.getString("patient_id"),
                     rs.getString("doctor_id"),
                     rs.getString("status"),
-                    rs.getTimestamp("created_at")
+                    rs.getTimestamp("created_at"),
+                    rs.getInt("appointment_id"),
+                    rs.getInt("department_id")
                 );
                 t.setPatientName(rs.getString("patient_name"));
                 t.setDoctorName(rs.getString("doctor_name"));

@@ -153,7 +153,7 @@ public class DashboardView extends javax.swing.JPanel {
         cardTotalPatients.setLayout(new java.awt.GridBagLayout());
 
         lblTotalTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblTotalTitle.setText("TOTAL PATIENTS");
+        lblTotalTitle.setText("CONFIRMED TODAY");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -180,7 +180,7 @@ public class DashboardView extends javax.swing.JPanel {
         cardTokensGen.setLayout(new java.awt.GridBagLayout());
 
         lblTokensTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblTokensTitle.setText("TOKENS GENERATED");
+        lblTokensTitle.setText("IN CONSULTATION");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;

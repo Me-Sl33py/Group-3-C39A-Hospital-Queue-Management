@@ -15,6 +15,27 @@ public class DepartmentDAO {
         return new MySqlConnection().openConnection();
     }
 
+    public Department getDepartmentById(int departmentId) {
+        String sql = "SELECT * FROM departments WHERE department_id = ?";
+        try (Connection conn = MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             
+            pstmt.setInt(1, departmentId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Department(
+                        rs.getInt("department_id"),
+                        rs.getString("department_name"),
+                        rs.getString("description")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<Department> getAllDepartments() {
         List<Department> departments = new ArrayList<>();
         String sql = "SELECT department_id, department_name, description FROM departments";
