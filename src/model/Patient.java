@@ -13,8 +13,24 @@ public class Patient {
     private Date dob;
     private String bloodGroup;
     private String username;
+    private String reason;
+    private java.sql.Timestamp createdAt;
 
     public Patient() {}
+
+    public Patient(String patientId, String fullName, java.util.Date dob, int age, String gender, String contactNumber, String address, String bloodGroup, String reason, java.sql.Timestamp createdAt) {
+        this.patientId = patientId;
+        this.fullName = fullName;
+        this.dob = dob;
+        this.age = age;
+        this.gender = gender;
+        this.contactNumber = contactNumber;
+        this.address = address;
+        this.bloodGroup = bloodGroup;
+        this.reason = reason;
+        this.createdAt = createdAt;
+    }
+
 
     public Patient(String patientId, int userId, String fullName,
                    int age, String gender, String contactNumber, String address) {
@@ -54,6 +70,18 @@ public class Patient {
     public String getBloodGroup() { return bloodGroup; }
     public void setBloodGroup(String bloodGroup) { this.bloodGroup = bloodGroup; }
 
+    
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
+
+    public java.sql.Timestamp getCreatedAt() { return createdAt; }
+    public void setCreatedAt(java.sql.Timestamp createdAt) { this.createdAt = createdAt; }
+
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
+
+    @Override
+    public String toString() {
+        return fullName != null ? fullName + " (" + patientId + ")" : patientId;
+    }
 }

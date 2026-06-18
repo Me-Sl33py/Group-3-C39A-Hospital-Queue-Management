@@ -26,6 +26,14 @@ public class Doctor {
         this.availability   = availability;
     }
 
+    public Doctor(String doctorId, String fullName, String specialization, int departmentId, String availability) {
+        this.doctorId = doctorId;
+        this.fullName = fullName;
+        this.specialization = specialization;
+        this.departmentId = departmentId;
+        this.availability = availability;
+    }
+
     public String getDoctorId()         { return doctorId;       }
     public int    getUserId()           { return userId;         }
     public String getFullName()         { return fullName;       }

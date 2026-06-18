@@ -353,4 +353,48 @@ public class DoctorDAO {
         }
         return null;
     }
+
+
+    public java.util.List<Doctor> getAllDoctors() {
+        java.util.List<Doctor> doctors = new java.util.ArrayList<>();
+        String query = "SELECT * FROM doctors";
+        try (Connection conn = MySqlConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                doctors.add(new Doctor(
+                    rs.getString("doctor_id"), 
+                    rs.getString("full_name"), 
+                    rs.getString("specialization"), 
+                    rs.getInt("department_id"), 
+                    rs.getString("availability")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
+
+    public java.util.List<Doctor> getDoctorsByDepartment(int departmentId) {
+        java.util.List<Doctor> doctors = new java.util.ArrayList<>();
+        String query = "SELECT * FROM doctors WHERE department_id = ?";
+        try (Connection conn = MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, departmentId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                doctors.add(new Doctor(
+                    rs.getString("doctor_id"), 
+                    rs.getString("full_name"), 
+                    rs.getString("specialization"), 
+                    rs.getInt("department_id"), 
+                    rs.getString("availability")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
 }

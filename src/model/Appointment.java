@@ -12,10 +12,13 @@ public class Appointment {
     private String reason;
     private String status;
     private String type;
+    private int departmentId;
 
     // For display purposes
     private String doctorName;
     private String departmentName;
+    private String patientName;
+    private String patientPhone;
 
     public int getAppointmentId() { return appointmentId; }
     public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }
@@ -41,11 +44,20 @@ public class Appointment {
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
 
+    public int getDepartmentId() { return departmentId; }
+    public void setDepartmentId(int departmentId) { this.departmentId = departmentId; }
+
     public String getDoctorName() { return doctorName; }
     public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
 
     public String getDepartmentName() { return departmentName; }
     public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
+
+    public String getPatientName() { return patientName; }
+    public void setPatientName(String patientName) { this.patientName = patientName; }
+
+    public String getPatientPhone() { return patientPhone; }
+    public void setPatientPhone(String patientPhone) { this.patientPhone = patientPhone; }
 
     @Override
     public String toString() {

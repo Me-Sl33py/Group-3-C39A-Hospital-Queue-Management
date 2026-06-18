@@ -478,8 +478,7 @@ public class DoctorController {
 
         if (confirm == JOptionPane.YES_OPTION) {
             view.dispose();
-            // TODO: open your LoginFrame here, e.g.:
-            // new LoginFrame().setVisible(true);
+            new view.UserLogin().setVisible(true);
         }
     }
 
