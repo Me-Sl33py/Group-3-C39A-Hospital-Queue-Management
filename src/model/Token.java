@@ -16,6 +16,7 @@ public class Token {
     // Join fields
     private String patientName;
     private String doctorName;
+    private String departmentName;
 
     public Token(int queueId, int tokenNumber, String patientId, String doctorId, String status, Timestamp createdAt) {
         this.queueId = queueId;
@@ -66,4 +67,7 @@ public class Token {
 
     public String getDoctorName() { return doctorName; }
     public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
+
+    public String getDepartmentName() { return departmentName; }
+    public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
 }

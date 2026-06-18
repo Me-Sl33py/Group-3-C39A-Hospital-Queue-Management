@@ -13,7 +13,6 @@ public class MainController {
     private DashboardController dashboardController;
     private RegisterWalkinController registerWalkinController;
     private GenerateTokenController generateTokenController;
-    private AssignToDoctorController assignToDoctorController;
     private ReceptionistAccountSettingsController receptionistAccountSettingsController;
     private AppointmentConfirmationController appointmentConfirmationController;
 
@@ -34,7 +33,6 @@ public class MainController {
         this.dashboardController = new DashboardController(mainFrame.getDashboardView(), mainFrame);
         this.registerWalkinController = new RegisterWalkinController(mainFrame.getRegisterWalkinView(), mainFrame);
         this.generateTokenController = new GenerateTokenController(mainFrame.getGenerateTokenView(), mainFrame);
-        this.assignToDoctorController = new AssignToDoctorController(mainFrame.getAssignToDoctorView(), mainFrame);
         this.receptionistAccountSettingsController = new ReceptionistAccountSettingsController(mainFrame.getReceptionistAccountSettingsView(), mainFrame, currentUserId);
         this.appointmentConfirmationController = new AppointmentConfirmationController(mainFrame.getAppointmentConfirmationView(), mainFrame);
         
@@ -42,7 +40,6 @@ public class MainController {
         mainFrame.setDashboardController(this.dashboardController);
         mainFrame.setRegisterWalkinController(this.registerWalkinController);
         mainFrame.setGenerateTokenController(this.generateTokenController);
-        mainFrame.setAssignToDoctorController(this.assignToDoctorController);
         mainFrame.setAppointmentConfirmationController(this.appointmentConfirmationController);
     }
 
@@ -57,10 +54,12 @@ public class MainController {
             updateSidebarSelection(mainFrame.getBtnGenerateToken());
         });
         
-        mainFrame.getBtnAssignDoctor().addActionListener(e -> {
-            mainFrame.getJTabbedPane1().setSelectedIndex(3);
-            updateSidebarSelection(mainFrame.getBtnAssignDoctor());
-        });
+        if (mainFrame.getBtnAssignDoctor() != null) {
+            mainFrame.getBtnAssignDoctor().addActionListener(e -> {
+                mainFrame.getJTabbedPane1().setSelectedIndex(2); // Same tab as Generate Token
+                updateSidebarSelection(mainFrame.getBtnAssignDoctor());
+            });
+        }
         
         mainFrame.getBtnManageWaitlist1().addActionListener(e -> {
             mainFrame.getJTabbedPane1().setSelectedIndex(0);
@@ -68,12 +67,12 @@ public class MainController {
         });
         
         mainFrame.getBtnAccounts().addActionListener(e -> {
-            mainFrame.getJTabbedPane1().setSelectedIndex(4);
+            mainFrame.getJTabbedPane1().setSelectedIndex(3);
             updateSidebarSelection(mainFrame.getBtnAccounts());
         });
         
         mainFrame.getBtnAppointmentConfirmation().addActionListener(e -> {
-            mainFrame.getJTabbedPane1().setSelectedIndex(5);
+            mainFrame.getJTabbedPane1().setSelectedIndex(4);
             updateSidebarSelection(mainFrame.getBtnAppointmentConfirmation());
         });
         
@@ -95,7 +94,7 @@ public class MainController {
         JButton[] btns = {
             mainFrame.getBtnRegisterWalkin(), 
             mainFrame.getBtnGenerateToken(), 
-            mainFrame.getBtnAssignDoctor(), 
+            mainFrame.getBtnAssignDoctor(),
             mainFrame.getBtnManageWaitlist1(), 
             mainFrame.getBtnAccounts(),
             mainFrame.getBtnAppointmentConfirmation()

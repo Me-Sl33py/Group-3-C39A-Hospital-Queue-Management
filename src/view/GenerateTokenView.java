@@ -17,6 +17,7 @@ public class GenerateTokenView extends javax.swing.JPanel {
 
     
     public JComboBox<String> getCbDepartment() { return cbDepartment; }
+    public JComboBox<model.Doctor> getCbDoctor() { return cbDoctor; }
     public JButton getBtnGenerateTokenSubmit() { return btnGenerateTokenSubmit; }
     public JTable getTblLiveQueue() { return tblLiveQueue; }
     public JLabel getLblTipText() { return lblTipText; }
@@ -510,10 +511,37 @@ public class GenerateTokenView extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 20);
         genTokenCard.add(cbDepartment, gridBagConstraints);
+        
+        lblDoctorLabel = new javax.swing.JLabel();
+        lblDoctorLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblDoctorLabel.setForeground(new java.awt.Color(80, 80, 80));
+        lblDoctorLabel.setText("Doctor");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 5, 20);
+        genTokenCard.add(lblDoctorLabel, gridBagConstraints);
 
+        cbDoctor = new javax.swing.JComboBox<>();
+        cbDoctor.setPreferredSize(new java.awt.Dimension(200, 35));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 15, 20);
+        genTokenCard.add(cbDoctor, gridBagConstraints);
+
+        tipPanel = new javax.swing.JPanel();
+        tipPanel.setBackground(new java.awt.Color(236, 253, 245));
+        tipPanel.setOpaque(true);
         tipPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(167, 243, 208), 1, true));
         tipPanel.setLayout(new java.awt.GridBagLayout());
 
+        lblTipText = new javax.swing.JLabel();
+        lblTipText.setForeground(new java.awt.Color(6, 95, 70));
         lblTipText.setText("<html>Estimated waiting time for <b>General Medicine</b> is currently <b>12 minutes</b> with 4 patients ahead in queue.</html>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -526,19 +554,24 @@ public class GenerateTokenView extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 20);
         genTokenCard.add(tipPanel, gridBagConstraints);
 
+        btnGenerateTokenSubmit = new javax.swing.JButton();
         btnGenerateTokenSubmit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGenerateTokenSubmit.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerateTokenSubmit.setBackground(new java.awt.Color(5, 150, 105));
+        btnGenerateTokenSubmit.setBorderPainted(false);
+        btnGenerateTokenSubmit.setOpaque(true);
         btnGenerateTokenSubmit.setText("Generate Token");
         btnGenerateTokenSubmit.setPreferredSize(new java.awt.Dimension(150, 40));
         btnGenerateTokenSubmit.setFocusPainted(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
@@ -642,6 +675,8 @@ public class GenerateTokenView extends javax.swing.JPanel {
     private javax.swing.JLabel lblContactTitle;
     private javax.swing.JLabel lblContactVal;
     private javax.swing.JLabel lblDeptLabel;
+    private javax.swing.JLabel lblDoctorLabel;
+    private javax.swing.JComboBox<model.Doctor> cbDoctor;
     private javax.swing.JLabel lblGenSubtitle;
     private javax.swing.JLabel lblGenTitle;
     private javax.swing.JLabel lblHeaderSubtitle;

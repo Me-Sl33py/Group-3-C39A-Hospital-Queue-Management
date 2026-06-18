@@ -105,7 +105,7 @@ public class AppointmentConfirmationController {
             
             if (success) {
                 dao.TokenDAO tokenDAO = new dao.TokenDAO();
-                int tokenNum = tokenDAO.createToken(selectedAppointment.getAppointmentId(), selectedAppointment.getPatientId(), selectedAppointment.getDepartmentId());
+                int tokenNum = tokenDAO.createToken(selectedAppointment.getAppointmentId(), selectedAppointment.getPatientId(), selectedAppointment.getDepartmentId(), selectedAppointment.getDoctorId());
                 
                 JOptionPane.showMessageDialog(view, "Patient arrival confirmed. Added to Queue successfully.\nToken Number: " + tokenNum, "Success", JOptionPane.INFORMATION_MESSAGE);
                 loadPendingAppointments(view.getTxtSearch().getText());
