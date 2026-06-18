@@ -39,6 +39,7 @@ public class RegisterWalkinController {
         view.getCbGender().setSelectedIndex(0);
         view.getTfPhone().setText("");
         view.getCbBloodGroup().setSelectedIndex(0);
+        if (view.getTfLocation() != null) view.getTfLocation().setText("");
     }
 
     private void saveAndContinue() {
@@ -47,6 +48,7 @@ public class RegisterWalkinController {
         String gender = (String) view.getCbGender().getSelectedItem();
         String phone = view.getTfPhone().getText().trim();
         String bloodGroup = (String) view.getCbBloodGroup().getSelectedItem();
+        String location = view.getTfLocation() != null ? view.getTfLocation().getText().trim() : "";
 
         if (name.isEmpty() || selectedDob == null || phone.isEmpty() || gender.equals("Select Gender")) {
             JOptionPane.showMessageDialog(view, "Please fill in all details accurately before saving.", "Validation Error", JOptionPane.ERROR_MESSAGE);
@@ -102,7 +104,7 @@ public class RegisterWalkinController {
 
         dao.PatientDAO patientDAO = new dao.PatientDAO();
         String patientId = patientDAO.generatePatientId();
-        model.Patient patient = new model.Patient(patientId, name, sqlDob, age, gender, phone, "", bloodGroup, "", new java.sql.Timestamp(System.currentTimeMillis()));
+        model.Patient patient = new model.Patient(patientId, name, sqlDob, age, gender, phone, location, bloodGroup, "", new java.sql.Timestamp(System.currentTimeMillis()));
 
         String savedId = patientDAO.insertPatient(patient);
 
