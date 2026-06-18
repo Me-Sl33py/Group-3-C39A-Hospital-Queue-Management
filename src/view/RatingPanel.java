@@ -25,8 +25,11 @@ public class RatingPanel extends javax.swing.JPanel {
         cmbStars = new javax.swing.JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
         cmbAppointments = new javax.swing.JComboBox<>();
         
-        cmbStars.setBounds(40, 110, 100, 35);
+        cmbStars.setBounds(40, 100, 120, 35);
         cmbAppointments.setBounds(40, 150, 300, 35);
+        jLabel6.setBounds(40, 200, 250, 20);
+        txtFeedback.setBounds(40, 230, 600, 100);
+        btnSubmit.setBounds(250, 350, 180, 40);
         
         jLabel5.setVisible(false);
         

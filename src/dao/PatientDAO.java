@@ -522,4 +522,80 @@ public class PatientDAO {
         }
         return null;
     }
+
+
+    public String insertPatient(model.Patient p) {
+        try {
+            java.sql.Connection conn = database.MySqlConnection.getConnection();
+            conn.setAutoCommit(false);
+            
+            // 1. Create a dummy user
+            String username = p.getFullName().replaceAll("\\s+", "").toLowerCase() + System.currentTimeMillis() % 1000;
+            java.sql.PreparedStatement psUser = conn.prepareStatement("INSERT INTO users (username, password) VALUES (?, 'walkin123')", java.sql.Statement.RETURN_GENERATED_KEYS);
+            psUser.setString(1, username);
+            psUser.executeUpdate();
+            java.sql.ResultSet rsUser = psUser.getGeneratedKeys();
+            int userId = -1;
+            if (rsUser.next()) {
+                userId = rsUser.getInt(1);
+            }
+            
+            // 2. Insert into user_profiles
+            java.sql.PreparedStatement psProfile = conn.prepareStatement("INSERT INTO user_profiles (user_id, full_name, dob, age, gender, role, contact_number, address, blood_group) VALUES (?, ?, ?, ?, ?, 'patient', ?, ?, ?)");
+            psProfile.setInt(1, userId);
+            psProfile.setString(2, p.getFullName());
+            if (p.getDob() != null) {
+                psProfile.setDate(3, new java.sql.Date(p.getDob().getTime()));
+            } else {
+                psProfile.setNull(3, java.sql.Types.DATE);
+            }
+            psProfile.setInt(4, p.getAge());
+            psProfile.setString(5, p.getGender());
+            psProfile.setString(6, p.getContactNumber());
+            psProfile.setString(7, p.getAddress());
+            psProfile.setString(8, p.getBloodGroup());
+            psProfile.executeUpdate();
+            
+            // 3. Insert into patients
+            java.sql.PreparedStatement psPatient = conn.prepareStatement("INSERT INTO patients (patient_id, user_id, full_name, username, dob, age, gender, contact_number, address, blood_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            psPatient.setString(1, p.getPatientId());
+            psPatient.setInt(2, userId);
+            psPatient.setString(3, p.getFullName());
+            psPatient.setString(4, username);
+            if (p.getDob() != null) {
+                psPatient.setDate(5, new java.sql.Date(p.getDob().getTime()));
+            } else {
+                psPatient.setNull(5, java.sql.Types.DATE);
+            }
+            psPatient.setInt(6, p.getAge());
+            psPatient.setString(7, p.getGender());
+            psPatient.setString(8, p.getContactNumber());
+            psPatient.setString(9, p.getAddress());
+            psPatient.setString(10, p.getBloodGroup());
+            psPatient.executeUpdate();
+            
+            conn.commit();
+            if(conn!=null)conn.close();
+            return p.getPatientId();
+        } catch (Exception e) {
+            System.out.println("insertPatient(model.Patient) error: " + e);
+            return null;
+        }
+    }
+
+    public int getTotalPatientsCount() {
+        int count = 0;
+        try {
+            java.sql.Connection conn = database.MySqlConnection.getConnection();
+            java.sql.PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM patients");
+            java.sql.ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            if(conn!=null)conn.close();
+        } catch (Exception e) {
+            System.out.println("getTotalPatientsCount error: " + e);
+        }
+        return count;
+    }
 }

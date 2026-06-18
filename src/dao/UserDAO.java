@@ -112,10 +112,10 @@ public class UserDAO {
 
             // Step 4: insert into role-specific table
             boolean ok = switch (role.toLowerCase()) {
-                case "admin"        -> insertAdmin(c, userId);
+                case "admin"        -> insertAdmin(c, userId, username);
                 case "receptionist" -> insertReceptionist(c, userId, fullName, username, shift);
                 case "doctor"       -> insertDoctor(c, userId, fullName, username);
-                case "patient"      -> insertPatient(c, userId);
+                case "patient"      -> insertPatient(c, userId, fullName, username, dob, gender, phone);
                 default             -> false;
             };
 
@@ -186,11 +186,11 @@ public class UserDAO {
     }
 
     // ─── Insert Admin ───────────────────────────────────────────────────────
-    private boolean insertAdmin(Connection c, int userId) throws SQLException {
+    private boolean insertAdmin(Connection c, int userId, String username) throws SQLException {
         String id = generateId(c, "admins", "admin_id", "A");
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO admins (admin_id, user_id) VALUES (?, ?)")) {
-            ps.setString(1, id); ps.setInt(2, userId);
+                "INSERT INTO admins (admin_id, user_id, username) VALUES (?, ?, ?)")) {
+            ps.setString(1, id); ps.setInt(2, userId); ps.setString(3, username);
             return ps.executeUpdate() > 0;
         }
     }
@@ -220,11 +220,20 @@ public class UserDAO {
     }
 
     // ─── Insert Patient ─────────────────────────────────────────────────────
-    private boolean insertPatient(Connection c, int userId) throws SQLException {
+    private boolean insertPatient(Connection c, int userId, String fullName, String username, String dob, String gender, String phone) throws SQLException {
         String id = generateId(c, "patients", "patient_id", "P");
+        int age = calculateAge(dob);
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO patients (patient_id, user_id) VALUES (?, ?)")) {
-            ps.setString(1, id); ps.setInt(2, userId);
+                "INSERT INTO patients (patient_id, user_id, full_name, username, dob, age, gender, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+            ps.setString(1, id); ps.setInt(2, userId); ps.setString(3, fullName); ps.setString(4, username);
+            if (dob != null && !dob.trim().isEmpty()) {
+                ps.setDate(5, java.sql.Date.valueOf(dob));
+            } else {
+                ps.setNull(5, java.sql.Types.DATE);
+            }
+            ps.setInt(6, age);
+            ps.setString(7, gender);
+            ps.setString(8, phone);
             return ps.executeUpdate() > 0;
         }
     }
@@ -388,9 +397,9 @@ public class UserDAO {
         return -1;
     }
 
-    public boolean registerPatient(String patientId, int userId, String fullName, int age, String gender, String contactNumber, String address) {
+    public boolean registerPatient(String patientId, int userId, String fullName, String username, int age, String gender, String contactNumber, String address) {
         String profileSql = "INSERT INTO user_profiles (user_id, full_name, age, gender, contact_number, address, role) VALUES (?, ?, ?, ?, ?, ?, 'patient')";
-        String patientSql = "INSERT INTO patients (patient_id, user_id) VALUES (?, ?)";
+        String patientSql = "INSERT INTO patients (patient_id, user_id, full_name, username, age, gender, contact_number, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement ps1 = conn.prepareStatement(profileSql);
@@ -406,6 +415,12 @@ public class UserDAO {
 
                 ps2.setString(1, patientId);
                 ps2.setInt(2, userId);
+                ps2.setString(3, fullName);
+                ps2.setString(4, username);
+                ps2.setInt(5, age);
+                ps2.setString(6, gender);
+                ps2.setString(7, contactNumber);
+                ps2.setString(8, address);
                 ps2.executeUpdate();
 
                 conn.commit();

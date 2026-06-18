@@ -69,8 +69,8 @@ public class SecurityQuestionsController {
 
         if (a1.isEmpty() || a2.isEmpty() || a3.isEmpty() || a4.isEmpty() || a5.isEmpty()) {
             JOptionPane.showMessageDialog(view,
-                "please answer all 5 security questions",
-                "missing field", JOptionPane.WARNING_MESSAGE);
+                "Please answer all 5 security questions.",
+                "Missing Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
