@@ -50,7 +50,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
         
         // Add to sidebar at absolute constraints
         // Using AbsoluteConstraints is tricky without importing, so use full class name
-        sidebarPanel.add(btnAppointmentConfirmation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 240, 50));
+        sidebarPanel.add(btnAppointmentConfirmation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 240, 50));
         
         jPanel6 = new view.AppointmentConfirmationView();
         jTabbedPane1.addTab("Appointment Confirmation", jPanel6);
@@ -60,7 +60,6 @@ public class WithTabbedPane extends javax.swing.JFrame {
     private controller.RegisterWalkinController registerWalkinController;
     private controller.GenerateTokenController generateTokenController;
     private controller.AppointmentConfirmationController appointmentConfirmationController;
-    private javax.swing.JButton btnAssignDoctor;
 
     public controller.DashboardController getDashboardController() { return dashboardController; }
 
@@ -75,7 +74,6 @@ public class WithTabbedPane extends javax.swing.JFrame {
     public javax.swing.JTabbedPane getJTabbedPane1() { return jTabbedPane1; }
     public javax.swing.JButton getBtnRegisterWalkin() { return btnRegisterWalkin; }
     public javax.swing.JButton getBtnGenerateToken() { return btnGenerateToken; }
-    public javax.swing.JButton getBtnAssignDoctor() { return btnAssignDoctor; }
     public javax.swing.JButton getBtnManageWaitlist1() { return btnManageWaitlist1; }
     public javax.swing.JButton getBtnAccounts() { return btnAccounts; }
     public javax.swing.JButton getBtnLogout() { return btnLogout; }
@@ -148,18 +146,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnGenerateToken.setOpaque(true);
         sidebarPanel.add(btnGenerateToken, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 240, 50));
 
-        btnAssignDoctor = new javax.swing.JButton();
-        btnAssignDoctor.setBackground(new java.awt.Color(22, 137, 176));
-        btnAssignDoctor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnAssignDoctor.setForeground(new java.awt.Color(255, 255, 255));
-        btnAssignDoctor.setText("Assign to Doctor");
-        btnAssignDoctor.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
-        btnAssignDoctor.setBorderPainted(false);
-        btnAssignDoctor.setContentAreaFilled(false);
-        btnAssignDoctor.setFocusPainted(false);
-        btnAssignDoctor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnAssignDoctor.setOpaque(true);
-        sidebarPanel.add(btnAssignDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 240, 50));
+
 
         btnAccounts.setBackground(new java.awt.Color(22, 137, 176));
         btnAccounts.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -172,11 +159,11 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnAccounts.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnAccounts.setOpaque(true);
         btnAccounts.addActionListener(this::btnAccountsActionPerformed);
-        sidebarPanel.add(btnAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 240, 50));
+        sidebarPanel.add(btnAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 240, 50));
 
         btnLogout.setBackground(new java.awt.Color(22, 137, 176));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnLogout.setForeground(new java.awt.Color(255, 100, 100));
+        btnLogout.setForeground(new java.awt.Color(255, 0, 0));
         btnLogout.setText("Logout");
         btnLogout.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
         btnLogout.setBorderPainted(false);
@@ -197,7 +184,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnManageWaitlist1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnManageWaitlist1.setOpaque(true);
         btnManageWaitlist1.addActionListener(this::btnManageWaitlist1ActionPerformed);
-        sidebarPanel.add(btnManageWaitlist1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 240, 50));
+        sidebarPanel.add(btnManageWaitlist1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 240, 50));
 
         getContentPane().add(sidebarPanel, java.awt.BorderLayout.WEST);
 

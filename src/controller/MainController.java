@@ -54,13 +54,7 @@ public class MainController {
             updateSidebarSelection(mainFrame.getBtnGenerateToken());
         });
         
-        if (mainFrame.getBtnAssignDoctor() != null) {
-            mainFrame.getBtnAssignDoctor().addActionListener(e -> {
-                mainFrame.getJTabbedPane1().setSelectedIndex(2); // Same tab as Generate Token
-                updateSidebarSelection(mainFrame.getBtnAssignDoctor());
-            });
-        }
-        
+
         mainFrame.getBtnManageWaitlist1().addActionListener(e -> {
             mainFrame.getJTabbedPane1().setSelectedIndex(0);
             updateSidebarSelection(mainFrame.getBtnManageWaitlist1());
@@ -94,7 +88,6 @@ public class MainController {
         JButton[] btns = {
             mainFrame.getBtnRegisterWalkin(), 
             mainFrame.getBtnGenerateToken(), 
-            mainFrame.getBtnAssignDoctor(),
             mainFrame.getBtnManageWaitlist1(), 
             mainFrame.getBtnAccounts(),
             mainFrame.getBtnAppointmentConfirmation()
