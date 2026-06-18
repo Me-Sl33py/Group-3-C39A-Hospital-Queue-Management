@@ -1,0 +1,8 @@
+javac : Note: Some input files use unchecked or unsafe operations.
+At line:1 char:405
++ ... ding ascii; javac -cp $cp -d build\classes -sourcepath src "@sources. ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Note: Some inpu...afe operations.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Note: Recompile with -Xlint:unchecked for details.
