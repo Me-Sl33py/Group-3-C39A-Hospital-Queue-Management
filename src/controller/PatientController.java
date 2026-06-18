@@ -31,7 +31,7 @@ public class PatientController {
     private javax.swing.Timer notificationTimer;
     private String lastNotificationState = "none";
     
-    private PatientDao patientDAO = new PatientDao();
+    private PatientDAO patientDAO = new PatientDAO();
     private DepartmentDAO departmentDAO = new DepartmentDAO();
     private DoctorDAO doctorDAO = new DoctorDAO();
     private AppointmentDAO appointmentDAO = new AppointmentDAO();
