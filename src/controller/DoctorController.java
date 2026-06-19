@@ -365,10 +365,19 @@ public class DoctorController {
         String prescription = view.getTaPrescription().getText().trim();
         String notes = view.getTaNotes().getText().trim();
 
-        // Clear placeholders if they were left unchanged
-        if (diagnosis.startsWith("Enter detailed clinical notes")) diagnosis = "";
-        if (prescription.isEmpty()) prescription = "";
-        if (notes.isEmpty()) notes = "";
+        // Fix 1: Validation logic moved from view to controller
+        if (diagnosis.isEmpty() || diagnosis.startsWith("Enter detailed clinical notes")) {
+            JOptionPane.showMessageDialog(view, "Diagnosis field cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (prescription.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Prescription field cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (notes.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Notes field cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         String doctorId = (currentDoctor != null) ? currentDoctor.getDoctorId() : "";
 
