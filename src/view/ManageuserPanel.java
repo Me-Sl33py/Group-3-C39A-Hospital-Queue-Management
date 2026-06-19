@@ -129,6 +129,11 @@ public class ManageuserPanel extends javax.swing.JPanel {
         // Add buttons
         bottomPanel.add(buttonsPanel, java.awt.BorderLayout.SOUTH);
         
+        // Ensure table stretches correctly and has scrollbars
+        tblUsers.setFillsViewportHeight(true);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(10, 0));
+        
         // Assemble Body
         bodyPanel.add(searchPanel, java.awt.BorderLayout.NORTH);
         bodyPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER); // Table stretches to fill space

@@ -450,37 +450,57 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         
         // Doctor Details Grid
         pnlDoctorDetails.removeAll();
-        pnlDoctorDetails.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 10));
-        pnlDoctorDetails.add(lblDocFullName);
+        pnlDoctorDetails.setLayout(new java.awt.GridBagLayout());
+        
+        java.awt.GridBagConstraints docLabelGbc = new java.awt.GridBagConstraints();
+        docLabelGbc.insets = new java.awt.Insets(10, 15, 10, 5);
+        docLabelGbc.anchor = java.awt.GridBagConstraints.WEST;
+
+        java.awt.GridBagConstraints docFieldGbc = new java.awt.GridBagConstraints();
+        docFieldGbc.insets = new java.awt.Insets(10, 5, 10, 15);
+        docFieldGbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        docFieldGbc.weightx = 1.0;
+        
+        // Row 1
+        docLabelGbc.gridy = 0; docFieldGbc.gridy = 0;
+        
+        docLabelGbc.gridx = 0; pnlDoctorDetails.add(lblDocFullName, docLabelGbc);
         txtDocFullName.setPreferredSize(new java.awt.Dimension(150, 25));
-        pnlDoctorDetails.add(txtDocFullName);
-        pnlDoctorDetails.add(lblDocPhone);
+        docFieldGbc.gridx = 1; pnlDoctorDetails.add(txtDocFullName, docFieldGbc);
+        
+        docLabelGbc.gridx = 2; pnlDoctorDetails.add(lblDocPhone, docLabelGbc);
         txtDocPhone.setPreferredSize(new java.awt.Dimension(120, 25));
-        pnlDoctorDetails.add(txtDocPhone);
-        pnlDoctorDetails.add(lblDocSpecialty);
+        docFieldGbc.gridx = 3; pnlDoctorDetails.add(txtDocPhone, docFieldGbc);
+        
+        docLabelGbc.gridx = 4; pnlDoctorDetails.add(lblDocSpecialty, docLabelGbc);
         txtDocSpecialty.setPreferredSize(new java.awt.Dimension(150, 25));
-        pnlDoctorDetails.add(txtDocSpecialty);
-        pnlDoctorDetails.add(lblDocDepartment);
+        docFieldGbc.gridx = 5; pnlDoctorDetails.add(txtDocSpecialty, docFieldGbc);
+        
+        // Row 2
+        docLabelGbc.gridy = 1; docFieldGbc.gridy = 1;
+        
+        docLabelGbc.gridx = 0; pnlDoctorDetails.add(lblDocDepartment, docLabelGbc);
         txtDocDepartment.setPreferredSize(new java.awt.Dimension(150, 25));
-        pnlDoctorDetails.add(txtDocDepartment);
-        pnlDoctorDetails.add(lblDocAvailability);
+        docFieldGbc.gridx = 1; pnlDoctorDetails.add(txtDocDepartment, docFieldGbc);
+        
+        docLabelGbc.gridx = 2; pnlDoctorDetails.add(lblDocAvailability, docLabelGbc);
         cmbDocAvailability.setPreferredSize(new java.awt.Dimension(100, 25));
-        pnlDoctorDetails.add(cmbDocAvailability);
-        pnlDoctorDetails.add(lblDocStatus);
+        docFieldGbc.gridx = 3; pnlDoctorDetails.add(cmbDocAvailability, docFieldGbc);
+        
+        docLabelGbc.gridx = 4; pnlDoctorDetails.add(lblDocStatus, docLabelGbc);
         cmbDocStatus.setPreferredSize(new java.awt.Dimension(100, 25));
-        pnlDoctorDetails.add(cmbDocStatus);
+        docFieldGbc.gridx = 5; pnlDoctorDetails.add(cmbDocStatus, docFieldGbc);
         
-        // Ensure the panel is tall enough to fit two rows
-        pnlDoctorDetails.setPreferredSize(new java.awt.Dimension(0, 80));
+        // Ensure the panel is tall enough to fit two rows completely
+        pnlDoctorDetails.setPreferredSize(new java.awt.Dimension(0, 100));
         
-        // Enable horizontal scrolling for doctors table
-        tblDoctors.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        // Make columns reasonably wide so it actually scrolls
-        for (int i = 0; i < tblDoctors.getColumnCount(); i++) {
-            tblDoctors.getColumnModel().getColumn(i).setPreferredWidth(150);
-        }
+        // Let the table stretch to fill the screen width normally
+        tblDoctors.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        tblDoctors.setFillsViewportHeight(true);
         jspDoctors.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jspDoctors.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(0, 10)); // thin scrollbar
+        jspDoctors.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jspDoctors.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(10, 0)); // thin scrollbar
         
         // Doctor Buttons
         javax.swing.JPanel docBtns = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 10));
@@ -517,27 +537,42 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         
         // Dept Details Grid
         pnlDeptDetails.removeAll();
-        pnlDeptDetails.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 10));
-        pnlDeptDetails.add(lblDeptName);
-        txtDeptName.setPreferredSize(new java.awt.Dimension(200, 25));
-        pnlDeptDetails.add(txtDeptName);
-        pnlDeptDetails.add(lblDeptHeadDoctor);
-        txtDeptHeadDoctor.setPreferredSize(new java.awt.Dimension(200, 25));
-        pnlDeptDetails.add(txtDeptHeadDoctor);
-        pnlDeptDetails.add(lblDeptStatus);
-        cmbDeptStatus.setPreferredSize(new java.awt.Dimension(100, 25));
-        pnlDeptDetails.add(cmbDeptStatus);
+        pnlDeptDetails.setLayout(new java.awt.GridBagLayout());
         
-        // Ensure the panel is tall enough to fit two rows if needed
+        java.awt.GridBagConstraints deptLabelGbc = new java.awt.GridBagConstraints();
+        deptLabelGbc.insets = new java.awt.Insets(10, 15, 10, 5);
+        deptLabelGbc.anchor = java.awt.GridBagConstraints.WEST;
+
+        java.awt.GridBagConstraints deptFieldGbc = new java.awt.GridBagConstraints();
+        deptFieldGbc.insets = new java.awt.Insets(10, 5, 10, 15);
+        deptFieldGbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        deptFieldGbc.weightx = 1.0;
+        
+        // Row 1
+        deptLabelGbc.gridy = 0; deptFieldGbc.gridy = 0;
+        
+        deptLabelGbc.gridx = 0; pnlDeptDetails.add(lblDeptName, deptLabelGbc);
+        txtDeptName.setPreferredSize(new java.awt.Dimension(200, 25));
+        deptFieldGbc.gridx = 1; pnlDeptDetails.add(txtDeptName, deptFieldGbc);
+        
+        deptLabelGbc.gridx = 2; pnlDeptDetails.add(lblDeptHeadDoctor, deptLabelGbc);
+        txtDeptHeadDoctor.setPreferredSize(new java.awt.Dimension(200, 25));
+        deptFieldGbc.gridx = 3; pnlDeptDetails.add(txtDeptHeadDoctor, deptFieldGbc);
+        
+        deptLabelGbc.gridx = 4; pnlDeptDetails.add(lblDeptStatus, deptLabelGbc);
+        cmbDeptStatus.setPreferredSize(new java.awt.Dimension(100, 25));
+        deptFieldGbc.gridx = 5; pnlDeptDetails.add(cmbDeptStatus, deptFieldGbc);
+        
+        // Ensure the panel is tall enough to fit completely
         pnlDeptDetails.setPreferredSize(new java.awt.Dimension(0, 80));
         
-        // Enable horizontal scrolling for departments table
-        tblDepartments.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        for (int i = 0; i < tblDepartments.getColumnCount(); i++) {
-            tblDepartments.getColumnModel().getColumn(i).setPreferredWidth(200);
-        }
+        // Let the table stretch to fill the screen width normally
+        tblDepartments.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        tblDepartments.setFillsViewportHeight(true);
         jspDepartments.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jspDepartments.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(0, 10)); // thin scrollbar
+        jspDepartments.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jspDepartments.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(10, 0)); // thin scrollbar
         
         // Dept Buttons
         javax.swing.JPanel deptBtns = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 10));

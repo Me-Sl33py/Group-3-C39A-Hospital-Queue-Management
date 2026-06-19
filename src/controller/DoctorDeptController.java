@@ -127,6 +127,11 @@ public class DoctorDeptController {
             JOptionPane.WARNING_MESSAGE);
         return;
     }
+    
+    if (!phone.matches("\\\\d{10}")) {
+        JOptionPane.showMessageDialog(parentFrame, "Phone number must be exactly 10 digits.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
     int deptId = deptDAO.getDepartmentIdByName(deptName);
 
@@ -157,6 +162,12 @@ public class DoctorDeptController {
         }
         String name     = panel.getTxtDocFullName().getText().trim();
         String phone    = panel.getTxtDocPhone().getText().trim();
+        
+        if (!phone.matches("\\\\d{10}")) {
+            JOptionPane.showMessageDialog(parentFrame, "Phone number must be exactly 10 digits.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         String spec     = panel.getTxtDocSpecialty().getText().trim();
         String deptName = panel.getTxtDocDepartment().getText().trim();
         String avail    = panel.getCmbDocAvailability().getSelectedItem().toString();
