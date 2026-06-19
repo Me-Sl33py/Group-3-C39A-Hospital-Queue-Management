@@ -32,6 +32,12 @@ public class CreateUserController {
     private void saveUser() {
         String rawName   = panel.getNameField().getText().trim();
         String phone     = panel.getNameField1().getText().trim();
+        
+        if (!phone.matches("\\\\d{10}")) {
+            JOptionPane.showMessageDialog(panel, "Phone number must be exactly 10 digits.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         String gender    = panel.getGenderCombobox().getSelectedItem().toString().trim();
         java.util.Date dobDate = panel.getDobField().getDate();
         String dob = dobDate != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(dobDate) : "";

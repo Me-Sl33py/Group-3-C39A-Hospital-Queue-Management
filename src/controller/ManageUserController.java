@@ -114,6 +114,12 @@ public class ManageUserController {
     String status  = panel.getCmbStatus().getSelectedItem().toString().toLowerCase();
     String gender  = panel.getCmbGender().getSelectedItem().toString().toLowerCase();
     String phone   = panel.getTxtPhone().getText().trim();
+    
+    if (!phone.matches("\\\\d{10}")) {
+        JOptionPane.showMessageDialog(parentFrame, "Phone number must be exactly 10 digits.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
     String bloodGroup = panel.getCmbBloodGroup().getSelectedItem().toString();
     String newPass = panel.getTxtChangePassword().getText().trim();
 
