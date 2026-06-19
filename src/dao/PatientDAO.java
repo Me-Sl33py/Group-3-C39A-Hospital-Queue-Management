@@ -293,7 +293,7 @@ public class PatientDAO {
     // Get all queue patients for a specific doctor
     public List<Object[]> getQueueByDoctor(String doctorId) {
         List<Object[]> list = new ArrayList<>();
-        String sql = "SELECT q.token_number, p.full_name, q.status " +
+        String sql = "SELECT q.token_number, p.full_name, p.age, p.gender, q.status " +
                      "FROM queue q JOIN patients p ON q.patient_id = p.patient_id " +
                      "WHERE q.doctor_id = ? ORDER BY q.token_number ASC";
         try (Connection conn = database.MySqlConnection.getConnection();
@@ -304,6 +304,10 @@ public class PatientDAO {
                     list.add(new Object[]{
                         rs.getInt("token_number"),
                         rs.getString("full_name"),
+                        rs.getInt("age"),
+                        rs.getString("gender"),
+                        "Consultation",
+                        "General",
                         rs.getString("status"),
                         "View File"
                     });
