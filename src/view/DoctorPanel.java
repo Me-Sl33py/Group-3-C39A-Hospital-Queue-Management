@@ -160,10 +160,7 @@ private void addPlaceholder(javax.swing.JTextField field, String placeholder) {
         }
         @Override
         public void focusLost(java.awt.event.FocusEvent e) {
-            if (field.getText().trim().isEmpty()) {
-                field.setText(placeholder);
-                field.setForeground(java.awt.Color.GRAY);
-            }
+            // Validation moved to controller
         }
     });
 }
@@ -179,10 +176,7 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         }
         @Override
         public void focusLost(java.awt.event.FocusEvent e) {
-            if (area.getText().trim().isEmpty()) {
-                area.setText(placeholder);
-                area.setForeground(java.awt.Color.GRAY);
-            }
+            // Validation moved to controller
         }
     });
 }

@@ -420,11 +420,7 @@ public class AccountPanel extends javax.swing.JPanel {
         jLabel10.setText(p.getAddress());
         jLabel12.setText(p.getContactNumber());
         jLabel14.setText(username);
-        if (p.getBloodGroup() != null && !p.getBloodGroup().trim().isEmpty()) {
-            lblBloodGroupDisplay.setText(p.getBloodGroup());
-        } else {
-            lblBloodGroupDisplay.setText("Unknown");
-        }
+        lblBloodGroupDisplay.setText(p.getBloodGroup());
     }
 
     public com.toedter.calendar.JDateChooser getTxtDob() {

@@ -465,6 +465,9 @@ public class PatientController {
         Patient p = patientDAO.getPatientById(PatientSession.getPatientId());
         String username = patientDAO.getUsernameByUserId(PatientSession.getUserId());
         if (p != null) {
+            if (p.getBloodGroup() == null || p.getBloodGroup().trim().isEmpty()) {
+                p.setBloodGroup("Unknown");
+            }
             accountPanel.displayPatientProfile(p, username != null ? username : "");
             if (p.getDob() != null) {
                 accountPanel.getTxtDob().setDate(new java.sql.Date(p.getDob().getTime()));
