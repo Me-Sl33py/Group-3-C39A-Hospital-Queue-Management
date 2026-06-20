@@ -34,7 +34,7 @@ public class DoctorDeptController {
         panel.getTblDoctors().setModel(doctorModel);
 
         DefaultTableModel deptModel = new DefaultTableModel(
-            new String[]{"Department ID", "Department Name", "Head Doctor"}, 0
+            new String[]{"Department ID", "Department Name", "Description"}, 0
         ) { public boolean isCellEditable(int r, int c) { return false; } };
         panel.getTblDepartments().setModel(deptModel);
     }

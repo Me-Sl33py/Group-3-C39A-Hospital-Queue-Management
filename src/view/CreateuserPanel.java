@@ -26,9 +26,7 @@ public class CreateuserPanel extends javax.swing.JPanel {
         javax.swing.JPanel centerWrapper = new javax.swing.JPanel(new java.awt.GridBagLayout());
         centerWrapper.setBackground(new java.awt.Color(235, 240, 251)); // Same as dashboard
         
-        // Ensure formCardPanel doesn't demand huge width that breaks GridBagLayout centering
-        formCardPanel.setPreferredSize(new java.awt.Dimension(700, 850));
-        formCardPanel.setMinimumSize(new java.awt.Dimension(700, 850));
+        // Let GridBagLayout dictate formCardPanel's natural height
         centerWrapper.add(formCardPanel);
         
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(centerWrapper);
@@ -42,15 +40,57 @@ public class CreateuserPanel extends javax.swing.JPanel {
         topBarPanel.setPreferredSize(new java.awt.Dimension(1000, 60));
         topBarPanel.setMinimumSize(new java.awt.Dimension(100, 60));
         
-        // Reduce text field heights
-        java.awt.Dimension fieldSize = new java.awt.Dimension(100, 30);
-        nameField.setPreferredSize(fieldSize);
-        nameField1.setPreferredSize(fieldSize);
-        passwordField.setPreferredSize(fieldSize);
-        Dateofbirth.setPreferredSize(fieldSize);
-        roleComboBox.setPreferredSize(fieldSize);
-        GenderCombobox.setPreferredSize(fieldSize);
-        shiftcombobox.setPreferredSize(fieldSize);
+        // --- Rebuild Form Layout to fix gaps and component heights ---
+        formCardPanel.removeAll();
+        formCardPanel.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.fill = java.awt.GridBagConstraints.NONE; // Don't stretch infinitely
+        gbc.anchor = java.awt.GridBagConstraints.WEST; // Align to the left of the grid
+        gbc.insets = new java.awt.Insets(5, 5, 5, 5);
+        gbc.weightx = 0; // Don't take up extra horizontal space
+        
+        java.awt.Dimension fieldDim = new java.awt.Dimension(400, 35); // Fixed width
+        nameField.setPreferredSize(fieldDim);
+        nameField1.setPreferredSize(fieldDim);
+        GenderCombobox.setPreferredSize(fieldDim);
+        Dateofbirth.setPreferredSize(fieldDim);
+        roleComboBox.setPreferredSize(fieldDim);
+        shiftcombobox.setPreferredSize(fieldDim);
+        passwordField.setPreferredSize(fieldDim);
+        
+        int row = 0;
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(20, 5, 2, 5); formCardPanel.add(nameLabel, gbc);
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(0, 5, 5, 5); formCardPanel.add(nameField, gbc);
+        
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(10, 5, 2, 5); formCardPanel.add(phone, gbc);
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(0, 5, 5, 5); formCardPanel.add(nameField1, gbc);
+        
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(10, 5, 2, 5); formCardPanel.add(roleLabel1, gbc);
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(0, 5, 5, 5); formCardPanel.add(GenderCombobox, gbc);
+        
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(10, 5, 2, 5); formCardPanel.add(DOB, gbc);
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(0, 5, 5, 5); formCardPanel.add(Dateofbirth, gbc);
+        
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(10, 5, 2, 5); formCardPanel.add(roleLabel, gbc);
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(0, 5, 5, 5); formCardPanel.add(roleComboBox, gbc);
+        
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(10, 5, 2, 5); formCardPanel.add(shiftlabel, gbc);
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(0, 5, 5, 5); formCardPanel.add(shiftcombobox, gbc);
+        
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(10, 5, 2, 5); formCardPanel.add(passwordLabel, gbc);
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(0, 5, 5, 5); formCardPanel.add(passwordField, gbc);
+        
+        javax.swing.JPanel btnPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 0));
+        btnPanel.setOpaque(false);
+        saveButton.setPreferredSize(new java.awt.Dimension(120, 40));
+        clearButton.setPreferredSize(new java.awt.Dimension(120, 40));
+        btnPanel.add(saveButton);
+        btnPanel.add(clearButton);
+        gbc.gridx = 0; gbc.gridy = row++; gbc.insets = new java.awt.Insets(20, 0, 10, 5); formCardPanel.add(btnPanel, gbc);
+        
+        // Add a vertical glue to push everything up
+        gbc.gridx = 0; gbc.gridy = row++; gbc.weighty = 1.0; gbc.fill = java.awt.GridBagConstraints.VERTICAL;
+        formCardPanel.add(javax.swing.Box.createVerticalGlue(), gbc);
     }
 
     /**
