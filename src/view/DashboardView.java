@@ -17,7 +17,6 @@ public class DashboardView extends javax.swing.JPanel {
     
 
     public JButton getBtnNewPatientReg() { return btnNewPatientReg; }
-    public JButton getBtnGenEmergency() { return btnGenEmergency; }
 
     public JTable getTblWaitlist() { return tblWaitlist; }
     public JLabel getLblDate() { return lblDate; }
@@ -64,7 +63,6 @@ public class DashboardView extends javax.swing.JPanel {
         quickActionsPanel = new javax.swing.JPanel();
         lblQuickActions = new javax.swing.JLabel();
         btnNewPatientReg = new javax.swing.JButton();
-        btnGenEmergency = new javax.swing.JButton();
 
 
 
@@ -350,24 +348,7 @@ public class DashboardView extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 10;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
         quickActionsPanel.add(btnNewPatientReg, gridBagConstraints);
-
-        btnGenEmergency.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        btnGenEmergency.setForeground(new java.awt.Color(80, 80, 80));
-        btnGenEmergency.setText("Generate Emergency Token");
-        btnGenEmergency.setFocusPainted(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 15, 15);
-        quickActionsPanel.add(btnGenEmergency, gridBagConstraints);
 
 
 
@@ -417,7 +398,6 @@ public class DashboardView extends javax.swing.JPanel {
     private javax.swing.JPanel bottomLeftPanel;
     private javax.swing.JPanel bottomRightPanel;
 
-    private javax.swing.JButton btnGenEmergency;
     private javax.swing.JButton btnNewPatientReg;
     private javax.swing.JPanel cardDoctors;
     private javax.swing.JPanel cardTokensGen;

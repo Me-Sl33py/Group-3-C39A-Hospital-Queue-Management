@@ -28,33 +28,10 @@ public class WithTabbedPane extends javax.swing.JFrame {
             }
         });
         
-        injectAppointmentConfirmationTab();
     }
     
-    private javax.swing.JButton btnAppointmentConfirmation;
-    private view.AppointmentConfirmationView jPanel6;
     
-    private void injectAppointmentConfirmationTab() {
-        btnAppointmentConfirmation = new javax.swing.JButton();
-        btnAppointmentConfirmation.setBackground(new java.awt.Color(22, 137, 176));
-        btnAppointmentConfirmation.setFont(new java.awt.Font("Segoe UI", 0, 14));
-        btnAppointmentConfirmation.setForeground(new java.awt.Color(255, 255, 255));
-        btnAppointmentConfirmation.setText("Appointments");
-        btnAppointmentConfirmation.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
-        btnAppointmentConfirmation.setBorderPainted(false);
-        btnAppointmentConfirmation.setContentAreaFilled(false);
-        btnAppointmentConfirmation.setFocusPainted(false);
-        btnAppointmentConfirmation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnAppointmentConfirmation.setOpaque(true);
-        btnAppointmentConfirmation.addActionListener(e -> switchToTab(4));
-        
-        // Add to sidebar at absolute constraints
-        // Using AbsoluteConstraints is tricky without importing, so use full class name
-        sidebarPanel.add(btnAppointmentConfirmation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 240, 50));
-        
-        jPanel6 = new view.AppointmentConfirmationView();
-        jTabbedPane1.addTab("Appointment Confirmation", jPanel6);
-    }
+
 
     private controller.DashboardController dashboardController;
     private controller.RegisterWalkinController registerWalkinController;
@@ -107,23 +84,25 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnManageWaitlist1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new view.DashboardView();
-
         jPanel2 = new view.RegisterWalkinView();
         jPanel3 = new view.GenerateTokenView();
         jPanel5 = new view.ReceptionistAccountSettingsView();
+        jPanel6 = new view.AppointmentConfirmationView();
+        btnAppointmentConfirmation = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         sidebarPanel.setBackground(new java.awt.Color(22, 137, 176));
         sidebarPanel.setPreferredSize(new java.awt.Dimension(240, 700));
         sidebarPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblHospicare.setForeground(new java.awt.Color(255, 255, 255));
         lblHospicare.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblHospicare.setText("HOSPICARE");
-        sidebarPanel.add(lblHospicare, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
+        lblHospicare.setForeground(new java.awt.Color(255, 255, 255));
+        lblHospicare.setText("HQMS");
+        sidebarPanel.add(lblHospicare, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         btnRegisterWalkin.setBackground(new java.awt.Color(22, 137, 176));
-        btnRegisterWalkin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnRegisterWalkin.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnRegisterWalkin.setForeground(new java.awt.Color(255, 255, 255));
         btnRegisterWalkin.setText("Register Walk-in");
         btnRegisterWalkin.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
@@ -135,7 +114,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
         sidebarPanel.add(btnRegisterWalkin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 240, 50));
 
         btnGenerateToken.setBackground(new java.awt.Color(22, 137, 176));
-        btnGenerateToken.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGenerateToken.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnGenerateToken.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerateToken.setText("Generate Token");
         btnGenerateToken.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
@@ -146,10 +125,8 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnGenerateToken.setOpaque(true);
         sidebarPanel.add(btnGenerateToken, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 240, 50));
 
-
-
         btnAccounts.setBackground(new java.awt.Color(22, 137, 176));
-        btnAccounts.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAccounts.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnAccounts.setForeground(new java.awt.Color(255, 255, 255));
         btnAccounts.setText("Accounts");
         btnAccounts.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
@@ -159,22 +136,35 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnAccounts.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnAccounts.setOpaque(true);
         btnAccounts.addActionListener(this::btnAccountsActionPerformed);
-        sidebarPanel.add(btnAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 240, 50));
+        sidebarPanel.add(btnAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 240, 50));
+
+        btnAppointmentConfirmation.setBackground(new java.awt.Color(22, 137, 176));
+        btnAppointmentConfirmation.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnAppointmentConfirmation.setForeground(new java.awt.Color(255, 255, 255));
+        btnAppointmentConfirmation.setText("Appointments");
+        btnAppointmentConfirmation.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
+        btnAppointmentConfirmation.setBorderPainted(false);
+        btnAppointmentConfirmation.setContentAreaFilled(false);
+        btnAppointmentConfirmation.setFocusPainted(false);
+        btnAppointmentConfirmation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnAppointmentConfirmation.setOpaque(true);
+        btnAppointmentConfirmation.addActionListener(this::btnAppointmentConfirmationActionPerformed);
+        sidebarPanel.add(btnAppointmentConfirmation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 240, 50));
 
         btnLogout.setBackground(new java.awt.Color(22, 137, 176));
-        btnLogout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnLogout.setForeground(new java.awt.Color(255, 0, 0));
-        btnLogout.setText("Logout");
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnLogout.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogout.setText("   Logout");
         btnLogout.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
         btnLogout.setBorderPainted(false);
         btnLogout.setContentAreaFilled(false);
         btnLogout.setFocusPainted(false);
         btnLogout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnLogout.setOpaque(true);
-        sidebarPanel.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 240, 50));
+        sidebarPanel.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 860, 240, 50));
 
         btnManageWaitlist1.setBackground(new java.awt.Color(22, 137, 176));
-        btnManageWaitlist1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnManageWaitlist1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnManageWaitlist1.setForeground(new java.awt.Color(255, 255, 255));
         btnManageWaitlist1.setText("Waiting List");
         btnManageWaitlist1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
@@ -192,6 +182,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
         jTabbedPane1.addTab("Register Walk-in", jPanel2);
         jTabbedPane1.addTab("Generate Token", jPanel3);
         jTabbedPane1.addTab("Account Settings", jPanel5);
+        jTabbedPane1.addTab("Appointment Confirmation", jPanel6);
 
         getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
@@ -206,20 +197,26 @@ public class WithTabbedPane extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAccountsActionPerformed
 
+    private void btnAppointmentConfirmationActionPerformed(java.awt.event.ActionEvent evt) {
+        switchToTab(4);
+    }
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAccounts;
+    private javax.swing.JButton btnAppointmentConfirmation;
     private javax.swing.JButton btnGenerateToken;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageWaitlist1;
     private javax.swing.JButton btnRegisterWalkin;
     private view.DashboardView jPanel1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblHospicare;
-    private javax.swing.JPanel sidebarPanel;
     private view.RegisterWalkinView jPanel2;
     private view.GenerateTokenView jPanel3;
     private view.ReceptionistAccountSettingsView jPanel5;
+    private view.AppointmentConfirmationView jPanel6;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblHospicare;
+    private javax.swing.JPanel sidebarPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -21,10 +21,6 @@ public class DashboardController {
             mainFrame.switchToTab(1); // Switch to Register Walk-in tab
             mainFrame.getBtnRegisterWalkin().doClick(); // Select sidebar button
         });
-        view.getBtnGenEmergency().addActionListener(e -> {
-            mainFrame.switchToTab(2); // Switch to Generate Token tab
-            mainFrame.getBtnGenerateToken().doClick(); // Select sidebar button
-        });
     }
 
     public void refreshData() {

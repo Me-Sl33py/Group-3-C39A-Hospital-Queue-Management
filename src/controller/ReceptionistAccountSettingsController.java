@@ -44,11 +44,10 @@ public class ReceptionistAccountSettingsController {
             view.getLblEmpIdVal().setText(empId != null ? empId : "N/A");
             view.getTxtWorkEmpId().setText(empId != null ? empId : "");
 
-            // Populate forms (keep editable fields blank on load/reset)
-            view.getTxtFullName().setText("");
-            view.getTxtPhone().setText("");
-            view.getCbSecurityQuestion().setSelectedIndex(0);
-            view.getTxtSecurityAnswer().setText("");
+            // Populate forms
+            view.getTxtFullName().setText(fullName);
+            view.getTxtPhone().setText(phone != null ? phone : "");
+            
             
             // Clear passwords
             view.getTxtCurrentPwd().setText("");
@@ -67,8 +66,6 @@ public class ReceptionistAccountSettingsController {
 
         String newFullName = view.getTxtFullName().getText().trim();
         String newPhone = view.getTxtPhone().getText().trim();
-        String securityQuestion = (String) view.getCbSecurityQuestion().getSelectedItem();
-        String securityAnswer = view.getTxtSecurityAnswer().getText().trim();
         
         String currentPwdInput = new String(view.getTxtCurrentPwd().getPassword());
         String newPwdInput = new String(view.getTxtNewPwd().getPassword());
@@ -116,18 +113,6 @@ public class ReceptionistAccountSettingsController {
         // Handle security questions logic
         String finalSecQ = currentSecQ;
         String finalSecA = currentSecA;
-
-        if (view.getCbSecurityQuestion().getSelectedIndex() != 0) {
-            if (securityAnswer.isEmpty()) {
-                JOptionPane.showMessageDialog(mainFrame, "Please enter an answer for your security question.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            finalSecQ = securityQuestion;
-            finalSecA = securityAnswer;
-        } else if (!securityAnswer.isEmpty()) {
-            JOptionPane.showMessageDialog(mainFrame, "Please select a security question.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
 
         boolean success = dao.updateReceptionistProfile(currentUserId, targetFullName, targetPhone, targetPassword, finalSecQ, finalSecA);
 
