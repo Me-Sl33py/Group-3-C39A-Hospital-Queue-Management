@@ -140,6 +140,7 @@ public class DoctorController {
             btn.setContentAreaFilled(false);
             btn.setOpaque(true);
             btn.setFocusPainted(false);
+            btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
             if (btn == activeBtn) {
                 btn.setBackground(activeColor);
             } else {
