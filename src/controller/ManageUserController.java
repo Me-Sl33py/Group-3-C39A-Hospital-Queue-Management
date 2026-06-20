@@ -74,7 +74,17 @@ public class ManageUserController {
         setValue(panel.getTxtPhone(),    table.getValueAt(row, 2));
         setCombo(panel.getCmbGender(), table.getValueAt(row, 3));
         setCombo(panel.getCmbBloodGroup(), table.getValueAt(row, 4));
-        setValue(panel.getTxtDob(), table.getValueAt(row, 5));
+        Object dobVal = table.getValueAt(row, 5);
+        if (dobVal != null && !dobVal.toString().trim().isEmpty()) {
+            try {
+                java.util.Date d = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(dobVal.toString());
+                panel.getDobChooser().setDate(d);
+            } catch (Exception ex) {
+                panel.getDobChooser().setDate(null);
+            }
+        } else {
+            panel.getDobChooser().setDate(null);
+        }
         
         // Age is index 6, but we don't have a field for it in the Selected User Details panel.
         
@@ -99,7 +109,8 @@ public class ManageUserController {
             "No Selection", JOptionPane.WARNING_MESSAGE); return;
     }
     String fullName = panel.getTxtFullName().getText().trim();
-    String dob     = panel.getTxtDob().getText().trim();
+    java.util.Date d = panel.getDobChooser().getDate();
+    String dob = (d != null) ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(d) : "";
     String status  = panel.getCmbStatus().getSelectedItem().toString().toLowerCase();
     String gender  = panel.getCmbGender().getSelectedItem().toString().toLowerCase();
     String phone   = panel.getTxtPhone().getText().trim();
@@ -190,7 +201,7 @@ public class ManageUserController {
     selectedUserId = -1;
     panel.getTxtFullName().setText("");
     panel.getTxtPhone().setText("");
-    panel.getTxtDob().setText("");
+    panel.getDobChooser().setDate(null);
     panel.getTxtChangePassword().setText(""); // ← add this
     panel.getCmbRole().setSelectedIndex(0);
     panel.getCmbStatus().setSelectedIndex(0);
