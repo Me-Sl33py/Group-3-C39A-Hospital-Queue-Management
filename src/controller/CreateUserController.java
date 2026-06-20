@@ -33,7 +33,7 @@ public class CreateUserController {
         String rawName   = panel.getNameField().getText().trim();
         String phone     = panel.getNameField1().getText().trim();
         
-        if (!phone.matches("\\\\d{10}")) {
+        if (!phone.matches("\\d{10}")) {
             JOptionPane.showMessageDialog(panel, "Phone number must be exactly 10 digits.", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
