@@ -19,6 +19,9 @@ public class Patients extends javax.swing.JFrame {
      */
     public Patients() {
         initComponents();
+        setResizable(false);
+        setMinimumSize(new java.awt.Dimension(1000, 700));
+        setMaximumSize(new java.awt.Dimension(1000, 700));
         controller = new PatientController(this);
     }
 
@@ -42,19 +45,9 @@ public class Patients extends javax.swing.JFrame {
         btnLogout = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                int confirm = javax.swing.JOptionPane.showConfirmDialog(Patients.this, 
-                    "Are you sure you want to exit the application?", "Exit Confirmation", 
-                    javax.swing.JOptionPane.YES_NO_OPTION);
-                if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
-            }
-        });
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 700));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(30, 100, 180));
@@ -125,9 +118,10 @@ public class Patients extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 250, 720);
 
+        contentPanel.setOpaque(false);
         contentPanel.setLayout(new java.awt.BorderLayout());
         getContentPane().add(contentPanel);
-        contentPanel.setBounds(250, 0, 750, 700);
+        contentPanel.setBounds(250, 10, 750, 690);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

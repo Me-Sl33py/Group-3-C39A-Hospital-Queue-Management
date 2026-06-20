@@ -33,6 +33,11 @@ public class RatingPanel extends javax.swing.JPanel {
         
         jLabel5.setVisible(false);
         
+        javax.swing.JLabel lblOutOf5 = new javax.swing.JLabel("out of 5");
+        lblOutOf5.setFont(new java.awt.Font("Tahoma", 0, 14));
+        lblOutOf5.setBounds(170, 100, 100, 35);
+        jPanel1.add(lblOutOf5);
+        
         jPanel1.add(cmbStars);
         jPanel1.add(cmbAppointments);
     }
@@ -65,7 +70,7 @@ public class RatingPanel extends javax.swing.JPanel {
         add(jLabel1);
         jLabel1.setBounds(30, 30, 200, 30);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 20)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         jLabel2.setText("🔔");
         add(jLabel2);
         jLabel2.setBounds(690, 30, 30, 30);
@@ -105,7 +110,7 @@ public class RatingPanel extends javax.swing.JPanel {
 
         btnSubmit.setBackground(new java.awt.Color(30, 100, 180));
         btnSubmit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnSubmit.setForeground(new java.awt.Color(255, 255, 255));
+        btnSubmit.setForeground(new java.awt.Color(51, 51, 51));
         btnSubmit.setText("Submit Rating");
         jPanel1.add(btnSubmit);
         btnSubmit.setBounds(250, 350, 180, 40);
