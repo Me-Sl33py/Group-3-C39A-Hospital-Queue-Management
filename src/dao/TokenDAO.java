@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TokenDAO {
+    public static String lastError = "";
 
-    public int createToken(int appointmentId, String patientId, int departmentId, String doctorId) {
+    public int createToken(Integer appointmentId, String patientId, int departmentId, String doctorId) {
+        lastError = "";
         String tokenNumQuery = "SELECT COALESCE(MAX(token_number), 0) + 1 FROM queue WHERE department_id = ? AND DATE(created_at) = CURDATE()";
         String insertQuery = "INSERT INTO queue (appointment_id, patient_id, department_id, doctor_id, token_number, status) VALUES (?, ?, ?, ?, ?, 'waiting')";
         
@@ -23,7 +25,11 @@ public class TokenDAO {
             }
             
             try (PreparedStatement pstmt2 = conn.prepareStatement(insertQuery)) {
-                pstmt2.setInt(1, appointmentId);
+                if (appointmentId != null && appointmentId > 0) {
+                    pstmt2.setInt(1, appointmentId);
+                } else {
+                    pstmt2.setNull(1, java.sql.Types.INTEGER);
+                }
                 pstmt2.setString(2, patientId);
                 pstmt2.setInt(3, departmentId);
                 if (doctorId != null && !doctorId.isEmpty()) {
@@ -37,6 +43,7 @@ public class TokenDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            lastError = e.getMessage();
         }
         return -1;
     }

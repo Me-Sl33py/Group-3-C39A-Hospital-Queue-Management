@@ -227,10 +227,7 @@ public class GenerateTokenController {
         dao.AppointmentDAO apptDAO = new dao.AppointmentDAO();
         model.Appointment appointment = apptDAO.getLatestConfirmedAppointment(currentPatientId);
         
-        if (appointment == null) {
-            JOptionPane.showMessageDialog(view, "No confirmed appointment found for this patient.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        Integer appointmentId = appointment != null ? appointment.getAppointmentId() : null;
 
         String doctorId = null;
         Object selectedDoctor = view.getCbDoctor() != null ? view.getCbDoctor().getSelectedItem() : null;
@@ -239,7 +236,7 @@ public class GenerateTokenController {
         }
 
         dao.TokenDAO tokenDAO = new dao.TokenDAO();
-        int generatedTokenNumber = tokenDAO.createToken(appointment.getAppointmentId(), currentPatientId, dept.getDepartmentId(), doctorId);
+        int generatedTokenNumber = tokenDAO.createToken(appointmentId, currentPatientId, dept.getDepartmentId(), doctorId);
 
         if (generatedTokenNumber != -1) {
             refreshLiveQueue();
@@ -251,7 +248,7 @@ public class GenerateTokenController {
                 mainFrame.getRegisterWalkinController().refreshData();
             }
         } else {
-            JOptionPane.showMessageDialog(view, "Database Error: Could not create token.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Database Error: Could not create token.\n" + dao.TokenDAO.lastError, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

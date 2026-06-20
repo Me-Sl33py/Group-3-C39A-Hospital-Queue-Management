@@ -229,8 +229,7 @@ public class PatientDAO {
     // Get all patients
     public List<Patient> getAllPatients() {
         List<Patient> list = new ArrayList<>();
-        String sql = "SELECT patient_id, user_id, full_name, age, gender, " +
-                     "contact_number, address FROM patients";
+        String sql = "SELECT * FROM patients";
         try (Connection conn = database.MySqlConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -329,12 +328,10 @@ public class PatientDAO {
             rs.getString("contact_number"),
             rs.getString("address")
         );
-        p.setDob(rs.getDate("dob"));
-        try {
-            p.setBloodGroup(rs.getString("blood_group"));
-        } catch (SQLException e) {
-            // blood_group might not be in the SELECT clause of some queries
-        }
+        try { p.setDob(rs.getDate("dob")); } catch (SQLException e) {}
+        try { p.setBloodGroup(rs.getString("blood_group")); } catch (SQLException e) {}
+        try { p.setCreatedAt(rs.getTimestamp("created_at")); } catch (SQLException e) {}
+        try { p.setUsername(rs.getString("username")); } catch (SQLException e) {}
         return p;
     }
 
