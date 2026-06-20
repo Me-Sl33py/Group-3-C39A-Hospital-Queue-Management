@@ -492,17 +492,19 @@ public class PatientDAO {
         }
     }
 
-    public boolean saveMedicalRecord(String patientId, String doctorId, String notes) {
-        String sql = "INSERT INTO medical_records (appointment_id, patient_id, doctor_id, notes) " +
-                     "SELECT appointment_id, ?, ?, ? FROM queue " +
+    public boolean saveMedicalRecord(String patientId, String doctorId, String diagnosis, String prescription, String notes) {
+        String sql = "INSERT INTO medical_records (appointment_id, patient_id, doctor_id, diagnosis, prescription, notes) " +
+                     "SELECT appointment_id, ?, ?, ?, ?, ? FROM queue " +
                      "WHERE patient_id = ? AND doctor_id = ? ORDER BY queue_id DESC LIMIT 1";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
             ps.setString(2, doctorId);
-            ps.setString(3, notes);
-            ps.setString(4, patientId);
-            ps.setString(5, doctorId);
+            ps.setString(3, diagnosis);
+            ps.setString(4, prescription);
+            ps.setString(5, notes);
+            ps.setString(6, patientId);
+            ps.setString(7, doctorId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("saveMedicalRecord error: " + e.getMessage());
