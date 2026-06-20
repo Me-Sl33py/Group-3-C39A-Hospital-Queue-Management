@@ -20,7 +20,7 @@ public class DoctorPanel extends javax.swing.JFrame {
 
     
 private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DoctorPanel.class.getName());
-private controller.LogoutController logoutController;
+
     /**
      * Creates new form DoctorPanel
      */
@@ -63,7 +63,7 @@ private controller.LogoutController logoutController;
             jTabbedPane1.insertTab(title, null, sp5, null, tabIndex5);
         }
 
-        logoutController = new controller.LogoutController(null, this, null, null);
+
     }
     // =====================================================================
 // GETTERS — expose UI components to the controller
@@ -292,7 +292,8 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         jButton5.setBackground(new java.awt.Color(0, 102, 255));
         jButton5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 0, 51));
-        jButton5.setText("Logout");
+        jButton5.setText("🚪 Logout");
+        jButton5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jButton5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jButton5.addActionListener(this::jButton5ActionPerformed);
 
@@ -301,25 +302,25 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
 
         MyQueue.setBackground(new java.awt.Color(0, 102, 255));
         MyQueue.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        MyQueue.setText("My Queue");
+        MyQueue.setText("📋 My Queue");
         MyQueue.setBorder(null);
         MyQueue.addActionListener(this::MyQueueActionPerformed);
 
         CallNextPatient.setBackground(new java.awt.Color(0, 102, 255));
         CallNextPatient.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        CallNextPatient.setText("Call Next Patient");
+        CallNextPatient.setText("🔔 Call Next Patient");
         CallNextPatient.setBorder(null);
         CallNextPatient.addActionListener(this::CallNextPatientActionPerformed);
 
         AddMedicalRecords.setBackground(new java.awt.Color(0, 102, 255));
         AddMedicalRecords.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        AddMedicalRecords.setText("Add Medical Records");
+        AddMedicalRecords.setText("📝 Add Medical Records");
         AddMedicalRecords.setBorder(null);
         AddMedicalRecords.addActionListener(this::AddMedicalRecordsActionPerformed);
 
         Account.setBackground(new java.awt.Color(0, 102, 255));
         Account.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        Account.setText("Account");
+        Account.setText("👤 Account");
         Account.setBorder(null);
         Account.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1393,12 +1394,9 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-         if (logoutController != null) {
-        logoutController.handleLogout();
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // Let DoctorController handle this
+    }                                        
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
