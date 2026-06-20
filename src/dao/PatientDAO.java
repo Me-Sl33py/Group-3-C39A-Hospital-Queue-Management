@@ -93,10 +93,7 @@ public class PatientDAO {
     public boolean insertPatient(String patientId, int userId, String fullName, String username,
                                  java.sql.Date dob, int age, String gender,
                                  String contactNumber, String address) {
-        String sql = "INSERT INTO patients " +
-                     "(patient_id, user_id, full_name, username, dob, age, " +
-                     "gender, contact_number, address) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO patients (patient_id, user_id) VALUES (?, ?)";
         String profileSql = "INSERT INTO user_profiles (user_id, full_name, contact_number, dob, age, gender, role, address) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -105,13 +102,6 @@ public class PatientDAO {
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, patientId);
                 ps.setInt   (2, userId);
-                ps.setString(3, fullName);
-                ps.setString(4, username);
-                ps.setDate  (5, dob);
-                ps.setInt   (6, age);
-                ps.setString(7, gender);
-                ps.setString(8, contactNumber);
-                ps.setString(9, address);
                 int rowsAffected = ps.executeUpdate();
 
                 // Insert into user_profiles table
@@ -229,7 +219,10 @@ public class PatientDAO {
     // Get all patients
     public List<Patient> getAllPatients() {
         List<Patient> list = new ArrayList<>();
-        String sql = "SELECT * FROM patients";
+        String sql = "SELECT p.patient_id, p.user_id, p.created_at, u.username, up.full_name, up.dob, up.age, up.blood_group, up.gender, up.contact_number, up.address " +
+                     "FROM patients p " +
+                     "JOIN users u ON p.user_id = u.user_id " +
+                     "JOIN user_profiles up ON p.user_id = up.user_id";
         try (Connection conn = database.MySqlConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -242,8 +235,11 @@ public class PatientDAO {
 
     // Get patient by ID
     public Patient getPatientById(String patientId) {
-        String sql = "SELECT patient_id, user_id, full_name, dob, age, gender, " +
-                     "contact_number, address, blood_group FROM patients WHERE patient_id = ?";
+        String sql = "SELECT p.patient_id, p.user_id, p.created_at, u.username, up.full_name, up.dob, up.age, up.blood_group, up.gender, up.contact_number, up.address " +
+                     "FROM patients p " +
+                     "JOIN users u ON p.user_id = u.user_id " +
+                     "JOIN user_profiles up ON p.user_id = up.user_id " +
+                     "WHERE p.patient_id = ?";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, patientId);
@@ -257,9 +253,11 @@ public class PatientDAO {
     }
 
     public Patient getNextWaitingPatient(String doctorId) {
-        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
-                     "p.contact_number, p.address FROM patients p " +
+        String sql = "SELECT p.patient_id, p.user_id, p.created_at, u.username, up.full_name, up.dob, up.age, up.gender, " +
+                     "up.contact_number, up.address, up.blood_group FROM patients p " +
                      "JOIN queue q ON p.patient_id = q.patient_id " +
+                     "JOIN users u ON p.user_id = u.user_id " +
+                     "JOIN user_profiles up ON p.user_id = up.user_id " +
                      "WHERE q.status = 'waiting' AND q.doctor_id = ? " +
                      "ORDER BY q.token_number ASC LIMIT 1";
         try (Connection conn = database.MySqlConnection.getConnection();
@@ -292,8 +290,10 @@ public class PatientDAO {
     // Get all queue patients for a specific doctor
     public List<Object[]> getQueueByDoctor(String doctorId) {
         List<Object[]> list = new ArrayList<>();
-        String sql = "SELECT q.token_number, p.full_name, p.age, p.gender, q.status " +
-                     "FROM queue q JOIN patients p ON q.patient_id = p.patient_id " +
+        String sql = "SELECT q.token_number, up.full_name, up.age, up.gender, q.status " +
+                     "FROM queue q " +
+                     "JOIN patients p ON q.patient_id = p.patient_id " +
+                     "JOIN user_profiles up ON p.user_id = up.user_id " +
                      "WHERE q.doctor_id = ? ORDER BY q.token_number ASC";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -410,8 +410,9 @@ public class PatientDAO {
     }
 
     public Patient getNextSkippedPatient(String doctorId) {
-        String sql = "SELECT p.patient_id, p.user_id, p.full_name, p.dob, p.age, p.gender, " +
-                     "p.contact_number, p.address FROM patients p " +
+        String sql = "SELECT p.patient_id, p.user_id, up.full_name, up.dob, up.age, up.gender, " +
+                     "up.contact_number, up.address FROM patients p " +
+                     "JOIN user_profiles up ON p.user_id = up.user_id " +
                      "JOIN queue q ON p.patient_id = q.patient_id " +
                      "WHERE q.status = 'skipped' AND q.doctor_id = ? " +
                      "ORDER BY q.token_number ASC LIMIT 1";
@@ -454,8 +455,9 @@ public class PatientDAO {
 
     public List<Object[]> getNoShowPatientsByDoctor(String doctorId) {
         List<Object[]> list = new ArrayList<>();
-        String sql = "SELECT q.token_number, p.full_name, p.patient_id " +
+        String sql = "SELECT q.token_number, up.full_name, p.patient_id " +
                      "FROM queue q JOIN patients p ON q.patient_id = p.patient_id " +
+                     "JOIN user_profiles up ON p.user_id = up.user_id " +
                      "WHERE q.doctor_id = ? AND q.status = 'no show' " +
                      "ORDER BY q.token_number ASC";
         try (Connection conn = database.MySqlConnection.getConnection();

@@ -189,8 +189,8 @@ public class UserDAO {
     private boolean insertAdmin(Connection c, int userId, String username) throws SQLException {
         String id = generateId(c, "admins", "admin_id", "A");
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO admins (admin_id, user_id, username) VALUES (?, ?, ?)")) {
-            ps.setString(1, id); ps.setInt(2, userId); ps.setString(3, username);
+                "INSERT INTO admins (admin_id, user_id) VALUES (?, ?)")) {
+            ps.setString(1, id); ps.setInt(2, userId);
             return ps.executeUpdate() > 0;
         }
     }
@@ -199,12 +199,10 @@ public class UserDAO {
    private boolean insertReceptionist(Connection c, int userId, String fullName, String username, String shift) throws SQLException {
         String id = generateId(c, "receptionists", "receptionist_id", "R");
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO receptionists (receptionist_id, user_id, full_name, username, shift) VALUES (?, ?, ?, ?, ?)")) {
+                "INSERT INTO receptionists (receptionist_id, user_id, shift) VALUES (?, ?, ?)")) {
             ps.setString(1, id);
             ps.setInt(2, userId);
-            ps.setString(3, fullName);
-            ps.setString(4, username);
-            ps.setString(5, shift);
+            ps.setString(3, shift);
             return ps.executeUpdate() > 0;
         }
     }
@@ -213,8 +211,8 @@ public class UserDAO {
     private boolean insertDoctor(Connection c, int userId, String fullName, String username) throws SQLException {
         String id = generateId(c, "doctors", "doctor_id", "D");
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO doctors (doctor_id, user_id, full_name, username, specialization, department_id) VALUES (?, ?, ?, ?, 'General', 1)")) {
-            ps.setString(1, id); ps.setInt(2, userId); ps.setString(3, fullName); ps.setString(4, username);
+                "INSERT INTO doctors (doctor_id, user_id, specialization, department_id) VALUES (?, ?, 'General', 1)")) {
+            ps.setString(1, id); ps.setInt(2, userId);
             return ps.executeUpdate() > 0;
         }
     }
@@ -224,16 +222,8 @@ public class UserDAO {
         String id = generateId(c, "patients", "patient_id", "P");
         int age = calculateAge(dob);
         try (PreparedStatement ps = c.prepareStatement(
-                "INSERT INTO patients (patient_id, user_id, full_name, username, dob, age, gender, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
-            ps.setString(1, id); ps.setInt(2, userId); ps.setString(3, fullName); ps.setString(4, username);
-            if (dob != null && !dob.trim().isEmpty()) {
-                ps.setDate(5, java.sql.Date.valueOf(dob));
-            } else {
-                ps.setNull(5, java.sql.Types.DATE);
-            }
-            ps.setInt(6, age);
-            ps.setString(7, gender);
-            ps.setString(8, phone);
+                "INSERT INTO patients (patient_id, user_id) VALUES (?, ?)")) {
+            ps.setString(1, id); ps.setInt(2, userId);
             return ps.executeUpdate() > 0;
         }
     }
@@ -399,7 +389,7 @@ public class UserDAO {
 
     public boolean registerPatient(String patientId, int userId, String fullName, String username, int age, String gender, String contactNumber, String address) {
         String profileSql = "INSERT INTO user_profiles (user_id, full_name, age, gender, contact_number, address, role) VALUES (?, ?, ?, ?, ?, ?, 'patient')";
-        String patientSql = "INSERT INTO patients (patient_id, user_id, full_name, username, age, gender, contact_number, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String patientSql = "INSERT INTO patients (patient_id, user_id) VALUES (?, ?)";
         try (Connection conn = getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement ps1 = conn.prepareStatement(profileSql);
@@ -415,12 +405,6 @@ public class UserDAO {
 
                 ps2.setString(1, patientId);
                 ps2.setInt(2, userId);
-                ps2.setString(3, fullName);
-                ps2.setString(4, username);
-                ps2.setInt(5, age);
-                ps2.setString(6, gender);
-                ps2.setString(7, contactNumber);
-                ps2.setString(8, address);
                 ps2.executeUpdate();
 
                 conn.commit();

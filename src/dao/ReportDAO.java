@@ -53,12 +53,14 @@ public class ReportDAO {
     
 public List<String[]> searchAppointments(String keyword) {
     List<String[]> list = new ArrayList<>();
-    String sql = "SELECT p.full_name, d.department_name, a.status, a.appointment_date, doc.full_name " +
+    String sql = "SELECT pup.full_name, d.department_name, a.status, a.appointment_date, dup.full_name " +
                  "FROM appointments a " +
                  "JOIN patients p ON a.patient_id = p.patient_id " +
+                 "JOIN user_profiles pup ON p.user_id = pup.user_id " +
                  "JOIN doctors doc ON a.doctor_id = doc.doctor_id " +
+                 "JOIN user_profiles dup ON doc.user_id = dup.user_id " +
                  "JOIN departments d ON doc.department_id = d.department_id " +
-                 "WHERE p.full_name LIKE ? OR doc.full_name LIKE ?";
+                 "WHERE pup.full_name LIKE ? OR dup.full_name LIKE ?";
     try (Connection c = getConnection();
          PreparedStatement ps = c.prepareStatement(sql)) {
         String kw = "%" + keyword + "%";
@@ -78,10 +80,12 @@ public List<String[]> searchAppointments(String keyword) {
 
     public List<String[]> getMonthlyAppointments() {
         List<String[]> list = new ArrayList<>();
-        String sql = "SELECT p.full_name, d.department_name, a.status, a.appointment_date, doc.full_name " +
+        String sql = "SELECT pup.full_name, d.department_name, a.status, a.appointment_date, dup.full_name " +
                      "FROM appointments a " +
                      "JOIN patients p ON a.patient_id = p.patient_id " +
+                     "JOIN user_profiles pup ON p.user_id = pup.user_id " +
                      "JOIN doctors doc ON a.doctor_id = doc.doctor_id " +
+                     "JOIN user_profiles dup ON doc.user_id = dup.user_id " +
                      "JOIN departments d ON doc.department_id = d.department_id " +
                      "WHERE MONTH(a.appointment_date) = MONTH(CURDATE())";
         try (Connection c = getConnection();

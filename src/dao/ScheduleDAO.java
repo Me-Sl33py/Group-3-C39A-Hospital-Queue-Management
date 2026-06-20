@@ -18,12 +18,14 @@ public class ScheduleDAO {
 
         String sql =
             "SELECT a.appointment_time, " +
-            "d.full_name AS doctor_name, " +
-            "p.full_name AS patient_name, " +
+            "dup.full_name AS doctor_name, " +
+            "pup.full_name AS patient_name, " +
             "a.status " +
             "FROM appointments a " +
             "JOIN doctors d ON a.doctor_id = d.doctor_id " +
+            "JOIN user_profiles dup ON d.user_id = dup.user_id " +
             "JOIN patients p ON a.patient_id = p.patient_id " +
+            "JOIN user_profiles pup ON p.user_id = pup.user_id " +
             "WHERE a.appointment_date = CURDATE() " +
             "ORDER BY a.appointment_time ASC";
 

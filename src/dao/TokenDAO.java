@@ -52,10 +52,12 @@ public class TokenDAO {
         List<Token> tokens = new ArrayList<>();
         String query = "SELECT q.queue_id, q.token_number, q.status, q.created_at, q.patient_id, q.doctor_id, " +
                        "q.appointment_id, q.department_id, " +
-                       "p.full_name AS patient_name, d.full_name AS doctor_name, dep.department_name " +
+                       "pup.full_name AS patient_name, dup.full_name AS doctor_name, dep.department_name " +
                        "FROM queue q " +
                        "JOIN patients p ON q.patient_id = p.patient_id " +
+                       "JOIN user_profiles pup ON p.user_id = pup.user_id " +
                        "LEFT JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                       "LEFT JOIN user_profiles dup ON d.user_id = dup.user_id " +
                        "LEFT JOIN departments dep ON q.department_id = dep.department_id " +
                        "WHERE q.status = 'waiting' " +
                        "ORDER BY q.created_at ASC";
@@ -151,10 +153,12 @@ public class TokenDAO {
     public Token getNextUnassignedToken() {
         String query = "SELECT q.queue_id, q.token_number, q.status, q.created_at, q.patient_id, q.doctor_id, " +
                        "q.appointment_id, q.department_id, " +
-                       "p.full_name AS patient_name, d.full_name AS doctor_name, dep.department_name " +
+                       "pup.full_name AS patient_name, dup.full_name AS doctor_name, dep.department_name " +
                        "FROM queue q " +
                        "JOIN patients p ON q.patient_id = p.patient_id " +
+                       "JOIN user_profiles pup ON p.user_id = pup.user_id " +
                        "LEFT JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                       "LEFT JOIN user_profiles dup ON d.user_id = dup.user_id " +
                        "LEFT JOIN departments dep ON q.department_id = dep.department_id " +
                        "WHERE q.status = 'waiting' AND q.doctor_id IS NULL " +
                        "ORDER BY q.created_at ASC LIMIT 1";

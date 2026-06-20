@@ -36,9 +36,10 @@ public class AppointmentDAO {
 
     public List<Appointment> getAppointmentsByPatient(String patientId) {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT a.*, d.full_name AS doctor_name, dep.department_name " +
+        String sql = "SELECT a.*, dup.full_name AS doctor_name, dep.department_name " +
                      "FROM appointments a " +
                      "JOIN doctors d ON a.doctor_id = d.doctor_id " +
+                     "JOIN user_profiles dup ON d.user_id = dup.user_id " +
                      "JOIN departments dep ON d.department_id = dep.department_id " +
                      "WHERE a.patient_id = ? " +
                      "ORDER BY a.appointment_date DESC, a.appointment_time DESC";
@@ -71,9 +72,10 @@ public class AppointmentDAO {
 
     public List<Appointment> getCompletedAppointmentsWithoutRating(String patientId) {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT a.*, d.full_name AS doctor_name " +
+        String sql = "SELECT a.*, dup.full_name AS doctor_name " +
                      "FROM appointments a " +
                      "JOIN doctors d ON a.doctor_id = d.doctor_id " +
+                     "JOIN user_profiles dup ON d.user_id = dup.user_id " +
                      "LEFT JOIN ratings r ON a.appointment_id = r.appointment_id " +
                      "WHERE a.patient_id = ? AND a.status = 'completed' AND r.rating_id IS NULL";
                      
@@ -115,10 +117,12 @@ public class AppointmentDAO {
 
     public List<Appointment> getPendingAppointments() {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT a.*, p.full_name AS patient_name, d.full_name AS doctor_name " +
+        String sql = "SELECT a.*, pup.full_name AS patient_name, dup.full_name AS doctor_name " +
                      "FROM appointments a " +
                      "JOIN patients p ON a.patient_id = p.patient_id " +
+                     "JOIN user_profiles pup ON p.user_id = pup.user_id " +
                      "JOIN doctors d ON a.doctor_id = d.doctor_id " +
+                     "JOIN user_profiles dup ON d.user_id = dup.user_id " +
                      "WHERE a.status = 'pending' " +
                      "ORDER BY a.appointment_date ASC, a.appointment_time ASC";
         try (Connection conn = database.MySqlConnection.getConnection();
@@ -187,14 +191,16 @@ public class AppointmentDAO {
 
     public List<Appointment> searchPendingAppointments(String keyword) {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT a.*, p.full_name AS patient_name, p.contact_number AS patient_phone, d.full_name AS doctor_name, d.department_id " +
+        String sql = "SELECT a.*, pup.full_name AS patient_name, pup.contact_number AS patient_phone, dup.full_name AS doctor_name, d.department_id " +
                      "FROM appointments a " +
                      "JOIN patients p ON a.patient_id = p.patient_id " +
+                     "JOIN user_profiles pup ON p.user_id = pup.user_id " +
                      "JOIN doctors d ON a.doctor_id = d.doctor_id " +
+                     "JOIN user_profiles dup ON d.user_id = dup.user_id " +
                      "WHERE a.status = 'pending' ";
         
         if (keyword != null && !keyword.trim().isEmpty()) {
-            sql += "AND (p.full_name LIKE ? OR p.patient_id LIKE ?) ";
+            sql += "AND (pup.full_name LIKE ? OR p.patient_id LIKE ?) ";
         }
         sql += "ORDER BY a.appointment_date ASC, a.appointment_time ASC";
                      
