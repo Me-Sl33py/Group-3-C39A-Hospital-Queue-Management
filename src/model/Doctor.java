@@ -53,7 +53,8 @@ public class Doctor {
     public void setAvailability(String availability)     { this.availability   = availability;   }
     @Override
     public String toString() {
-        return fullName != null ? "Dr. " + fullName : "Unknown Doctor";
+        if (fullName == null) return "Unknown Doctor";
+        return fullName.startsWith("Dr. ") ? fullName : "Dr. " + fullName;
     }
 
     public String getUsername() { return username; }

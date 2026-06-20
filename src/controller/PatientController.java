@@ -189,6 +189,15 @@ public class PatientController {
         mainView.btnLogout.addActionListener(e -> showPanel(logoutPanel));
         
         queuePanel.getCmbDepartment().addActionListener(e -> {
+            Department selectedDept = (Department) queuePanel.getCmbDepartment().getSelectedItem();
+            if (selectedDept != null) {
+                QueueItem q = queueDAO.getCurrentQueueForPatientInDept(PatientSession.getPatientId(), selectedDept.getDepartmentId());
+                if (q != null) {
+                    queuePanel.displayQueue(q);
+                } else {
+                    queuePanel.displayNoQueue();
+                }
+            }
             updateQueueMetrics();
         });
         
@@ -354,6 +363,18 @@ public class PatientController {
                 queuePanel.getCmbDepartment().addItem(d);
             }
         }
+        
+        QueueItem qAny = queueDAO.getCurrentQueueForPatient(PatientSession.getPatientId());
+        if (qAny != null) {
+            for (int i = 0; i < queuePanel.getCmbDepartment().getItemCount(); i++) {
+                Department d = (Department) queuePanel.getCmbDepartment().getItemAt(i);
+                if (d.getDepartmentName().equals(qAny.getDepartmentName())) {
+                    queuePanel.getCmbDepartment().setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+
         Department selectedDept = (Department) queuePanel.getCmbDepartment().getSelectedItem();
         if (selectedDept != null) {
             QueueItem q = queueDAO.getCurrentQueueForPatientInDept(PatientSession.getPatientId(), selectedDept.getDepartmentId());
@@ -399,8 +420,15 @@ public class PatientController {
     private void loadRatingData() {
         ratingPanel.getCmbAppointments().removeAllItems();
         List<Appointment> apps = appointmentDAO.getCompletedAppointmentsWithoutRating(PatientSession.getPatientId());
-        for (Appointment a : apps) {
-            ratingPanel.getCmbAppointments().addItem(a);
+        if (apps == null || apps.isEmpty()) {
+            Appointment dummy = new Appointment();
+            dummy.setAppointmentId(-1);
+            dummy.setDoctorName("No unrated appointments found");
+            ratingPanel.getCmbAppointments().addItem(dummy);
+        } else {
+            for (Appointment a : apps) {
+                ratingPanel.getCmbAppointments().addItem(a);
+            }
         }
         ratingPanel.getTxtFeedback().setText("");
     }
@@ -410,7 +438,7 @@ public class PatientController {
         Integer stars = (Integer) ratingPanel.getCmbStars().getSelectedItem();
         String feedback = ratingPanel.getTxtFeedback().getText();
 
-        if (app == null) {
+        if (app == null || app.getAppointmentId() == -1) {
             JOptionPane.showMessageDialog(mainView, "No appointments available to rate.");
             return;
         }
@@ -490,6 +518,11 @@ public class PatientController {
 
         if (!patientDAO.validateCurrentPassword(PatientSession.getUserId(), currPass)) {
             JOptionPane.showMessageDialog(mainView, "Incorrect current password!");
+            return;
+        }
+
+        if (!newPass.isEmpty() && !newPass.startsWith("Enter") && newPass.equals(currPass)) {
+            JOptionPane.showMessageDialog(mainView, "New password cannot be the same as the current password.");
             return;
         }
 

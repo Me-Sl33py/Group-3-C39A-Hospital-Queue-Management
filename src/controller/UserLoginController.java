@@ -128,8 +128,13 @@ public class UserLoginController {
 
                 // Fill username field if data is present
                 if (savedId != null && !savedId.isEmpty()) {
-                    view.getIdField().setText(savedId);
-                    view.getIdField().setForeground(java.awt.Color.BLACK);
+                    if (savedId.matches("\\d+") && savedId.length() >= 10) {
+                        view.getPhoneField().setText(savedId);
+                        view.getPhoneField().setForeground(java.awt.Color.BLACK);
+                    } else {
+                        view.getIdField().setText(savedId);
+                        view.getIdField().setForeground(java.awt.Color.BLACK);
+                    }
                 }
                 // Fill password field if data is present
                 if (savedPassword != null && !savedPassword.isEmpty()) {

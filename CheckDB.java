@@ -1,0 +1,18 @@
+import java.sql.*;
+
+public class CheckDB {
+    public static void main(String[] args) throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital_queue_management_db", "root", "I_1t_Relax!");
+        ResultSet r = c.createStatement().executeQuery("SELECT * FROM queue");
+        while(r.next()) {
+            System.out.println("QID:" + r.getInt("queue_id") + " PAT:" + r.getString("patient_id") + " DEPT:" + r.getInt("department_id") + " TOK:" + r.getInt("token_number") + " STAT:" + r.getString("status"));
+        }
+        System.out.println("-----");
+        ResultSet r2 = c.createStatement().executeQuery("SELECT patient_id, user_id FROM patients");
+        while(r2.next()) {
+            System.out.println("PATID:" + r2.getString("patient_id") + " USERID:" + r2.getInt("user_id"));
+        }
+        c.close();
+    }
+}
