@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DriverManager;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * MySqlConnection — implements the Db interface to handle all MySQL connections.
@@ -21,10 +24,7 @@ import java.sql.DriverManager;
 public class MySqlConnection implements DB {
 
     // ==================== Database Configuration ====================
-    private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "Ahhklzzz@133";
-    private static final String DB_NAME     = "hospital_queue_management_db";
-    private static final String DB_URL      = "jdbc:mysql://localhost:3306/" + DB_NAME;
+    // Configuration is now loaded dynamically from db.properties
 
     /**
      * Static helper method to get a connection directly.
@@ -40,10 +40,27 @@ public class MySqlConnection implements DB {
     @Override
     public Connection openConnection() {
         try {
+            // Load database configuration from db.properties
+            Properties props = new Properties();
+            try (FileInputStream in = new FileInputStream("db.properties")) {
+                props.load(in);
+            } catch (IOException e) {
+                System.out.println("[DB] Error loading db.properties: " + e.getMessage());
+                return null;
+            }
+
+            String dbHost = props.getProperty("db.host", "localhost");
+            String dbPort = props.getProperty("db.port", "3306");
+            String dbName = props.getProperty("db.name", "hospital_queue_management_db");
+            String dbUser = props.getProperty("db.user", "root");
+            String dbPass = props.getProperty("db.password", "");
+            
+            String dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+
             // Load the MySQL JDBC driver (needed for older JDK/JDBC versions)
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPass);
 
             if (conn == null) {
                 System.out.println("[DB] Connection NOT successful.");
