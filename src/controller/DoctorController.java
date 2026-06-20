@@ -132,8 +132,8 @@ public class DoctorController {
             view.getBtnAddRecords(),
             view.getBtnAccount()
         };
-        java.awt.Color activeColor = new java.awt.Color(51, 153, 255); // Brighter blue
-        java.awt.Color inactiveColor = new java.awt.Color(0, 102, 255); // Original blue
+        java.awt.Color activeColor = new java.awt.Color(51, 102, 255); // Admin active blue
+        java.awt.Color inactiveColor = new java.awt.Color(22, 54, 120); // Admin normal blue
         
         for (JButton btn : navBtns) {
             btn.setBorderPainted(false);

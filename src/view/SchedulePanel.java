@@ -18,6 +18,13 @@ public class SchedulePanel extends javax.swing.JPanel {
     public SchedulePanel() {
         initComponents();
         setupTable();
+        
+        // --- Apply UI Standardization ---
+        java.awt.Color bodyBg = new java.awt.Color(235, 240, 251);
+        this.setBackground(bodyBg);
+        mainContentPanel.setBackground(bodyBg);
+        topBarPanel1.setPreferredSize(new java.awt.Dimension(1000, 60));
+        topBarPanel1.setMinimumSize(new java.awt.Dimension(100, 60));
     }
 
     private void setupTable() {

@@ -19,10 +19,12 @@ public class ScheduleDAO {
         String sql =
             "SELECT a.appointment_time, " +
             "dup.full_name AS doctor_name, " +
+            "dp.department_name, " +
             "pup.full_name AS patient_name, " +
             "a.status " +
             "FROM appointments a " +
             "JOIN doctors d ON a.doctor_id = d.doctor_id " +
+            "JOIN departments dp ON d.department_id = dp.department_id " +
             "JOIN user_profiles dup ON d.user_id = dup.user_id " +
             "JOIN patients p ON a.patient_id = p.patient_id " +
             "JOIN user_profiles pup ON p.user_id = pup.user_id " +
@@ -42,6 +44,7 @@ public class ScheduleDAO {
                 list.add(new String[]{
                     time,
                     rs.getString("doctor_name"),
+                    rs.getString("department_name"),
                     rs.getString("patient_name"),
                     rs.getString("status")
                 });

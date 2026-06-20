@@ -34,6 +34,23 @@ public class CreateuserPanel extends javax.swing.JPanel {
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(centerWrapper);
         scrollPane.setBorder(null);
         this.add(scrollPane, java.awt.BorderLayout.CENTER);
+        
+        // --- Apply UI Standardization ---
+        java.awt.Color bodyBg = new java.awt.Color(235, 240, 251);
+        this.setBackground(bodyBg);
+        centerWrapper.setBackground(bodyBg);
+        topBarPanel.setPreferredSize(new java.awt.Dimension(1000, 60));
+        topBarPanel.setMinimumSize(new java.awt.Dimension(100, 60));
+        
+        // Reduce text field heights
+        java.awt.Dimension fieldSize = new java.awt.Dimension(100, 30);
+        nameField.setPreferredSize(fieldSize);
+        nameField1.setPreferredSize(fieldSize);
+        passwordField.setPreferredSize(fieldSize);
+        Dateofbirth.setPreferredSize(fieldSize);
+        roleComboBox.setPreferredSize(fieldSize);
+        GenderCombobox.setPreferredSize(fieldSize);
+        shiftcombobox.setPreferredSize(fieldSize);
     }
 
     /**

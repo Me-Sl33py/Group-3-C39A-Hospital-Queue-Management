@@ -22,6 +22,8 @@ public class ManageuserPanel extends javax.swing.JPanel {
         this.setLayout(new java.awt.BorderLayout());
         this.removeAll();
         this.add(topBarPanel, java.awt.BorderLayout.NORTH);
+        topBarPanel.setPreferredSize(new java.awt.Dimension(1000, 60));
+        topBarPanel.setMinimumSize(new java.awt.Dimension(100, 60));
         
         // Create a responsive body layout
         javax.swing.JPanel bodyPanel = new javax.swing.JPanel(new java.awt.BorderLayout(20, 20));
@@ -46,10 +48,8 @@ public class ManageuserPanel extends javax.swing.JPanel {
         javax.swing.JPanel bottomPanel = new javax.swing.JPanel(new java.awt.BorderLayout(10, 10));
         bottomPanel.setBackground(new java.awt.Color(235, 240, 251));
         
-        javax.swing.JPanel detailsWrapper = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
-        detailsWrapper.setBackground(new java.awt.Color(235, 240, 251));
-        pnlDetails.setPreferredSize(new java.awt.Dimension(810, 220));
-        detailsWrapper.add(pnlDetails);
+        // Add details panel directly to center so it stretches to match width
+        bottomPanel.add(pnlDetails, java.awt.BorderLayout.CENTER);
         
         javax.swing.JPanel buttonsPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 10));
         buttonsPanel.setBackground(new java.awt.Color(235, 240, 251));
@@ -57,7 +57,7 @@ public class ManageuserPanel extends javax.swing.JPanel {
         buttonsPanel.add(btnDeactivateUser);
         buttonsPanel.add(btnRefresh);
         
-        bottomPanel.add(detailsWrapper, java.awt.BorderLayout.CENTER);
+        // Add buttons
         bottomPanel.add(buttonsPanel, java.awt.BorderLayout.SOUTH);
         
         // Assemble Body

@@ -30,6 +30,29 @@ private static final java.util.logging.Logger logger = java.util.logging.Logger.
                 buildClinicalDocForm();
         buildPatientInfoForm();
         buildAccountSettingsForm();
+        
+        // --- Apply Text and Alignments manually to override GUI Builder ---
+        jButton5.setText("🚪 Logout");
+        jButton5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        // Centering in the layout by making it expand or removing constraints
+        // A simple way to center a button that's stuck on the left is to wrap it
+        // Or since it's GroupLayout, we can stretch it to max width
+        jButton5.setMaximumSize(new java.awt.Dimension(300, 40));
+        
+        MyQueue.setText("📋 My Queue");
+        CallNextPatient.setText("🔔 Call Next Patient");
+        AddMedicalRecords.setText("📝 Add Medical Records");
+        Account.setText("👤 Account");
+        
+        // Match admin sidebar color (22, 54, 120)
+        java.awt.Color adminSidebarColor = new java.awt.Color(22, 54, 120);
+        jPanel1.setBackground(adminSidebarColor);
+        jButton5.setBackground(adminSidebarColor);
+        MyQueue.setBackground(adminSidebarColor);
+        CallNextPatient.setBackground(adminSidebarColor);
+        AddMedicalRecords.setBackground(adminSidebarColor);
+        Account.setBackground(adminSidebarColor);
         jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
             @Override
             protected int calculateTabAreaHeight(int tabPlacement, int runCount, int maxTabHeight) {
