@@ -2,7 +2,7 @@ package controller;
 
 import dao.ScheduleDAO;
 import view.SchedulePanel;
-import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 public class ScheduleController {
@@ -16,50 +16,24 @@ public class ScheduleController {
     }
 
     public void loadAll() {
-
-        JLabel[] timeLabels = {
-            panel.getTime1Label(),
-            panel.getTime2Label(),
-            panel.getTime3Label(),
-            panel.getTime4Label(),
-            panel.getTime5Label()
-        };
-
-        JLabel[] entryLabels = {
-            panel.getEntry1Label(),
-            panel.getEntry2Label(),
-            panel.getEntry3Label(),
-            panel.getEntry4Label(),
-            panel.getEntry5Label()
+        DefaultTableModel model = new DefaultTableModel(new String[]{"Time", "Doctor Name", "Patient Name", "Status"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make table read-only
+            }
         };
 
         List<String[]> rows = dao.getTodaySchedule();
-
-        System.out.println("Schedule Rows Found: " + rows.size());
-
-        int i = 0;
-
         for (String[] row : rows) {
-
-            if (i >= 5) {
-                break;
-            }
-
-            timeLabels[i].setText(row[0]);
-
-            entryLabels[i].setText(
-                "Dr. " + row[1] +
-                " | Patient: " + row[2] +
-                " | Status: " + row[3]
-            );
-
-            i++;
+            model.addRow(new Object[]{row[0], row[1], row[2], row[3]});
         }
-
-        while (i < 5) {
-            timeLabels[i].setText("");
-            entryLabels[i].setText("");
-            i++;
-        }
+        
+        panel.getScheduleTable().setModel(model);
+        
+        // Resize columns
+        panel.getScheduleTable().getColumnModel().getColumn(0).setPreferredWidth(100);
+        panel.getScheduleTable().getColumnModel().getColumn(0).setMaxWidth(150);
+        panel.getScheduleTable().getColumnModel().getColumn(3).setPreferredWidth(100);
+        panel.getScheduleTable().getColumnModel().getColumn(3).setMaxWidth(150);
     }
 }

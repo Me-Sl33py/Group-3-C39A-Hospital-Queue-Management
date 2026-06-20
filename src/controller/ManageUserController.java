@@ -115,6 +115,11 @@ public class ManageUserController {
 
     if (ok && !newPass.isEmpty()) {
         boolean passOk = dao.changePassword(selectedUserId, newPass);
+        if (passOk) {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dt = sdf.format(new java.util.Date());
+            new dao.NotificationDAO().addNotification("Password Reset", "Admin manually changed password for User ID " + selectedUserId + " at " + dt);
+        }
         JOptionPane.showMessageDialog(parentFrame,
             passOk ? "Password changed successfully!" : "Failed to change password.",
             passOk ? "Success" : "Error",

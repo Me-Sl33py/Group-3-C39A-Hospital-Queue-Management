@@ -25,8 +25,7 @@ public class ScheduleDAO {
             "JOIN doctors d ON a.doctor_id = d.doctor_id " +
             "JOIN patients p ON a.patient_id = p.patient_id " +
             "WHERE a.appointment_date = CURDATE() " +
-            "ORDER BY a.appointment_time ASC " +
-            "LIMIT 5";
+            "ORDER BY a.appointment_time ASC";
 
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql);

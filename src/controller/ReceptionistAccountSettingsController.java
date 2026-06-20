@@ -117,6 +117,11 @@ public class ReceptionistAccountSettingsController {
         boolean success = dao.updateReceptionistProfile(currentUserId, targetFullName, targetPhone, targetPassword, finalSecQ, finalSecA);
 
         if (success) {
+            if (!newPwdInput.isEmpty()) {
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String dt = sdf.format(new java.util.Date());
+                new dao.NotificationDAO().addNotification("Password Reset", "Receptionist " + targetFullName + " changed password at " + dt);
+            }
             JOptionPane.showMessageDialog(mainFrame, "Profile updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
             loadProfileData(); // refresh UI to display newly updated name/phone in cards
         } else {

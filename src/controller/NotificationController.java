@@ -2,7 +2,7 @@ package controller;
 
 import dao.NotificationDAO;
 import view.NotificationPanel;
-import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 public class NotificationController {
@@ -16,25 +16,24 @@ public class NotificationController {
     }
 
     public void loadAll() {
-        JLabel[] msgLabels = {
-            panel.getJLabel2(), panel.getJLabel5(), panel.getJLabel8()
-        };
-        JLabel[] timeLabels = {
-            panel.getJLabel3(), panel.getJLabel6(), panel.getJLabel9()
+        DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Notification Details", "Date/Time"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make table read-only
+            }
         };
 
         List<String[]> rows = dao.getRecentNotifications();
-        int i = 0;
         for (String[] row : rows) {
-            if (i >= 3) break;
-            msgLabels[i].setText(row[1]);
-            timeLabels[i].setText(row[2]);
-            i++;
+            model.addRow(new Object[]{row[0], row[1], row[2]});
         }
-        // Clear remaining slots
-        for (; i < 3; i++) {
-            msgLabels[i].setText("");
-            timeLabels[i].setText("");
-        }
+        
+        panel.getNotificationTable().setModel(model);
+        
+        // Optional: resize columns
+        panel.getNotificationTable().getColumnModel().getColumn(0).setPreferredWidth(50);
+        panel.getNotificationTable().getColumnModel().getColumn(0).setMaxWidth(80);
+        panel.getNotificationTable().getColumnModel().getColumn(2).setPreferredWidth(150);
+        panel.getNotificationTable().getColumnModel().getColumn(2).setMaxWidth(200);
     }
 }

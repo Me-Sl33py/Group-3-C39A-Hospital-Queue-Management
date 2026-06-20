@@ -99,6 +99,10 @@ public class CreateUserController {
         boolean success = dao.createUser(username, formattedName, phone, gender, dob, role, password, shift);
 
         if (success) {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dt = sdf.format(new java.util.Date());
+            new dao.NotificationDAO().addNotification("Account Created", "Account created by " + formattedName + " at " + dt);
+
             String message =
                 "✅ User Created Successfully!\n" +
                 "─────────────────────────────\n" +

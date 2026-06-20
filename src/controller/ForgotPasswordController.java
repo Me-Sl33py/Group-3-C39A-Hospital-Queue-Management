@@ -148,6 +148,10 @@ public class ForgotPasswordController {
             boolean updateSuccess = userDAO.updatePassword(verifiedUserId, newPassword);
 
             if (updateSuccess) {
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String dt = sdf.format(new java.util.Date());
+                new dao.NotificationDAO().addNotification("Password Reset", "User ID " + verifiedUserId + " reset password at " + dt);
+
                 javax.swing.JOptionPane.showMessageDialog(view,
                         "Your password has been reset successfully!",
                         "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);

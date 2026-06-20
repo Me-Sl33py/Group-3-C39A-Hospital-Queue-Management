@@ -13,8 +13,36 @@ public class SchedulePanel extends javax.swing.JPanel {
     /**
      * Creates new form SchedulePanel
      */
+    private javax.swing.JTable scheduleTable;
+
     public SchedulePanel() {
         initComponents();
+        setupTable();
+    }
+
+    private void setupTable() {
+        scheduleCardPanel.removeAll();
+        scheduleCardPanel.setLayout(new java.awt.BorderLayout(0, 15));
+        
+        scheduleTitleLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 0, 0));
+        scheduleCardPanel.add(scheduleTitleLabel, java.awt.BorderLayout.NORTH);
+        
+        scheduleTable = new javax.swing.JTable();
+        scheduleTable.setRowHeight(30);
+        scheduleTable.setFont(new java.awt.Font("Helvetica Neue", 0, 14));
+        scheduleTable.getTableHeader().setFont(new java.awt.Font("Helvetica Neue", java.awt.Font.BOLD, 14));
+        
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(scheduleTable);
+        scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 15, 15, 15));
+        
+        scheduleCardPanel.add(scrollPane, java.awt.BorderLayout.CENTER);
+        
+        scheduleCardPanel.revalidate();
+        scheduleCardPanel.repaint();
+    }
+
+    public javax.swing.JTable getScheduleTable() {
+        return scheduleTable;
     }
 
     /**
