@@ -48,6 +48,8 @@ public class DoctorController {
         // Auto-refresh the dashboard stats every 5 seconds
         refreshTimer = new javax.swing.Timer(5000, e -> loadQueueTable());
         refreshTimer.start();
+        
+        setActiveButton(view.getBtnMyQueue());
     }
 
     // =========================================================================
@@ -56,17 +58,18 @@ public class DoctorController {
     private void attachListeners() {
 
         // ── Sidebar navigation ────────────────────────────────────────────────
-        view.getBtnMyQueue().addActionListener(e -> view.getTabbedPane().setSelectedIndex(0));
-        view.getBtnCallNextPatient().addActionListener(e -> view.getTabbedPane().setSelectedIndex(1));
-        view.getBtnAddRecords().addActionListener(e -> view.getTabbedPane().setSelectedIndex(2));
+        view.getBtnMyQueue().addActionListener(e -> { view.getTabbedPane().setSelectedIndex(0); setActiveButton(view.getBtnMyQueue()); });
+        view.getBtnCallNextPatient().addActionListener(e -> { view.getTabbedPane().setSelectedIndex(1); setActiveButton(view.getBtnCallNextPatient()); });
+        view.getBtnAddRecords().addActionListener(e -> { view.getTabbedPane().setSelectedIndex(2); setActiveButton(view.getBtnAddRecords()); });
         view.getBtnAccount().addActionListener(e -> {
-        int tabCount = view.getTabbedPane().getTabCount();
-        int accountTabIndex = tabCount - 1; // Account tab is always the last one
-        if (accountTabIndex >= 0) {
-           view.getTabbedPane().setSelectedIndex(accountTabIndex);
-        }
-    loadAccountData();
-});
+            int tabCount = view.getTabbedPane().getTabCount();
+            int accountTabIndex = tabCount - 1; // Account tab is always the last one
+            if (accountTabIndex >= 0) {
+               view.getTabbedPane().setSelectedIndex(accountTabIndex);
+            }
+            loadAccountData();
+            setActiveButton(view.getBtnAccount());
+        });
         // ── Tab 1 : dashboard "Call Next Patient" card button ─────────────────
         view.getBtnCallNextDashboard().addActionListener(e -> callNextPatient());
 
@@ -120,6 +123,29 @@ public class DoctorController {
                 }
             }
         });
+    }
+
+    private void setActiveButton(JButton activeBtn) {
+        JButton[] navBtns = {
+            view.getBtnMyQueue(),
+            view.getBtnCallNextPatient(),
+            view.getBtnAddRecords(),
+            view.getBtnAccount()
+        };
+        java.awt.Color activeColor = new java.awt.Color(51, 153, 255); // Brighter blue
+        java.awt.Color inactiveColor = new java.awt.Color(0, 102, 255); // Original blue
+        
+        for (JButton btn : navBtns) {
+            btn.setBorderPainted(false);
+            btn.setContentAreaFilled(false);
+            btn.setOpaque(true);
+            btn.setFocusPainted(false);
+            if (btn == activeBtn) {
+                btn.setBackground(activeColor);
+            } else {
+                btn.setBackground(inactiveColor);
+            }
+        }
     }
 
     // =========================================================================
