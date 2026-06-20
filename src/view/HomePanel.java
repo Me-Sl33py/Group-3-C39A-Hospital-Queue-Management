@@ -94,8 +94,10 @@ public class HomePanel extends javax.swing.JPanel {
         );
 
         cardsRowPanel.setBackground(new java.awt.Color(235, 240, 251));
+        
+        java.awt.Color cardColor = new java.awt.Color(30, 120, 220);
 
-        card1Panel.setBackground(new java.awt.Color(30, 90, 200));
+        card1Panel.setBackground(cardColor);
 
         card1NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         card1NumberLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -125,7 +127,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addGap(22, 22, 22))
         );
 
-        card2Panel.setBackground(new java.awt.Color(30, 120, 220));
+        card2Panel.setBackground(cardColor);
 
         card2NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         card2NumberLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -155,7 +157,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        card3Panel.setBackground(new java.awt.Color(51, 153, 255));
+        card3Panel.setBackground(cardColor);
 
         card3NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         card3NumberLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -185,7 +187,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        card4Panel.setBackground(new java.awt.Color(100, 180, 255));
+        card4Panel.setBackground(cardColor);
 
         card4NumberLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         card4NumberLabel.setForeground(new java.awt.Color(255, 255, 255));

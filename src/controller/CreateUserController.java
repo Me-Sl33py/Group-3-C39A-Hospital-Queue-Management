@@ -56,7 +56,8 @@ public class CreateUserController {
         }
 
         // Name validation and formatting
-        rawName = rawName.replaceAll("(?i)^Dr\\.\\s*", "");
+        // Strip out existing 'Dr' or 'Dr.' to prevent duplicates
+        rawName = rawName.replaceAll("(?i)^Dr\\.?\\s*", "");
         rawName = rawName.replaceAll("(?i)\\s*Receptionist$", "");
 
         if (rawName.matches(".*\\d.*")) {
@@ -84,7 +85,6 @@ public class CreateUserController {
             formattedName = "Dr. " + formattedName;
             username = "doc_" + firstName;
         } else if ("Receptionist".equalsIgnoreCase(role)) {
-            formattedName = formattedName + " Receptionist";
             username = firstName + "_receptionist";
         } else {
             username = formattedName.toLowerCase().replace(" ", "_");

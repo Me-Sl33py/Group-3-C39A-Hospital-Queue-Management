@@ -86,5 +86,6 @@ C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\
 C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\view\SchedulePanel.java
 C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\view\SecurityQuestions.java
 C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\view\SignUp.java
+C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\view\TokenPrintDialog.java
 C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\view\UserLogin.java
 C:\Users\User\Documents\NetBeansProjects\Group-3-C39A-Hospital-Queue-Management\src\view\WithTabbedPane.java

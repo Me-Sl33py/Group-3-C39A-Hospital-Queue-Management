@@ -16,7 +16,7 @@ public class ScheduleController {
     }
 
     public void loadAll() {
-        DefaultTableModel model = new DefaultTableModel(new String[]{"Time", "Doctor Name", "Patient Name", "Status"}, 0) {
+        DefaultTableModel model = new DefaultTableModel(new String[]{"Time", "Doctor Name", "Department", "Patient Name", "Status"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Make table read-only

@@ -382,6 +382,13 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cmbFilterStatus;
 
     private void fixLayout() {
+        java.awt.Color bodyBg = new java.awt.Color(235, 240, 251);
+        this.setBackground(bodyBg);
+        pnlDoctors.setBackground(bodyBg);
+        pnlDepartments.setBackground(bodyBg);
+        pnlDoctorDetails.setBackground(bodyBg);
+        pnlDeptDetails.setBackground(bodyBg);
+
         lblSearchDoc.setBounds(80, 40, 100, 30);
         txtSearchDoc.setBounds(180, 40, 150, 30);
         
