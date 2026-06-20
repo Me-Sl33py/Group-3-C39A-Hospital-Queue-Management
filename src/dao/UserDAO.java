@@ -75,7 +75,7 @@ public class UserDAO {
     }
 
     // ─── Create User ────────────────────────────────────────────────────────
-   public boolean createUser(String username, String fullName, String phone, String gender,
+    public String createUser(String username, String fullName, String phone, String gender,
                           String dob, String role, String password, String shift) {
         Connection c = null;
         try {
@@ -91,7 +91,7 @@ public class UserDAO {
                 ps.setString(2, password);         // ⚠ hash this before storing in production
                 ps.executeUpdate();
                 try (ResultSet keys = ps.getGeneratedKeys()) {
-                    if (!keys.next()) { c.rollback(); return false; }
+                    if (!keys.next()) { c.rollback(); return "Failed to retrieve generated user ID"; }
                     userId = keys.getInt(1);
                 }
             }
@@ -119,16 +119,16 @@ public class UserDAO {
                 default             -> false;
             };
 
-            if (ok) { c.commit(); return true; }
-            else    { c.rollback(); return false; }
+            if (ok) { c.commit(); return "SUCCESS"; }
+            else    { c.rollback(); return "Failed to insert into role-specific table"; }
 
         } catch (SQLException e) {
             e.printStackTrace();
             try { if (c != null) c.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            return "SQL Error: " + e.getMessage();
         } finally {
             try { if (c != null) { c.setAutoCommit(true); c.close(); } } catch (SQLException e) { e.printStackTrace(); }
         }
-        return false;
     }
 
     // ─── Update User (status + role-table fields) ───────────────────────────
@@ -249,6 +249,21 @@ public class UserDAO {
             java.time.LocalDate birth = java.time.LocalDate.parse(dob);
             return java.time.Period.between(birth, java.time.LocalDate.now()).getYears();
         } catch (Exception e) { return 0; }
+    }
+    
+    // ─── Check Username Exists ──────────────────────────────────────────────
+    public boolean usernameExists(String username) {
+        String sql = "SELECT 1 FROM users WHERE username = ?";
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     
     public boolean changePassword(int userId, String newPassword) {
