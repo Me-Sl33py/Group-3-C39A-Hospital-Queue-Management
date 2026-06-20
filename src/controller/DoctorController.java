@@ -334,21 +334,19 @@ public class DoctorController {
             return;
         }
 
-        String notes = view.getTaDiagnosis().getText().trim(); // Temporarily using diagnosis for now
-        if (notes.isEmpty() ||
-            notes.equals("Enter detailed clinical notes, patient history update, " +
-                         "and recommended next steps...")) {
-            JOptionPane.showMessageDialog(view,
-                    "Please enter clinical notes before submitting.",
-                    "Empty Notes",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+        String diagnosis = view.getTaDiagnosis().getText().trim();
+        String prescription = view.getTaPrescription().getText().trim();
+        String notes = view.getTaNotes().getText().trim();
+
+        // Clear placeholders if they were left unchanged
+        if (diagnosis.startsWith("Enter detailed clinical notes")) diagnosis = "";
+        if (prescription.isEmpty()) prescription = "";
+        if (notes.isEmpty()) notes = "";
 
         String doctorId = (currentDoctor != null) ? currentDoctor.getDoctorId() : "";
 
         // Use PatientDAO to save it because it looks up the correct appointment_id from the queue
-        boolean saved = patientDAO.saveMedicalRecord(activePatient.getPatientId(), doctorId, notes);
+        boolean saved = patientDAO.saveMedicalRecord(activePatient.getPatientId(), doctorId, diagnosis, prescription, notes);
 
         if (saved) {
             JOptionPane.showMessageDialog(view,
@@ -356,6 +354,7 @@ public class DoctorController {
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE);
             clearRecordForm();
+            loadMedicalHistory();
         } else {
             JOptionPane.showMessageDialog(view,
                     "Failed to save medical record. Please try again.",
@@ -365,21 +364,68 @@ public class DoctorController {
     }
 
     public void clearRecordForm() {
-        view.getTaDiagnosis().setText(
-            "Enter detailed clinical notes, patient history update, " +
-            "and recommended next steps...");
+        view.getTaDiagnosis().setText("Enter detailed clinical notes, patient history update, and recommended next steps...");
+        view.getTaDiagnosis().setForeground(java.awt.Color.GRAY);
+        view.getTaPrescription().setText("");
+        view.getTaNotes().setText("");
+    }
+
+    public void loadMedicalHistory() {
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) view.getTblMedicalHistory().getModel();
+        model.setRowCount(0);
+        if (activePatient == null || currentDoctor == null) return;
+
+        String sql = "SELECT record_id, created_at, diagnosis FROM medical_records WHERE patient_id = ? AND doctor_id = ? ORDER BY created_at DESC";
+        try (java.sql.Connection conn = database.MySqlConnection.getConnection();
+             java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, activePatient.getPatientId());
+            ps.setString(2, currentDoctor.getDoctorId());
+            try (java.sql.ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Object[] row = new Object[]{
+                        "MR-" + String.format("%03d", rs.getInt("record_id")),
+                        activePatient.getFullName(),
+                        rs.getDate("created_at"),
+                        rs.getString("diagnosis"),
+                        "View Details"
+                    };
+                    model.addRow(row);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateMedicalRecordTab() {
-        if (activePatient != null) {
-            view.getTxtPatientIdField().setText(activePatient.getPatientId());
-            view.getTxtPatientNameField().setText(activePatient.getFullName());
-            view.getTxtPatientIdField().setEditable(false);
-            view.getTxtPatientNameField().setEditable(false);
+        if (activePatient != null && currentDoctor != null) {
+            view.getTxtDocPatientId().setText(activePatient.getPatientId());
+            view.getTxtDocPatientName().setText(activePatient.getFullName());
+            
+            // Get appointment date/time
+            String sql = "SELECT a.appointment_date, a.appointment_time FROM queue q JOIN appointments a ON q.appointment_id = a.appointment_id WHERE q.patient_id = ? AND q.doctor_id = ? ORDER BY q.queue_id DESC LIMIT 1";
+            try (java.sql.Connection conn = database.MySqlConnection.getConnection();
+                 java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, activePatient.getPatientId());
+                ps.setString(2, currentDoctor.getDoctorId());
+                try (java.sql.ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        java.sql.Date d = rs.getDate(1);
+                        java.sql.Time t = rs.getTime(2);
+                        view.getTxtDocApptDate().setText(d != null ? d.toString() : "");
+                        view.getTxtDocApptTime().setText(t != null ? t.toString() : "");
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
-            view.getTxtPatientIdField().setText("");
-            view.getTxtPatientNameField().setText("");
+            view.getTxtDocPatientId().setText("");
+            view.getTxtDocPatientName().setText("");
+            view.getTxtDocApptDate().setText("");
+            view.getTxtDocApptTime().setText("");
         }
+        loadMedicalHistory();
     }
 
     // =========================================================================

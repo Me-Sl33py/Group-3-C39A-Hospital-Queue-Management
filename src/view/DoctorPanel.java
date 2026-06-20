@@ -120,7 +120,10 @@ public javax.swing.JButton getBtnLogout()            { return jButton5;         
     public javax.swing.JTextArea getTaPrescription() { return taPrescription; }
     public javax.swing.JTextArea getTaNotes() { return taNotes; }
     public javax.swing.JTextField getTxtDocPatientId() { return txtDocPatientId; }
-
+    public javax.swing.JTextField getTxtDocPatientName() { return txtDocPatientName; }
+    public javax.swing.JTextField getTxtDocApptDate() { return txtDocApptDate; }
+    public javax.swing.JTextField getTxtDocApptTime() { return txtDocApptTime; }
+    public javax.swing.JTable getTblMedicalHistory() { return tblMedicalHistory; }
 
 private void addPlaceholder(javax.swing.JTextField field, String placeholder) {
     field.setForeground(java.awt.Color.GRAY);
@@ -1791,7 +1794,6 @@ private void addTextAreaPlaceholder(javax.swing.JTextArea area, String placehold
         lblName.setForeground(new java.awt.Color(30, 41, 59));
         
         jTextField1.setPreferredSize(new java.awt.Dimension(150, 30));
-        jTextField1.setText("P-00");
         jTextField2.setPreferredSize(new java.awt.Dimension(250, 30));
         
         btnSearchPatient = new javax.swing.JButton("Search");
