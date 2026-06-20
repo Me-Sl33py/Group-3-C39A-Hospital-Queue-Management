@@ -20,6 +20,13 @@ public class FixDB {
             }
 
             try {
+                stmt.executeUpdate("ALTER TABLE queue MODIFY COLUMN appointment_id int NULL");
+                System.out.println("Modified appointment_id in queue to allow NULL.");
+            } catch (Exception e) {
+                System.out.println("Error modifying appointment_id in queue: " + e.getMessage());
+            }
+
+            try {
                 stmt.executeUpdate("ALTER TABLE queue MODIFY COLUMN doctor_id varchar(10) NULL");
                 System.out.println("Modified doctor_id in queue to allow NULL.");
             } catch (Exception e) {

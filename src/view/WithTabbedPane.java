@@ -19,6 +19,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
     public WithTabbedPane() {
         initComponents();
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH); // Make it full screen
+        setResizable(false);
         
         // Hide JTabbedPane tabs
         jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
