@@ -21,66 +21,15 @@ public class ReceptionistAccountSettingsView extends javax.swing.JPanel {
     public javax.swing.JLabel getLblEmpIdVal() { return lblEmpIdVal; }
     public javax.swing.JTextField getTxtWorkEmpId() { return txtWorkEmpId; }
 
-    private javax.swing.JComboBox<String> cbSecurityQuestion;
-    private javax.swing.JTextField txtSecurityAnswer;
-    private javax.swing.JLabel lblSq;
-    private javax.swing.JLabel lblSa;
 
-    public javax.swing.JComboBox<String> getCbSecurityQuestion() { return cbSecurityQuestion; }
-    public javax.swing.JTextField getTxtSecurityAnswer() { return txtSecurityAnswer; }
 
     private void initCustomComponents() {
-        lblSq = new javax.swing.JLabel("SECURITY QUESTION");
-        lblSq.setFont(new java.awt.Font("Segoe UI", 1, 11));
-        lblSq.setForeground(new java.awt.Color(128, 128, 128));
-        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.anchor = java.awt.GridBagConstraints.WEST;
-        gbc.weightx = 0.5;
-        gbc.insets = new java.awt.Insets(0, 10, 5, 0);
-        leftForm.add(lblSq, gbc);
-
-        lblSa = new javax.swing.JLabel("SECURITY ANSWER");
-        lblSa.setFont(new java.awt.Font("Segoe UI", 1, 11));
-        lblSa.setForeground(new java.awt.Color(128, 128, 128));
-        gbc = new java.awt.GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 5;
-        gbc.gridwidth = 2;
-        gbc.anchor = java.awt.GridBagConstraints.WEST;
-        gbc.weightx = 0.5;
-        gbc.insets = new java.awt.Insets(0, 0, 5, 0);
-        leftForm.add(lblSa, gbc);
-
-        cbSecurityQuestion = new javax.swing.JComboBox<>();
-        cbSecurityQuestion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
-            "Select a question",
-            "What was the name of your first pet?",
-            "What is your mother's maiden name?",
-            "What city were you born in?",
-            "What was your childhood nickname?"
-        }));
-        gbc = new java.awt.GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gbc.anchor = java.awt.GridBagConstraints.WEST;
-        gbc.weightx = 0.5;
-        gbc.insets = new java.awt.Insets(0, 10, 15, 10); 
-        leftForm.add(cbSecurityQuestion, gbc);
-
-        txtSecurityAnswer = new javax.swing.JTextField();
-        txtSecurityAnswer.setMargin(new java.awt.Insets(5, 10, 5, 10));
-        gbc = new java.awt.GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 6;
-        gbc.gridwidth = 2;
-        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gbc.anchor = java.awt.GridBagConstraints.WEST;
-        gbc.weightx = 0.5;
-        gbc.insets = new java.awt.Insets(0, 0, 15, 0);
-        leftForm.add(txtSecurityAnswer, gbc);
+        cbDept.setEnabled(false);
+        cbCounter.setEnabled(false);
+        cbSupervisor.setEnabled(false);
+        cbShift.setEnabled(false);
+        txtFullName.setEditable(false);
+        txtFullName.setBackground(new java.awt.Color(240, 240, 240));
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -47,16 +47,16 @@ public class AppointmentConfirmationView extends JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(null);
 
-        lblDetailsTitle.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         lblDetailsTitle.setText("📅 Appointment Confirmation");
+        lblDetailsTitle.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         add(lblDetailsTitle);
         lblDetailsTitle.setBounds(30, 30, 350, 30);
         add(txtSearch);
         txtSearch.setBounds(390, 30, 200, 30);
 
+        btnSearch.setText("Search Patient");
         btnSearch.setBackground(new java.awt.Color(30, 100, 180));
         btnSearch.setForeground(new java.awt.Color(255, 255, 255));
-        btnSearch.setText("Search Patient");
         add(btnSearch);
         btnSearch.setBounds(600, 30, 130, 30);
 
@@ -79,44 +79,44 @@ public class AppointmentConfirmationView extends JPanel {
         jScrollPane1.setViewportView(tblAppointments);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(30, 80, 700, 300);
+        jScrollPane1.setBounds(30, 80, 850, 300);
 
-        lblPatientId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblPatientId.setText("Patient ID: --");
+        lblPatientId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblPatientId);
         lblPatientId.setBounds(30, 400, 200, 17);
 
-        lblFullName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblFullName.setText("Full Name: --");
+        lblFullName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblFullName);
         lblFullName.setBounds(30, 430, 200, 17);
 
-        lblDoctor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblDoctor.setText("Doctor: --");
+        lblDoctor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblDoctor);
         lblDoctor.setBounds(30, 460, 200, 17);
 
-        lblAppointmentDate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblAppointmentDate.setText("Appointment: --");
+        lblAppointmentDate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblAppointmentDate);
         lblAppointmentDate.setBounds(250, 400, 200, 17);
 
-        lblStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblStatus.setText("Status: --");
+        lblStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblStatus);
         lblStatus.setBounds(250, 430, 200, 17);
 
-        btnConfirmArrival.setBackground(new java.awt.Color(34, 139, 34));
-        btnConfirmArrival.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnConfirmArrival.setForeground(new java.awt.Color(255, 255, 255));
         btnConfirmArrival.setText("Confirm Arrival");
+        btnConfirmArrival.setBackground(new java.awt.Color(34, 139, 34));
+        btnConfirmArrival.setForeground(new java.awt.Color(255, 255, 255));
+        btnConfirmArrival.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         add(btnConfirmArrival);
         btnConfirmArrival.setBounds(440, 420, 140, 40);
 
-        btnCancelAppointment.setBackground(new java.awt.Color(220, 53, 69));
-        btnCancelAppointment.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnCancelAppointment.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelAppointment.setText("Cancel Appointment");
+        btnCancelAppointment.setBackground(new java.awt.Color(220, 53, 69));
+        btnCancelAppointment.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelAppointment.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         add(btnCancelAppointment);
         btnCancelAppointment.setBounds(590, 420, 160, 40);
     }// </editor-fold>//GEN-END:initComponents
