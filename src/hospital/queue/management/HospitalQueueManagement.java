@@ -24,6 +24,9 @@ public class HospitalQueueManagement {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             Logger.getLogger(HospitalQueueManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        // Make scrollbars paper thin globally
+        javax.swing.UIManager.put("ScrollBar.width", 5);
 
         // 2. Optional: Test the database connection briefly at startup
         DB database = new MySqlConnection();

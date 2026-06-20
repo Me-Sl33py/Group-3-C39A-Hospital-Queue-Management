@@ -33,7 +33,6 @@ public class AppointmentConfirmationView extends JPanel {
 
         lblDetailsTitle = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAppointments = new javax.swing.JTable();
         lblPatientId = new javax.swing.JLabel();
@@ -52,13 +51,7 @@ public class AppointmentConfirmationView extends JPanel {
         add(lblDetailsTitle);
         lblDetailsTitle.setBounds(30, 30, 350, 30);
         add(txtSearch);
-        txtSearch.setBounds(390, 30, 200, 30);
-
-        btnSearch.setText("Search Patient");
-        btnSearch.setBackground(new java.awt.Color(30, 100, 180));
-        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
-        add(btnSearch);
-        btnSearch.setBounds(600, 30, 130, 30);
+        txtSearch.setBounds(390, 30, 340, 30);
 
         tblAppointments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -79,51 +72,50 @@ public class AppointmentConfirmationView extends JPanel {
         jScrollPane1.setViewportView(tblAppointments);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(30, 80, 850, 300);
+        jScrollPane1.setBounds(30, 80, 1000, 450);
 
         lblPatientId.setText("Patient ID: --");
         lblPatientId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblPatientId);
-        lblPatientId.setBounds(30, 400, 200, 17);
+        lblPatientId.setBounds(30, 550, 200, 17);
 
         lblFullName.setText("Full Name: --");
         lblFullName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblFullName);
-        lblFullName.setBounds(30, 430, 200, 17);
+        lblFullName.setBounds(30, 580, 200, 17);
 
         lblDoctor.setText("Doctor: --");
         lblDoctor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblDoctor);
-        lblDoctor.setBounds(30, 460, 200, 17);
+        lblDoctor.setBounds(30, 610, 200, 17);
 
         lblAppointmentDate.setText("Appointment: --");
         lblAppointmentDate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblAppointmentDate);
-        lblAppointmentDate.setBounds(250, 400, 200, 17);
+        lblAppointmentDate.setBounds(250, 550, 200, 17);
 
         lblStatus.setText("Status: --");
         lblStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         add(lblStatus);
-        lblStatus.setBounds(250, 430, 200, 17);
+        lblStatus.setBounds(250, 580, 200, 17);
 
         btnConfirmArrival.setText("Confirm Arrival");
         btnConfirmArrival.setBackground(new java.awt.Color(34, 139, 34));
         btnConfirmArrival.setForeground(new java.awt.Color(255, 255, 255));
         btnConfirmArrival.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         add(btnConfirmArrival);
-        btnConfirmArrival.setBounds(440, 420, 140, 40);
+        btnConfirmArrival.setBounds(440, 560, 140, 40);
 
         btnCancelAppointment.setText("Cancel Appointment");
         btnCancelAppointment.setBackground(new java.awt.Color(220, 53, 69));
         btnCancelAppointment.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelAppointment.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         add(btnCancelAppointment);
-        btnCancelAppointment.setBounds(590, 420, 160, 40);
+        btnCancelAppointment.setBounds(590, 560, 160, 40);
     }// </editor-fold>//GEN-END:initComponents
 
     // Getters for controller access
     public JTextField getTxtSearch() { return txtSearch; }
-    public JButton getBtnSearch() { return btnSearch; }
     public JTable getTblAppointments() { return tblAppointments; }
     public DefaultTableModel getTableModel() { return tableModel; }
     
@@ -139,7 +131,6 @@ public class AppointmentConfirmationView extends JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelAppointment;
     private javax.swing.JButton btnConfirmArrival;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAppointmentDate;
     private javax.swing.JLabel lblDetailsTitle;

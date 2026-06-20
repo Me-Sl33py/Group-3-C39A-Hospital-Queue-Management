@@ -603,15 +603,13 @@ public class GenerateTokenView extends javax.swing.JPanel {
 
         tblLiveQueue.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"#GM-452", "Robert Chen", "General Medicine", "Active", "10:45 AM"},
-                {"#CD-102", "Maria Garcia", "Cardiology", "Waiting", "10:52 AM"}
             },
             new String [] {
-                "TOKEN", "PATIENT", "DEPARTMENT", "STATUS", "TIME"
+                "TOKEN", "PATIENT", "DEPARTMENT", "DOCTOR", "STATUS", "EST. WAIT TIME", "TIME"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -620,13 +618,15 @@ public class GenerateTokenView extends javax.swing.JPanel {
         });
         tblLiveQueue.setRowHeight(40);
         tblLiveQueue.setShowGrid(false);
-        tblLiveQueue.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tblLiveQueue.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         // Set minimum column widths so horizontal scroll activates
-        tblLiveQueue.getColumnModel().getColumn(0).setPreferredWidth(120); // TOKEN
-        tblLiveQueue.getColumnModel().getColumn(1).setPreferredWidth(180); // PATIENT
-        tblLiveQueue.getColumnModel().getColumn(2).setPreferredWidth(200); // DEPARTMENT
-        tblLiveQueue.getColumnModel().getColumn(3).setPreferredWidth(130); // STATUS
-        tblLiveQueue.getColumnModel().getColumn(4).setPreferredWidth(120); // TIME
+        tblLiveQueue.getColumnModel().getColumn(0).setPreferredWidth(80); // TOKEN
+        tblLiveQueue.getColumnModel().getColumn(1).setPreferredWidth(160); // PATIENT
+        tblLiveQueue.getColumnModel().getColumn(2).setPreferredWidth(160); // DEPARTMENT
+        tblLiveQueue.getColumnModel().getColumn(3).setPreferredWidth(160); // DOCTOR
+        tblLiveQueue.getColumnModel().getColumn(4).setPreferredWidth(100); // STATUS
+        tblLiveQueue.getColumnModel().getColumn(5).setPreferredWidth(150); // EST. WAIT TIME
+        tblLiveQueue.getColumnModel().getColumn(6).setPreferredWidth(100); // TIME
         tableScroll.setViewportView(tblLiveQueue);
 
         bottomPanel.add(tableScroll, java.awt.BorderLayout.CENTER);

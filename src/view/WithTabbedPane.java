@@ -162,7 +162,7 @@ public class WithTabbedPane extends javax.swing.JFrame {
         btnLogout.setFocusPainted(false);
         btnLogout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnLogout.setOpaque(true);
-        sidebarPanel.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 860, 240, 50));
+        sidebarPanel.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 580, 240, 50));
 
         btnManageWaitlist1.setBackground(new java.awt.Color(22, 137, 176));
         btnManageWaitlist1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
