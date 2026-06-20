@@ -61,6 +61,8 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return "Appt " + appointmentId + " on " + appointmentDate + " with Dr. " + doctorName;
+        if (appointmentId == -1) return doctorName;
+        String dn = (doctorName != null && doctorName.startsWith("Dr. ")) ? doctorName.substring(4) : doctorName;
+        return "Appt " + appointmentId + " on " + appointmentDate + " with Dr. " + dn;
     }
 }

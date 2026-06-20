@@ -8,10 +8,11 @@ import java.sql.ResultSet;
 public class QueueDAO {
 
     public QueueItem getCurrentQueueForPatient(String patientId) {
-        String sql = "SELECT q.*, d.full_name AS doctor_name, dep.department_name " +
+        String sql = "SELECT q.*, up.full_name AS doctor_name, dep.department_name " +
                      "FROM queue q " +
                      "LEFT JOIN appointments a ON q.appointment_id = a.appointment_id " +
                      "LEFT JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                     "LEFT JOIN user_profiles up ON d.user_id = up.user_id " +
                      "LEFT JOIN departments dep ON q.department_id = dep.department_id " +
                      "WHERE q.patient_id = ? AND q.status IN ('waiting', 'in consultation') " +
                      "ORDER BY q.created_at DESC LIMIT 1";
@@ -41,10 +42,11 @@ public class QueueDAO {
     }
 
     public QueueItem getCurrentQueueForPatientInDept(String patientId, int departmentId) {
-        String sql = "SELECT q.*, d.full_name AS doctor_name, dep.department_name " +
+        String sql = "SELECT q.*, up.full_name AS doctor_name, dep.department_name " +
                      "FROM queue q " +
                      "LEFT JOIN appointments a ON q.appointment_id = a.appointment_id " +
                      "LEFT JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                     "LEFT JOIN user_profiles up ON d.user_id = up.user_id " +
                      "LEFT JOIN departments dep ON q.department_id = dep.department_id " +
                      "WHERE q.patient_id = ? AND q.department_id = ? AND q.status IN ('waiting', 'in consultation') " +
                      "ORDER BY q.created_at DESC LIMIT 1";
