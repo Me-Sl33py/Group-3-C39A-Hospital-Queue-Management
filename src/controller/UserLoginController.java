@@ -221,6 +221,7 @@ public class UserLoginController {
 
                         JOptionPane.showMessageDialog(null, "Welcome, " + fullName + "!");
                         view.Patients patientView = new view.Patients();
+                        patientView.setResizable(false);
                         patientView.setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Patient Profile not found.");
