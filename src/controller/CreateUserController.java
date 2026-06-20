@@ -101,7 +101,7 @@ public class CreateUserController {
         if (success) {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dt = sdf.format(new java.util.Date());
-            new dao.NotificationDAO().addNotification("Account Created", "Account created by " + formattedName + " at " + dt);
+            new dao.NotificationDAO().addNotification("Account Created", "Account is created for " + formattedName + " by Admin Admin");
 
             String message =
                 "✅ User Created Successfully!\n" +

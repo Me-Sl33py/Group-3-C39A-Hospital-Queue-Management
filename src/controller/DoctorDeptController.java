@@ -172,7 +172,10 @@ public class DoctorDeptController {
             ok ? "Doctor updated!" : "Failed to update.",
             ok ? "Success" : "Error",
             ok ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
-        if (ok) { loadAllDoctors(); clearDocFields(); }
+        if (ok) { 
+            new dao.NotificationDAO().addNotification("Profile Updated", "Account is updated for Doctor ID " + selectedDoctorId + " by Admin Admin");
+            loadAllDoctors(); clearDocFields(); 
+        }
     }
 
     private void removeDoctor() {
@@ -189,7 +192,10 @@ public class DoctorDeptController {
                 ok ? "Doctor deactivated!" : "Failed to deactivate.",
                 ok ? "Success" : "Error",
                 ok ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
-            if (ok) { loadAllDoctors(); clearDocFields(); }
+            if (ok) { 
+                new dao.NotificationDAO().addNotification("Status Updated", "Account status is changed to Deactive for Doctor ID " + selectedDoctorId + " by Admin Admin");
+                loadAllDoctors(); clearDocFields(); 
+            }
         }
     }
 

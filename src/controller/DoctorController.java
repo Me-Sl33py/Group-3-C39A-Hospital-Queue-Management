@@ -461,7 +461,7 @@ public class DoctorController {
         if (updated) {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dt = sdf.format(new java.util.Date());
-            new dao.NotificationDAO().addNotification("Password Reset", "Doctor ID " + currentDoctor.getUserId() + " changed password at " + dt);
+            new dao.NotificationDAO().addNotification("Password Reset", "Password is changed for Doctor " + currentDoctor.getFullName() + " by Doctor " + currentDoctor.getFullName());
 
             JOptionPane.showMessageDialog(view, "Password changed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             view.getPwdCurrent().setText("");

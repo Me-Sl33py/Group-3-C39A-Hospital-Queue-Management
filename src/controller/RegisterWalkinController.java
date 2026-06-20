@@ -114,7 +114,7 @@ public class RegisterWalkinController {
             
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dt = sdf.format(new java.util.Date());
-            new dao.NotificationDAO().addNotification("Account Created", "Walk-in patient created: " + name + " at " + dt);
+            new dao.NotificationDAO().addNotification("Account Created", "Account is created for " + name + " by Receptionist Receptionist");
             
             JOptionPane.showMessageDialog(view, "Account created & Walk-in Appointment confirmed!\nPatient ID: " + savedId, "Success", JOptionPane.INFORMATION_MESSAGE);
             mainFrame.getGenerateTokenController().updatePatientDetails(savedId, name, String.valueOf(age), gender, phone, appointmentId);
