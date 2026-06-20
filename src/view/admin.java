@@ -197,8 +197,12 @@ public class admin extends javax.swing.JFrame {
         java.awt.Color normalBg = new java.awt.Color(22, 54, 120);
         java.awt.Color activeBg = new java.awt.Color(51, 102, 255);
         for (javax.swing.JButton btn : buttons) {
-            btn.setBackground(btn == activeBtn ? activeBg : normalBg);
+            btn.setContentAreaFilled(false);
             btn.setOpaque(true);
+            btn.setBackground(btn == activeBtn ? activeBg : normalBg);
+            btn.setBorderPainted(false);
+            btn.setFocusPainted(false);
+            btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         }
     }
 
