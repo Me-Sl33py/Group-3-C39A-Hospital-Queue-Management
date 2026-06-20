@@ -41,7 +41,6 @@ create table user_profiles (
 create table admins (
     admin_id varchar(10) primary key,
     user_id int not null,
-    username varchar(50) not null,
     created_at timestamp default current_timestamp
 );
 
@@ -49,14 +48,6 @@ create table admins (
 create table patients (
     patient_id varchar(10) primary key,
     user_id int not null,
-    full_name varchar(100) not null,
-    username varchar(50) not null,
-    dob date null,
-    age int default 0,
-    blood_group enum('A+','A-','B+','B-','O+','O-','AB+','AB-','Unknown') default 'Unknown',
-    gender enum('male','female','others','prefer not to say') default 'prefer not to say',
-    contact_number varchar(15),
-    address varchar(255),
     created_at timestamp default current_timestamp
 );
 
@@ -64,8 +55,6 @@ create table patients (
 create table doctors (
     doctor_id varchar(10) primary key,
     user_id int not null,
-    full_name varchar(100) not null,
-    username varchar(50) not null,
     specialization varchar(100),
     department_id int not null,
     availability enum('available','unavailable') default 'available',
@@ -104,7 +93,7 @@ create table appointments (
 -- 9. queue
 create table queue (
     queue_id int auto_increment primary key,
-    appointment_id int not null,
+    appointment_id int null,
     patient_id varchar(10) not null,
     department_id int not null,
     doctor_id varchar(10) null,
@@ -150,9 +139,15 @@ create table ratings (
 create table receptionists (
     receptionist_id varchar(10) primary key,
     user_id int not null,
-    full_name varchar(100) not null,
-    username varchar(50) not null,
     shift enum('morning','afternoon','evening') default 'morning',
+    created_at timestamp default current_timestamp
+);
+
+-- 14. admin_notification
+create table admin_notification (
+    id int auto_increment primary key,
+    title varchar(100),
+    message varchar(255),
     created_at timestamp default current_timestamp
 );
 
@@ -259,25 +254,25 @@ insert into user_profiles (user_id, full_name, dob, age, blood_group, gender, ro
 (11, 'Dr. Rupa Joshi', null, 0, 'Unknown', 'prefer not to say', 'doctor', '9811111114', 'Biratnagar'),
 (12, 'Dr. Deepak Giri', null, 0, 'Unknown', 'prefer not to say', 'doctor', '9811111115', 'Butwal');
 
-insert into admins (admin_id, user_id, username) values
-('A-001', 1, 'super_admin'),
-('A-002', 2, 'system_admin');
+insert into admins (admin_id, user_id) values
+('A-001', 1),
+('A-002', 2);
 
-insert into receptionists (receptionist_id, user_id, full_name, username, shift) values
-('R-001', 3, 'Ram Receptionist', 'ram_receptionist', 'morning'),
-('R-002', 4, 'Gita Receptionist', 'gita_receptionist', 'afternoon');
+insert into receptionists (receptionist_id, user_id, shift) values
+('R-001', 3, 'morning'),
+('R-002', 4, 'afternoon');
 
-insert into patients (patient_id, user_id, full_name, username, dob, age, blood_group, gender, contact_number, address) values
-('P-001', 5, 'Sita Sharma', 'sita_sharma', '1995-04-12', 31, 'A+', 'female', '9800000001', 'Kathmandu'),
-('P-002', 6, 'Hari Thapa', 'hari_thapa', '1988-07-20', 38, 'O-', 'male', '9800000002', 'Pokhara'),
-('P-003', 7, 'Anil Koirala', 'anil_koirala', '2000-01-15', 26, 'B+', 'male', '9800000004', 'Bhaktapur');
+insert into patients (patient_id, user_id) values
+('P-001', 5),
+('P-002', 6),
+('P-003', 7);
 
-insert into doctors (doctor_id, user_id, full_name, username, specialization, department_id, availability) values
-('D-101', 8, 'Dr. Anil Khatiwada', 'doc_anil', 'Cardiologist', 1, 'available'),
-('D-102', 9, 'Dr. Meera Shrestha', 'doc_meera', 'Neurologist', 2, 'available'),
-('D-103', 10, 'Dr. Suresh Lama', 'doc_suresh', 'Orthopedic Surgeon', 3, 'available'),
-('D-104', 11, 'Dr. Rupa Joshi', 'doc_rupa', 'General Physician', 4, 'available'),
-('D-105', 12, 'Dr. Deepak Giri', 'doc_deepak', 'Pediatrician', 5, 'available');
+insert into doctors (doctor_id, user_id, specialization, department_id, availability) values
+('D-101', 8, 'Cardiologist', 1, 'available'),
+('D-102', 9, 'Neurologist', 2, 'available'),
+('D-103', 10, 'Orthopedic Surgeon', 3, 'available'),
+('D-104', 11, 'General Physician', 4, 'available'),
+('D-105', 12, 'Pediatrician', 5, 'available');
 
 use hospital_queue_management_db;
 select * from admins;

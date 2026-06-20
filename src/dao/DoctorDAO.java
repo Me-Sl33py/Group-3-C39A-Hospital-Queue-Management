@@ -8,7 +8,7 @@ public class DoctorDAO {
     public void createTableIfNotExists() {}
 
     public Doctor getDoctorById(String doctorId) {
-        String sql = "SELECT d.doctor_id, d.user_id, d.full_name, d.specialization, " +
+        String sql = "SELECT d.doctor_id, d.user_id, up.full_name, d.specialization, " +
                      "d.department_id, dep.department_name, up.contact_number, d.availability, " +
                      "u.username, up.address, up.blood_group " +
                      "FROM doctors d " +
@@ -29,7 +29,7 @@ public class DoctorDAO {
     }
 
     public boolean updateDoctorProfile(Doctor doctor) {
-        String sql = "UPDATE doctors SET availability = ?, full_name = ?, specialization = ? WHERE doctor_id = ?";
+        String sql = "UPDATE doctors SET availability = ?, specialization = ? WHERE doctor_id = ?";
         String sqlProfile = "UPDATE user_profiles SET contact_number = ?, address = ?, blood_group = ?, full_name = ? WHERE user_id = ?";
         
         try (Connection conn = database.MySqlConnection.getConnection()) {
@@ -38,9 +38,8 @@ public class DoctorDAO {
                  PreparedStatement psProfile = conn.prepareStatement(sqlProfile)) {
                 
                 ps.setString(1, doctor.getAvailability());
-                ps.setString(2, doctor.getFullName());
-                ps.setString(3, doctor.getSpecialization());
-                ps.setString(4, doctor.getDoctorId());
+                ps.setString(2, doctor.getSpecialization());
+                ps.setString(3, doctor.getDoctorId());
                 ps.executeUpdate();
                 
                 psProfile.setString(1, doctor.getContactNumber());
@@ -102,10 +101,11 @@ public class DoctorDAO {
 
     public java.util.List<Doctor> getAvailableDoctorsByDepartment(int departmentId) {
         java.util.List<Doctor> list = new java.util.ArrayList<>();
-        String sql = "SELECT d.doctor_id, d.user_id, d.full_name, d.specialization, " +
+        String sql = "SELECT d.doctor_id, d.user_id, up.full_name, d.specialization, " +
                      "d.department_id, dep.department_name, d.availability " +
                      "FROM doctors d " +
                      "LEFT JOIN departments dep ON d.department_id = dep.department_id " +
+                     "LEFT JOIN user_profiles up ON d.user_id = up.user_id " +
                      "WHERE d.department_id = ? AND d.availability = 'available'";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
