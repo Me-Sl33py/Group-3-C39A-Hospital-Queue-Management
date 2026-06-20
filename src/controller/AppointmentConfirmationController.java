@@ -112,7 +112,19 @@ public class AppointmentConfirmationController {
                 dao.TokenDAO tokenDAO = new dao.TokenDAO();
                 int tokenNum = tokenDAO.createToken(selectedAppointment.getAppointmentId(), selectedAppointment.getPatientId(), selectedAppointment.getDepartmentId(), selectedAppointment.getDoctorId());
                 
-                JOptionPane.showMessageDialog(view, "Patient arrival confirmed. Added to Queue successfully.\nToken Number: " + tokenNum, "Success", JOptionPane.INFORMATION_MESSAGE);
+                String docName = (selectedAppointment.getDoctorName() != null) ? selectedAppointment.getDoctorName() : "Any Available";
+                String patName = (selectedAppointment.getPatientName() != null) ? selectedAppointment.getPatientName() : "Unknown Patient";
+                String deptName = (selectedAppointment.getDepartmentName() != null) ? selectedAppointment.getDepartmentName() : "General";
+                
+                view.TokenPrintDialog printDialog = new view.TokenPrintDialog(
+                    (JFrame) SwingUtilities.getWindowAncestor(view),
+                    String.valueOf(tokenNum),
+                    patName,
+                    deptName,
+                    docName
+                );
+                printDialog.setVisible(true);
+                
                 loadPendingAppointments(view.getTxtSearch().getText());
                 
                 // Refresh dashboards if applicable
