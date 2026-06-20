@@ -34,6 +34,17 @@ public class FixDB {
             }
 
             try {
+                String createAdminNotif = "CREATE TABLE IF NOT EXISTS admin_notification (" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                    "message VARCHAR(255) NOT NULL, " +
+                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
+                stmt.executeUpdate(createAdminNotif);
+                System.out.println("Created admin_notification table.");
+            } catch (Exception e) {
+                System.out.println("Error creating admin_notification table: " + e.getMessage());
+            }
+
+            try {
                 stmt.executeUpdate("ALTER TABLE queue MODIFY COLUMN status enum('waiting','in consultation','completed','skipped') default 'waiting'");
                 System.out.println("Updated queue status enum to include 'skipped'.");
             } catch (Exception e) {

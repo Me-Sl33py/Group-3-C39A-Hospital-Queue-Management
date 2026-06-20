@@ -13,8 +13,36 @@ public class NotificationPanel extends javax.swing.JPanel {
     /**
      * Creates new form NotificationPanel
      */
+    private javax.swing.JTable notificationTable;
+
     public NotificationPanel() {
         initComponents();
+        setupTable();
+    }
+
+    private void setupTable() {
+        scheduleCardPanel.removeAll();
+        scheduleCardPanel.setLayout(new java.awt.BorderLayout(0, 15));
+        
+        scheduleTitleLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 0, 0));
+        scheduleCardPanel.add(scheduleTitleLabel, java.awt.BorderLayout.NORTH);
+        
+        notificationTable = new javax.swing.JTable();
+        notificationTable.setRowHeight(30);
+        notificationTable.setFont(new java.awt.Font("Helvetica Neue", 0, 14));
+        notificationTable.getTableHeader().setFont(new java.awt.Font("Helvetica Neue", java.awt.Font.BOLD, 14));
+        
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(notificationTable);
+        scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 15, 15, 15));
+        
+        scheduleCardPanel.add(scrollPane, java.awt.BorderLayout.CENTER);
+        
+        scheduleCardPanel.revalidate();
+        scheduleCardPanel.repaint();
+    }
+
+    public javax.swing.JTable getNotificationTable() {
+        return notificationTable;
     }
 
     /**

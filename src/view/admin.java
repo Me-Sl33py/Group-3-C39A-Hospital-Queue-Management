@@ -25,6 +25,7 @@ public class admin extends javax.swing.JFrame {
     initComponents();
     setSize(1200, 800);
     setLocationRelativeTo(null);
+    setResizable(false);
     
     cardLayout = new CardLayout();
     contentPanel.setLayout(cardLayout);

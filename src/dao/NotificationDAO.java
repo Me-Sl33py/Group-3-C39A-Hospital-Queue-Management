@@ -15,10 +15,9 @@ public class NotificationDAO {
         List<String[]> list = new ArrayList<>();
 
         String sql =
-            "SELECT notification_id, title, message, created_at " +
-            "FROM notifications " +
-            "ORDER BY created_at DESC " +
-            "LIMIT 3";
+            "SELECT id, message, created_at " +
+            "FROM admin_notification " +
+            "ORDER BY created_at DESC";
 
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql);
@@ -26,7 +25,7 @@ public class NotificationDAO {
 
             while (rs.next()) {
                 list.add(new String[]{
-                    rs.getString("notification_id"),
+                    rs.getString("id"),
                     rs.getString("message"),
                     rs.getString("created_at")
                 });
@@ -42,13 +41,12 @@ public class NotificationDAO {
     public boolean addNotification(String title, String message) {
 
         String sql =
-            "INSERT INTO notifications(title, message) VALUES (?, ?)";
+            "INSERT INTO admin_notification(message) VALUES (?)";
 
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ps.setString(1, title);
-            ps.setString(2, message);
+            ps.setString(1, message);
 
             return ps.executeUpdate() > 0;
 
