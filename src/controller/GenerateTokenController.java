@@ -244,7 +244,18 @@ public class GenerateTokenController {
 
         if (generatedTokenNumber != -1) {
             refreshLiveQueue();
-            JOptionPane.showMessageDialog(view, "Token generated successfully!\nToken Number: " + generatedTokenNumber + " | Department: " + dept.getDepartmentName(), "Token Generated", JOptionPane.INFORMATION_MESSAGE);
+            String docName = (selectedDoctor != null) ? ((model.Doctor) selectedDoctor).getFullName() : "Any Available";
+            String patName = patientName != null ? patientName : "Unknown Patient";
+            
+            view.TokenPrintDialog printDialog = new view.TokenPrintDialog(
+                (JFrame) SwingUtilities.getWindowAncestor(view),
+                String.valueOf(generatedTokenNumber),
+                patName,
+                dept.getDepartmentName(),
+                docName
+            );
+            printDialog.setVisible(true);
+            
             if (mainFrame.getDashboardController() != null) {
                 mainFrame.getDashboardController().refreshData();
             }
