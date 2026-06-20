@@ -48,6 +48,46 @@ public class ManageuserPanel extends javax.swing.JPanel {
         javax.swing.JPanel bottomPanel = new javax.swing.JPanel(new java.awt.BorderLayout(10, 10));
         bottomPanel.setBackground(new java.awt.Color(235, 240, 251));
         
+        // Rebuild pnlDetails layout dynamically
+        pnlDetails.removeAll();
+        pnlDetails.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 10));
+        pnlDetails.setBackground(new java.awt.Color(235, 240, 251));
+        
+        pnlDetails.add(lblFullName);
+        txtFullName1.setPreferredSize(new java.awt.Dimension(150, 25));
+        pnlDetails.add(txtFullName1);
+        
+        pnlDetails.add(lblPhone1);
+        txtPhone.setPreferredSize(new java.awt.Dimension(120, 25));
+        pnlDetails.add(txtPhone);
+        
+        pnlDetails.add(lblGender);
+        cmbGender.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlDetails.add(cmbGender);
+        
+        pnlDetails.add(lblBloodGroup);
+        cmbBloodGroup.setPreferredSize(new java.awt.Dimension(80, 25));
+        pnlDetails.add(cmbBloodGroup);
+        
+        pnlDetails.add(DOB);
+        txtEmail.setPreferredSize(new java.awt.Dimension(120, 25));
+        pnlDetails.add(txtEmail);
+        
+        pnlDetails.add(lblRole);
+        cmbRole.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlDetails.add(cmbRole);
+        
+        pnlDetails.add(lblStatus);
+        cmbStatus.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlDetails.add(cmbStatus);
+        
+        pnlDetails.add(changepassword);
+        password.setPreferredSize(new java.awt.Dimension(120, 25));
+        pnlDetails.add(password);
+        
+        // ensure height for wrapping
+        pnlDetails.setPreferredSize(new java.awt.Dimension(0, 120));
+        
         // Add details panel directly to center so it stretches to match width
         bottomPanel.add(pnlDetails, java.awt.BorderLayout.CENTER);
         

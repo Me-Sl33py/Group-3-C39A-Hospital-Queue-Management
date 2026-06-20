@@ -194,28 +194,31 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
 
         tblDepartments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Dept ID", "Department Name", "Head Doctor", "Total Doctors", "Status"
+                "Dept ID", "Department Name", "Description", "Total Doctors", "Status"
             }
         ));
         jspDepartments.setViewportView(tblDepartments);
 
         pnlDepartments.add(jspDepartments);
-        jspDepartments.setBounds(120, 80, 800, 250);
+        jspDepartments.setBounds(30, 80, 930, 420);
 
         pnlDeptDetails.setBackground(new java.awt.Color(255, 255, 255));
-        pnlDeptDetails.setBorder(javax.swing.BorderFactory.createTitledBorder("Selected Department Details"));
+        pnlDeptDetails.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Selected Department Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 14))); // NOI18N
         pnlDeptDetails.setLayout(null);
 
         lblDeptName.setText("Department Name");
         pnlDeptDetails.add(lblDeptName);
-        lblDeptName.setBounds(20, 30, 120, 20);
+        lblDeptName.setBounds(20, 30, 110, 20);
         pnlDeptDetails.add(txtDeptName);
         txtDeptName.setBounds(140, 30, 200, 26);
 
-        lblDeptHeadDoctor.setText("Head Doctor");
+        lblDeptHeadDoctor.setText("Description");
         pnlDeptDetails.add(lblDeptHeadDoctor);
         lblDeptHeadDoctor.setBounds(400, 30, 90, 20);
         pnlDeptDetails.add(txtDeptHeadDoctor);
@@ -389,34 +392,164 @@ public class managedoctoranddepartment extends javax.swing.JPanel {
         pnlDoctorDetails.setBackground(bodyBg);
         pnlDeptDetails.setBackground(bodyBg);
 
-        lblSearchDoc.setBounds(80, 40, 100, 30);
-        txtSearchDoc.setBounds(180, 40, 150, 30);
+        // -- Rebuild Root Layout to perfectly fit screen --
+        this.removeAll();
+        this.setLayout(new java.awt.BorderLayout());
+        
+        // Remove fixed heights from topBarPanel
+        topBarPanel.setPreferredSize(new java.awt.Dimension(1000, 60));
+        topBarPanel.setMinimumSize(new java.awt.Dimension(100, 60));
+        
+        this.add(topBarPanel, java.awt.BorderLayout.NORTH);
+        
+        // Add padding around the tabbedPane
+        javax.swing.JPanel centerWrapper = new javax.swing.JPanel(new java.awt.BorderLayout());
+        centerWrapper.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        centerWrapper.setOpaque(false);
+        centerWrapper.add(tabbedPane, java.awt.BorderLayout.CENTER);
+        this.add(centerWrapper, java.awt.BorderLayout.CENTER);
+
+        // -- Rebuild pnlDoctors Layout --
+        pnlDoctors.removeAll();
+        pnlDoctors.setLayout(new java.awt.BorderLayout(10, 10));
+        pnlDoctors.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // Top bar for Doctors
+        javax.swing.JPanel docTop = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 0));
+        docTop.setOpaque(false);
+        docTop.add(lblSearchDoc);
+        txtSearchDoc.setPreferredSize(new java.awt.Dimension(150, 30));
+        docTop.add(txtSearchDoc);
         
         javax.swing.JLabel lblDept = new javax.swing.JLabel("Dept:");
-        lblDept.setBounds(340, 40, 40, 30);
-        pnlDoctors.add(lblDept);
-        
+        docTop.add(lblDept);
         cmbFilterDepartment = new javax.swing.JComboBox<>(new String[] { "All", "Cardiology", "Neurology", "Orthopedics", "General Medicine", "Pediatrics" });
-        cmbFilterDepartment.setBounds(380, 40, 140, 30);
-        pnlDoctors.add(cmbFilterDepartment);
+        cmbFilterDepartment.setPreferredSize(new java.awt.Dimension(140, 30));
+        docTop.add(cmbFilterDepartment);
         
         javax.swing.JLabel lblAvail = new javax.swing.JLabel("Avail:");
-        lblAvail.setBounds(530, 40, 40, 30);
-        pnlDoctors.add(lblAvail);
-        
+        docTop.add(lblAvail);
         cmbFilterAvailability = new javax.swing.JComboBox<>(new String[] { "All", "Available", "Unavailable" });
-        cmbFilterAvailability.setBounds(570, 40, 100, 30);
-        pnlDoctors.add(cmbFilterAvailability);
+        cmbFilterAvailability.setPreferredSize(new java.awt.Dimension(100, 30));
+        docTop.add(cmbFilterAvailability);
         
         javax.swing.JLabel lblStat = new javax.swing.JLabel("Status:");
-        lblStat.setBounds(680, 40, 45, 30);
-        pnlDoctors.add(lblStat);
-        
+        docTop.add(lblStat);
         cmbFilterStatus = new javax.swing.JComboBox<>(new String[] { "All", "Active", "Deactive" });
-        cmbFilterStatus.setBounds(725, 40, 85, 30);
-        pnlDoctors.add(cmbFilterStatus);
+        cmbFilterStatus.setPreferredSize(new java.awt.Dimension(85, 30));
+        docTop.add(cmbFilterStatus);
         
-        btnSearchDoc.setVisible(false);
+        btnSearchDoc.setVisible(false); // as per original logic
+        
+        pnlDoctors.add(docTop, java.awt.BorderLayout.NORTH);
+        pnlDoctors.add(jspDoctors, java.awt.BorderLayout.CENTER);
+        
+        // Bottom details for Doctors
+        javax.swing.JPanel docBottom = new javax.swing.JPanel(new java.awt.BorderLayout(0, 10));
+        docBottom.setOpaque(false);
+        
+        // Doctor Details Grid
+        pnlDoctorDetails.removeAll();
+        pnlDoctorDetails.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 10));
+        pnlDoctorDetails.add(lblDocFullName);
+        txtDocFullName.setPreferredSize(new java.awt.Dimension(150, 25));
+        pnlDoctorDetails.add(txtDocFullName);
+        pnlDoctorDetails.add(lblDocPhone);
+        txtDocPhone.setPreferredSize(new java.awt.Dimension(120, 25));
+        pnlDoctorDetails.add(txtDocPhone);
+        pnlDoctorDetails.add(lblDocSpecialty);
+        txtDocSpecialty.setPreferredSize(new java.awt.Dimension(150, 25));
+        pnlDoctorDetails.add(txtDocSpecialty);
+        pnlDoctorDetails.add(lblDocDepartment);
+        txtDocDepartment.setPreferredSize(new java.awt.Dimension(150, 25));
+        pnlDoctorDetails.add(txtDocDepartment);
+        pnlDoctorDetails.add(lblDocAvailability);
+        cmbDocAvailability.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlDoctorDetails.add(cmbDocAvailability);
+        pnlDoctorDetails.add(lblDocStatus);
+        cmbDocStatus.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlDoctorDetails.add(cmbDocStatus);
+        
+        // Ensure the panel is tall enough to fit two rows
+        pnlDoctorDetails.setPreferredSize(new java.awt.Dimension(0, 80));
+        
+        // Enable horizontal scrolling for doctors table
+        tblDoctors.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        // Make columns reasonably wide so it actually scrolls
+        for (int i = 0; i < tblDoctors.getColumnCount(); i++) {
+            tblDoctors.getColumnModel().getColumn(i).setPreferredWidth(150);
+        }
+        jspDoctors.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jspDoctors.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(0, 10)); // thin scrollbar
+        
+        // Doctor Buttons
+        javax.swing.JPanel docBtns = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 10));
+        docBtns.setOpaque(false);
+        docBtns.add(btnAddDoc);
+        docBtns.add(btnUpdateDoc);
+        docBtns.add(btnRemoveDoc);
+        docBtns.add(btnRefreshDoc);
+        
+        docBottom.add(pnlDoctorDetails, java.awt.BorderLayout.CENTER);
+        docBottom.add(docBtns, java.awt.BorderLayout.SOUTH);
+        pnlDoctors.add(docBottom, java.awt.BorderLayout.SOUTH);
+
+        // -- Rebuild pnlDepartments Layout --
+        pnlDepartments.removeAll();
+        pnlDepartments.setLayout(new java.awt.BorderLayout(10, 10));
+        pnlDepartments.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // Top bar for Departments
+        javax.swing.JPanel deptTop = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 0));
+        deptTop.setOpaque(false);
+        deptTop.add(lblSearchDept);
+        txtSearchDept.setPreferredSize(new java.awt.Dimension(250, 30));
+        deptTop.add(txtSearchDept);
+        btnSearchDept.setPreferredSize(new java.awt.Dimension(100, 30));
+        deptTop.add(btnSearchDept);
+        
+        pnlDepartments.add(deptTop, java.awt.BorderLayout.NORTH);
+        pnlDepartments.add(jspDepartments, java.awt.BorderLayout.CENTER);
+        
+        // Bottom details for Departments
+        javax.swing.JPanel deptBottom = new javax.swing.JPanel(new java.awt.BorderLayout(0, 10));
+        deptBottom.setOpaque(false);
+        
+        // Dept Details Grid
+        pnlDeptDetails.removeAll();
+        pnlDeptDetails.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 10));
+        pnlDeptDetails.add(lblDeptName);
+        txtDeptName.setPreferredSize(new java.awt.Dimension(200, 25));
+        pnlDeptDetails.add(txtDeptName);
+        pnlDeptDetails.add(lblDeptHeadDoctor);
+        txtDeptHeadDoctor.setPreferredSize(new java.awt.Dimension(200, 25));
+        pnlDeptDetails.add(txtDeptHeadDoctor);
+        pnlDeptDetails.add(lblDeptStatus);
+        cmbDeptStatus.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlDeptDetails.add(cmbDeptStatus);
+        
+        // Ensure the panel is tall enough to fit two rows if needed
+        pnlDeptDetails.setPreferredSize(new java.awt.Dimension(0, 80));
+        
+        // Enable horizontal scrolling for departments table
+        tblDepartments.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        for (int i = 0; i < tblDepartments.getColumnCount(); i++) {
+            tblDepartments.getColumnModel().getColumn(i).setPreferredWidth(200);
+        }
+        jspDepartments.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jspDepartments.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(0, 10)); // thin scrollbar
+        
+        // Dept Buttons
+        javax.swing.JPanel deptBtns = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 10));
+        deptBtns.setOpaque(false);
+        deptBtns.add(btnAddDept);
+        deptBtns.add(btnUpdateDept);
+        deptBtns.add(btnRemoveDept);
+        deptBtns.add(btnRefreshDept);
+        
+        deptBottom.add(pnlDeptDetails, java.awt.BorderLayout.CENTER);
+        deptBottom.add(deptBtns, java.awt.BorderLayout.SOUTH);
+        pnlDepartments.add(deptBottom, java.awt.BorderLayout.SOUTH);
     }
 
 // Doctor getters
