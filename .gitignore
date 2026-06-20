@@ -27,4 +27,4 @@ Thumbs.db
 
 #database ignore
 # src/database (Commented out so Db.java and MySqlConnection.java sync correctly)
-db.properties
+# db.properties
