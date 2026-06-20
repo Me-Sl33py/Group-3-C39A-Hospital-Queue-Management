@@ -562,21 +562,9 @@ public class PatientDAO {
             psProfile.executeUpdate();
             
             // 3. Insert into patients
-            java.sql.PreparedStatement psPatient = conn.prepareStatement("INSERT INTO patients (patient_id, user_id, full_name, username, dob, age, gender, contact_number, address, blood_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            java.sql.PreparedStatement psPatient = conn.prepareStatement("INSERT INTO patients (patient_id, user_id) VALUES (?, ?)");
             psPatient.setString(1, p.getPatientId());
             psPatient.setInt(2, userId);
-            psPatient.setString(3, p.getFullName());
-            psPatient.setString(4, username);
-            if (p.getDob() != null) {
-                psPatient.setDate(5, new java.sql.Date(p.getDob().getTime()));
-            } else {
-                psPatient.setNull(5, java.sql.Types.DATE);
-            }
-            psPatient.setInt(6, p.getAge());
-            psPatient.setString(7, p.getGender());
-            psPatient.setString(8, p.getContactNumber());
-            psPatient.setString(9, p.getAddress());
-            psPatient.setString(10, p.getBloodGroup());
             psPatient.executeUpdate();
             
             conn.commit();

@@ -181,13 +181,17 @@ public class GenerateTokenController {
         DefaultTableModel model = (DefaultTableModel) view.getTblLiveQueue().getModel();
         model.setRowCount(0);
         if (liveTokens != null) {
+            int queuePosition = 1;
             for (model.Token t : liveTokens) {
                 String timeStr = "";
                 if (t.getCreatedAt() != null) {
                     timeStr = new SimpleDateFormat("hh:mm a").format(t.getCreatedAt());
                 }
                 String deptName = t.getDepartmentName() != null ? t.getDepartmentName() : "N/A";
-                model.addRow(new Object[]{t.getTokenNumber(), t.getPatientName(), deptName, t.getStatus(), timeStr});
+                String doctorName = t.getDoctorName() != null ? t.getDoctorName() : "Any Available";
+                String estWait = (queuePosition * 12) + " mins";
+                model.addRow(new Object[]{t.getTokenNumber(), t.getPatientName(), deptName, doctorName, t.getStatus(), estWait, timeStr});
+                queuePosition++;
             }
         }
     }

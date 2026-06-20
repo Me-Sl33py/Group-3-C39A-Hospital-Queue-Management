@@ -28,9 +28,14 @@ public class AppointmentConfirmationController {
     }
 
     private void initEventHandlers() {
-        view.getBtnSearch().addActionListener(e -> {
-            String keyword = view.getTxtSearch().getText();
-            loadPendingAppointments(keyword);
+        view.getTxtSearch().getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { search(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { search(); }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { search(); }
+            private void search() {
+                String keyword = view.getTxtSearch().getText();
+                loadPendingAppointments(keyword);
+            }
         });
 
         view.getTblAppointments().addMouseListener(new MouseAdapter() {

@@ -357,7 +357,9 @@ public class DoctorDAO {
 
     public java.util.List<Doctor> getAllDoctors() {
         java.util.List<Doctor> doctors = new java.util.ArrayList<>();
-        String query = "SELECT * FROM doctors";
+        String query = "SELECT d.doctor_id, up.full_name, d.specialization, d.department_id, d.availability " +
+                       "FROM doctors d " +
+                       "LEFT JOIN user_profiles up ON d.user_id = up.user_id";
         try (Connection conn = MySqlConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -378,7 +380,10 @@ public class DoctorDAO {
 
     public java.util.List<Doctor> getDoctorsByDepartment(int departmentId) {
         java.util.List<Doctor> doctors = new java.util.ArrayList<>();
-        String query = "SELECT * FROM doctors WHERE department_id = ?";
+        String query = "SELECT d.doctor_id, up.full_name, d.specialization, d.department_id, d.availability " +
+                       "FROM doctors d " +
+                       "LEFT JOIN user_profiles up ON d.user_id = up.user_id " +
+                       "WHERE d.department_id = ?";
         try (Connection conn = MySqlConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, departmentId);

@@ -118,7 +118,6 @@ public class RegisterWalkinController {
             
             JOptionPane.showMessageDialog(view, "Account created & Walk-in Appointment confirmed!\nPatient ID: " + savedId, "Success", JOptionPane.INFORMATION_MESSAGE);
             mainFrame.getGenerateTokenController().updatePatientDetails(savedId, name, String.valueOf(age), gender, phone, appointmentId);
-            mainFrame.switchToTab(2);
             resetFields();
         } else {
             JOptionPane.showMessageDialog(view, "Database Error: Could not save patient.", "Error", JOptionPane.ERROR_MESSAGE);
