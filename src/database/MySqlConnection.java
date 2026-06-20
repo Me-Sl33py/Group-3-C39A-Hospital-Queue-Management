@@ -22,7 +22,7 @@ public class MySqlConnection implements DB {
 
     // ==================== Database Configuration ====================
     private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "Ahhklzzz@133";
+    private static final String DB_PASSWORD = "I_1t_Relax!";
     private static final String DB_NAME     = "hospital_queue_management_db";
     private static final String DB_URL      = "jdbc:mysql://localhost:3306/" + DB_NAME;
 
