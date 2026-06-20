@@ -10,9 +10,9 @@ public class QueueDAO {
     public QueueItem getCurrentQueueForPatient(String patientId) {
         String sql = "SELECT q.*, d.full_name AS doctor_name, dep.department_name " +
                      "FROM queue q " +
-                     "JOIN appointments a ON q.appointment_id = a.appointment_id " +
-                     "JOIN doctors d ON q.doctor_id = d.doctor_id " +
-                     "JOIN departments dep ON d.department_id = dep.department_id " +
+                     "LEFT JOIN appointments a ON q.appointment_id = a.appointment_id " +
+                     "LEFT JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                     "LEFT JOIN departments dep ON q.department_id = dep.department_id " +
                      "WHERE q.patient_id = ? AND q.status IN ('waiting', 'in consultation') " +
                      "ORDER BY q.created_at DESC LIMIT 1";
                      
@@ -20,6 +20,40 @@ public class QueueDAO {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
              
             pstmt.setString(1, patientId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    QueueItem q = new QueueItem();
+                    q.setQueueId(rs.getInt("queue_id"));
+                    q.setAppointmentId(rs.getInt("appointment_id"));
+                    q.setPatientId(rs.getString("patient_id"));
+                    q.setDoctorId(rs.getString("doctor_id"));
+                    q.setTokenNumber(rs.getInt("token_number"));
+                    q.setStatus(rs.getString("status"));
+                    q.setDoctorName(rs.getString("doctor_name"));
+                    q.setDepartmentName(rs.getString("department_name"));
+                    return q;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public QueueItem getCurrentQueueForPatientInDept(String patientId, int departmentId) {
+        String sql = "SELECT q.*, d.full_name AS doctor_name, dep.department_name " +
+                     "FROM queue q " +
+                     "LEFT JOIN appointments a ON q.appointment_id = a.appointment_id " +
+                     "LEFT JOIN doctors d ON q.doctor_id = d.doctor_id " +
+                     "LEFT JOIN departments dep ON q.department_id = dep.department_id " +
+                     "WHERE q.patient_id = ? AND q.department_id = ? AND q.status IN ('waiting', 'in consultation') " +
+                     "ORDER BY q.created_at DESC LIMIT 1";
+                     
+        try (Connection conn = database.MySqlConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             
+            pstmt.setString(1, patientId);
+            pstmt.setInt(2, departmentId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     QueueItem q = new QueueItem();
@@ -66,8 +100,7 @@ public class QueueDAO {
 
     public int getCurrentlyServingToken(int departmentId) {
         String sql = "SELECT MIN(q.token_number) AS min_token FROM queue q " +
-                     "JOIN doctors d ON q.doctor_id = d.doctor_id " +
-                     "WHERE d.department_id = ? AND q.status IN ('waiting', 'in consultation')";
+                     "WHERE q.department_id = ? AND q.status IN ('waiting', 'in consultation')";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, departmentId);
@@ -101,8 +134,7 @@ public class QueueDAO {
 
     public int getPatientQueueToken(String patientId, int departmentId) {
         String sql = "SELECT q.token_number FROM queue q " +
-                     "JOIN doctors d ON q.doctor_id = d.doctor_id " +
-                     "WHERE q.patient_id = ? AND d.department_id = ? " +
+                     "WHERE q.patient_id = ? AND q.department_id = ? " +
                      "AND q.status IN ('waiting', 'in consultation') LIMIT 1";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -121,8 +153,7 @@ public class QueueDAO {
 
     public int getPeopleAheadCount(int departmentId, int patientToken) {
         String sql = "SELECT COUNT(*) AS count FROM queue q " +
-                     "JOIN doctors d ON q.doctor_id = d.doctor_id " +
-                     "WHERE d.department_id = ? AND q.token_number < ? " +
+                     "WHERE q.department_id = ? AND q.token_number < ? " +
                      "AND q.status IN ('waiting', 'in consultation')";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -162,8 +193,7 @@ public class QueueDAO {
 
     public int getTotalQueueCount(int departmentId) {
         String sql = "SELECT COUNT(*) AS total_count FROM queue q " +
-                     "JOIN doctors d ON q.doctor_id = d.doctor_id " +
-                     "WHERE d.department_id = ? AND q.status = 'waiting'";
+                     "WHERE q.department_id = ? AND q.status = 'waiting'";
         try (Connection conn = database.MySqlConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, departmentId);
