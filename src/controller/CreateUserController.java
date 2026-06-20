@@ -90,15 +90,23 @@ public class CreateUserController {
             username = formattedName.toLowerCase().replace(" ", "_");
         }
 
+        // Ensure username uniqueness
+        String originalUsername = username;
+        int counter = 1;
+        while (dao.usernameExists(username)) {
+            username = originalUsername + counter;
+            counter++;
+        }
+
         // Shift logic
         String shift = null;
         if ("Receptionist".equalsIgnoreCase(role)) {
             shift = panel.getShiftComboBox().getSelectedItem().toString().trim();
         }
 
-        boolean success = dao.createUser(username, formattedName, phone, gender, dob, role, password, shift);
+        String result = dao.createUser(username, formattedName, phone, gender, dob, role, password, shift);
 
-        if (success) {
+        if ("SUCCESS".equals(result)) {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dt = sdf.format(new java.util.Date());
             new dao.NotificationDAO().addNotification("Account Created", "Account is created for " + formattedName + " by Admin Admin");
@@ -117,7 +125,7 @@ public class CreateUserController {
             JOptionPane.showMessageDialog(parentFrame, message, "User Created", JOptionPane.INFORMATION_MESSAGE);
             clearForm();
         } else {
-            JOptionPane.showMessageDialog(parentFrame, "Failed to create user.\nUsername might already exist.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(parentFrame, "Failed to create user.\nReason: " + result, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -27,9 +27,10 @@ public class RatingPanel extends javax.swing.JPanel {
         
         cmbStars.setBounds(40, 100, 120, 35);
         cmbAppointments.setBounds(40, 150, 300, 35);
-        jLabel6.setBounds(40, 200, 250, 20);
-        txtFeedback.setBounds(40, 230, 600, 100);
-        btnSubmit.setBounds(250, 350, 180, 40);
+        cmbAppointments.setVisible(false);
+        jLabel6.setBounds(40, 150, 250, 20);
+        txtFeedback.setBounds(40, 180, 600, 100);
+        btnSubmit.setBounds(250, 300, 180, 40);
         
         jLabel5.setVisible(false);
         
