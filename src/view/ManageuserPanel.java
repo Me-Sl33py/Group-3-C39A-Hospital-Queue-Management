@@ -48,43 +48,72 @@ public class ManageuserPanel extends javax.swing.JPanel {
         javax.swing.JPanel bottomPanel = new javax.swing.JPanel(new java.awt.BorderLayout(10, 10));
         bottomPanel.setBackground(new java.awt.Color(235, 240, 251));
         
-        // Rebuild pnlDetails layout dynamically
+        // Rebuild pnlDetails layout dynamically using GridBagLayout for perfect alignment
         pnlDetails.removeAll();
-        pnlDetails.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 10));
+        pnlDetails.setLayout(new java.awt.GridBagLayout());
         pnlDetails.setBackground(new java.awt.Color(235, 240, 251));
         
-        pnlDetails.add(lblFullName);
-        txtFullName1.setPreferredSize(new java.awt.Dimension(150, 25));
-        pnlDetails.add(txtFullName1);
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.insets = new java.awt.Insets(10, 10, 10, 10);
+        gbc.anchor = java.awt.GridBagConstraints.WEST;
         
-        pnlDetails.add(lblPhone1);
-        txtPhone.setPreferredSize(new java.awt.Dimension(120, 25));
-        pnlDetails.add(txtPhone);
+        // Instantiate JDateChooser
+        if (dobChooser == null) {
+            dobChooser = new com.toedter.calendar.JDateChooser();
+            dobChooser.setDateFormatString("yyyy-MM-dd");
+        }
         
-        pnlDetails.add(lblGender);
-        cmbGender.setPreferredSize(new java.awt.Dimension(100, 25));
-        pnlDetails.add(cmbGender);
+        // Helper to add label
+        java.awt.GridBagConstraints labelGbc = new java.awt.GridBagConstraints();
+        labelGbc.insets = new java.awt.Insets(10, 15, 10, 5);
+        labelGbc.anchor = java.awt.GridBagConstraints.WEST;
+
+        // Helper to add field
+        java.awt.GridBagConstraints fieldGbc = new java.awt.GridBagConstraints();
+        fieldGbc.insets = new java.awt.Insets(10, 5, 10, 15);
+        fieldGbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        fieldGbc.weightx = 1.0;
+
+        // Row 1
+        labelGbc.gridy = 0; fieldGbc.gridy = 0;
         
-        pnlDetails.add(lblBloodGroup);
-        cmbBloodGroup.setPreferredSize(new java.awt.Dimension(80, 25));
-        pnlDetails.add(cmbBloodGroup);
+        labelGbc.gridx = 0; pnlDetails.add(lblFullName, labelGbc);
+        txtFullName1.setPreferredSize(new java.awt.Dimension(180, 25));
+        fieldGbc.gridx = 1; pnlDetails.add(txtFullName1, fieldGbc);
         
-        pnlDetails.add(DOB);
-        txtEmail.setPreferredSize(new java.awt.Dimension(120, 25));
-        pnlDetails.add(txtEmail);
+        labelGbc.gridx = 2; pnlDetails.add(lblPhone1, labelGbc);
+        txtPhone.setPreferredSize(new java.awt.Dimension(150, 25));
+        fieldGbc.gridx = 3; pnlDetails.add(txtPhone, fieldGbc);
         
-        pnlDetails.add(lblRole);
-        cmbRole.setPreferredSize(new java.awt.Dimension(100, 25));
-        pnlDetails.add(cmbRole);
+        labelGbc.gridx = 4; pnlDetails.add(lblGender, labelGbc);
+        cmbGender.setPreferredSize(new java.awt.Dimension(120, 25));
+        fieldGbc.gridx = 5; pnlDetails.add(cmbGender, fieldGbc);
         
-        pnlDetails.add(lblStatus);
-        cmbStatus.setPreferredSize(new java.awt.Dimension(100, 25));
-        pnlDetails.add(cmbStatus);
+        labelGbc.gridx = 6; pnlDetails.add(lblBloodGroup, labelGbc);
+        cmbBloodGroup.setPreferredSize(new java.awt.Dimension(100, 25));
+        fieldGbc.gridx = 7; pnlDetails.add(cmbBloodGroup, fieldGbc);
         
-        pnlDetails.add(changepassword);
-        password.setPreferredSize(new java.awt.Dimension(120, 25));
-        pnlDetails.add(password);
+        // Row 2
+        labelGbc.gridy = 1; fieldGbc.gridy = 1;
         
+        labelGbc.gridx = 0; pnlDetails.add(DOB, labelGbc);
+        dobChooser.setPreferredSize(new java.awt.Dimension(180, 25));
+        fieldGbc.gridx = 1; pnlDetails.add(dobChooser, fieldGbc);
+        
+        labelGbc.gridx = 2; pnlDetails.add(lblRole, labelGbc);
+        cmbRole.setPreferredSize(new java.awt.Dimension(150, 25));
+        fieldGbc.gridx = 3; pnlDetails.add(cmbRole, fieldGbc);
+        
+        labelGbc.gridx = 4; pnlDetails.add(lblStatus, labelGbc);
+        cmbStatus.setPreferredSize(new java.awt.Dimension(120, 25));
+        fieldGbc.gridx = 5; pnlDetails.add(cmbStatus, fieldGbc);
+        
+        labelGbc.gridx = 6; pnlDetails.add(changepassword, labelGbc);
+        password.setPreferredSize(new java.awt.Dimension(100, 25));
+        fieldGbc.gridx = 7; pnlDetails.add(password, fieldGbc);
+        
+        // Add vertical glue to push to top if needed, though BorderLayout.CENTER usually centers it.
+        // We can let BorderLayout.SOUTH handle it.
         // ensure height for wrapping
         pnlDetails.setPreferredSize(new java.awt.Dimension(0, 120));
         
@@ -395,4 +424,6 @@ public javax.swing.JComboBox<String> getCmbGender(){ return cmbGender; }
 public javax.swing.JTable getTblUsers()          { return tblUsers; }
 public javax.swing.JTextField getTxtChangePassword() { return password; } 
 public javax.swing.JComboBox<String> getCmbBloodGroup(){ return cmbBloodGroup; }
+private com.toedter.calendar.JDateChooser dobChooser;
+public com.toedter.calendar.JDateChooser getDobChooser() { return dobChooser; }
 }
