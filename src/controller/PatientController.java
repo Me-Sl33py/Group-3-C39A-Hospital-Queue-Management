@@ -354,9 +354,14 @@ public class PatientController {
                 queuePanel.getCmbDepartment().addItem(d);
             }
         }
-        QueueItem q = queueDAO.getCurrentQueueForPatient(PatientSession.getPatientId());
-        if (q != null) {
-            queuePanel.displayQueue(q);
+        Department selectedDept = (Department) queuePanel.getCmbDepartment().getSelectedItem();
+        if (selectedDept != null) {
+            QueueItem q = queueDAO.getCurrentQueueForPatientInDept(PatientSession.getPatientId(), selectedDept.getDepartmentId());
+            if (q != null) {
+                queuePanel.displayQueue(q);
+            } else {
+                queuePanel.displayNoQueue();
+            }
         } else {
             queuePanel.displayNoQueue();
         }
