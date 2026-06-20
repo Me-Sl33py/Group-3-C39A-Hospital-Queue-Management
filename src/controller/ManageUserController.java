@@ -113,12 +113,16 @@ public class ManageUserController {
 
     boolean ok = dao.updateUser(selectedUserId, fullName, dob, status, gender, phone, bloodGroup);
 
+    if (ok) {
+        new dao.NotificationDAO().addNotification("Profile Updated", "Account is updated for User ID " + selectedUserId + " by Admin Admin");
+    }
+
     if (ok && !newPass.isEmpty()) {
         boolean passOk = dao.changePassword(selectedUserId, newPass);
         if (passOk) {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dt = sdf.format(new java.util.Date());
-            new dao.NotificationDAO().addNotification("Password Reset", "Admin manually changed password for User ID " + selectedUserId + " at " + dt);
+            new dao.NotificationDAO().addNotification("Password Reset", "Password is changed for User ID " + selectedUserId + " by Admin Admin");
         }
         JOptionPane.showMessageDialog(parentFrame,
             passOk ? "Password changed successfully!" : "Failed to change password.",
@@ -156,7 +160,12 @@ public class ManageUserController {
                 ok ? "User " + action + "d!" : "Failed.",
                 ok ? "Success" : "Error",
                 ok ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
-            if (ok) { loadAllUsers(); clearFields(); resetDeactivateButton(); }
+            if (ok) {
+                new dao.NotificationDAO().addNotification("Status Updated", "Account status is changed to " + (isActive ? "Deactive" : "Active") + " for User ID " + selectedUserId + " by Admin Admin");
+                loadAllUsers(); 
+                clearFields(); 
+                resetDeactivateButton(); 
+            }
         }
     }
 

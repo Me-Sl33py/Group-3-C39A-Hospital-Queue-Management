@@ -21,6 +21,15 @@ public class SchedulePanel extends javax.swing.JPanel {
     }
 
     private void setupTable() {
+        this.setLayout(new java.awt.BorderLayout());
+        this.removeAll();
+        this.add(topBarPanel1, java.awt.BorderLayout.NORTH);
+        this.add(mainContentPanel, java.awt.BorderLayout.CENTER);
+
+        mainContentPanel.removeAll();
+        mainContentPanel.setLayout(new java.awt.BorderLayout(15, 15));
+        mainContentPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        
         scheduleCardPanel.removeAll();
         scheduleCardPanel.setLayout(new java.awt.BorderLayout(0, 15));
         
@@ -36,9 +45,10 @@ public class SchedulePanel extends javax.swing.JPanel {
         scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 15, 15, 15));
         
         scheduleCardPanel.add(scrollPane, java.awt.BorderLayout.CENTER);
+        mainContentPanel.add(scheduleCardPanel, java.awt.BorderLayout.CENTER);
         
-        scheduleCardPanel.revalidate();
-        scheduleCardPanel.repaint();
+        mainContentPanel.revalidate();
+        mainContentPanel.repaint();
     }
 
     public javax.swing.JTable getScheduleTable() {
